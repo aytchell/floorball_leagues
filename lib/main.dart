@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:logging/logging.dart';
+
+final log = Logger('Main');
 
 void main() {
+  setupLogging();
   runApp(MyApp());
+}
+
+void setupLogging() {
+  // Configure logging level and output
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -37,15 +49,19 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
       _seasonsText = '';
     });
 
+    final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
+
     try {
+      log.info('Fetching "$uri"');
       final response = await http.get(
-        Uri.parse('https://www.saisonmanager.de/api/v2/init.json'),
+        uri,
         headers: {
           'Content-Type': 'application/json',
         },
       );
 
       if (response.statusCode == 200) {
+        log.info('Got response 200');
         final jsonData = json.decode(response.body);
         final apiResponse = ApiResponse.fromJson(jsonData);
         
