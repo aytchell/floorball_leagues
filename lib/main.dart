@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:logging/logging.dart';
+import 'restClient.dart';
 
 final log = Logger('Main');
 
@@ -43,6 +44,8 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
 
 
   Future<void> _fetchSeasons() async {
+    final restClient = await RestClient.create();
+
     setState(() {
       _isLoading = true;
       _errorMessage = '';
@@ -52,17 +55,8 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
     final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
 
     try {
-      log.info('Fetching "$uri"');
-      final response = await http.get(
-        uri,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        log.info('Got response 200');
-        final jsonData = json.decode(response.body);
+      final jsonData = await restClient.getJson(uri);
+      if (jsonData != null) {
         final apiResponse = ApiResponse.fromJson(jsonData);
         
         setState(() {
@@ -72,7 +66,7 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
         });
       } else {
         setState(() {
-          _errorMessage = 'Failed to load data. Status: ${response.statusCode}';
+          _errorMessage = 'Failed to load data.';
           _isLoading = false;
         });
       }
