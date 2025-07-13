@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'restClient.dart';
-import 'entryInfo.dart';
+import 'apiModels/entryInfo.dart';
 
 final log = Logger('Main');
 
