@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'restClient.dart';
+import 'entryInfo.dart';
 
 final log = Logger('Main');
 
@@ -52,16 +51,13 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
       _seasonsText = '';
     });
 
-    final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
 
     try {
-      final jsonData = await restClient.getJson(uri);
-      if (jsonData != null) {
-        final apiResponse = ApiResponse.fromJson(jsonData);
-        
+      final entryInfo = await EntryInfo.fetchFromServer(restClient);
+      if (entryInfo != null) {
         setState(() {
-          // _seasonsText = apiResponse.seasons.map((season) => season.name as String).toList().join('\n');
-           _seasonsText = apiResponse.gameOperations.map((gameOp) => gameOp.name as String).toList().join('\n');
+          // _seasonsText = entryInfo.seasons.map((season) => season.name as String).toList().join('\n');
+           _seasonsText = entryInfo.gameOperations.map((gameOp) => gameOp.name as String).toList().join('\n');
           _isLoading = false;
         });
       } else {
@@ -155,70 +151,3 @@ class _JsonFetcherPageState extends State<JsonFetcherPage> {
   }
 }
 
-// Data model for the API response
-class ApiSeasonInfo {
-  int? id;
-  String? name;
-  bool current = false;
-
-  ApiSeasonInfo({this.id, this.name, this.current = false});
-
-  factory ApiSeasonInfo.fromJson(Map<String, dynamic> json) {
-    return ApiSeasonInfo(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      current: json['current'] as bool? ?? false,
-    );
-  }
-}
-
-class GameOperation {
-  int? id;
-  String? name;
-  String? shortName;
-  String? path;
-  String? logoUrl;
-  String? logoQuadUrl;
-
-  GameOperation({
-    this.id,
-    this.name,
-    this.shortName,
-    this.path,
-    this.logoUrl,
-    this.logoQuadUrl,
-  });
-
-  factory GameOperation.fromJson(Map<String, dynamic> json) {
-    return GameOperation(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      shortName: json['short_name'] as String?,
-      path: json['path'] as String?,
-      logoUrl: json['logo_url'] as String?,
-      logoQuadUrl: json['logo_quad_url'] as String?,
-    );
-  }
-}
-
-class ApiResponse {
-  final List<ApiSeasonInfo> seasons;
-  final int? currentSeasonId;
-  final List<GameOperation> gameOperations;
-
-  ApiResponse({required this.seasons, this.currentSeasonId, required this.gameOperations});
-
-  factory ApiResponse.fromJson(Map<String, dynamic> json) {
-    var seasonsJson = json['seasons'] as List? ?? [];
-    var operationsJson = json['game_operations'] as List? ?? [];
-    return ApiResponse(
-      seasons: seasonsJson
-          .map((seasonJson) => ApiSeasonInfo.fromJson(seasonJson))
-          .toList(),
-      currentSeasonId: json['current_season_id'] as int?,
-      gameOperations: operationsJson
-          .map((operationJson) => GameOperation.fromJson(operationJson))
-          .toList(),
-    );
-  }
-}
