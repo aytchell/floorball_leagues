@@ -44,8 +44,8 @@ class GameOperation {
       name: json['name'] as String?,
       shortName: json['short_name'] as String?,
       path: json['path'] as String?,
-      logoUrl: logoUrlStr != null ?  Uri.parse(logoUrlStr) : null,
-      logoQuadUrl: logoQuadUrlStr != null ? Uri.parse(logoQuadUrlStr) : null,
+      logoUrl: logoUrlStr != null ?  Uri.parse(logoUrlStr.trim()) : null,
+      logoQuadUrl: logoQuadUrlStr != null ? Uri.parse(logoQuadUrlStr.trim()) : null,
     );
   }
 }
