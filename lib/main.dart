@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'restClient.dart';
 import 'apiModels/entryInfo.dart';
+import 'apiModels/gameOperations.dart';
 
 final log = Logger('Main');
 

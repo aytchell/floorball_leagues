@@ -46,7 +46,7 @@ class RestClient {
     );
   }
 
-  Future<Map<String, dynamic>> getJson(Uri uri) async {
+  Future<dynamic> getJson(Uri uri) async {
     log.info('Fetching "$uri"');
 
     // Prepare headers with ETag if we have one cached
