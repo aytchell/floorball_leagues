@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'game_operation_card.dart';
+import 'leagues_list.dart';
 import 'rest_client.dart';
 import 'api_models/entry_info.dart';
 import 'api_models/game_operations.dart';
@@ -11,6 +12,8 @@ class GameOperationsGrid extends StatefulWidget {
 
 class _GameOperationsGridState extends State<GameOperationsGrid> {
   List<GameOperation> gameOperations = [];
+  int? currentSeasonId;
+  RestClient? restClient;
   bool isLoading = true;
 
   @override
@@ -20,11 +23,14 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   }
 
   Future<void> loadData() async {
-    final restClient = await RestClient.create();
+    if (restClient == null) {
+      restClient = await RestClient.create();
+    }
     try {
-      final entryInfo = await EntryInfo.fetchFromServer(restClient);
+      final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
         gameOperations = entryInfo!.gameOperations;
+        currentSeasonId = entryInfo.currentSeasonId!;
         isLoading = false;
       });
     } catch (e) {
@@ -77,18 +83,14 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   }
 
   void _onGameOperationTap(GameOperation gameOp) {
-    // Handle tap - navigate to game details, etc.
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(gameOp.name ?? 'Unknown Game'),
-        content: Text('Short Name: ${gameOp.shortName ?? 'N/A'}\nPath: ${gameOp.path ?? 'N/A'}'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('Close'),
-          ),
-        ],
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>
+        GameOperationLeagueList(
+          restClient: restClient!,
+          gameOpId: gameOp.id!,
+          seasonId: currentSeasonId!
+        )
       ),
     );
   }

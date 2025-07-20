@@ -79,7 +79,7 @@ class RestClient {
     }
   }
 
-  Future<Map<String, dynamic>> _cacheAndReturnJson(Uri uri, http.Response
+  Future<dynamic> _cacheAndReturnJson(Uri uri, http.Response
 response) async {
     final jsonData = json.decode(response.body);
       
