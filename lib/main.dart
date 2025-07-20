@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'restClient.dart';
-import 'apiModels/entryInfo.dart';
-import 'apiModels/gameOperations.dart';
+import 'rest_client.dart';
+import 'api_models/entry_info.dart';
+import 'api_models/game_operations.dart';
 
 final log = Logger('Main');
 
@@ -71,7 +71,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Game Operations'),
+        title: Text('Floorball Ligen'),
         backgroundColor: Colors.blue,
       ),
       body: isLoading

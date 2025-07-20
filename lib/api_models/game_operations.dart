@@ -1,4 +1,4 @@
-import '../restClient.dart';
+import '../rest_client.dart';
 import 'dart:convert';
 
 // Data models for leagues and cups from saisonmanager
