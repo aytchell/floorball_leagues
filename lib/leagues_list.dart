@@ -9,11 +9,11 @@ class GameOperationLeagueList extends StatefulWidget {
   
   // Constructor with required and optional parameters
   const GameOperationLeagueList({
-    Key? key,
+    super.key,
     required this.restClient,
     required this.gameOpId,
     required this.seasonId,
-  }) : super(key: key);
+  });
 
   @override
   _GameOperationLeagueListState createState() => _GameOperationLeagueListState();

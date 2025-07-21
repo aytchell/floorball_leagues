@@ -1,5 +1,4 @@
 import '../rest_client.dart';
-import 'dart:convert';
 
 // Data models for init.json from saisonmanager
 class SeasonInfo {
@@ -60,10 +59,8 @@ class EntryInfo {
   static Future<EntryInfo?> fetchFromServer(RestClient client) async {
     final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
-    if (jsonData != null) {
-      return EntryInfo.fromJson(jsonData);
-    }
-    return null;
+    return EntryInfo.fromJson(jsonData);
+      return null;
   }
 
   factory EntryInfo.fromJson(Map<String, dynamic> json) {

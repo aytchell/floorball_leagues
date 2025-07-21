@@ -54,10 +54,10 @@ class RestClient {
       'Content-Type': 'application/json',
     };
       
-    final etag = _prefs.getString('${_etagKeyFromUri(uri)}');
+    final etag = _prefs.getString(_etagKeyFromUri(uri));
     if (etag != null) {
       log.info('Adding stored etag "$etag" to the query');
-      headers['If-None-Match'] = etag!;
+      headers['If-None-Match'] = etag;
     }
 
     final response = await http.get(
@@ -87,7 +87,7 @@ response) async {
     final etag = response.headers['etag'];
     if (etag != null) {
       log.info('Response contains etag "$etag"; caching response');
-      _prefs.setString("${_etagKeyFromUri(uri)}", etag);
+      _prefs.setString(_etagKeyFromUri(uri), etag);
       _saveBodyToCache(uri, response.body);
     }
 
@@ -97,18 +97,18 @@ response) async {
   Future<void> _saveBodyToCache(Uri uri, String body) async {
     final obj = _cacheObjFromUri(uri);
 
-    final dir = Directory(path.join('${_cache.path}', obj.baseDirectory));
+    final dir = Directory(path.join(_cache.path, obj.baseDirectory));
     log.info('Creating directory "$dir"');
     await dir.create(recursive: true);
 
-    final file = File(path.join('${_cache.path}', obj.absPath));
+    final file = File(path.join(_cache.path, obj.absPath));
     log.info('Storing body to "$file"');
     file.writeAsString(body);
   }
 
   Future<String> _loadFromCache(Uri uri) {
     final obj = _cacheObjFromUri(uri);
-    final file = File(path.join('${_cache.path}', obj.absPath));
+    final file = File(path.join(_cache.path, obj.absPath));
     log.info('Loading body from "$file"');
     return file.readAsString();
   }

@@ -3,9 +3,10 @@ import 'game_operation_card.dart';
 import 'leagues_list.dart';
 import 'rest_client.dart';
 import 'api_models/entry_info.dart';
-import 'api_models/game_operations.dart';
 
 class GameOperationsGrid extends StatefulWidget {
+  const GameOperationsGrid({super.key});
+
   @override
   _GameOperationsGridState createState() => _GameOperationsGridState();
 }
@@ -23,9 +24,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   }
 
   Future<void> loadData() async {
-    if (restClient == null) {
-      restClient = await RestClient.create();
-    }
+    restClient ??= await RestClient.create();
     try {
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
