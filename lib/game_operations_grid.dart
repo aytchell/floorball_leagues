@@ -37,9 +37,9 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         isLoading = false;
       });
       // Handle error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading data: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
     }
   }
 
@@ -53,45 +53,44 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       body: isLoading
           ? Center(child: CircularProgressIndicator())
           : gameOperations.isEmpty
-              ? Center(
-                  child: Text(
-                    'No game operations found',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Two columns
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.8, // Adjust based on your needs
-                    ),
-                    itemCount: gameOperations.length,
-                    itemBuilder: (context, index) {
-                      final gameOp = gameOperations[index];
-                      return GameOperationCard(
-                        gameOperation: gameOp,
-                        onTap: () => _onGameOperationTap(gameOp),
-                      );
-                    },
-                  ),
+          ? Center(
+              child: Text(
+                'No game operations found',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Two columns
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.8, // Adjust based on your needs
                 ),
+                itemCount: gameOperations.length,
+                itemBuilder: (context, index) {
+                  final gameOp = gameOperations[index];
+                  return GameOperationCard(
+                    gameOperation: gameOp,
+                    onTap: () => _onGameOperationTap(gameOp),
+                  );
+                },
+              ),
+            ),
     );
   }
 
   void _onGameOperationTap(GameOperation gameOp) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>
-        GameOperationLeagueList(
+      MaterialPageRoute(
+        builder: (context) => GameOperationLeagueList(
           restClient: restClient!,
           gameOpId: gameOp.id!,
-          seasonId: currentSeasonId!
-        )
+          seasonId: currentSeasonId!,
+        ),
       ),
     );
   }
 }
-

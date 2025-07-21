@@ -43,8 +43,10 @@ class GameOperation {
       name: json['name'] as String?,
       shortName: json['short_name'] as String?,
       path: json['path'] as String?,
-      logoUrl: logoUrlStr != null ?  Uri.parse(logoUrlStr.trim()) : null,
-      logoQuadUrl: logoQuadUrlStr != null ? Uri.parse(logoQuadUrlStr.trim()) : null,
+      logoUrl: logoUrlStr != null ? Uri.parse(logoUrlStr.trim()) : null,
+      logoQuadUrl: logoQuadUrlStr != null
+          ? Uri.parse(logoQuadUrlStr.trim())
+          : null,
     );
   }
 }
@@ -54,13 +56,17 @@ class EntryInfo {
   final int? currentSeasonId;
   final List<GameOperation> gameOperations;
 
-  EntryInfo({required this.seasons, this.currentSeasonId, required this.gameOperations});
+  EntryInfo({
+    required this.seasons,
+    this.currentSeasonId,
+    required this.gameOperations,
+  });
 
   static Future<EntryInfo?> fetchFromServer(RestClient client) async {
     final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
     return EntryInfo.fromJson(jsonData);
-      return null;
+    return null;
   }
 
   factory EntryInfo.fromJson(Map<String, dynamic> json) {

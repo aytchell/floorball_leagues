@@ -6,7 +6,7 @@ class GameOperationLeagueList extends StatefulWidget {
   final RestClient restClient;
   final int gameOpId;
   final int seasonId;
-  
+
   // Constructor with required and optional parameters
   const GameOperationLeagueList({
     super.key,
@@ -16,12 +16,13 @@ class GameOperationLeagueList extends StatefulWidget {
   });
 
   @override
-  _GameOperationLeagueListState createState() => _GameOperationLeagueListState();
+  _GameOperationLeagueListState createState() =>
+      _GameOperationLeagueListState();
 }
 
 class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   List<GameOperationLeague> leagues = [];
-  
+
   @override
   void initState() {
     super.initState();
@@ -30,12 +31,12 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
 
   Future<void> loadData() async {
     final leagues = await AllOperationLeagues.fetchFromServer(
-        widget.restClient,
-        widget.gameOpId,
-        widget.seasonId
-        );
+      widget.restClient,
+      widget.gameOpId,
+      widget.seasonId,
+    );
     setState(() {
-        this.leagues = leagues!;
+      this.leagues = leagues!;
     });
   }
 
@@ -45,9 +46,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
       child: ListView.builder(
         itemCount: leagues.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(leagues[index].name),
-          );
+          return ListTile(title: Text(leagues[index].name));
         },
       ),
     );

@@ -44,7 +44,6 @@ class GameOperationLeague {
   int? periodLength;
   int? overtimeLength;
 
-
   GameOperationLeague({
     required this.id,
     required this.gameOperationId,
@@ -96,11 +95,11 @@ class GameOperationLeague {
       seasonId: json['season_id'] as String?,
       orderKey: json['order_key'] as String?,
       gameDayNumbers: gameDayNumbersJson
-        .map((number) => number as int)
-        .toList(),
+          .map((number) => number as int)
+          .toList(),
       gameDayTitles: gameDayTitlesJson
-        .map((title) => GameDayTitle.fromJson(title))
-        .toList(),
+          .map((title) => GameDayTitle.fromJson(title))
+          .toList(),
       deadline: json['deadline'] as String?,
       beforeDeadline: json['before_deadline'] as bool?,
       legacyLeague: json['legacy_league'] as bool?,
@@ -117,18 +116,18 @@ class GameOperationLeague {
 
 class AllOperationLeagues {
   static Future<List<GameOperationLeague>?> fetchFromServer(
-      RestClient client,
-      int gameOperationId,
-      int seasonId,
-    ) async {
-      final uri = Uri.parse(
-        'https://www.saisonmanager.de/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json'
-        );
+    RestClient client,
+    int gameOperationId,
+    int seasonId,
+  ) async {
+    final uri = Uri.parse(
+      'https://www.saisonmanager.de/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
+    );
 
-      final jsonData = await client.getJson(uri) as List<dynamic>;
-      return jsonData
+    final jsonData = await client.getJson(uri) as List<dynamic>;
+    return jsonData
         .map((gameOp) => GameOperationLeague.fromJson(gameOp))
         .toList();
-          return null;
+    return null;
   }
 }

@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 
-
 final log = Logger('RestClient');
 
 class RestClient {
@@ -24,7 +23,7 @@ class RestClient {
 
   Future<void> _initialize() async {
     _prefs = await SharedPreferencesWithCache.create(
-      cacheOptions: const SharedPreferencesWithCacheOptions()
+      cacheOptions: const SharedPreferencesWithCacheOptions(),
     );
     _cache = await getApplicationDocumentsDirectory();
   }
@@ -38,11 +37,13 @@ class RestClient {
     final pathSegments = uri.pathSegments;
 
     final filename = pathSegments.last;
-    final directories = path.joinAll(pathSegments.sublist(0, pathSegments.length - 1));
+    final directories = path.joinAll(
+      pathSegments.sublist(0, pathSegments.length - 1),
+    );
 
     return CacheObj(
-        absPath: path.join('cache', host, directories, filename),
-        baseDirectory: path.join('cache', host, directories),
+      absPath: path.join('cache', host, directories, filename),
+      baseDirectory: path.join('cache', host, directories),
     );
   }
 
@@ -50,20 +51,15 @@ class RestClient {
     log.info('Fetching "$uri"');
 
     // Prepare headers with ETag if we have one cached
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-    };
-      
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
     final etag = _prefs.getString(_etagKeyFromUri(uri));
     if (etag != null) {
       log.info('Adding stored etag "$etag" to the query');
       headers['If-None-Match'] = etag;
     }
 
-    final response = await http.get(
-      uri,
-      headers: headers,
-    );
+    final response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
       // Fresh data received
@@ -79,10 +75,9 @@ class RestClient {
     }
   }
 
-  Future<dynamic> _cacheAndReturnJson(Uri uri, http.Response
-response) async {
+  Future<dynamic> _cacheAndReturnJson(Uri uri, http.Response response) async {
     final jsonData = json.decode(response.body);
-      
+
     // Cache the ETag and response
     final etag = response.headers['etag'];
     if (etag != null) {
