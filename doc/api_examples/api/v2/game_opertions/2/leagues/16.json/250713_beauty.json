@@ -1,0 +1,822 @@
+[
+    {
+        "id": 1633,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "30",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Jamasi Regionalliga Nordwest Herren",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "RL NW Herren",
+        "season_id": "16",
+        "order_key": "1",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            },
+            {
+                "game_day_number": 6,
+                "title": "6. Spieltag"
+            },
+            {
+                "game_day_number": 7,
+                "title": "7. Spieltag"
+            },
+            {
+                "game_day_number": 8,
+                "title": "8. Spieltag"
+            },
+            {
+                "game_day_number": 9,
+                "title": "9. Spieltag"
+            },
+            {
+                "game_day_number": 10,
+                "title": "10. Spieltag"
+            },
+            {
+                "game_day_number": 11,
+                "title": "11. Spieltag"
+            },
+            {
+                "game_day_number": 12,
+                "title": "12. Spieltag"
+            },
+            {
+                "game_day_number": 13,
+                "title": "13. Spieltag"
+            },
+            {
+                "game_day_number": 14,
+                "title": "14. Spieltag"
+            }
+        ],
+        "deadline": null,
+        "before_deadline": null,
+        "legacy_league": false,
+        "field_size": "GF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 3,
+        "period_length": 20,
+        "overtime_length": 10
+    },
+    {
+        "id": 1758,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "280",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Qualifikation U15 Juniorinnen KF",
+        "female": true,
+        "enable_scorer": true,
+        "short_name": "Q U15 KF w",
+        "season_id": "16",
+        "order_key": "1",
+        "game_day_numbers": [
+            1
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            }
+        ],
+        "deadline": "2009-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1686,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "40",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Verbandsliga Nordwest Herren Gro\u00dffeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "VL  GF",
+        "season_id": "16",
+        "order_key": "2",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": null,
+        "before_deadline": null,
+        "legacy_league": false,
+        "field_size": "GF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 3,
+        "period_length": 15,
+        "overtime_length": 5
+    },
+    {
+        "id": 1634,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "30",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Regionalliga Nordwest Herren Kleinfeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "RL H KF",
+        "season_id": "16",
+        "order_key": "3",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            }
+        ],
+        "deadline": null,
+        "before_deadline": null,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1635,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "40",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Verbandsliga Nordwest Herren Kleinfeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "VL KF",
+        "season_id": "16",
+        "order_key": "4",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            },
+            {
+                "game_day_number": 6,
+                "title": "6. Spieltag"
+            }
+        ],
+        "deadline": null,
+        "before_deadline": null,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1683,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "30",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Regionalliga Nordwest Damen Kleinfeld",
+        "female": true,
+        "enable_scorer": true,
+        "short_name": "RL Damen KF",
+        "season_id": "16",
+        "order_key": "5",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": null,
+        "before_deadline": null,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1658,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "260",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U17 Gro\u00dffeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U 17 GF",
+        "season_id": "16",
+        "order_key": "6",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            }
+        ],
+        "deadline": "2007-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "GF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 3,
+        "period_length": 15,
+        "overtime_length": 5
+    },
+    {
+        "id": 1684,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "260",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Regionalliga Nordwest U17 Juniorinnen Kleinfeld",
+        "female": true,
+        "enable_scorer": true,
+        "short_name": "U17 Juniorinnen KF",
+        "season_id": "16",
+        "order_key": "7",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": "2014-01-01",
+        "before_deadline": true,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1657,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "280",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U15 Gro\u00dffeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U 15 GF",
+        "season_id": "16",
+        "order_key": "8",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": "2009-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "GF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 3,
+        "period_length": 15,
+        "overtime_length": 5
+    },
+    {
+        "id": 1656,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "280",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U15 Kleinfeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U15 KF",
+        "season_id": "16",
+        "order_key": "9",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            }
+        ],
+        "deadline": "2009-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1706,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "30",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Regionalliga Nordwest U13 Kleinfeld Meisterrunde ",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U13 Meisterrunde",
+        "season_id": "16",
+        "order_key": "10",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            }
+        ],
+        "deadline": "2011-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1707,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "30",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": "Regionalliga Nordwest U13 Kleinfeld Platzierungsrunde",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U13 Platzierungsrunde",
+        "season_id": "16",
+        "order_key": "11",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": "2011-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1637,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "300",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U13 Kleinfeld",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U13 KF",
+        "season_id": "16",
+        "order_key": "12",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            },
+            {
+                "game_day_number": 6,
+                "title": "6. Spieltag"
+            },
+            {
+                "game_day_number": 7,
+                "title": "7. Spieltag"
+            }
+        ],
+        "deadline": "2011-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 20,
+        "overtime_length": 5
+    },
+    {
+        "id": 1636,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "320",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U11  Kleinfeld ",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U11 KF",
+        "season_id": "16",
+        "order_key": "13",
+        "game_day_numbers": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            },
+            {
+                "game_day_number": 4,
+                "title": "4. Spieltag"
+            },
+            {
+                "game_day_number": 5,
+                "title": "5. Spieltag"
+            },
+            {
+                "game_day_number": 6,
+                "title": "6. Spieltag"
+            },
+            {
+                "game_day_number": 7,
+                "title": "7. Spieltag"
+            }
+        ],
+        "deadline": "2013-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 15,
+        "overtime_length": 5
+    },
+    {
+        "id": 1655,
+        "game_operation_id": 2,
+        "game_operation_name": "Floorball Niedersachsen",
+        "game_operation_short_name": "FVNB",
+        "game_operation_slug": "fvnb",
+        "league_category_id": "",
+        "league_class_id": "340",
+        "league_system_id": "",
+        "league_type": "league",
+        "name": " Regionalliga Nordwest U9 Kleintor",
+        "female": false,
+        "enable_scorer": true,
+        "short_name": "U 9 KT",
+        "season_id": "16",
+        "order_key": "13",
+        "game_day_numbers": [
+            1,
+            2,
+            3
+        ],
+        "game_day_titles": [
+            {
+                "game_day_number": 1,
+                "title": "1. Spieltag"
+            },
+            {
+                "game_day_number": 2,
+                "title": "2. Spieltag"
+            },
+            {
+                "game_day_number": 3,
+                "title": "3. Spieltag"
+            }
+        ],
+        "deadline": "2015-12-31",
+        "before_deadline": false,
+        "legacy_league": false,
+        "field_size": "KF",
+        "league_modus": "league",
+        "has_preround": false,
+        "table_modus": "classic",
+        "periods": 2,
+        "period_length": 12,
+        "overtime_length": 5
+    }
+]
