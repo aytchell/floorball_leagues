@@ -1,0 +1,236 @@
+[
+    {
+        "game_id": 36582,
+        "game_number": 1,
+        "game_day": 1,
+        "arena": 700,
+        "arena_name": "Bildungscampus Riem",
+        "arena_address": "Paul-Wassermann-Str. 16, 81829 M\u00fcnchen",
+        "arena_short": "M\u00fcnchen, Bildungscampus Riem",
+        "hosting_club": "Floorball-Club M\u00fcnchen",
+        "game_day_id": 12730,
+        "date": "2024-12-08",
+        "time": "10:00",
+        "started": true,
+        "ended": true,
+        "home_team_name": "FBC M\u00fcnchen",
+        "home_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbWNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--29f3d38a80d59da81ab8d80a543743962cd1f5a8/184-fbcmuenchen.png",
+        "home_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbWNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--29f3d38a80d59da81ab8d80a543743962cd1f5a8/184-fbcmuenchen.png",
+        "guest_team_name": "Sportfreunde Puchheim",
+        "guest_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaEVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--89f19ee926ba8725f587f86f0206d66a77ce3858/149-puchheim.png",
+        "guest_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaEVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--89f19ee926ba8725f587f86f0206d66a77ce3858/149-puchheim.png",
+        "nominated_referee_string": "SG T\u00fcbingen / Feuerbach",
+        "referees": [
+            {
+                "license_id": "5442",
+                "first_name": "Kai Luca",
+                "last_name": "H\u00f6rnke"
+            },
+            {
+                "license_id": "1038",
+                "first_name": "Thomas",
+                "last_name": "Haas"
+            }
+        ],
+        "notice_type": "",
+        "notice_string": "",
+        "state": "ended",
+        "current_period_title": {
+            "period": 2,
+            "short_title": "2",
+            "title": "2. H\u00e4lfte",
+            "status_id": "period2",
+            "can_end_game": true,
+            "optional": false,
+            "running": true
+        },
+        "group_identifier": null,
+        "series_title": null,
+        "series_number": null,
+        "home_team_filling_rule": null,
+        "home_team_filling_title": null,
+        "home_team_filling_parameter": null,
+        "guest_team_filling_rule": null,
+        "guest_team_filling_title": null,
+        "guest_team_filling_parameter": null,
+        "result_string": "7:0",
+        "result": {
+            "home_goals": 7,
+            "guest_goals": 0,
+            "home_goals_period": [
+                2,
+                5,
+                0,
+                0
+            ],
+            "guest_goals_period": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "postfix": {
+                "short": "",
+                "long": ""
+            },
+            "forfait": false,
+            "overtime": false
+        }
+    },
+    {
+        "game_id": 36583,
+        "game_number": 2,
+        "game_day": 1,
+        "arena": 700,
+        "arena_name": "Bildungscampus Riem",
+        "arena_address": "Paul-Wassermann-Str. 16, 81829 M\u00fcnchen",
+        "arena_short": "M\u00fcnchen, Bildungscampus Riem",
+        "hosting_club": "Floorball-Club M\u00fcnchen",
+        "game_day_id": 12730,
+        "date": "2024-12-08",
+        "time": "11:30",
+        "started": true,
+        "ended": true,
+        "home_team_name": "Sportfreunde Puchheim",
+        "home_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaEVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--89f19ee926ba8725f587f86f0206d66a77ce3858/149-puchheim.png",
+        "home_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaEVCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--89f19ee926ba8725f587f86f0206d66a77ce3858/149-puchheim.png",
+        "guest_team_name": "SG T\u00fcbingen / Feuerbach",
+        "guest_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWjQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85485697516eb810bce15e413f7a2674d573ca38/190-tuebingen.png",
+        "guest_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWjQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85485697516eb810bce15e413f7a2674d573ca38/190-tuebingen.png",
+        "nominated_referee_string": "FBC M\u00fcnchen",
+        "referees": [
+            {
+                "license_id": "2862",
+                "first_name": "Sven",
+                "last_name": "Auerswald"
+            },
+            {
+                "license_id": "3842",
+                "first_name": "Stefanie",
+                "last_name": "Auerswald"
+            }
+        ],
+        "notice_type": "",
+        "notice_string": "",
+        "state": "ended",
+        "current_period_title": {
+            "period": 3,
+            "short_title": "V",
+            "title": "Verl\u00e4ngerung",
+            "status_id": "extratime",
+            "can_end_game": true,
+            "optional": true,
+            "running": true
+        },
+        "group_identifier": null,
+        "series_title": null,
+        "series_number": null,
+        "home_team_filling_rule": null,
+        "home_team_filling_title": null,
+        "home_team_filling_parameter": null,
+        "guest_team_filling_rule": null,
+        "guest_team_filling_title": null,
+        "guest_team_filling_parameter": null,
+        "result_string": "6:5 n.V.",
+        "result": {
+            "home_goals": 6,
+            "guest_goals": 5,
+            "home_goals_period": [
+                2,
+                3,
+                1,
+                0
+            ],
+            "guest_goals_period": [
+                1,
+                4,
+                0,
+                0
+            ],
+            "postfix": {
+                "short": "n.V.",
+                "long": "nach Verl\u00e4ngerung"
+            },
+            "forfait": false,
+            "overtime": true
+        }
+    },
+    {
+        "game_id": 36584,
+        "game_number": 3,
+        "game_day": 1,
+        "arena": 700,
+        "arena_name": "Bildungscampus Riem",
+        "arena_address": "Paul-Wassermann-Str. 16, 81829 M\u00fcnchen",
+        "arena_short": "M\u00fcnchen, Bildungscampus Riem",
+        "hosting_club": "Floorball-Club M\u00fcnchen",
+        "game_day_id": 12730,
+        "date": "2024-12-08",
+        "time": "13:00",
+        "started": true,
+        "ended": true,
+        "home_team_name": "SG T\u00fcbingen / Feuerbach",
+        "home_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWjQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85485697516eb810bce15e413f7a2674d573ca38/190-tuebingen.png",
+        "home_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBWjQ9IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--85485697516eb810bce15e413f7a2674d573ca38/190-tuebingen.png",
+        "guest_team_name": "FBC M\u00fcnchen",
+        "guest_team_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbWNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--29f3d38a80d59da81ab8d80a543743962cd1f5a8/184-fbcmuenchen.png",
+        "guest_team_small_logo": "/api/storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbWNCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--29f3d38a80d59da81ab8d80a543743962cd1f5a8/184-fbcmuenchen.png",
+        "nominated_referee_string": "SF Puchheim",
+        "referees": [
+            {
+                "license_id": "0",
+                "first_name": "Rene",
+                "last_name": "Dod"
+            },
+            {
+                "license_id": "6249",
+                "first_name": "Hannes",
+                "last_name": "Priller"
+            }
+        ],
+        "notice_type": "",
+        "notice_string": "",
+        "state": "ended",
+        "current_period_title": {
+            "period": 2,
+            "short_title": "2",
+            "title": "2. H\u00e4lfte",
+            "status_id": "period2",
+            "can_end_game": true,
+            "optional": false,
+            "running": true
+        },
+        "group_identifier": null,
+        "series_title": null,
+        "series_number": null,
+        "home_team_filling_rule": null,
+        "home_team_filling_title": null,
+        "home_team_filling_parameter": null,
+        "guest_team_filling_rule": null,
+        "guest_team_filling_title": null,
+        "guest_team_filling_parameter": null,
+        "result_string": "0:18",
+        "result": {
+            "home_goals": 0,
+            "guest_goals": 18,
+            "home_goals_period": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "guest_goals_period": [
+                10,
+                8,
+                0,
+                0
+            ],
+            "postfix": {
+                "short": "",
+                "long": ""
+            },
+            "forfait": false,
+            "overtime": false
+        }
+    }
+]
