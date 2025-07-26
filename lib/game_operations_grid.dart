@@ -29,7 +29,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
         gameOperations = entryInfo!.gameOperations;
-        currentSeasonId = entryInfo.currentSeasonId!;
+        currentSeasonId = 16;
         isLoading = false;
       });
     } catch (e) {
@@ -88,6 +88,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         builder: (context) => GameOperationLeagueList(
           restClient: restClient!,
           gameOpId: gameOp.id!,
+          gameOpName: gameOp.name!,
           seasonId: currentSeasonId!,
         ),
       ),
