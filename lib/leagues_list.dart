@@ -60,9 +60,9 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
                 MaterialPageRoute(
                   builder: (context) => LeagueTabs(
                     league: leagues[index],
-                    ),
                   ),
-                );
+                ),
+              );
             },
             style: TextButton.styleFrom(
               alignment: Alignment.centerLeft,
