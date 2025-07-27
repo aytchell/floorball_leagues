@@ -110,6 +110,10 @@ class ExpandableCard extends StatelessWidget {
   }
 
   Widget _buildButtonLikeHeader() {
+    final List<Row> rows = [];
+    rows.add(_buildGameDayTitle());
+    rows.addAll(_buildGameDateAndClubs());
+
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -125,8 +129,14 @@ class ExpandableCard extends StatelessWidget {
               : BorderRadius.circular(4),
         ),
         child: Column(
-          children: [
-            Row(
+          children: rows,
+        ),
+      ),
+    );
+  }
+
+  Row _buildGameDayTitle() {
+            return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -144,29 +154,29 @@ class ExpandableCard extends StatelessWidget {
                   color: isExpanded ? Colors.blue[700] : Colors.grey[600],
                 ),
               ],
-            ),
-            Row(
-              children: [
-                Text(
-                  'Hello',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isExpanded ? Colors.blue[700] : Colors.black87,
-                  ),
-                ),
-                Text(
-                  'world',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isExpanded ? Colors.blue[700] : Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+  }
+
+  List<Row> _buildGameDateAndClubs() {
+    final dateAndClubs = _extractDateAndClubs();
+    return dateAndClubs.map((dac) =>
+        Row(
+            children:  [
+                    Text(
+                        dac,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: isExpanded ? Colors.blue[700] : Colors.black87,
+                            ),
+                        ),
+],
+)).toList();
+}
+
+  List<String> _extractDateAndClubs() {
+    var eventList = games.map((game) => "${game.date} @ ${game.hostingClub}").toSet().toList();
+    eventList.sort();
+    return eventList;
   }
 
   Widget _buildExpandableContent() {
