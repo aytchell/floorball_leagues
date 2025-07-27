@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'api_models/game_operations.dart';
 import 'api_models/game_day.dart';
 import 'rest_client.dart';
+import 'game_day_table.dart';
 
 class LeagueTabs extends StatefulWidget {
   final GameOperationLeague league;
@@ -128,53 +129,55 @@ class ExpandableCard extends StatelessWidget {
                 )
               : BorderRadius.circular(4),
         ),
-        child: Column(
-          children: rows,
-        ),
+        child: Column(children: rows),
       ),
     );
   }
 
   Row _buildGameDayTitle() {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  gameDayTitle.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: isExpanded ? Colors.blue[700] : Colors.black87,
-                  ),
-                ),
-                Icon(
-                  isExpanded
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  color: isExpanded ? Colors.blue[700] : Colors.grey[600],
-                ),
-              ],
-            );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          gameDayTitle.title,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: isExpanded ? Colors.blue[700] : Colors.black87,
+          ),
+        ),
+        Icon(
+          isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: isExpanded ? Colors.blue[700] : Colors.grey[600],
+        ),
+      ],
+    );
   }
 
   List<Row> _buildGameDateAndClubs() {
     final dateAndClubs = _extractDateAndClubs();
-    return dateAndClubs.map((dac) =>
-        Row(
-            children:  [
-                    Text(
-                        dac,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: isExpanded ? Colors.blue[700] : Colors.black87,
-                            ),
-                        ),
-],
-)).toList();
-}
+    return dateAndClubs
+        .map(
+          (dac) => Row(
+            children: [
+              Text(
+                dac,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isExpanded ? Colors.blue[700] : Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        )
+        .toList();
+  }
 
   List<String> _extractDateAndClubs() {
-    var eventList = games.map((game) => "${game.date} @ ${game.hostingClub}").toSet().toList();
+    var eventList = games
+        .map((game) => "${game.date} @ ${game.hostingClub}")
+        .toSet()
+        .toList();
     eventList.sort();
     return eventList;
   }
@@ -196,16 +199,35 @@ class ExpandableCard extends StatelessWidget {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Text(
+              child: _buildGamesTable(),
+            )
+          : SizedBox.shrink(),
+    );
+  }
+
+  Widget _buildGamesTable() {
+    final host = 'https://saisonmanager.de';
+    final gameData = games
+        .map(
+          (game) => GameResultRow(
+            homeTeamName: game.homeTeamName ?? 'tbd',
+            homeTeamLogo: '${host}${game.homeTeamSmallLogo!}',
+            result: game.resultString ?? '- : -',
+            guestTeamLogo: '${host}${game.guestTeamSmallLogo!}',
+            guestTeamName: game.guestTeamName ?? 'tbd',
+          ),
+        )
+        .toList();
+    return SportGamesTable(games: gameData);
+    /*
+return Text(
                 "${games.length} Spiele",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[700],
                   height: 1.5,
                 ),
-              ),
-            )
-          : SizedBox.shrink(),
-    );
+              );
+              */
   }
 }
