@@ -141,7 +141,7 @@ class Game {
   String? guestTeamFillingRule;
   String? guestTeamFillingTitle;
   int? guestTeamFillingParameter;
-  String resultString;
+  String? resultString;
   GameResult? result;
 
   Game({
@@ -179,7 +179,7 @@ class Game {
     this.guestTeamFillingRule,
     this.guestTeamFillingTitle,
     this.guestTeamFillingParameter,
-    required this.resultString,
+    this.resultString,
     this.result,
   });
 
@@ -227,7 +227,7 @@ class Game {
       guestTeamFillingRule: json['guest_team_filling_rule'] as String?,
       guestTeamFillingTitle: json['guest_team_filling_title'] as String?,
       guestTeamFillingParameter: json['guest_team_filling_parameter'] as int?,
-      resultString: json['result_string'] as String,
+      resultString: json['result_string'] as String?,
       result: rawResult != null ? GameResult.fromJson(rawResult) : null,
     );
   }
