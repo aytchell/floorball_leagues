@@ -19,74 +19,88 @@ class GameResultRow {
 class SportGamesTable extends StatelessWidget {
   final List<GameResultRow> games;
 
-  const SportGamesTable({Key? key, required this.games}) : super(key: key);
+  const SportGamesTable({
+    Key? key,
+    required this.games,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.0),
-      child: Table(
-        columnWidths: const {
-          0: FlexColumnWidth(2.5), // homeTeamName
-          1: FlexColumnWidth(1.0), // homeTeamLogo
-          2: FlexColumnWidth(1.5), // result
-          3: FlexColumnWidth(1.0), // guestTeamLogo
-          4: FlexColumnWidth(2.5), // guestTeamName
-        },
-        border: _createBorder(),
-        children:
-            // Game rows
-            games.map((game) => _buildGameRow(game)).toList(),
+      child: Column(
+        children: games.map((game) => _buildGameCard(game)).toList(),
       ),
     );
   }
 
-  TableRow _buildGameRow(GameResultRow game) {
-    return TableRow(
+  Widget _buildGameCard(GameResultRow game) {
+    return Card(
+      margin: EdgeInsets.only(bottom: 12.0),
+      elevation: 2,
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            // Left side: Team logos and names (stacked vertically)
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Home team
+                  _buildTeamRow(game.homeTeamLogo, game.homeTeamName, isHome: true),
+                  
+                  SizedBox(height: 8.0),
+                  
+                  // Guest team
+                  _buildTeamRow(game.guestTeamLogo, game.guestTeamName, isHome: false),
+                ],
+              ),
+            ),
+            
+            SizedBox(width: 16.0),
+            
+            // Right side: Result (vertically centered)
+            Expanded(
+              flex: 1,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  game.result,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue.shade700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTeamRow(String logoPath, String teamName, {required bool isHome}) {
+    return Row(
       children: [
-        // Home Team Name (right aligned)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+        // Team logo
+        _buildTeamLogo(logoPath),
+        
+        SizedBox(width: 12.0),
+        
+        // Team name
+        Expanded(
           child: Text(
-            game.homeTeamName,
-            textAlign: TextAlign.right,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-        ),
-
-        // Home Team Logo (centered)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-          child: Center(child: _buildTeamLogo(game.homeTeamLogo)),
-        ),
-
-        // Result (centered)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-          child: Text(
-            game.result,
-            textAlign: TextAlign.center,
+            teamName,
             style: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue.shade700,
+              fontWeight: isHome ? FontWeight.w600 : FontWeight.w500,
+              color: isHome ? Colors.black87 : Colors.black54,
             ),
-          ),
-        ),
-
-        // Guest Team Logo (centered)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-          child: Center(child: _buildTeamLogo(game.guestTeamLogo)),
-        ),
-
-        // Guest Team Name (left aligned)
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
-          child: Text(
-            game.guestTeamName,
-            textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -129,21 +143,149 @@ class SportGamesTable extends StatelessWidget {
         color: Colors.grey.shade300,
         shape: BoxShape.circle,
       ),
-      child: Icon(Icons.sports_soccer, size: 20, color: Colors.grey.shade600),
+      child: Icon(
+        Icons.sports_soccer,
+        size: 20,
+        color: Colors.grey.shade600,
+      ),
+    );
+  }
+}
+
+// Alternative version using ListView for better performance with many games
+class SportGamesTableList extends StatelessWidget {
+  final List<GameResultRow> games;
+
+  const SportGamesTableList({
+    Key? key,
+    required this.games,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.all(16.0),
+      itemCount: games.length,
+      itemBuilder: (context, index) {
+        return _buildGameCard(games[index]);
+      },
     );
   }
 
-  TableBorder _createBorder() {
-    final side = BorderSide(color: Colors.grey.shade300, width: 1);
+  Widget _buildGameCard(GameResultRow game) {
+    return Card(
+      margin: EdgeInsets.only(bottom: 12.0),
+      elevation: 2,
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            // Left side: Team logos and names (stacked vertically)
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Home team
+                  _buildTeamRow(game.homeTeamLogo, game.homeTeamName, isHome: true),
+                  
+                  SizedBox(height: 8.0),
+                  
+                  // Guest team
+                  _buildTeamRow(game.guestTeamLogo, game.guestTeamName, isHome: false),
+                ],
+              ),
+            ),
+            
+            SizedBox(width: 16.0),
+            
+            // Right side: Result (vertically centered)
+            Expanded(
+              flex: 1,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  game.result,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue.shade700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-    return TableBorder(
-      top: BorderSide.none,
-      right: BorderSide.none,
-      bottom: BorderSide.none,
-      left: BorderSide.none,
-      horizontalInside: side,
-      verticalInside: BorderSide.none,
-      borderRadius: BorderRadius.zero,
+  Widget _buildTeamRow(String logoPath, String teamName, {required bool isHome}) {
+    return Row(
+      children: [
+        // Team logo
+        _buildTeamLogo(logoPath),
+        
+        SizedBox(width: 12.0),
+        
+        // Team name
+        Expanded(
+          child: Text(
+            teamName,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: isHome ? FontWeight.w600 : FontWeight.w500,
+              color: isHome ? Colors.black87 : Colors.black54,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTeamLogo(String logoPath) {
+    // Check if it's a network URL or asset path
+    if (logoPath.startsWith('http')) {
+      return Image.network(
+        logoPath,
+        width: 32,
+        height: 32,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholderLogo();
+        },
+      );
+    } else if (logoPath.startsWith('assets/')) {
+      return Image.asset(
+        logoPath,
+        width: 32,
+        height: 32,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholderLogo();
+        },
+      );
+    } else {
+      // Fallback for simple team names or when no logo is available
+      return _buildPlaceholderLogo();
+    }
+  }
+
+  Widget _buildPlaceholderLogo() {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        Icons.sports_soccer,
+        size: 20,
+        color: Colors.grey.shade600,
+      ),
     );
   }
 }
