@@ -16,30 +16,23 @@ class LeagueTabs extends StatefulWidget {
 class _LeagueTabsState extends State<LeagueTabs> {
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
+  List<TableItem> items = [];
 
-  // Sample data - you can replace this with your own data
-  final List<TableItem> items = [
-    TableItem(
-      title: "Product Details",
-      content: "This section contains detailed information about our products, including specifications, pricing, and availability.",
-    ),
-    TableItem(
-      title: "Customer Support",
-      content: "Our customer support team is available 24/7 to help you with any questions or issues you may have. Contact us via phone, email, or chat.",
-    ),
-    TableItem(
-      title: "Shipping Information",
-      content: "We offer fast and reliable shipping worldwide. Standard delivery takes 3-5 business days, while express delivery takes 1-2 business days.",
-    ),
-    TableItem(
-      title: "Returns & Refunds",
-      content: "We accept returns within 30 days of purchase. Items must be in original condition. Refunds are processed within 5-7 business days.",
-    ),
-    TableItem(
-      title: "Account Settings",
-      content: "Manage your profile, update payment methods, change notification preferences, and customize your experience here.",
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    setState(() {
+    items =
+        widget.league.gameDayTitles.map((gdt) => gdt.title).map((title) => TableItem(
+            title: title,
+            content: 'Something content',
+        )).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
