@@ -24,7 +24,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   }
 
   Future<void> loadData() async {
-    restClient ??= await RestClient.create();
+    restClient ??= await RestClient.instance;
     try {
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
@@ -86,7 +86,6 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       context,
       MaterialPageRoute(
         builder: (context) => GameOperationLeagueList(
-          restClient: restClient!,
           gameOpId: gameOp.id!,
           gameOpName: gameOp.name!,
           seasonId: currentSeasonId!,

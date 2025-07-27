@@ -12,10 +12,17 @@ class RestClient {
   late SharedPreferencesWithCache _prefs;
   late Directory _cache;
 
+  static Future<RestClient>? _instanceFuture;
+
   // private constructor
   RestClient._();
 
-  static Future<RestClient> create() async {
+  static Future<RestClient> get instance {
+    _instanceFuture ??= _create();
+    return _instanceFuture!;
+  }
+
+  static Future<RestClient> _create() async {
     final client = RestClient._();
     await client._initialize();
     return client;

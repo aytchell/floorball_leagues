@@ -4,7 +4,6 @@ import 'rest_client.dart';
 import 'league_tabs.dart';
 
 class GameOperationLeagueList extends StatefulWidget {
-  final RestClient restClient;
   final int gameOpId;
   final String gameOpName;
   final int seasonId;
@@ -12,7 +11,6 @@ class GameOperationLeagueList extends StatefulWidget {
   // Constructor with required and optional parameters
   const GameOperationLeagueList({
     super.key,
-    required this.restClient,
     required this.gameOpId,
     required this.gameOpName,
     required this.seasonId,
@@ -24,6 +22,7 @@ class GameOperationLeagueList extends StatefulWidget {
 }
 
 class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
+  RestClient? restClient;
   List<GameOperationLeague> leagues = [];
 
   @override
@@ -33,8 +32,9 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   }
 
   Future<void> loadData() async {
+    restClient ??= await RestClient.instance;
     final leagues = await AllOperationLeagues.fetchFromServer(
-      widget.restClient,
+      restClient!,
       widget.gameOpId,
       widget.seasonId,
     );
