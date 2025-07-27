@@ -28,6 +28,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   Future<void> loadData() async {
     restClient ??= await RestClient.instance;
+
     final daysFutures = Map.fromIterable(
       widget.league.gameDayTitles,
       key: (gdt) => gdt.gameDayNumber as int,
@@ -109,72 +110,98 @@ class ExpandableCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
       child: Column(
-        children: [
-          // Button/Header
-          InkWell(
-            onTap: onTap,
-            child: Container(
+        children: [_buildButtonLikeHeader(), _buildExpandableContent()],
+      ),
+    );
+  }
+
+  Widget _buildButtonLikeHeader() {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: isExpanded ? Colors.blue[50] : Colors.white,
+          borderRadius: isExpanded
+              ? BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                )
+              : BorderRadius.circular(4),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  item.title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: isExpanded ? Colors.blue[700] : Colors.black87,
+                  ),
+                ),
+                Icon(
+                  isExpanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: isExpanded ? Colors.blue[700] : Colors.grey[600],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Hello',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isExpanded ? Colors.blue[700] : Colors.black87,
+                  ),
+                ),
+                Text(
+                  'world',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isExpanded ? Colors.blue[700] : Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpandableContent() {
+    // Expandable content
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      height: isExpanded ? null : 0,
+      child: isExpanded
+          ? Container(
               width: double.infinity,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: isExpanded ? Colors.blue[50] : Colors.white,
-                borderRadius: isExpanded
-                    ? BorderRadius.only(
-                        topLeft: Radius.circular(4),
-                        topRight: Radius.circular(4),
-                      )
-                    : BorderRadius.circular(4),
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    item.title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: isExpanded ? Colors.blue[700] : Colors.black87,
-                    ),
-                  ),
-                  Icon(
-                    isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: isExpanded ? Colors.blue[700] : Colors.grey[600],
-                  ),
-                ],
+              child: Text(
+                item.content,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[700],
+                  height: 1.5,
+                ),
               ),
-            ),
-          ),
-          // Expandable content
-          AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            height: isExpanded ? null : 0,
-            child: isExpanded
-                ? Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[50],
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(4),
-                        bottomRight: Radius.circular(4),
-                      ),
-                    ),
-                    child: Text(
-                      item.content,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[700],
-                        height: 1.5,
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ),
-        ],
-      ),
+            )
+          : SizedBox.shrink(),
     );
   }
 }
