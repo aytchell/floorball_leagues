@@ -46,33 +46,29 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.gameOpName),
-      ),
+      appBar: AppBar(title: Text(widget.gameOpName)),
       body: ListView.builder(
         itemCount: leagues.length,
         itemBuilder: (context, index) {
-        return ListTile(
-          title: TextButton(
-            onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LeagueTabs(
-                    league: leagues[index],
+          return ListTile(
+            title: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LeagueTabs(league: leagues[index]),
                   ),
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.zero,
-            ),
-            child: Text(leagues[index].name),
+                );
+              },
+              style: TextButton.styleFrom(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.zero,
+              ),
+              child: Text(leagues[index].name),
             ),
           );
         },
-      )
+      ),
     );
   }
 }

@@ -6,10 +6,7 @@ import 'rest_client.dart';
 class LeagueTabs extends StatefulWidget {
   final GameOperationLeague league;
 
-  const LeagueTabs({
-    Key? key,
-    required this.league,
-  }) : super(key: key);
+  const LeagueTabs({Key? key, required this.league}) : super(key: key);
 
   @override
   _LeagueTabsState createState() => _LeagueTabsState();
@@ -31,28 +28,34 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   Future<void> loadData() async {
     restClient ??= await RestClient.instance;
-    final daysFutures = 
-Map.fromIterable(
-    widget.league.gameDayTitles,
-    key: (gdt) => gdt.gameDayNumber as int,
-    value: (gdt) => GameDay.fetchFromServer(restClient!, widget.league.id, gdt.gameDayNumber)
-);
+    final daysFutures = Map.fromIterable(
+      widget.league.gameDayTitles,
+      key: (gdt) => gdt.gameDayNumber as int,
+      value: (gdt) => GameDay.fetchFromServer(
+        restClient!,
+        widget.league.id,
+        gdt.gameDayNumber,
+      ),
+    );
 
-final Map<int, List<Game>> days = Map.fromEntries(
-  await Future.wait(
-    daysFutures.entries.map((entry) async => MapEntry(entry.key, await entry.value))
-  )
-);
+    final Map<int, List<Game>> days = Map.fromEntries(
+      await Future.wait(
+        daysFutures.entries.map(
+          (entry) async => MapEntry(entry.key, await entry.value),
+        ),
+      ),
+    );
 
     setState(() {
-    gameDays = days;
-    items =
-        widget.league.gameDayTitles.map((gdt) => 
-            TableItem(
-                title: gdt.title,
-                content: "${gameDays[gdt.gameDayNumber]!.length} Spiele"
-            )
-        ).toList();
+      gameDays = days;
+      items = widget.league.gameDayTitles
+          .map(
+            (gdt) => TableItem(
+              title: gdt.title,
+              content: "${gameDays[gdt.gameDayNumber]!.length} Spiele",
+            ),
+          )
+          .toList();
     });
   }
 
@@ -115,7 +118,7 @@ class ExpandableCard extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: isExpanded ? Colors.blue[50] : Colors.white,
-                borderRadius: isExpanded 
+                borderRadius: isExpanded
                     ? BorderRadius.only(
                         topLeft: Radius.circular(4),
                         topRight: Radius.circular(4),
@@ -134,7 +137,9 @@ class ExpandableCard extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
                     color: isExpanded ? Colors.blue[700] : Colors.grey[600],
                   ),
                 ],
@@ -179,8 +184,5 @@ class TableItem {
   final String title;
   final String content;
 
-  TableItem({
-    required this.title,
-    required this.content,
-  });
+  TableItem({required this.title, required this.content});
 }
