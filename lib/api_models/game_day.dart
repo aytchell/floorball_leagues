@@ -21,8 +21,19 @@ class Referee {
   }
 }
 
+/* 'period' is a double which looks a bit weird. Here's a real live example:
+{
+    "period": 2.5,
+    "short_title": "PV",
+    "title": "Pause vor Verlängerung",
+    "status_id": "pause_et",
+    "can_end_game": false,
+    "optional": true,
+    "running": false}
+*/
+
 class PeriodTitle {
-  int period;
+  double period;
   String shortTitle;
   String title;
   String statusId;
@@ -42,7 +53,7 @@ class PeriodTitle {
 
   factory PeriodTitle.fromJson(Map<String, dynamic> json) {
     return PeriodTitle(
-      period: json['period'] as int,
+      period: (json['period'] as num).toDouble(),
       shortTitle: json['short_title'] as String,
       title: json['title'] as String,
       statusId: json['status_id'] as String,
