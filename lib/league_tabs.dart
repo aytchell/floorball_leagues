@@ -18,7 +18,6 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   RestClient? restClient;
   Map<int, List<Game>> gameDays = {};
-  List<TableItem> items = [];
 
   @override
   void initState() {
@@ -49,14 +48,6 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
     setState(() {
       gameDays = days;
-      items = widget.league.gameDayTitles
-          .map(
-            (gdt) => TableItem(
-              title: gdt.title,
-              content: "${gameDays[gdt.gameDayNumber]!.length} Spiele",
-            ),
-          )
-          .toList();
     });
   }
 
@@ -70,13 +61,14 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8.0),
-        itemCount: items.length,
+        itemCount: gameDays.length,
         itemBuilder: (context, index) {
-          final item = items[index];
+          final gameDayTitle = widget.league.gameDayTitles[index];
           final isExpanded = expandedIndex == index;
 
           return ExpandableCard(
-            item: item,
+            gameDayTitle: gameDayTitle,
+            games: gameDays[gameDayTitle.gameDayNumber]!,
             isExpanded: isExpanded,
             onTap: () {
               setState(() {
@@ -93,13 +85,15 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
 // Separate Card widget
 class ExpandableCard extends StatelessWidget {
-  final TableItem item;
+  final GameDayTitle gameDayTitle;
+  final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableCard({
     Key? key,
-    required this.item,
+    required this.gameDayTitle,
+    required this.games,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -136,7 +130,7 @@ class ExpandableCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  item.title,
+                  gameDayTitle.title,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -193,7 +187,7 @@ class ExpandableCard extends StatelessWidget {
                 ),
               ),
               child: Text(
-                item.content,
+                "${games.length} Spiele",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[700],
@@ -204,12 +198,4 @@ class ExpandableCard extends StatelessWidget {
           : SizedBox.shrink(),
     );
   }
-}
-
-// Data model for table items
-class TableItem {
-  final String title;
-  final String content;
-
-  TableItem({required this.title, required this.content});
 }
