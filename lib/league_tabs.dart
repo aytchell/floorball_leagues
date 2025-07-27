@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_models/game_operations.dart';
+import 'api_models/game_day.dart';
+import 'rest_client.dart';
 
 class LeagueTabs extends StatefulWidget {
   final GameOperationLeague league;
@@ -16,6 +18,9 @@ class LeagueTabs extends StatefulWidget {
 class _LeagueTabsState extends State<LeagueTabs> {
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
+
+  RestClient? restClient;
+  Map<int, List<Game>> gameDays = {};
   List<TableItem> items = [];
 
   @override
@@ -25,12 +30,29 @@ class _LeagueTabsState extends State<LeagueTabs> {
   }
 
   Future<void> loadData() async {
+    restClient ??= await RestClient.instance;
+    final daysFutures = 
+Map.fromIterable(
+    widget.league.gameDayTitles,
+    key: (gdt) => gdt.gameDayNumber as int,
+    value: (gdt) => GameDay.fetchFromServer(restClient!, widget.league.id, gdt.gameDayNumber)
+);
+
+final Map<int, List<Game>> days = Map.fromEntries(
+  await Future.wait(
+    daysFutures.entries.map((entry) async => MapEntry(entry.key, await entry.value))
+  )
+);
+
     setState(() {
+    gameDays = days;
     items =
-        widget.league.gameDayTitles.map((gdt) => gdt.title).map((title) => TableItem(
-            title: title,
-            content: 'Something content',
-        )).toList();
+        widget.league.gameDayTitles.map((gdt) => 
+            TableItem(
+                title: gdt.title,
+                content: "${gameDays[gdt.gameDayNumber]!.length} Spiele"
+            )
+        ).toList();
     });
   }
 
