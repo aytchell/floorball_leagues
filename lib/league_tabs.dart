@@ -222,15 +222,5 @@ class ExpandableCard extends StatelessWidget {
         )
         .toList();
     return SportGamesTable(games: gameData);
-    /*
-return Text(
-                "${games.length} Spiele",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[700],
-                  height: 1.5,
-                ),
-              );
-              */
   }
 }
