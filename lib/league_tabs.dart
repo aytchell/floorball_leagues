@@ -207,10 +207,21 @@ class ExpandableCard extends StatelessWidget {
     );
   }
 
-  Map<String, List<Game>> _groupBySubday(List<Game> games) {
+  Map<String, GameSubDayInfo> _groupBySubday(List<Game> games) {
     // entries in map should be sorted by key
-    return SplayTreeMap.from(
+    final groups = SplayTreeMap.from(
       groupBy(games, (game) => "${game.date} @ ${game.hostingClub}"),
+    );
+    return groups.map(
+      (key, value) => MapEntry(
+        key,
+        GameSubDayInfo(
+          dateAtClub: key,
+          arenaName: value[0].arenaName!,
+          arenaAddress: value[0].arenaAddress!,
+          games: value,
+        ),
+      ),
     );
   }
 
@@ -220,7 +231,7 @@ class ExpandableCard extends StatelessWidget {
         .map(
           (sub) => GameSubdayRows(
             info: Text(sub.key),
-            games: sub.value
+            games: sub.value.games
                 .map(
                   (game) => GameResultRow(
                     homeTeamName: game.homeTeamName ?? 'tbd',
@@ -236,4 +247,18 @@ class ExpandableCard extends StatelessWidget {
         .toList();
     return SportGamesTable(subdays: gameData);
   }
+}
+
+class GameSubDayInfo {
+  final String dateAtClub;
+  final String arenaName;
+  final String arenaAddress;
+  final List<Game> games;
+
+  GameSubDayInfo({
+    required this.dateAtClub,
+    required this.arenaName,
+    required this.arenaAddress,
+    required this.games,
+  });
 }
