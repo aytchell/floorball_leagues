@@ -1,3 +1,5 @@
+import 'dart:collection';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'api_models/game_operations.dart';
 import 'api_models/game_day.dart';
@@ -205,21 +207,33 @@ class ExpandableCard extends StatelessWidget {
     );
   }
 
+  Map<String, List<Game>> _groupBySubday(List<Game> games) {
+    // entries in map should be sorted by key
+    return SplayTreeMap.from(
+      groupBy(games, (game) => "${game.date} @ ${game.hostingClub}"),
+    );
+  }
+
   Widget _buildGamesTable() {
     final host = 'https://saisonmanager.de';
-    final gameData = games
+    final gameData = _groupBySubday(games).entries
         .map(
-          (game) => GameResultRow(
-            homeTeamName: game.homeTeamName ?? 'tbd',
-            homeTeamLogo: '${host}${game.homeTeamSmallLogo!}',
-            result: game.resultString ?? '- : -',
-            guestTeamLogo: '${host}${game.guestTeamSmallLogo!}',
-            guestTeamName: game.guestTeamName ?? 'tbd',
+          (sub) => GameSubdayRows(
+            info: Text(sub.key),
+            games: sub.value
+                .map(
+                  (game) => GameResultRow(
+                    homeTeamName: game.homeTeamName ?? 'tbd',
+                    homeTeamLogo: '${host}${game.homeTeamSmallLogo!}',
+                    result: game.resultString ?? '- : -',
+                    guestTeamLogo: '${host}${game.guestTeamSmallLogo!}',
+                    guestTeamName: game.guestTeamName ?? 'tbd',
+                  ),
+                )
+                .toList(),
           ),
         )
         .toList();
-    return SportGamesTable(
-      subday: GameSubdayRows(info: Text('Huhu subday'), games: gameData),
-    );
+    return SportGamesTable(subdays: gameData);
   }
 }

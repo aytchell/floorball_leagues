@@ -24,19 +24,27 @@ class GameSubdayRows {
 }
 
 class SportGamesTable extends StatelessWidget {
-  final GameSubdayRows subday;
+  final List<GameSubdayRows> subdays;
 
-  const SportGamesTable({Key? key, required this.subday}) : super(key: key);
+  const SportGamesTable({Key? key, required this.subdays}) : super(key: key);
+
+  List<Widget> _buildSubday(GameSubdayRows sub) {
+    List<Widget> list = [];
+    list.add(sub.info);
+    list.addAll(sub.games.map((game) => _buildGameCard(game)).toList());
+    return list;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> list = [];
-    list.add(subday.info);
-    list.addAll(subday.games.map((game) => _buildGameCard(game)).toList());
+    var allRows = subdays
+        .map((sub) => _buildSubday(sub))
+        .expand((it) => it)
+        .toList();
 
     return Container(
       padding: EdgeInsets.all(16.0),
-      child: Column(children: list),
+      child: Column(children: allRows),
     );
   }
 
