@@ -48,7 +48,8 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Floorball Ligen'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue[600],
+        foregroundColor: Colors.white,
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())

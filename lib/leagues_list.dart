@@ -46,7 +46,11 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.gameOpName)),
+      appBar: AppBar(
+        title: Text(widget.gameOpName),
+        backgroundColor: Colors.blue[600],
+        foregroundColor: Colors.white,
+      ),
       body: ListView.builder(
         itemCount: leagues.length,
         itemBuilder: (context, index) {
