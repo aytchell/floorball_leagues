@@ -56,10 +56,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-                widget.league.name,
-                maxLines: 2,
-              ),
+        title: Text(widget.league.name, maxLines: 2),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),
@@ -221,6 +218,8 @@ class ExpandableCard extends StatelessWidget {
           ),
         )
         .toList();
-    return SportGamesTable(games: gameData);
+    return SportGamesTable(
+      subday: GameSubdayRows(info: Text('Huhu subday'), games: gameData),
+    );
   }
 }
