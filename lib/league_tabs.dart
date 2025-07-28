@@ -6,6 +6,20 @@ import 'api_models/game_day.dart';
 import 'rest_client.dart';
 import 'game_day_table.dart';
 
+class GameSubDayInfo {
+  final String dateAtClub;
+  final String arenaName;
+  final String arenaAddress;
+  final List<Game> games;
+
+  GameSubDayInfo({
+    required this.dateAtClub,
+    required this.arenaName,
+    required this.arenaAddress,
+    required this.games,
+  });
+}
+
 class LeagueTabs extends StatefulWidget {
   final GameOperationLeague league;
 
@@ -210,7 +224,7 @@ class ExpandableCard extends StatelessWidget {
   Map<String, GameSubDayInfo> _groupBySubday(List<Game> games) {
     // entries in map should be sorted by key
     final groups = SplayTreeMap.from(
-      groupBy(games, (game) => "${game.date} @ ${game.hostingClub}"),
+      groupBy(games, (game) => "${game.date}\n${game.hostingClub}"),
     );
     return groups.map(
       (key, value) => MapEntry(
@@ -230,7 +244,7 @@ class ExpandableCard extends StatelessWidget {
     final gameData = _groupBySubday(games).entries
         .map(
           (sub) => GameSubdayRows(
-            info: Text(sub.key),
+            info: _buildGameSubDayInfoCard(sub.value),
             games: sub.value.games
                 .map(
                   (game) => GameResultRow(
@@ -247,18 +261,36 @@ class ExpandableCard extends StatelessWidget {
         .toList();
     return SportGamesTable(subdays: gameData);
   }
-}
 
-class GameSubDayInfo {
-  final String dateAtClub;
-  final String arenaName;
-  final String arenaAddress;
-  final List<Game> games;
-
-  GameSubDayInfo({
-    required this.dateAtClub,
-    required this.arenaName,
-    required this.arenaAddress,
-    required this.games,
-  });
+  Widget _buildGameSubDayInfoCard(GameSubDayInfo info) {
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            title: Text(
+              info.dateAtClub,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              info.arenaName,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              TextButton(
+                child: const Text('Navigieren'),
+                onPressed: () {
+                  /* ... */
+                },
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
