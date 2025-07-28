@@ -74,9 +74,9 @@ class GameOperationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    gameOperation.name ?? 'Unknown Game',
+                    gameOperation.name ?? 'Verband',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    maxLines: 1,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

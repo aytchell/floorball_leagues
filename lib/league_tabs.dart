@@ -56,7 +56,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.league.name),
+        title: Text(
+                widget.league.name,
+                maxLines: 2,
+              ),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),

@@ -47,7 +47,10 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.gameOpName),
+        title: Text(
+                widget.gameOpName,
+                maxLines: 2,
+              ),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),
