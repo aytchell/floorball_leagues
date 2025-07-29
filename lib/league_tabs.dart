@@ -1,10 +1,13 @@
 import 'dart:collection';
+import 'package:logging/logging.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'api_models/game_operations.dart';
 import 'api_models/game_day.dart';
 import 'rest_client.dart';
 import 'game_day_table.dart';
+
+final log = Logger('LeagueTabs');
 
 class GameSubDayInfo {
   final String dateAtClub;
@@ -18,6 +21,30 @@ class GameSubDayInfo {
     required this.arenaAddress,
     required this.games,
   });
+}
+
+class DateAndClub implements Comparable<DateAndClub> {
+  final String date;
+  final String hostingClub;
+  final String combined;
+
+  DateAndClub({required this.date, required this.hostingClub})
+    : combined = '$date @ $hostingClub';
+
+  @override
+  int compareTo(DateAndClub other) {
+    return combined.compareTo(other.combined);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! DateAndClub) return false;
+    return combined == other.combined;
+  }
+
+  @override
+  int get hashCode => Object.hash(date, hostingClub);
 }
 
 class LeagueTabs extends StatefulWidget {
@@ -172,12 +199,13 @@ class ExpandableCard extends StatelessWidget {
 
   List<Row> _buildGameDateAndClubs() {
     final dateAndClubs = _extractDateAndClubs();
-    return dateAndClubs
+
+    return _gameDaySubTitles(dateAndClubs)
         .map(
-          (dac) => Row(
+          (text) => Row(
             children: [
               Text(
-                dac,
+                text,
                 style: TextStyle(
                   fontSize: 14,
                   color: isExpanded ? Colors.blue[700] : Colors.black87,
@@ -189,9 +217,19 @@ class ExpandableCard extends StatelessWidget {
         .toList();
   }
 
-  List<String> _extractDateAndClubs() {
+  List<String> _gameDaySubTitles(List<DateAndClub> dateAndClubs) {
+    if (dateAndClubs.length <= 3)
+      return dateAndClubs.map((dac) => dac.combined).toList();
+    else
+      return ["von ${dateAndClubs.first.date} bis ${dateAndClubs.last.date}"];
+  }
+
+  List<DateAndClub> _extractDateAndClubs() {
     var eventList = games
-        .map((game) => "${game.date} @ ${game.hostingClub}")
+        .map(
+          (game) =>
+              DateAndClub(date: game.date!, hostingClub: game.hostingClub!),
+        )
         .toSet()
         .toList();
     eventList.sort();
