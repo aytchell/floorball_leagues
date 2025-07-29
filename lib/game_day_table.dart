@@ -43,7 +43,7 @@ class SportGamesTable extends StatelessWidget {
         .toList();
 
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(4.0),
       child: Column(children: allRows),
     );
   }
