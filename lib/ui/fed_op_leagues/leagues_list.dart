@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'api_models/game_operations.dart';
-import 'rest_client.dart';
+import '../../api_models/game_operations.dart';
+import '../../net/rest_client.dart';
 import 'league_tabs.dart';
 
 class GameOperationLeagueList extends StatefulWidget {

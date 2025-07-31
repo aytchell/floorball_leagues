@@ -1,4 +1,4 @@
-import '../rest_client.dart';
+import '../net/rest_client.dart';
 
 // Data models for a game in a game day from saisonmanager
 class Referee {

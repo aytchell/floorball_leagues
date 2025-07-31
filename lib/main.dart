@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'game_operations_grid.dart';
+import 'ui/all_operations_view/game_operations_grid.dart';
 
 final log = Logger('Main');
 

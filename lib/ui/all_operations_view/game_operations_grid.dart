@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'game_operation_card.dart';
-import 'leagues_list.dart';
-import 'rest_client.dart';
-import 'api_models/entry_info.dart';
+import '../fed_op_leagues/leagues_list.dart';
+import '../../net/rest_client.dart';
+import '../../api_models/entry_info.dart';
 
 class GameOperationsGrid extends StatefulWidget {
   const GameOperationsGrid({super.key});
@@ -47,7 +47,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Floorball Ligen'),
+        title: Text('Floorball Landesverbände'),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),

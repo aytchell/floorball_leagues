@@ -2,10 +2,11 @@ import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'api_models/game_operations.dart';
-import 'api_models/game_day.dart';
-import 'rest_client.dart';
-import 'game_day_table.dart';
+
+import '../../api_models/game_operations.dart';
+import '../../api_models/game_day.dart';
+import '../../net/rest_client.dart';
+import '../game_day/game_day_table.dart';
 
 final log = Logger('LeagueTabs');
 

@@ -1,4 +1,4 @@
-import '../rest_client.dart';
+import '../net/rest_client.dart';
 
 // Data models for init.json from saisonmanager
 class SeasonInfo {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'api_models/entry_info.dart';
+import '../../api_models/entry_info.dart';
 
 class GameOperationCard extends StatelessWidget {
   final GameOperation gameOperation;
@@ -45,11 +45,11 @@ class GameOperationCard extends StatelessWidget {
                           },
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              color: Colors.grey[300],
+                              color: Colors.red, //Colors.grey[300],
                               child: Icon(
                                 Icons.error_outline,
                                 size: 50,
-                                color: Colors.grey[600],
+                                color: Colors.green, //Colors.grey[600],
                               ),
                             );
                           },
@@ -57,13 +57,13 @@ class GameOperationCard extends StatelessWidget {
                       )
                     : Container(
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: Colors.yellow, //Colors.grey[300],
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
                           Icons.image_not_supported,
                           size: 50,
-                          color: Colors.grey[600],
+                          color: Colors.black, //Colors.grey[600],
                         ),
                       ),
               ),
