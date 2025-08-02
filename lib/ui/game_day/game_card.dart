@@ -38,6 +38,7 @@ class GameCard extends StatelessWidget {
                 children: [
                   // Home team
                   _buildTeamRow(
+                    context,
                     game.homeTeamLogo,
                     game.homeTeamName,
                     isHome: true,
@@ -47,6 +48,7 @@ class GameCard extends StatelessWidget {
 
                   // Guest team
                   _buildTeamRow(
+                    context,
                     game.guestTeamLogo,
                     game.guestTeamName,
                     isHome: false,
@@ -81,6 +83,7 @@ class GameCard extends StatelessWidget {
 
 
   Widget _buildTeamRow(
+    BuildContext context,
     String logoPath,
     String teamName, {
     required bool isHome,
@@ -96,11 +99,14 @@ class GameCard extends StatelessWidget {
         Expanded(
           child: Text(
             teamName,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.gameCardTeamFont,
+/*
+TextStyle(
               fontSize: 16,
               fontWeight: isHome ? FontWeight.w600 : FontWeight.w500,
               color: isHome ? Colors.black87 : Colors.black54,
             ),
+*/
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -109,19 +115,9 @@ class GameCard extends StatelessWidget {
   }
 
   Widget _buildTeamLogo(String logoPath) {
-    // Check if it's a network URL or asset path
+    // Check if it's a network URL
     if (logoPath.startsWith('http')) {
       return Image.network(
-        logoPath,
-        width: 32,
-        height: 32,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholderLogo();
-        },
-      );
-    } else if (logoPath.startsWith('assets/')) {
-      return Image.asset(
         logoPath,
         width: 32,
         height: 32,

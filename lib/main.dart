@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'ui/all_operations_view/game_operations_grid.dart';
+import 'text_theme.dart';
 
 final log = Logger('Main');
 
@@ -27,9 +28,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'NimbusSans',
         primarySwatch: Colors.blue,
+        textTheme: AppTextTheme.theme,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: GameOperationsGrid(),
     );
   }
 }
+
+
