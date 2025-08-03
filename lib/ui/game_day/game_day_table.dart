@@ -3,7 +3,7 @@ import 'game_card.dart';
 
 class GameSubdayRows {
   final Widget info;
-  final List<GameResultRow> games;
+  final List<GameResultSlice> games;
 
   GameSubdayRows({required this.info, required this.games});
 }

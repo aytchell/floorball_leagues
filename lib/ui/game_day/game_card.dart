@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import '../../api_models/game_day.dart';
 import '../app_text_styles.dart';
 
-class GameResultRow {
-  final String homeTeamName;
-  final String homeTeamLogo; // URL or asset path
-  final String result;
-  final String guestTeamLogo; // URL or asset path
-  final String guestTeamName;
+class GameResultSlice {
+  final Game game;
+  final logoHost = 'https://saisonmanager.de';
 
-  GameResultRow({
-    required this.homeTeamName,
-    required this.homeTeamLogo,
-    required this.result,
-    required this.guestTeamLogo,
-    required this.guestTeamName,
-  });
+  GameResultSlice({required this.game});
+
+  String get homeTeamName => game.homeTeamName ?? 'tbd';
+  String get homeTeamLogo => '${logoHost}${game.homeTeamSmallLogo!}';
+  String get result => game.resultString ?? '- : -';
+  String get guestTeamName => game.guestTeamName ?? 'tbd';
+  String get guestTeamLogo => '${logoHost}${game.guestTeamSmallLogo!}';
 }
 
 class GameCard extends StatelessWidget {
-  final GameResultRow game;
+  final GameResultSlice game;
 
   GameCard({Key? key, required this.game}) : super(key: key);
 

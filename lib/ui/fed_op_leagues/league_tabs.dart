@@ -284,15 +284,7 @@ class ExpandableCard extends StatelessWidget {
           (sub) => GameSubdayRows(
             info: _buildGameSubDayInfoCard(sub.value),
             games: sub.value.games
-                .map(
-                  (game) => GameResultRow(
-                    homeTeamName: game.homeTeamName ?? 'tbd',
-                    homeTeamLogo: '${host}${game.homeTeamSmallLogo!}',
-                    result: game.resultString ?? '- : -',
-                    guestTeamLogo: '${host}${game.guestTeamSmallLogo!}',
-                    guestTeamName: game.guestTeamName ?? 'tbd',
-                  ),
-                )
+                .map((game) => GameResultSlice(game: game))
                 .toList(),
           ),
         )
