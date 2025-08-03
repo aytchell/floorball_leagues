@@ -30,7 +30,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
         gameOperations = entryInfo!.gameOperations;
-        currentSeasonId = 16;
+        currentSeasonId = entryInfo!.currentSeasonId;
         isLoading = false;
       });
     } catch (e) {
