@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../api_models/game_day.dart';
 import '../app_text_styles.dart';
 
 class GameResultSlice {
   final Game game;
-  final logoHost = 'https://saisonmanager.de';
 
   GameResultSlice({required this.game});
 
-  String get homeTeamName => game.homeTeamName ?? 'tbd';
-  String get homeTeamLogo => '${logoHost}${game.homeTeamSmallLogo!}';
+  String? get homeTeamName => game.homeTeamName;
+  String? get homeTeamLogo => game.homeTeamSmallLogo;
+  String? get guestTeamName => game.guestTeamName;
+  String? get guestTeamLogo => game.guestTeamSmallLogo;
+
+  bool get hasStarted => game.started ?? false;
+  bool get hasEnded => game.ended ?? false;
+  String get time => game.time ?? '??:??';
   String get result => game.resultString ?? '- : -';
-  String get guestTeamName => game.guestTeamName ?? 'tbd';
-  String get guestTeamLogo => '${logoHost}${game.guestTeamSmallLogo!}';
 }
 
 class GameCard extends StatelessWidget {
@@ -36,20 +40,12 @@ class GameCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Home team
-                  _buildTeamRow(
-                    game.homeTeamLogo,
-                    game.homeTeamName,
-                    isHome: true,
-                  ),
+                  _buildTeamRow(game.homeTeamLogo, game.homeTeamName),
 
                   SizedBox(height: 8.0),
 
                   // Guest team
-                  _buildTeamRow(
-                    game.guestTeamLogo,
-                    game.guestTeamName,
-                    isHome: false,
-                  ),
+                  _buildTeamRow(game.guestTeamLogo, game.guestTeamName),
                 ],
               ),
             ),
@@ -57,52 +53,59 @@ class GameCard extends StatelessWidget {
             SizedBox(width: 16.0),
 
             // Right side: Result (vertically centered)
-            Expanded(
-              flex: 1,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  game.result,
-                  style: AppTextStyles.gameCardResultFont,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            Expanded(flex: 1, child: _buildGameResult(game)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTeamRow(
-    String logoPath,
-    String teamName, {
-    required bool isHome,
-  }) {
+  Widget _buildTeamRow(String? logoPath, String? teamName) {
     return Row(
       children: [
-        // Team logo
         _buildTeamLogo(logoPath),
-
         SizedBox(width: 12.0),
-
-        // Team name
-        Expanded(
-          child: Text(
-            teamName,
-            style: AppTextStyles.gameCardTeamFont,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
+        _buildTeamName(teamName),
       ],
     );
   }
 
-  Widget _buildTeamLogo(String logoPath) {
-    // Check if it's a network URL
-    if (logoPath.startsWith('http')) {
+  Widget _buildGameResult(GameResultSlice game) {
+    final TextStyle textStyle = AppTextStyles.gameCardResultFont;
+
+    if (game.hasEnded) {
+      return Container(
+        alignment: Alignment.center,
+        child: Text(game.result, style: textStyle, textAlign: TextAlign.center),
+      );
+    } else if (game.hasStarted) {
+      return Container(
+        alignment: Alignment.center,
+        child: Text(
+          game.result,
+          style: textStyle.copyWith(color: Colors.pink),
+          textAlign: TextAlign.center,
+        ),
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        child: Text(
+          '${game.time} Uhr',
+          style: textStyle,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+  }
+
+  Widget _buildTeamLogo(String? logoPath) {
+    final logoHost = 'https://saisonmanager.de';
+    final placeholderLogo = 'assets/images/logo_placeholder.svg';
+
+    if (logoPath != null) {
       return Image.network(
-        logoPath,
+        '${logoHost}${logoPath!}',
         width: 32,
         height: 32,
         fit: BoxFit.contain,
@@ -111,8 +114,14 @@ class GameCard extends StatelessWidget {
         },
       );
     } else {
-      // Fallback for simple team names or when no logo is available
-      return _buildPlaceholderLogo();
+      return SvgPicture.asset(
+        placeholderLogo,
+        width: 32,
+        height: 32,
+        fit: BoxFit.contain,
+        colorFilter: ColorFilter.mode(Colors.grey[500]!, BlendMode.srcIn),
+        placeholderBuilder: (context) => _buildPlaceholderLogo(),
+      );
     }
   }
 
@@ -126,5 +135,25 @@ class GameCard extends StatelessWidget {
       ),
       child: Icon(Icons.sports_soccer, size: 20, color: Colors.grey.shade600),
     );
+  }
+
+  Widget _buildTeamName(String? teamName) {
+    if (teamName != null) {
+      return Expanded(
+        child: Text(
+          teamName!,
+          style: AppTextStyles.gameCardTeamFont,
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Text(
+          'Noch nicht bekannt',
+          style: AppTextStyles.gameCardTeamFont.copyWith(color: Colors.grey),
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    }
   }
 }
