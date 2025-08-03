@@ -3,6 +3,7 @@ import 'game_operation_card.dart';
 import '../fed_op_leagues/leagues_list.dart';
 import '../../net/rest_client.dart';
 import '../../api_models/entry_info.dart';
+import '../app_text_styles.dart';
 
 class GameOperationsGrid extends StatefulWidget {
   const GameOperationsGrid({super.key});
@@ -57,7 +58,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
           ? Center(
               child: Text(
                 'No game operations found',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: AppTextStyles.gameOpLoadingError,
               ),
             )
           : Padding(

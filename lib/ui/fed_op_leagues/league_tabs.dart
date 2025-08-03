@@ -8,6 +8,7 @@ import '../../api_models/game_day.dart';
 import '../../net/rest_client.dart';
 import '../game_day/game_card.dart';
 import '../game_day/game_day_table.dart';
+import '../app_text_styles.dart';
 
 final log = Logger('LeagueTabs');
 
@@ -180,16 +181,14 @@ class ExpandableCard extends StatelessWidget {
   }
 
   Row _buildGameDayTitle() {
+    final expandedStyle = AppTextStyles.gameDayTitleExpanded;
+    final collapsedStyle = AppTextStyles.gameDayTitleCollapsed;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           gameDayTitle.title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: isExpanded ? Colors.blue[700] : Colors.black87,
-          ),
+          style: isExpanded ? expandedStyle : collapsedStyle,
         ),
         Icon(
           isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
@@ -208,10 +207,9 @@ class ExpandableCard extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: isExpanded ? Colors.blue[700] : Colors.black87,
-                ),
+                style: isExpanded
+                    ? AppTextStyles.gameDaySubTitleExpanded
+                    : AppTextStyles.gameDaySubTitleCollapsed,
               ),
             ],
           ),
@@ -308,13 +306,10 @@ class ExpandableCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: Text(
-              info.dateAtClub,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            title: Text(info.dateAtClub, style: AppTextStyles.gameSubDayTitle),
             subtitle: Text(
               info.arenaName,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: AppTextStyles.gameSubDaySubTitle,
             ),
           ),
           Row(

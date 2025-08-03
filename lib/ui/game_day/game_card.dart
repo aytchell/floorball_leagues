@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../app_text_styles.dart';
 
 class GameResultRow {
   final String homeTeamName;
@@ -38,7 +39,6 @@ class GameCard extends StatelessWidget {
                 children: [
                   // Home team
                   _buildTeamRow(
-                    context,
                     game.homeTeamLogo,
                     game.homeTeamName,
                     isHome: true,
@@ -48,7 +48,6 @@ class GameCard extends StatelessWidget {
 
                   // Guest team
                   _buildTeamRow(
-                    context,
                     game.guestTeamLogo,
                     game.guestTeamName,
                     isHome: false,
@@ -66,11 +65,7 @@ class GameCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   game.result,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade700,
-                  ),
+                  style: AppTextStyles.gameCardResultFont,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -81,9 +76,7 @@ class GameCard extends StatelessWidget {
     );
   }
 
-
   Widget _buildTeamRow(
-    BuildContext context,
     String logoPath,
     String teamName, {
     required bool isHome,
@@ -99,14 +92,7 @@ class GameCard extends StatelessWidget {
         Expanded(
           child: Text(
             teamName,
-            style: Theme.of(context).textTheme.gameCardTeamFont,
-/*
-TextStyle(
-              fontSize: 16,
-              fontWeight: isHome ? FontWeight.w600 : FontWeight.w500,
-              color: isHome ? Colors.black87 : Colors.black54,
-            ),
-*/
+            style: AppTextStyles.gameCardTeamFont,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -143,6 +129,4 @@ TextStyle(
       child: Icon(Icons.sports_soccer, size: 20, color: Colors.grey.shade600),
     );
   }
-
-
 }

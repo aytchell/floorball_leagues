@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../api_models/entry_info.dart';
+import '../app_text_styles.dart';
 
 class GameOperationCard extends StatelessWidget {
   final GameOperation gameOperation;
@@ -75,7 +76,7 @@ class GameOperationCard extends StatelessWidget {
                 children: [
                   Text(
                     gameOperation.name ?? 'Verband',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: AppTextStyles.gameOperationName,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
