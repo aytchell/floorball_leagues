@@ -112,10 +112,11 @@ class _LeagueTabsState extends State<LeagueTabs> {
         itemBuilder: (context, index) {
           final gameDayTitle = widget.league.gameDayTitles[index];
           final isExpanded = expandedIndex == index;
+          final games = gameDays[gameDayTitle.gameDayNumber]!;
 
           return ExpandableCard(
-            gameDayTitle: gameDayTitle,
-            games: gameDays[gameDayTitle.gameDayNumber]!,
+            title: _computeTitle(gameDayTitle.title, games),
+            games: games,
             isExpanded: isExpanded,
             onTap: () {
               setState(() {
@@ -128,18 +129,51 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
     );
   }
+
+  String _computeTitle(final String title, final List<Game> games) {
+    String leagueType = widget.league.leagueType ?? "league";
+
+    if (leagueType == "champ") {
+      final groups = games
+          .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
+          .expand((i) => i)
+          .toSet();
+      var type = "";
+      if (groups.length == 1) {
+        type = '(${groups.first})';
+      } else if (groups.length == 2) {
+        type = '(Gruppen/Platzierung)';
+      }
+
+      return '$title $type';
+      // } else if (leagueType == "cup") {
+      // TODO
+    } else {
+      return title;
+    }
+  }
+
+  String? _groupIdentifier(Game game) {
+    final ident = game.groupIdentifier;
+    return (ident != null) ? "Gruppenphase" : null;
+  }
+
+  String? _seriesTitle(Game game) {
+    final title = game.seriesTitle;
+    return (title != null) ? "Platzierungsphase" : null;
+  }
 }
 
 // Separate Card widget
 class ExpandableCard extends StatelessWidget {
-  final GameDayTitle gameDayTitle;
+  final String title;
   final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableCard({
     Key? key,
-    required this.gameDayTitle,
+    required this.title,
     required this.games,
     required this.isExpanded,
     required this.onTap,
@@ -186,10 +220,7 @@ class ExpandableCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          gameDayTitle.title,
-          style: isExpanded ? expandedStyle : collapsedStyle,
-        ),
+        Text(title, style: isExpanded ? expandedStyle : collapsedStyle),
         Icon(
           isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
           color: isExpanded ? Colors.blue[700] : Colors.grey[600],
