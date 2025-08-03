@@ -63,13 +63,39 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),
-      body: (leagues.length > 0)
-          ? _buildLeagesList(context)
-          : _buildNothingFoundInfo(context),
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildLeagesList(BuildContext context) {
+  Widget _buildBody(BuildContext context) {
+    if (isLoading) {
+      return _buildLoadingSpinner(context);
+    } else if (leagues.length > 0) {
+      return _buildLeaguesList(context);
+    } else {
+      return _buildNothingFoundInfo(context);
+    }
+  }
+
+  Widget _buildLoadingSpinner(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[600]!),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Lade Liga-Daten ...',
+            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLeaguesList(BuildContext context) {
     return ListView.builder(
       itemCount: leagues.length,
       itemBuilder: (context, index) {
@@ -104,7 +130,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(32.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
