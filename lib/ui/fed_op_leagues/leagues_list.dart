@@ -24,6 +24,7 @@ class GameOperationLeagueList extends StatefulWidget {
 class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   RestClient? restClient;
   List<GameOperationLeague> leagues = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -32,15 +33,26 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   }
 
   Future<void> loadData() async {
-    restClient ??= await RestClient.instance;
-    final leagues = await AllOperationLeagues.fetchFromServer(
-      restClient!,
-      widget.gameOpId,
-      widget.seasonId,
-    );
     setState(() {
-      this.leagues = leagues!;
+      isLoading = true;
     });
+
+    try {
+      restClient ??= await RestClient.instance;
+      final leagues = await AllOperationLeagues.fetchFromServer(
+        restClient!,
+        widget.gameOpId,
+        widget.seasonId,
+      );
+      setState(() {
+        this.leagues = leagues!;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -119,14 +131,17 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    // Add your refresh logic here
-                    // setState(() {
-                    //   // Reload leagues
-                    // });
-                  },
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Try Again'),
+                  onPressed: isLoading ? null : () => loadData(),
+
+                  icon: isLoading
+                      ? SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Icon(Icons.refresh),
+                  label: Text(isLoading ? 'Loading...' : 'Try Again'),
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue[600],
                     foregroundColor: Colors.white,
