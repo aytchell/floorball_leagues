@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 
 import '../../api_models/game_operations.dart';
 import '../../api_models/game_day.dart';
+import '../../api_models/table.dart';
 import '../../net/rest_client.dart';
 import '../game_day/game_card.dart';
+import '../game_day/table_card.dart';
 import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
 
@@ -52,8 +54,10 @@ class DateAndClub implements Comparable<DateAndClub> {
 
 class LeagueTabs extends StatefulWidget {
   final GameOperationLeague league;
+  String leagueType;
 
-  const LeagueTabs({Key? key, required this.league}) : super(key: key);
+  LeagueTabs({required this.league})
+    : leagueType = league.leagueType ?? "league";
 
   @override
   _LeagueTabsState createState() => _LeagueTabsState();
@@ -65,6 +69,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   RestClient? restClient;
   Map<int, List<Game>> gameDays = {};
+  List<TeamTableEntry> leagueTable = [];
 
   @override
   void initState() {
@@ -93,9 +98,24 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
     );
 
+    final tableEntries = await _fetchTable(restClient!);
+
     setState(() {
       gameDays = days;
+      leagueTable = tableEntries;
     });
+  }
+
+  Future<List<TeamTableEntry>> _fetchTable(RestClient restClient) async {
+    if (widget.leagueType == 'champ') {
+      // TODO
+      return [];
+    } else if (widget.leagueType == 'cup') {
+      // TODO
+      return [];
+    } else {
+      return TeamTable.fetchLeagueTableFromServer(restClient, widget.league.id);
+    }
   }
 
   @override
@@ -108,32 +128,54 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8.0),
-        itemCount: gameDays.length,
+        itemCount: gameDays.length + 1,
         itemBuilder: (context, index) {
-          final gameDayTitle = widget.league.gameDayTitles[index];
-          final isExpanded = expandedIndex == index;
-          final games = gameDays[gameDayTitle.gameDayNumber]!;
-
-          return ExpandableCard(
-            title: _computeTitle(gameDayTitle.title, games),
-            games: games,
-            isExpanded: isExpanded,
-            onTap: () {
-              setState(() {
-                // Toggle expansion: if already expanded, collapse it, otherwise expand it
-                expandedIndex = isExpanded ? null : index;
-              });
-            },
-          );
+          if (index == 0) {
+            return _buildTeamTableCard(context, index);
+          } else {
+            return _buildGameDayCard(context, index, index - 1);
+          }
         },
       ),
     );
   }
 
-  String _computeTitle(final String title, final List<Game> games) {
-    String leagueType = widget.league.leagueType ?? "league";
+  Widget _buildTeamTableCard(BuildContext context, int cardIndex) {
+    final isExpanded = expandedIndex == cardIndex;
 
-    if (leagueType == "champ") {
+    return ExpandableTableCard(
+      title: 'Tabelle',
+      teamEntries: this.leagueTable,
+      isExpanded: isExpanded,
+      onTap: () {
+        setState(() {
+          // Toggle expansion: if already expanded, collapse it, otherwise expand it
+          expandedIndex = isExpanded ? null : cardIndex;
+        });
+      },
+    );
+  }
+
+  Widget _buildGameDayCard(BuildContext context, int cardIndex, int gameIndex) {
+    final gameDayTitle = widget.league.gameDayTitles[gameIndex];
+    final isExpanded = expandedIndex == cardIndex;
+    final games = gameDays[gameDayTitle.gameDayNumber]!;
+
+    return ExpandableGameDayCard(
+      title: _computeTitle(gameDayTitle.title, games),
+      games: games,
+      isExpanded: isExpanded,
+      onTap: () {
+        setState(() {
+          // Toggle expansion: if already expanded, collapse it, otherwise expand it
+          expandedIndex = isExpanded ? null : cardIndex;
+        });
+      },
+    );
+  }
+
+  String _computeTitle(final String title, final List<Game> games) {
+    if (widget.leagueType == "champ") {
       final groups = games
           .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
           .expand((i) => i)
@@ -146,7 +188,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
       }
 
       return '$title $type';
-      // } else if (leagueType == "cup") {
+      // } else if (widget.leagueType == "cup") {
       // TODO
     } else {
       return title;
@@ -165,13 +207,13 @@ class _LeagueTabsState extends State<LeagueTabs> {
 }
 
 // Separate Card widget
-class ExpandableCard extends StatelessWidget {
+class ExpandableGameDayCard extends StatelessWidget {
   final String title;
   final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
-  const ExpandableCard({
+  const ExpandableGameDayCard({
     Key? key,
     required this.title,
     required this.games,

@@ -1,0 +1,213 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../api_models/table.dart';
+import '../app_text_styles.dart';
+
+class ExpandableTableCard extends StatelessWidget {
+  final String title;
+  final List<TeamTableEntry> teamEntries;
+  final bool isExpanded;
+  final VoidCallback onTap;
+
+  const ExpandableTableCard({
+    Key? key,
+    required this.title,
+    required this.teamEntries,
+    required this.isExpanded,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2,
+      child: Column(
+        children: [_buildButtonLikeHeader(), _buildExpandableContent()],
+      ),
+    );
+  }
+
+  Widget _buildButtonLikeHeader() {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: isExpanded ? Colors.blue[50] : Colors.white,
+          borderRadius: isExpanded
+              ? BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                )
+              : BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: isExpanded
+                  ? AppTextStyles.gameDayTitleExpanded
+                  : AppTextStyles.gameDayTitleCollapsed,
+            ),
+            Icon(
+              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              color: isExpanded ? Colors.blue[700] : Colors.grey[600],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpandableContent() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      height: isExpanded ? null : 0,
+      child: isExpanded
+          ? Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
+              child: _buildTableContent(),
+            )
+          : SizedBox.shrink(),
+    );
+  }
+
+  Widget _buildTableContent() {
+    if (teamEntries.isEmpty) {
+      return Container(
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+          child: Text(
+            'Tabelle wird geladen...',
+            style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: teamEntries.map((entry) => _buildTableRow(entry)).toList(),
+    );
+  }
+
+  Widget _buildTableRow(TeamTableEntry entry) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(6.0),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        children: [
+          // Position
+          Container(
+            width: 30.0,
+            child: Text(
+              '${entry.position}.',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: _getPositionColor(entry.position),
+              ),
+            ),
+          ),
+
+          SizedBox(width: 12.0),
+
+          // Team logo
+          _buildTeamLogo(entry.teamLogoSmall),
+
+          SizedBox(width: 12.0),
+
+          // Team name
+          Expanded(
+            child: Text(
+              entry.teamName,
+              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+
+          // Points (optional - you can remove this if you only want position, logo, name)
+          Text(
+            '${entry.points} Pkt',
+            style: TextStyle(
+              fontSize: 12.0,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTeamLogo(String? logoPath) {
+    final logoHost = 'https://saisonmanager.de';
+    final placeholderLogo = 'assets/images/logo_placeholder.svg';
+
+    if (logoPath != null) {
+      return Image.network(
+        '${logoHost}${logoPath}',
+        width: 24,
+        height: 24,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholderLogo();
+        },
+      );
+    } else {
+      return SvgPicture.asset(
+        placeholderLogo,
+        width: 24,
+        height: 24,
+        fit: BoxFit.contain,
+        colorFilter: ColorFilter.mode(Colors.grey[500]!, BlendMode.srcIn),
+        placeholderBuilder: (context) => _buildPlaceholderLogo(),
+      );
+    }
+  }
+
+  Widget _buildPlaceholderLogo() {
+    return Container(
+      width: 24,
+      height: 24,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade300,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(Icons.sports_soccer, size: 14, color: Colors.grey.shade600),
+    );
+  }
+
+  Color _getPositionColor(int position) {
+    // You can customize these colors based on your league's promotion/relegation zones
+    if (position <= 3) {
+      return Colors
+          .green
+          .shade700; // Top positions (e.g., promotion/championship)
+    } else if (position <= 6) {
+      return Colors
+          .blue
+          .shade700; // Mid-top positions (e.g., European competitions)
+    } else if (position >= 15) {
+      return Colors.red.shade700; // Bottom positions (e.g., relegation)
+    } else {
+      return Colors.grey.shade700; // Safe mid-table
+    }
+  }
+}
