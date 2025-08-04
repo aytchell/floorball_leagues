@@ -17,6 +17,45 @@ class GameResultSlice {
   bool get hasEnded => game.ended ?? false;
   String get time => game.time ?? '??:??';
   String get result => game.resultString ?? '- : -';
+
+  String? get seriesName =>
+      _translateGroupIdentifier(game.groupIdentifier) ??
+      _translateSeriesTitle(game.seriesTitle) ??
+      null;
+
+  String? _translateGroupIdentifier(String? groupIdentifier) {
+    if (groupIdentifier == null) return null;
+
+    switch (groupIdentifier!) {
+      case 'group_a':
+        return 'Gruppe A';
+      case 'group_b':
+        return 'Gruppe B';
+      case 'group_c':
+        return 'Gruppe C';
+      case 'group_d':
+        return 'Gruppe D';
+      case 'group_e':
+        return 'Gruppe E';
+      case 'group_f':
+        return 'Gruppe F';
+      case 'group_g':
+        return 'Gruppe G';
+      case 'group_h':
+        return 'Gruppe H';
+      default:
+        return groupIdentifier!;
+    }
+  }
+
+  String? _translateSeriesTitle(String? seriesTitle) {
+    if (seriesTitle == 'Spiel um Platz 3') return 'Platz 3';
+    if (seriesTitle == 'Spiel im Platz 3') // sic!
+      return 'Platz 3';
+    if (seriesTitle == 'Spiel um Platz 5') return 'Platz 5';
+    if (seriesTitle == 'Spiel um Platz 7') return 'Platz 7';
+    return seriesTitle;
+  }
 }
 
 class GameCard extends StatelessWidget {
@@ -31,8 +70,20 @@ class GameCard extends StatelessWidget {
       elevation: 2,
       child: Container(
         padding: EdgeInsets.all(16.0),
+        decoration: game.seriesName != null
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                color: Colors.blue.shade50,
+              )
+            : null,
         child: Row(
           children: [
+            // Series name column (if exists)
+            if (game.seriesName != null) ...[
+              _buildSeriesNameColumn(game.seriesName!),
+              SizedBox(width: 12.0),
+            ],
+
             // Left side: Team logos and names (stacked vertically)
             Expanded(
               flex: 3,
@@ -55,6 +106,31 @@ class GameCard extends StatelessWidget {
             // Right side: Result (vertically centered)
             Expanded(flex: 1, child: _buildGameResult(game)),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSeriesNameColumn(String seriesName) {
+    return Container(
+      width: 24.0,
+      height: 80.0, // Adjust height as needed
+      decoration: BoxDecoration(
+        color: Colors.blue.shade100,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: Center(
+        child: RotatedBox(
+          quarterTurns: 3, // 270 degrees (90 degrees counterclockwise)
+          child: Text(
+            seriesName,
+            style: TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
