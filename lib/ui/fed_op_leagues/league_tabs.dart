@@ -276,7 +276,7 @@ class ExpandableCard extends StatelessWidget {
       child: isExpanded
           ? Container(
               width: double.infinity,
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(4.0),
               decoration: BoxDecoration(
                 color: Colors.grey[50],
                 borderRadius: BorderRadius.only(

@@ -81,7 +81,7 @@ class GameCard extends StatelessWidget {
             // Series name column (if exists)
             if (game.seriesName != null) ...[
               _buildSeriesNameColumn(game.seriesName!),
-              SizedBox(width: 12.0),
+              SizedBox(width: 8.0),
             ],
 
             // Left side: Team logos and names (stacked vertically)
@@ -113,11 +113,11 @@ class GameCard extends StatelessWidget {
 
   Widget _buildSeriesNameColumn(String seriesName) {
     return Container(
-      width: 24.0,
+      width: 20.0,
       height: 80.0, // Adjust height as needed
       decoration: BoxDecoration(
         color: Colors.blue.shade100,
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(3.0),
       ),
       child: Center(
         child: RotatedBox(
@@ -125,7 +125,7 @@ class GameCard extends StatelessWidget {
           child: Text(
             seriesName,
             style: TextStyle(
-              fontSize: 12.0,
+              fontSize: 11.0,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
