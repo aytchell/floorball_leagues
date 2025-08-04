@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../api_models/table.dart';
 import '../app_text_styles.dart';
 
-class ExpandableTableCard extends StatelessWidget {
+class ExpandableLeagueTableCard extends StatelessWidget {
   final String title;
   final List<TeamTableEntry> teamEntries;
   final bool isExpanded;
   final VoidCallback onTap;
 
-  const ExpandableTableCard({
+  const ExpandableLeagueTableCard({
     Key? key,
     required this.title,
     required this.teamEntries,

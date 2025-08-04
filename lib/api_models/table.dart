@@ -63,6 +63,28 @@ class TeamTableEntry {
   }
 }
 
+class GroupTable {
+  String groupIdentifier;
+  String name;
+  List<TeamTableEntry> table;
+
+  GroupTable({
+    required this.groupIdentifier,
+    required this.name,
+    required this.table,
+  });
+
+  factory GroupTable.fromJson(Map<String, dynamic> json) {
+    final tableJson = json['table'] as List<dynamic>;
+
+    return GroupTable(
+      groupIdentifier: json['group_identifier'] as String,
+      name: json['name'] as String,
+      table: tableJson.map((entry) => TeamTableEntry.fromJson(entry)).toList(),
+    );
+  }
+}
+
 class TeamTable {
   static Future<List<TeamTableEntry>> fetchLeagueTableFromServer(
     RestClient client,
@@ -74,5 +96,20 @@ class TeamTable {
 
     final jsonData = await client.getJson(uri) as List<dynamic>;
     return jsonData.map((entry) => TeamTableEntry.fromJson(entry)).toList();
+  }
+
+  static Future<List<GroupTable>> fetchChampTableFromServer(
+    RestClient client,
+    int leagueId,
+  ) async {
+    final uri = Uri.parse(
+      'https://www.saisonmanager.de/api/v2/leagues/$leagueId/grouped_table.json',
+    );
+
+    final jsonData = await client.getJson(uri) as Map<String, dynamic>;
+    return jsonData
+        .map((key, value) => MapEntry.new(key, GroupTable.fromJson(value)))
+        .values
+        .toList();
   }
 }
