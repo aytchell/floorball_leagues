@@ -104,7 +104,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
         ? await _fetchLeagueTable(restClient!)
         : <TeamTableEntry>[];
     final champEntries = (widget.leagueType == 'champ')
-        ? await _fetchChampTable(restClient!)
+        ? await _fetchChampTable(
+            restClient!,
+            days.values.expand((games) => games).toList(),
+          )
         : <GroupTable>[];
 
     setState(() {
@@ -118,8 +121,114 @@ class _LeagueTabsState extends State<LeagueTabs> {
     return TeamTable.fetchLeagueTableFromServer(restClient, widget.league.id);
   }
 
-  Future<List<GroupTable>> _fetchChampTable(RestClient restClient) async {
-    return TeamTable.fetchChampTableFromServer(restClient, widget.league.id);
+  Future<List<GroupTable>> _fetchChampTable(
+    RestClient restClient,
+    List<Game> games,
+  ) async {
+    var groupTables = await TeamTable.fetchChampTableFromServer(
+      restClient,
+      widget.league.id,
+    );
+
+    final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
+    final placements = games
+        .where(
+          (game) =>
+              game.seriesTitle != null &&
+              game.seriesTitle!.startsWith('Spiel '),
+        )
+        .toList();
+    placements.sort(
+      (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
+    );
+    var endRound = [finalGame];
+    endRound.addAll(placements);
+    final finalTable = endRound
+        .asMap()
+        .map(
+          (index, game) =>
+              MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
+        )
+        .values
+        .expand((i) => i)
+        .toList();
+
+    groupTables.add(
+      GroupTable(
+        groupIdentifier: 'final_round',
+        name: 'Endrunde',
+        table: finalTable,
+      ),
+    );
+    return groupTables;
+  }
+
+  List<TeamTableEntry> _buildMicroTable(Game game, int position) {
+    if (!game.ended) {
+      return [
+        _buildDummyTeamTableEntry(position, "Noch unbekannt", null, null),
+        _buildDummyTeamTableEntry(position + 1, "Noch unbekannt", null, null),
+      ];
+    }
+
+    if (game.result!.homeGoals > game.result!.guestGoals) {
+      return [
+        _buildDummyTeamTableEntry(
+          position,
+          game.homeTeamName!,
+          game.homeTeamLogo,
+          game.homeTeamSmallLogo,
+        ),
+        _buildDummyTeamTableEntry(
+          position + 1,
+          game.guestTeamName!,
+          game.guestTeamLogo,
+          game.guestTeamSmallLogo,
+        ),
+      ];
+    } else {
+      return [
+        _buildDummyTeamTableEntry(
+          position,
+          game.guestTeamName!,
+          game.guestTeamLogo,
+          game.guestTeamSmallLogo,
+        ),
+        _buildDummyTeamTableEntry(
+          position + 1,
+          game.homeTeamName!,
+          game.homeTeamLogo,
+          game.homeTeamSmallLogo,
+        ),
+      ];
+    }
+  }
+
+  TeamTableEntry _buildDummyTeamTableEntry(
+    int position,
+    String name,
+    String? teamLogo,
+    String? teamLogoSmall,
+  ) {
+    return TeamTableEntry(
+      games: 0,
+      won: 0,
+      draw: 0,
+      lost: 0,
+      wonOt: 0,
+      lostOt: 0,
+      goalsScored: 0,
+      goalsReceived: 0,
+      goalsDiff: 0,
+      points: 0,
+      teamName: name,
+      teamId: 0,
+      teamLogo: teamLogo,
+      teamLogoSmall: teamLogoSmall,
+      pointCorrections: null,
+      sort: position - 1,
+      position: position,
+    );
   }
 
   @override
