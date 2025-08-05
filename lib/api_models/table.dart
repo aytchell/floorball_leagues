@@ -67,11 +67,13 @@ class GroupTable {
   String groupIdentifier;
   String name;
   List<TeamTableEntry> table;
+  bool hidePoints;
 
   GroupTable({
     required this.groupIdentifier,
     required this.name,
     required this.table,
+    this.hidePoints = false,
   });
 
   factory GroupTable.fromJson(Map<String, dynamic> json) {

@@ -117,7 +117,7 @@ class ExpandableChampTableCard extends StatelessWidget {
           _buildGroupNameColumn(group.name, group.table.length),
 
           // Right side: Team table
-          Expanded(child: _buildTeamTable(group.table)),
+          Expanded(child: _buildTeamTable(group.table, group.hidePoints)),
         ],
       ),
     );
@@ -151,16 +151,18 @@ class ExpandableChampTableCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTeamTable(List<TeamTableEntry> table) {
+  Widget _buildTeamTable(List<TeamTableEntry> table, bool hidePoints) {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Column(
-        children: table.map((entry) => _buildTableRow(entry)).toList(),
+        children: table
+            .map((entry) => _buildTableRow(entry, hidePoints))
+            .toList(),
       ),
     );
   }
 
-  Widget _buildTableRow(TeamTableEntry entry) {
+  Widget _buildTableRow(TeamTableEntry entry, bool hidePoints) {
     return Container(
       height: 36.0,
       margin: EdgeInsets.only(bottom: 4.0),
@@ -179,7 +181,7 @@ class ExpandableChampTableCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: _getPositionColor(entry.position),
+                color: Colors.black,
               ),
             ),
           ),
@@ -201,8 +203,8 @@ class ExpandableChampTableCard extends StatelessWidget {
           ),
 
           // Points
-          Text(
-            '${entry.points}',
+          ?Text(
+            hidePoints ? '' : '${entry.points}',
             style: TextStyle(
               fontSize: 12.0,
               color: Colors.grey[600],
@@ -250,16 +252,5 @@ class ExpandableChampTableCard extends StatelessWidget {
       ),
       child: Icon(Icons.sports_soccer, size: 12, color: Colors.grey.shade600),
     );
-  }
-
-  Color _getPositionColor(int position) {
-    // Championship group position colors - typically top 2 advance
-    if (position <= 2) {
-      return Colors.green.shade700; // Qualification positions
-    } else if (position == 3) {
-      return Colors.orange.shade700; // Playoff position
-    } else {
-      return Colors.grey.shade700; // Eliminated
-    }
   }
 }

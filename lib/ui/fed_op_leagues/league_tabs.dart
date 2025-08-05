@@ -156,8 +156,9 @@ class _LeagueTabsState extends State<LeagueTabs> {
     groupTables.add(
       GroupTable(
         groupIdentifier: 'final_round',
-        name: 'Endrunde',
+        name: 'Endstand',
         table: finalTable,
+        hidePoints: true,
       ),
     );
     return groupTables;
