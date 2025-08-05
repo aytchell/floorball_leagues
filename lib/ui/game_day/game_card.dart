@@ -80,7 +80,7 @@ class GameCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Series name column (if exists)
-              if (game.seriesName != null) 
+              if (game.seriesName != null)
                 _buildSeriesNameColumn(game.seriesName!),
 
               // Main content area
@@ -101,7 +101,10 @@ class GameCard extends StatelessWidget {
                             SizedBox(height: 8.0),
 
                             // Guest team
-                            _buildTeamRow(game.guestTeamLogo, game.guestTeamName),
+                            _buildTeamRow(
+                              game.guestTeamLogo,
+                              game.guestTeamName,
+                            ),
                           ],
                         ),
                       ),
