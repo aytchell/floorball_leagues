@@ -14,7 +14,8 @@ class GameOperationsGrid extends StatefulWidget {
 
 class _GameOperationsGridState extends State<GameOperationsGrid> {
   List<GameOperation> gameOperations = [];
-  int? currentSeasonId;
+  SeasonInfo? season;
+  int? seasonId;
   RestClient? restClient;
   bool isLoading = true;
 
@@ -30,7 +31,10 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
       setState(() {
         gameOperations = entryInfo!.gameOperations;
-        currentSeasonId = entryInfo!.currentSeasonId;
+        season = (seasonId == null)
+            ? entryInfo!.seasons.firstWhere((season) => season.current)
+            : entryInfo!.seasons.firstWhere((season) => season.id == seasonId!);
+        seasonId = season?.id ?? entryInfo.currentSeasonId;
         isLoading = false;
       });
     } catch (e) {
@@ -46,9 +50,10 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
 
   @override
   Widget build(BuildContext context) {
+    final subTitle = (season == null) ? "" : '\nSaison ${season!.name}';
     return Scaffold(
       appBar: AppBar(
-        title: Text('Floorball Landesverbände'),
+        title: Text('Floorball Landesverbände${subTitle}'),
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),
@@ -90,7 +95,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         builder: (context) => GameOperationLeagueList(
           gameOpId: gameOp.id!,
           gameOpName: gameOp.name!,
-          seasonId: currentSeasonId!,
+          seasonId: seasonId!,
         ),
       ),
     );

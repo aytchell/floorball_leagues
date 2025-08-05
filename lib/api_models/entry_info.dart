@@ -2,16 +2,16 @@ import '../net/rest_client.dart';
 
 // Data models for init.json from saisonmanager
 class SeasonInfo {
-  int? id;
-  String? name;
+  int id;
+  String name;
   bool current = false;
 
-  SeasonInfo({this.id, this.name, this.current = false});
+  SeasonInfo({required this.id, required this.name, this.current = false});
 
   factory SeasonInfo.fromJson(Map<String, dynamic> json) {
     return SeasonInfo(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
+      id: json['id'] as int,
+      name: json['name'] as String,
       current: json['current'] as bool? ?? false,
     );
   }
