@@ -69,43 +69,53 @@ class GameCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 12.0),
       elevation: 2,
       child: Container(
-        padding: EdgeInsets.all(16.0),
         decoration: game.seriesName != null
             ? BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
                 color: Colors.blue.shade50,
               )
             : null,
-        child: Row(
-          children: [
-            // Series name column (if exists)
-            if (game.seriesName != null) ...[
-              _buildSeriesNameColumn(game.seriesName!),
-              SizedBox(width: 8.0),
-            ],
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Series name column (if exists)
+              if (game.seriesName != null) 
+                _buildSeriesNameColumn(game.seriesName!),
 
-            // Left side: Team logos and names (stacked vertically)
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Home team
-                  _buildTeamRow(game.homeTeamLogo, game.homeTeamName),
+              // Main content area
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      // Left side: Team logos and names (stacked vertically)
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Home team
+                            _buildTeamRow(game.homeTeamLogo, game.homeTeamName),
 
-                  SizedBox(height: 8.0),
+                            SizedBox(height: 8.0),
 
-                  // Guest team
-                  _buildTeamRow(game.guestTeamLogo, game.guestTeamName),
-                ],
+                            // Guest team
+                            _buildTeamRow(game.guestTeamLogo, game.guestTeamName),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(width: 16.0),
+
+                      // Right side: Result (vertically centered)
+                      Expanded(flex: 1, child: _buildGameResult(game)),
+                    ],
+                  ),
+                ),
               ),
-            ),
-
-            SizedBox(width: 16.0),
-
-            // Right side: Result (vertically centered)
-            Expanded(flex: 1, child: _buildGameResult(game)),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -114,10 +124,12 @@ class GameCard extends StatelessWidget {
   Widget _buildSeriesNameColumn(String seriesName) {
     return Container(
       width: 20.0,
-      height: 80.0, // Adjust height as needed
       decoration: BoxDecoration(
         color: Colors.blue.shade100,
-        borderRadius: BorderRadius.circular(3.0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(4.0),
+          bottomLeft: Radius.circular(4.0),
+        ),
       ),
       child: Center(
         child: RotatedBox(
