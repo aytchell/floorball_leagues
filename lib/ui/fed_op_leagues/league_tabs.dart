@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import '../../api_models/game_operations.dart';
 import '../../api_models/game_day.dart';
 import '../../api_models/table.dart';
+import '../../api_models/scorer.dart';
 import '../../net/rest_client.dart';
 import '../game_day/game_card.dart';
 import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
+import 'scorer_card.dart';
 
 final log = Logger('LeagueTabs');
 
@@ -72,6 +74,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
   Map<int, List<Game>> gameDays = {};
   List<TeamTableEntry> leagueTable = [];
   List<GroupTable> champTable = [];
+  List<ScorerEntry> scorersList = [];
 
   @override
   void initState() {
@@ -109,11 +112,13 @@ class _LeagueTabsState extends State<LeagueTabs> {
             days.values.expand((games) => games).toList(),
           )
         : <GroupTable>[];
+    final scorerEntries = await _fetchScorerList(restClient!);
 
     setState(() {
       gameDays = days;
       leagueTable = tableEntries;
       champTable = champEntries;
+      scorersList = scorerEntries;
     });
   }
 
@@ -162,6 +167,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
     );
     return groupTables;
+  }
+
+  Future<List<ScorerEntry>> _fetchScorerList(RestClient restClient) async {
+    return Scorers.fetchFromServer(restClient, widget.league.id);
   }
 
   List<TeamTableEntry> _buildMicroTable(Game game, int position) {
@@ -242,7 +251,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(8.0),
-        itemCount: gameDays.length + 1,
+        itemCount: gameDays.length + 2,
         itemBuilder: (context, index) {
           if (index == 0) {
             if (widget.leagueType == 'champ') {
@@ -250,8 +259,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
             } else {
               return _buildLeagueTableCard(context, index);
             }
+          } else if (index == 1) {
+            return _buildScorerCard(context, index);
           } else {
-            return _buildGameDayCard(context, index, index - 1);
+            return _buildGameDayCard(context, index, index - 2);
           }
         },
       ),
@@ -280,6 +291,22 @@ class _LeagueTabsState extends State<LeagueTabs> {
     return ExpandableLeagueTableCard(
       title: 'Tabelle',
       teamEntries: this.leagueTable,
+      isExpanded: isExpanded,
+      onTap: () {
+        setState(() {
+          // Toggle expansion: if already expanded, collapse it, otherwise expand it
+          expandedIndex = isExpanded ? null : cardIndex;
+        });
+      },
+    );
+  }
+
+  Widget _buildScorerCard(BuildContext context, int cardIndex) {
+    final isExpanded = expandedIndex == cardIndex;
+
+    return ExpandableScorerCard(
+      title: 'Scorer',
+      scorerEntries: this.scorersList,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
