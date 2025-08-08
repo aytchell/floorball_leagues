@@ -136,16 +136,31 @@ class ExpandableScorerCard extends StatelessWidget {
 
           SizedBox(width: 12.0),
 
-          // Team name
+          // Player name and team name
           Expanded(
-            child: Text(
-              entry.fullName,
-              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-              overflow: TextOverflow.ellipsis,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.fullName,
+                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 2.0),
+                Text(
+                  entry.teamName,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.normal,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
 
-          // Points (optional - you can remove this if you only want position, logo, name)
+          // Points
           Text(
             '${entry.points} Pkt',
             style: TextStyle(
