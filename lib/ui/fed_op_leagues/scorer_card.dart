@@ -20,11 +20,46 @@ class ExpandableScorerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // If no scorers, show simple non-expandable card
+    if (scorerEntries.isEmpty) {
+      return _buildEmptyCard();
+    }
+
+    // Otherwise show expandable card
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
       child: Column(
         children: [_buildButtonLikeHeader(), _buildExpandableContent()],
+      ),
+    );
+  }
+
+  Widget _buildEmptyCard() {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(
+              'Noch keine Scorer vorhanden',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14.0,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -86,18 +121,6 @@ class ExpandableScorerCard extends StatelessWidget {
   }
 
   Widget _buildScorerListContent() {
-    if (scorerEntries.isEmpty) {
-      return Container(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Text(
-            'Scorer werden geladen...',
-            style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
-          ),
-        ),
-      );
-    }
-
     return Column(
       children: scorerEntries
           .mapIndexed((index, entry) => _buildScorerRow(index, entry))
