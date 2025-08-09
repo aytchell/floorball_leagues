@@ -107,6 +107,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
           return _buildBody();
         },
       ),
+      selectedSeason: selectedSeason,
     );
   }
 
@@ -152,7 +153,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         builder: (context) => GameOperationLeagueList(
           gameOpId: gameOp.id!,
           gameOpName: gameOp.name!,
-          seasonId: selectedSeason!.id,
+          selectedSeason: selectedSeason!,
         ),
       ),
     );

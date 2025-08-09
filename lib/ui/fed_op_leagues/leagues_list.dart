@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../api_models/entry_info.dart';
 import '../../api_models/game_operations.dart';
 import '../../net/rest_client.dart';
 import 'league_tabs.dart';
@@ -9,13 +10,13 @@ import '../widgets/loading_spinner.dart';
 class GameOperationLeagueList extends StatefulWidget {
   final int gameOpId;
   final String gameOpName;
-  final int seasonId;
+  final SeasonInfo selectedSeason;
 
   const GameOperationLeagueList({
     super.key,
     required this.gameOpId,
     required this.gameOpName,
-    required this.seasonId,
+    required this.selectedSeason,
   });
 
   @override
@@ -44,7 +45,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
       final leagues = await AllOperationLeagues.fetchFromServer(
         restClient!,
         widget.gameOpId,
-        widget.seasonId,
+        widget.selectedSeason.id,
       );
       setState(() {
         this.leagues = leagues!;
@@ -63,6 +64,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
       title: widget.gameOpName,
       showBackButton: true,
       body: _buildBody(context),
+      selectedSeason: widget.selectedSeason,
     );
   }
 

@@ -17,6 +17,7 @@ class SeasonSelectionScreen extends StatelessWidget {
           return _buildBody(appState);
         },
       ),
+      selectedSeason: null,
     );
   }
 

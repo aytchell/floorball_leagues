@@ -266,6 +266,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
       title: widget.league.name,
       showBackButton: true,
       body: _buildBody(context),
+      selectedSeason: null,
     );
   }
 
