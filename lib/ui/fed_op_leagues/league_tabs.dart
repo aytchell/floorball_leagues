@@ -19,6 +19,7 @@ import '../main_app_scaffold.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
 import 'scorer_card.dart';
+import 'date_and_club.dart';
 
 final log = Logger('LeagueTabs');
 
@@ -34,30 +35,6 @@ class GameSubDayInfo {
     required this.arenaAddress,
     required this.games,
   });
-}
-
-class DateAndClub implements Comparable<DateAndClub> {
-  final String date;
-  final String hostingClub;
-  final String combined;
-
-  DateAndClub({required this.date, required this.hostingClub})
-    : combined = '$date @ $hostingClub';
-
-  @override
-  int compareTo(DateAndClub other) {
-    return combined.compareTo(other.combined);
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! DateAndClub) return false;
-    return combined == other.combined;
-  }
-
-  @override
-  int get hashCode => Object.hash(date, hostingClub);
 }
 
 class LeagueTabs extends StatefulWidget {
@@ -491,11 +468,9 @@ class ExpandableGameDayCard extends StatelessWidget {
   }
 
   List<DateAndClub> _extractDateAndClubs() {
+    final today = DateTime.now();
     var eventList = games
-        .map(
-          (game) =>
-              DateAndClub(date: game.date!, hostingClub: game.hostingClub!),
-        )
+        .map((game) => DateAndClub.create(game.date!, game.hostingClub!, today))
         .toSet()
         .toList();
     eventList.sort();
