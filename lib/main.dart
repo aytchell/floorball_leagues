@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:provider/provider.dart';
+
 import 'ui/all_operations_view/game_operations_grid.dart';
+import 'app_state.dart';
 
 final log = Logger('Main');
 
@@ -14,7 +17,7 @@ void setupLogging() {
 
 void main() {
   setupLogging();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(create: (_) => AppState(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
