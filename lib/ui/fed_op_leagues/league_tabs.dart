@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:logging/logging.dart';
+import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ import '../../api_models/game_day.dart';
 import '../../api_models/table.dart';
 import '../../api_models/scorer.dart';
 import '../../net/rest_client.dart';
+import '../../app_state.dart';
 import '../game_day/game_card.dart';
 import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
@@ -262,11 +264,12 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
       title: widget.league.name,
       showBackButton: true,
       body: _buildBody(context),
-      selectedSeason: null,
+      selectedSeason: appState.selectedSeason,
     );
   }
 

@@ -9,6 +9,7 @@ class SeasonSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
       title: 'Saison auswählen',
       showBackButton: true,
@@ -17,7 +18,7 @@ class SeasonSelectionScreen extends StatelessWidget {
           return _buildBody(appState);
         },
       ),
-      selectedSeason: null,
+      selectedSeason: appState.selectedSeason,
     );
   }
 
