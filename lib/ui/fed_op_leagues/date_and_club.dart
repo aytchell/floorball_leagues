@@ -7,14 +7,12 @@ class DateAndClub implements Comparable<DateAndClub> {
   final String date;
   final bool isBygone;
   final String hostingClub;
-  final String combined;
   final String _comparisonKey;
 
   DateAndClub._(
     this.date,
     this.isBygone,
     this.hostingClub,
-    this.combined,
     this._comparisonKey,
   );
 
@@ -32,7 +30,6 @@ class DateAndClub implements Comparable<DateAndClub> {
         beautifiedDate,
         parsedDate.isBefore(today),
         hostingClub,
-        '${beautifiedDate} bei $hostingClub',
         '${yyyyMmDd} @ $hostingClub',
       );
     } catch (e) {
@@ -41,7 +38,6 @@ class DateAndClub implements Comparable<DateAndClub> {
         yyyyMmDd,
         false,
         hostingClub,
-        '${yyyyMmDd} bei $hostingClub',
         '${yyyyMmDd} @ $hostingClub',
       );
     }

@@ -260,7 +260,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   Widget _buildGameDays() {
     return ListView.builder(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       itemCount: gameDays.length + 2,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -391,10 +391,47 @@ class ExpandableGameDayCard extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
+  // Define color constants to avoid accessing theme colors in static contexts
+  static const Color expandedTextColor = Color(
+    0xFF1976D2,
+  ); // Colors.blue.shade700
+  static const Color expandedBackgroundColor = Color(
+    0xFFE3F2FD,
+  ); // Colors.blue[50]
+  static const Color collapsedIconColor = Color(0xFF757575); // Colors.grey[600]
+  static const Color expandedContentBackgroundColor = Color(
+    0xFFFAFAFA,
+  ); // Colors.grey[50]
+
+  // Text styles as instance getters to access theme if needed
+  TextStyle get _expandedDateStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: expandedTextColor,
+  );
+
+  TextStyle get _expandedTextStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w200,
+    color: expandedTextColor,
+  );
+
+  TextStyle get _collapsedDateStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.black87,
+  );
+
+  TextStyle get _collapsedTextStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w200,
+    color: Colors.black87,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 4.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
       child: Column(
         children: [_buildButtonLikeHeader(), _buildExpandableContent()],
@@ -411,11 +448,11 @@ class ExpandableGameDayCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: isExpanded ? Colors.blue[50] : Colors.white,
+          color: isExpanded ? expandedBackgroundColor : Colors.white,
           borderRadius: isExpanded
-              ? BorderRadius.only(
+              ? const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   topRight: Radius.circular(4),
                 )
@@ -435,7 +472,7 @@ class ExpandableGameDayCard extends StatelessWidget {
         Text(title, style: isExpanded ? expandedStyle : collapsedStyle),
         Icon(
           isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: isExpanded ? Colors.blue[700] : Colors.grey[600],
+          color: isExpanded ? expandedTextColor : collapsedIconColor,
         ),
       ],
     );
@@ -443,28 +480,39 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   List<Row> _buildGameDateAndClubs() {
     final dateAndClubs = _extractDateAndClubs();
-
-    return _gameDaySubTitles(dateAndClubs)
-        .map(
-          (text) => Row(
-            children: [
-              Text(
-                text,
-                style: isExpanded
-                    ? AppTextStyles.gameDaySubTitleExpanded
-                    : AppTextStyles.gameDaySubTitleCollapsed,
-              ),
-            ],
-          ),
-        )
-        .toList();
+    final dateStyle = isExpanded ? _expandedDateStyle : _collapsedDateStyle;
+    final textStyle = isExpanded ? _expandedTextStyle : _collapsedTextStyle;
+    if (dateAndClubs.length <= 3) {
+      return dateAndClubs
+          .map((dac) => _buildSingleDateAndClubRow(dac, dateStyle, textStyle))
+          .toList();
+    } else {
+      final isBygone = dateAndClubs.last.isBygone;
+      return [
+        Row(
+          children: [
+            Text('von ', style: textStyle),
+            Text('${dateAndClubs.first.date}', style: dateStyle),
+            Text(' bis ', style: textStyle),
+            Text('${dateAndClubs.last.date}', style: dateStyle),
+          ],
+        ),
+      ];
+    }
   }
 
-  List<String> _gameDaySubTitles(List<DateAndClub> dateAndClubs) {
-    if (dateAndClubs.length <= 3)
-      return dateAndClubs.map((dac) => dac.combined).toList();
-    else
-      return ["von ${dateAndClubs.first.date} bis ${dateAndClubs.last.date}"];
+  Row _buildSingleDateAndClubRow(
+    DateAndClub dac,
+    TextStyle dateStyle,
+    TextStyle textStyle,
+  ) {
+    final isBygone = dac.isBygone;
+    return Row(
+      children: [
+        Text('${dac.date}', style: dateStyle),
+        Text(' bei ${dac.hostingClub}', style: textStyle),
+      ],
+    );
   }
 
   List<DateAndClub> _extractDateAndClubs() {
@@ -480,15 +528,15 @@ class ExpandableGameDayCard extends StatelessWidget {
   Widget _buildExpandableContent() {
     // Expandable content
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       height: isExpanded ? null : 0,
       child: isExpanded
           ? Container(
               width: double.infinity,
-              padding: EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
+              padding: const EdgeInsets.all(4.0),
+              decoration: const BoxDecoration(
+                color: expandedContentBackgroundColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(4),
                   bottomRight: Radius.circular(4),
@@ -496,7 +544,7 @@ class ExpandableGameDayCard extends StatelessWidget {
               ),
               child: _buildGamesTable(),
             )
-          : SizedBox.shrink(),
+          : const SizedBox.shrink(),
     );
   }
 
@@ -519,7 +567,6 @@ class ExpandableGameDayCard extends StatelessWidget {
   }
 
   Widget _buildGamesTable() {
-    final host = 'https://saisonmanager.de';
     final gameData = _groupBySubday(games).entries
         .map(
           (sub) => GameSubdayRows(
