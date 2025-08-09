@@ -13,6 +13,7 @@ import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
 import '../widgets/nothing_found.dart';
 import '../widgets/loading_spinner.dart';
+import '../main_app_scaffold.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
 import 'scorer_card.dart';
@@ -261,12 +262,9 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.league.name, maxLines: 2),
-        backgroundColor: Colors.blue[600],
-        foregroundColor: Colors.white,
-      ),
+    return MainAppScaffold(
+      title: widget.league.name,
+      showBackButton: true,
       body: _buildBody(context),
     );
   }
