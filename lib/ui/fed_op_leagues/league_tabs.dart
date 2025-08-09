@@ -277,18 +277,8 @@ class _LeagueTabsState extends State<LeagueTabs> {
     if (isLoading) {
       return LoadingSpinner(title: 'Lade Spieltage ...');
     } else {
-      return (gameDays.isEmpty) ? _buildNoGamesInfo() : _buildGameDays();
+      return _buildGameDays();
     }
-  }
-
-  Widget _buildNoGamesInfo() {
-    return NothingFoundInfoBox(
-      title: 'Keine Spiele verfügbar',
-      message:
-          'Es wurden keine Daten zu Spielen innerhalb "${widget.league.name}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
-      isLoading: isLoading,
-      onRetry: loadData,
-    );
   }
 
   Widget _buildGameDays() {

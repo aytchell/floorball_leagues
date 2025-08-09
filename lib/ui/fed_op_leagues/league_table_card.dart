@@ -19,11 +19,46 @@ class ExpandableLeagueTableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // If no team entries, show simple non-expandable card
+    if (teamEntries.isEmpty) {
+      return _buildEmptyCard();
+    }
+
+    // Otherwise show expandable card
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
       child: Column(
         children: [_buildButtonLikeHeader(), _buildExpandableContent()],
+      ),
+    );
+  }
+
+  Widget _buildEmptyCard() {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(
+              'Noch keine Tabelle vorhanden',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14.0,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -121,7 +156,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
-                color: _getPositionColor(entry.position),
+                color: Colors.black,
               ),
             ),
           ),
@@ -142,7 +177,6 @@ class ExpandableLeagueTableCard extends StatelessWidget {
             ),
           ),
 
-          // Points (optional - you can remove this if you only want position, logo, name)
           Text(
             '${entry.points} Pkt',
             style: TextStyle(
@@ -192,22 +226,5 @@ class ExpandableLeagueTableCard extends StatelessWidget {
       ),
       child: Icon(Icons.sports_soccer, size: 14, color: Colors.grey.shade600),
     );
-  }
-
-  Color _getPositionColor(int position) {
-    // You can customize these colors based on your league's promotion/relegation zones
-    if (position <= 3) {
-      return Colors
-          .green
-          .shade700; // Top positions (e.g., promotion/championship)
-    } else if (position <= 6) {
-      return Colors
-          .blue
-          .shade700; // Mid-top positions (e.g., European competitions)
-    } else if (position >= 15) {
-      return Colors.red.shade700; // Bottom positions (e.g., relegation)
-    } else {
-      return Colors.grey.shade700; // Safe mid-table
-    }
   }
 }

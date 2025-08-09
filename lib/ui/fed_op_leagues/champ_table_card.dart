@@ -19,11 +19,46 @@ class ExpandableChampTableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // If no group tables, show simple non-expandable card
+    if (groupTables.isEmpty) {
+      return _buildEmptyCard();
+    }
+
+    // Otherwise show expandable card
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
       child: Column(
         children: [_buildButtonLikeHeader(), _buildExpandableContent()],
+      ),
+    );
+  }
+
+  Widget _buildEmptyCard() {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4.0),
+      elevation: 2,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(
+              'Noch keine Tabelle vorhanden',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14.0,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -202,8 +237,7 @@ class ExpandableChampTableCard extends StatelessWidget {
             ),
           ),
 
-          // Points
-          ?Text(
+          Text(
             hidePoints ? '' : '${entry.points}',
             style: TextStyle(
               fontSize: 12.0,
