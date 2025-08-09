@@ -66,6 +66,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     return MainAppScaffold(
       title: 'Floorball Landesverbände${subTitle}',
       drawer: _buildSeasonDrawer(),
+      isHomePage: true,
       body: _buildBody(),
     );
   }

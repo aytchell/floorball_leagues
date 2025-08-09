@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: GameOperationsGrid(),
+      initialRoute: '/',
+      routes: {'/': (context) => GameOperationsGrid()},
     );
   }
 }

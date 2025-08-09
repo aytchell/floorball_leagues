@@ -8,6 +8,7 @@ class MainAppScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final bool showBackButton;
   final bool showBottomNavigation;
+  final bool isHomePage;
 
   const MainAppScaffold({
     super.key,
@@ -17,6 +18,7 @@ class MainAppScaffold extends StatelessWidget {
     this.actions,
     this.showBackButton = false,
     this.showBottomNavigation = true,
+    this.isHomePage = false,
   });
 
   @override
@@ -31,11 +33,13 @@ class MainAppScaffold extends StatelessWidget {
       ),
       drawer: drawer,
       body: body,
-      bottomNavigationBar: showBottomNavigation ? _buildBottomNavigationBar() : null,
+      bottomNavigationBar: showBottomNavigation
+          ? _buildBottomNavigationBar(context)
+          : null,
     );
   }
 
-  Widget _buildBottomNavigationBar() {
+  Widget _buildBottomNavigationBar(BuildContext context) {
     return Container(
       height: 60,
       decoration: BoxDecoration(
@@ -53,12 +57,12 @@ class MainAppScaffold extends StatelessWidget {
         children: [
           _buildBottomNavItem(
             icon: Icons.home,
-            onTap: () {
-              // TODO: Add home navigation functionality
-            },
+            isEnabled: !isHomePage,
+            onTap: isHomePage ? null : () => _navigateToHome(context),
           ),
           _buildBottomNavItem(
             icon: Icons.date_range,
+            isEnabled: true,
             onTap: () {
               // TODO: Add date range functionality
             },
@@ -71,7 +75,8 @@ class MainAppScaffold extends StatelessWidget {
 
   Widget _buildBottomNavItem({
     required IconData icon,
-    required VoidCallback onTap,
+    required bool isEnabled,
+    required VoidCallback? onTap,
   }) {
     return InkWell(
       onTap: onTap,
@@ -81,10 +86,19 @@ class MainAppScaffold extends StatelessWidget {
         height: 60,
         child: Icon(
           icon,
-          color: Colors.blue[600],
+          color: isEnabled ? Colors.blue[600] : Colors.grey[400],
           size: 24,
         ),
       ),
+    );
+  }
+
+  void _navigateToHome(BuildContext context) {
+    // Navigate to the home screen (GameOperationsGrid)
+    // Pop all routes and push the home route
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/', // Assuming your home route is '/'
+      (route) => false,
     );
   }
 }
