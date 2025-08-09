@@ -63,9 +63,7 @@ class MainAppScaffold extends StatelessWidget {
           _buildBottomNavItem(
             icon: Icons.date_range,
             isEnabled: true,
-            onTap: () {
-              // TODO: Add date range functionality
-            },
+            onTap: () => _navigateToSeasons(context),
           ),
           Spacer(), // Pushes icons to the left
         ],
@@ -94,11 +92,10 @@ class MainAppScaffold extends StatelessWidget {
   }
 
   void _navigateToHome(BuildContext context) {
-    // Navigate to the home screen (GameOperationsGrid)
-    // Pop all routes and push the home route
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/', // Assuming your home route is '/'
-      (route) => false,
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+  }
+
+  void _navigateToSeasons(BuildContext context) {
+    Navigator.of(context).pushNamedAndRemoveUntil('/seasons', (route) => false);
   }
 }

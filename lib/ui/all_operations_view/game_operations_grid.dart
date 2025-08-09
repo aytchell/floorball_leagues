@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:logging/logging.dart';
 import 'game_operation_card.dart';
 import '../fed_op_leagues/leagues_list.dart';
 import '../../net/rest_client.dart';
 import '../../api_models/entry_info.dart';
 import '../app_text_styles.dart';
 import '../main_app_scaffold.dart';
+import '../../app_state.dart';
+
+final log = Logger('GameOperationsGrid');
 
 class GameOperationsGrid extends StatefulWidget {
   const GameOperationsGrid({super.key});
@@ -16,8 +21,7 @@ class GameOperationsGrid extends StatefulWidget {
 class _GameOperationsGridState extends State<GameOperationsGrid> {
   List<GameOperation> gameOperations = [];
   List<SeasonInfo> seasons = [];
-  SeasonInfo? season;
-  int? seasonId;
+  SeasonInfo? selectedSeason;
   RestClient? restClient;
   bool isLoading = true;
 
@@ -30,50 +34,85 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   Future<void> loadData() async {
     restClient ??= await RestClient.instance;
     try {
+      log.info('Loding game operations');
       final entryInfo = await EntryInfo.fetchFromServer(restClient!);
-      setState(() {
-        gameOperations = entryInfo!.gameOperations;
-        seasons = entryInfo!.seasons;
-        season = (seasonId == null)
-            ? entryInfo!.seasons.firstWhere((season) => season.current)
-            : entryInfo!.seasons.firstWhere((season) => season.id == seasonId!);
-        seasonId = season?.id ?? entryInfo.currentSeasonId;
-        isLoading = false;
-      });
+      if (entryInfo != null) {
+        final appState = Provider.of<AppState>(context, listen: false);
+        final allSeasons = _findAllSeasons(appState, entryInfo);
+        final selectedSeason = _findSelectedSeason(appState, entryInfo);
+        log.info('Found seasons: $allSeasons');
+        log.info('Selected season is ${selectedSeason!.name}');
+
+        setState(() {
+          gameOperations = entryInfo.gameOperations;
+          seasons = allSeasons;
+          this.selectedSeason = selectedSeason;
+          isLoading = false;
+        });
+      }
     } catch (e) {
       setState(() {
         isLoading = false;
       });
       // Handle error
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
+      }
     }
   }
 
-  void _onSeasonSelected(SeasonInfo selectedSeason) {
-    setState(() {
-      seasonId = selectedSeason.id;
-      season = selectedSeason;
-    });
-    Navigator.pop(context); // Close the drawer
+  List<SeasonInfo> _findAllSeasons(AppState appState, EntryInfo entryInfo) {
+    final allSeasons = appState.allSeasons;
+    if (allSeasons.isNotEmpty) {
+      return allSeasons;
+    } else {
+      appState.setSeasonList(entryInfo!.seasons);
+      return entryInfo!.seasons;
+    }
+  }
+
+  SeasonInfo? _findSelectedSeason(AppState appState, EntryInfo entryInfo) {
+    final selectedSeason = appState.selectedSeason;
+
+    if (selectedSeason != null) {
+      return selectedSeason;
+    } else {
+      SeasonInfo? info;
+      try {
+        info = entryInfo.seasons.firstWhere((season) => season.current);
+      } catch (e) {
+        // If no current season found, use the first one
+        info = entryInfo.seasons.isNotEmpty ? entryInfo.seasons.first : null;
+      }
+      if (info != null) {
+        appState.setSelectedSeason(info!);
+      }
+      return info;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final subTitle = (season == null) ? "" : '\nSaison ${season!.name}';
+    final subTitle = (selectedSeason == null)
+        ? ""
+        : '\nSaison ${selectedSeason!.name}';
 
     return MainAppScaffold(
-      title: 'Floorball Landesverbände${subTitle}',
-      drawer: _buildSeasonDrawer(),
+      title: 'Floorball Landesverbände$subTitle',
       isHomePage: true,
-      body: _buildBody(),
+      body: Consumer<AppState>(
+        builder: (context, appState, child) {
+          return _buildBody();
+        },
+      ),
     );
   }
 
   Widget _buildBody() {
     if (isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (gameOperations.isEmpty) {
@@ -88,7 +127,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Two columns
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
@@ -106,87 +145,6 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     );
   }
 
-  Widget _buildSeasonDrawer() {
-    return Drawer(
-      child: Column(
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue[600]),
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Saison auswählen',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: seasons.length,
-              itemBuilder: (context, index) {
-                final seasonInfo = seasons[index];
-                final isCurrentSeason = seasonInfo.id == seasonId;
-
-                return ListTile(
-                  leading: Icon(
-                    isCurrentSeason
-                        ? Icons.check_circle
-                        : Icons.circle_outlined,
-                    color: isCurrentSeason ? Colors.blue[600] : Colors.grey,
-                  ),
-                  title: Text(
-                    seasonInfo.name,
-                    style: TextStyle(
-                      fontWeight: isCurrentSeason
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                      color: isCurrentSeason
-                          ? Colors.blue[600]
-                          : Colors.black87,
-                    ),
-                  ),
-                  trailing: seasonInfo.current
-                      ? Chip(
-                          label: Text(
-                            'Aktuell',
-                            style: TextStyle(fontSize: 10, color: Colors.white),
-                          ),
-                          backgroundColor: Colors.green,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                        )
-                      : null,
-                  onTap: () => _onSeasonSelected(seasonInfo),
-                  selected: isCurrentSeason,
-                  selectedTileColor: Colors.blue[50],
-                );
-              },
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              '${seasons.length} Saisons verfügbar',
-              style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _onGameOperationTap(GameOperation gameOp) {
     Navigator.push(
       context,
@@ -194,7 +152,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         builder: (context) => GameOperationLeagueList(
           gameOpId: gameOp.id!,
           gameOpName: gameOp.name!,
-          seasonId: seasonId!,
+          seasonId: selectedSeason!.id,
         ),
       ),
     );

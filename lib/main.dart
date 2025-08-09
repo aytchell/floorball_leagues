@@ -3,6 +3,7 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'ui/all_operations_view/game_operations_grid.dart';
+import 'ui/season_selector/seasons_list.dart';
 import 'app_state.dart';
 
 final log = Logger('Main');
@@ -33,7 +34,10 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
-      routes: {'/': (context) => GameOperationsGrid()},
+      routes: {
+        '/': (context) => GameOperationsGrid(),
+        '/seasons': (context) => SeasonSelectionScreen(),
+      },
     );
   }
 }
