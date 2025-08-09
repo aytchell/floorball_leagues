@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import '../../api_models/game_operations.dart';
 import '../../net/rest_client.dart';
 import 'league_tabs.dart';
+import '../main_app_scaffold.dart';
+import '../widgets/nothing_found.dart';
+import '../widgets/loading_spinner.dart';
 
 class GameOperationLeagueList extends StatefulWidget {
   final int gameOpId;
   final String gameOpName;
   final int seasonId;
 
-  // Constructor with required and optional parameters
   const GameOperationLeagueList({
     super.key,
     required this.gameOpId,
@@ -57,42 +59,21 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.gameOpName, maxLines: 2),
-        backgroundColor: Colors.blue[600],
-        foregroundColor: Colors.white,
-      ),
+    return MainAppScaffold(
+      title: widget.gameOpName,
+      showBackButton: true,
       body: _buildBody(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
     if (isLoading) {
-      return _buildLoadingSpinner(context);
+      return LoadingSpinner(title: 'Lade Liga-Daten ...');
     } else if (leagues.length > 0) {
       return _buildLeaguesList(context);
     } else {
       return _buildNothingFoundInfo(context);
     }
-  }
-
-  Widget _buildLoadingSpinner(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[600]!),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Lade Liga-Daten ...',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _buildLeaguesList(BuildContext context) {
@@ -121,70 +102,12 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   }
 
   Widget _buildNothingFoundInfo(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.info_outline, size: 64, color: Colors.blue[600]),
-                const SizedBox(height: 16),
-                Text(
-                  'Keine Liga-Liste verfügbar',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[800],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOpName}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton.icon(
-                  onPressed: isLoading ? null : () => loadData(),
-
-                  icon: isLoading
-                      ? SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Icon(Icons.refresh),
-                  label: Text(isLoading ? 'Loading...' : 'Try Again'),
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[600],
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+    return NothingFoundInfoBox(
+      title: 'Keine Liga-Liste verfügbar',
+      message:
+          'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOpName}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
+      isLoading: isLoading,
+      onRetry: loadData,
     );
   }
 }

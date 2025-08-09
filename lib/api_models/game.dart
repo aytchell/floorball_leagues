@@ -204,9 +204,13 @@ class GameResult {
     return GameResult(
       homeGoals: json['home_goals'] as int,
       guestGoals: json['guest_goals'] as int,
-      homeGoalsPeriod: homeGoalsPeriodJson.map((goals) => goals as int).toList(),
-      guestGoalsPeriod: guestGoalsPeriodJson.map((goals) => goals as int).toList(),
-      postfix: json['postfix'] != null 
+      homeGoalsPeriod: homeGoalsPeriodJson
+          .map((goals) => goals as int)
+          .toList(),
+      guestGoalsPeriod: guestGoalsPeriodJson
+          .map((goals) => goals as int)
+          .toList(),
+      postfix: json['postfix'] != null
           ? GameResultPostfix.fromJson(json['postfix'])
           : null,
       forfait: json['forfait'] as bool,
@@ -276,7 +280,9 @@ class StartingPlayers {
 
     return StartingPlayers(
       home: homeJson.map((player) => StartingPlayer.fromJson(player)).toList(),
-      guest: guestJson.map((player) => StartingPlayer.fromJson(player)).toList(),
+      guest: guestJson
+          .map((player) => StartingPlayer.fromJson(player))
+          .toList(),
     );
   }
 }
@@ -425,7 +431,7 @@ class Game {
       started: json['started'] as bool,
       ended: json['ended'] as bool,
       resultString: json['result_string'] as String?,
-      result: json['result'] != null 
+      result: json['result'] != null
           ? GameResult.fromJson(json['result'])
           : null,
       leagueId: json['league_id'] as int,
@@ -454,22 +460,17 @@ class Game {
   }
 
   // Static method to fetch game data from server
-  static Future<Game> fetchFromServer(
-    RestClient client,
-    int gameId,
-  ) async {
-      final uri = Uri.parse(
-        'https://saisonmanager.de/api/v2/games/$gameId.json',
-      );
+  static Future<Game> fetchFromServer(RestClient client, int gameId) async {
+    final uri = Uri.parse('https://saisonmanager.de/api/v2/games/$gameId.json');
 
-      final jsonData = await client.getJson(uri) as Map<String, dynamic>;
-      return Game.fromJson(jsonData);
+    final jsonData = await client.getJson(uri) as Map<String, dynamic>;
+    return Game.fromJson(jsonData);
   }
 
   bool get isFinished => ended;
-  
+
   bool get isUpcoming => !started && !ended;
-  
+
   String get displayResult {
     if (resultString != null) {
       return resultString!;

@@ -11,6 +11,8 @@ import '../../net/rest_client.dart';
 import '../game_day/game_card.dart';
 import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
+import '../widgets/nothing_found.dart';
+import '../widgets/loading_spinner.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
 import 'scorer_card.dart';
@@ -69,6 +71,7 @@ class LeagueTabs extends StatefulWidget {
 class _LeagueTabsState extends State<LeagueTabs> {
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
+  bool isLoading = false;
 
   RestClient? restClient;
   Map<int, List<Game>> gameDays = {};
@@ -83,6 +86,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
   }
 
   Future<void> loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+
     restClient ??= await RestClient.instance;
 
     final daysFutures = Map.fromIterable(
@@ -103,23 +110,34 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ),
     );
 
-    final tableEntries = (widget.leagueType == 'league')
-        ? await _fetchLeagueTable(restClient!)
-        : <TeamTableEntry>[];
-    final champEntries = (widget.leagueType == 'champ')
-        ? await _fetchChampTable(
-            restClient!,
-            days.values.expand((games) => games).toList(),
-          )
-        : <GroupTable>[];
-    final scorerEntries = await _fetchScorerList(restClient!);
+    if (days.isEmpty) {
+      setState(() {
+        gameDays = {};
+        leagueTable = [];
+        champTable = [];
+        scorersList = [];
+        isLoading = false;
+      });
+    } else {
+      final tableEntries = (widget.leagueType == 'league')
+          ? await _fetchLeagueTable(restClient!)
+          : <TeamTableEntry>[];
+      final champEntries = (widget.leagueType == 'champ')
+          ? await _fetchChampTable(
+              restClient!,
+              days.values.expand((games) => games).toList(),
+            )
+          : <GroupTable>[];
+      final scorerEntries = await _fetchScorerList(restClient!);
 
-    setState(() {
-      gameDays = days;
-      leagueTable = tableEntries;
-      champTable = champEntries;
-      scorersList = scorerEntries;
-    });
+      setState(() {
+        gameDays = days;
+        leagueTable = tableEntries;
+        champTable = champEntries;
+        scorersList = scorerEntries;
+        isLoading = false;
+      });
+    }
   }
 
   Future<List<TeamTableEntry>> _fetchLeagueTable(RestClient restClient) async {
@@ -249,23 +267,45 @@ class _LeagueTabsState extends State<LeagueTabs> {
         backgroundColor: Colors.blue[600],
         foregroundColor: Colors.white,
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(8.0),
-        itemCount: gameDays.length + 2,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            if (widget.leagueType == 'champ') {
-              return _buildChampTableCard(context, index);
-            } else {
-              return _buildLeagueTableCard(context, index);
-            }
-          } else if (index == 1) {
-            return _buildScorerCard(context, index);
+      body: _buildBody(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    if (isLoading) {
+      return LoadingSpinner(title: 'Lade Spieltage ...');
+    } else {
+      return (gameDays.isEmpty) ? _buildNoGamesInfo() : _buildGameDays();
+    }
+  }
+
+  Widget _buildNoGamesInfo() {
+    return NothingFoundInfoBox(
+      title: 'Keine Spiele verfügbar',
+      message:
+          'Es wurden keine Daten zu Spielen innerhalb "${widget.league.name}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
+      isLoading: isLoading,
+      onRetry: loadData,
+    );
+  }
+
+  Widget _buildGameDays() {
+    return ListView.builder(
+      padding: EdgeInsets.all(8.0),
+      itemCount: gameDays.length + 2,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          if (widget.leagueType == 'champ') {
+            return _buildChampTableCard(context, index);
           } else {
-            return _buildGameDayCard(context, index, index - 2);
+            return _buildLeagueTableCard(context, index);
           }
-        },
-      ),
+        } else if (index == 1) {
+          return _buildScorerCard(context, index);
+        } else {
+          return _buildGameDayCard(context, index, index - 2);
+        }
+      },
     );
   }
 
