@@ -395,6 +395,9 @@ class ExpandableGameDayCard extends StatelessWidget {
   static const Color expandedTextColor = Color(
     0xFF1976D2,
   ); // Colors.blue.shade700
+  static const Color expandedBygoneTextColor = Color(
+    0xFF90CAF9,
+  ); // Colors.blue.shade200
   static const Color expandedBackgroundColor = Color(
     0xFFE3F2FD,
   ); // Colors.blue[50]
@@ -426,6 +429,30 @@ class ExpandableGameDayCard extends StatelessWidget {
     fontSize: 14,
     fontWeight: FontWeight.w200,
     color: Colors.black87,
+  );
+
+  TextStyle get _expandedBygoneDateStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: expandedTextColor,
+  );
+
+  TextStyle get _expandedBygoneTextStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w200,
+    color: expandedTextColor,
+  );
+
+  TextStyle get _collapsedBygoneDateStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.black38,
+  );
+
+  TextStyle get _collapsedBygoneTextStyle => const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w200,
+    color: Colors.black38,
   );
 
   @override
@@ -482,20 +509,32 @@ class ExpandableGameDayCard extends StatelessWidget {
     final dateAndClubs = _extractDateAndClubs();
     final dateStyle = isExpanded ? _expandedDateStyle : _collapsedDateStyle;
     final textStyle = isExpanded ? _expandedTextStyle : _collapsedTextStyle;
+    final bygoneDateStyle = isExpanded
+        ? _expandedBygoneDateStyle
+        : _collapsedBygoneDateStyle;
+    final bygoneTextStyle = isExpanded
+        ? _expandedBygoneTextStyle
+        : _collapsedBygoneTextStyle;
     if (dateAndClubs.length <= 3) {
       return dateAndClubs
-          .map((dac) => _buildSingleDateAndClubRow(dac, dateStyle, textStyle))
+          .map(
+            (dac) => _buildSingleDateAndClubRow(
+              dac,
+              dateStyle,
+              textStyle,
+              bygoneDateStyle,
+              bygoneTextStyle,
+            ),
+          )
           .toList();
     } else {
-      final isBygone = dateAndClubs.last.isBygone;
       return [
-        Row(
-          children: [
-            Text('von ', style: textStyle),
-            Text('${dateAndClubs.first.date}', style: dateStyle),
-            Text(' bis ', style: textStyle),
-            Text('${dateAndClubs.last.date}', style: dateStyle),
-          ],
+        _buildCombinedDateAndClubRow(
+          dateAndClubs,
+          dateStyle,
+          textStyle,
+          bygoneDateStyle,
+          bygoneTextStyle,
         ),
       ];
     }
@@ -503,14 +542,39 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   Row _buildSingleDateAndClubRow(
     DateAndClub dac,
-    TextStyle dateStyle,
-    TextStyle textStyle,
+    TextStyle upcomingDateStyle,
+    TextStyle upcomingTextStyle,
+    TextStyle bygoneDateStyle,
+    TextStyle bygoneTextStyle,
   ) {
     final isBygone = dac.isBygone;
+    final textStyle = isBygone ? bygoneTextStyle : upcomingTextStyle;
+    final dateStyle = isBygone ? bygoneDateStyle : upcomingDateStyle;
     return Row(
       children: [
         Text('${dac.date}', style: dateStyle),
         Text(' bei ${dac.hostingClub}', style: textStyle),
+      ],
+    );
+  }
+
+  Row _buildCombinedDateAndClubRow(
+    List<DateAndClub> dacs,
+    TextStyle upcomingDateStyle,
+    TextStyle upcomingTextStyle,
+    TextStyle bygoneDateStyle,
+    TextStyle bygoneTextStyle,
+  ) {
+    final isBygone = dacs.last.isBygone;
+    final textStyle = isBygone ? bygoneTextStyle : upcomingTextStyle;
+    final dateStyle = isBygone ? bygoneDateStyle : upcomingDateStyle;
+
+    return Row(
+      children: [
+        Text('von ', style: textStyle),
+        Text('${dacs.first.date}', style: dateStyle),
+        Text(' bis ', style: textStyle),
+        Text('${dacs.last.date}', style: dateStyle),
       ],
     );
   }
