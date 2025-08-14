@@ -179,10 +179,13 @@ class GameCard extends StatelessWidget {
         ),
       );
     } else {
+      final startTime = (game.time == null || game.time.isEmpty)
+          ? '??'
+          : game.time;
       return Container(
         alignment: Alignment.center,
         child: Text(
-          '${game.time} Uhr',
+          '$startTime Uhr',
           style: textStyle,
           textAlign: TextAlign.center,
         ),
