@@ -12,6 +12,7 @@ class SeasonSelectionScreen extends StatelessWidget {
     final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
       title: 'Saison auswählen',
+      isSeasonPicker: true,
       showBackButton: true,
       body: Consumer<AppState>(
         builder: (context, appState, child) {

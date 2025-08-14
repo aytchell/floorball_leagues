@@ -40,7 +40,6 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
         final appState = Provider.of<AppState>(context, listen: false);
         final allSeasons = _findAllSeasons(appState, entryInfo);
         final selectedSeason = _findSelectedSeason(appState, entryInfo);
-        log.info('Found seasons: $allSeasons');
         log.info('Selected season is ${selectedSeason!.name}');
 
         setState(() {

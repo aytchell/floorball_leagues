@@ -11,6 +11,7 @@ class MainAppScaffold extends StatelessWidget {
   final bool showBackButton;
   final bool showBottomNavigation;
   final bool isHomePage;
+  final bool isSeasonPicker;
 
   const MainAppScaffold({
     super.key,
@@ -21,6 +22,7 @@ class MainAppScaffold extends StatelessWidget {
     this.showBackButton = false,
     this.showBottomNavigation = true,
     this.isHomePage = false,
+    this.isSeasonPicker = false,
   });
 
   @override
@@ -63,8 +65,8 @@ class MainAppScaffold extends StatelessWidget {
           ),
           _buildBottomNavItem(
             icon: Icons.date_range,
-            isEnabled: true,
-            onTap: () => _navigateToSeasons(context),
+            isEnabled: !isSeasonPicker,
+            onTap: isSeasonPicker ? null : () => _navigateToSeasons(context),
           ),
           const Spacer(),
           _buildSeasonIndicator(),
