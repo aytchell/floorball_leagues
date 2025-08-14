@@ -304,7 +304,7 @@ class Awards {
   }
 }
 
-class Game {
+class DetailedGame {
   int id;
   String gameNumber;
   String startTime;
@@ -351,7 +351,7 @@ class Game {
   String noticeString;
   List<dynamic> referees;
 
-  Game({
+  DetailedGame({
     required this.id,
     required this.gameNumber,
     required this.startTime,
@@ -399,12 +399,12 @@ class Game {
     required this.referees,
   });
 
-  factory Game.fromJson(Map<String, dynamic> json) {
+  factory DetailedGame.fromJson(Map<String, dynamic> json) {
     var eventsJson = json['events'] as List;
     var periodTitlesJson = json['period_titles'] as List;
     var refereesJson = json['referees'] as List;
 
-    return Game(
+    return DetailedGame(
       id: json['id'] as int,
       gameNumber: json['game_number'] as String,
       startTime: json['start_time'] as String,
@@ -460,11 +460,11 @@ class Game {
   }
 
   // Static method to fetch game data from server
-  static Future<Game> fetchFromServer(RestClient client, int gameId) async {
+  static Future<DetailedGame> fetchFromServer(RestClient client, int gameId) async {
     final uri = Uri.parse('https://saisonmanager.de/api/v2/games/$gameId.json');
 
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
-    return Game.fromJson(jsonData);
+    return DetailedGame.fromJson(jsonData);
   }
 
   bool get isFinished => ended;
