@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../api_models/game_day.dart';
 import '../app_text_styles.dart';
+import 'detailed_game.dart';
 
 class GameResultSlice {
   final Game game;
 
   GameResultSlice({required this.game});
 
+  int get gameId => game.gameId;
   String? get homeTeamName => game.homeTeamName;
   String? get homeTeamLogo => game.homeTeamSmallLogo;
   String? get guestTeamName => game.guestTeamName;
@@ -65,59 +67,71 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 12.0),
-      elevation: 2,
-      child: Container(
-        decoration: game.seriesName != null
-            ? BoxDecoration(
-                borderRadius: BorderRadius.circular(4.0),
-                color: Colors.blue.shade50,
-              )
-            : null,
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Series name column (if exists)
-              if (game.seriesName != null)
-                _buildSeriesNameColumn(game.seriesName!),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => GameDetailPage(gameId: game.gameId),
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.only(bottom: 12.0),
+        elevation: 2,
+        child: Container(
+          decoration: game.seriesName != null
+              ? BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: Colors.blue.shade50,
+                )
+              : null,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Series name column (if exists)
+                if (game.seriesName != null)
+                  _buildSeriesNameColumn(game.seriesName!),
 
-              // Main content area
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      // Left side: Team logos and names (stacked vertically)
-                      Expanded(
-                        flex: 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Home team
-                            _buildTeamRow(game.homeTeamLogo, game.homeTeamName),
+                // Main content area
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        // Left side: Team logos and names (stacked vertically)
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Home team
+                              _buildTeamRow(
+                                game.homeTeamLogo,
+                                game.homeTeamName,
+                              ),
 
-                            SizedBox(height: 8.0),
+                              SizedBox(height: 8.0),
 
-                            // Guest team
-                            _buildTeamRow(
-                              game.guestTeamLogo,
-                              game.guestTeamName,
-                            ),
-                          ],
+                              // Guest team
+                              _buildTeamRow(
+                                game.guestTeamLogo,
+                                game.guestTeamName,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
 
-                      SizedBox(width: 16.0),
+                        SizedBox(width: 16.0),
 
-                      // Right side: Result (vertically centered)
-                      Expanded(flex: 1, child: _buildGameResult(game)),
-                    ],
+                        // Right side: Result (vertically centered)
+                        Expanded(flex: 1, child: _buildGameResult(game)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
