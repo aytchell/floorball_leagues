@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../api_models/game_day.dart';
 import '../app_text_styles.dart';
-import 'detailed_game.dart';
+import 'game_detail_page.dart';
 
 class GameResultSlice {
   final Game game;
