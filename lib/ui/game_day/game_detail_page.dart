@@ -262,120 +262,138 @@ class _GameDetailPageState extends State<GameDetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Aufstellungen',
+          'Aufstellung',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
 
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Home team lineup
-            Expanded(
-              child: _buildTeamLineup(
-                game.homeTeamName ?? 'Heim',
-                game.players.home,
-              ),
-            ),
-
-            const SizedBox(width: 16),
-
-            // Guest team lineup
-            Expanded(
-              child: _buildTeamLineup(
-                game.guestTeamName ?? 'Gäste',
-                game.players.guest,
-              ),
-            ),
-          ],
-        ),
+        // Home team table
+        _buildPlayerTable(game.homeTeamName, game.players.home),
+        
+        const SizedBox(height: 24),
+        
+        // Guest team table  
+        _buildPlayerTable(game.guestTeamName, game.players.guest),
       ],
     );
   }
 
-  Widget _buildTeamLineup(String teamName, List<Player> players) {
-    return Card(
-      elevation: 1,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              teamName,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            if (players.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              ...players.map((player) => _buildPlayerRow(player)),
-              const SizedBox(height: 12),
-            ],
-
-            if (players.isEmpty)
-              const Text(
-                'Keine Aufstellung verfügbar',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-          ],
+  Widget _buildPlayerTable(String teamName, List<Player> players) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Team name header
+        Text(
+          teamName,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildPlayerRow(Player player) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          // Player number
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.blue[600],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                '${player.trikotNumber}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+        const SizedBox(height: 8),
+        
+        // Table
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(4),
           ),
-
-          const SizedBox(width: 8),
-
-          // Player name and position
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${player.playerFirstname} ${player.playerName}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+          child: Column(
+            children: [
+              // Table rows
+              if (players.isNotEmpty)
+                ...players.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final player = entry.value;
+                  final isEven = index % 2 == 0;
+                  
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: isEven ? Colors.grey.shade50 : Colors.white,
+                      border: index > 0 ? Border(
+                        top: BorderSide(color: Colors.grey.shade300, width: 0.5),
+                      ) : null,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12, 
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      children: [
+                        // Jersey icon
+                        SizedBox(
+                          width: 30,
+                          child: SvgPicture.asset(
+                            'assets/images/trikot_small.svg',
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              Colors.grey.shade600,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                        
+                        const SizedBox(width: 12),
+                        
+                        // Player number
+                        SizedBox(
+                          width: 30,
+                          child: Text(
+                            '${player.trikotNumber}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        
+                        const SizedBox(width: 12),
+                        
+                        // Player name
+                        Expanded(
+                          child: Text(
+                            '${player.playerFirstname} ${player.playerName}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        
+                        const SizedBox(width: 12),
+                        
+                        // Position
+                        SizedBox(
+                          width: 60,
+                          child: Text(
+                            player.position,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              
+              // Empty state
+              if (players.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: const Text(
+                    'Keine Aufstellung verfügbar',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
-                if (player.position != null)
-                  Text(
-                    player.position!,
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  ),
-              ],
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
