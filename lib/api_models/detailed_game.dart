@@ -20,8 +20,8 @@ class GameEvent {
   String eventType;
   String eventTeam;
   int period;
-  int homeGoals;
-  int guestGoals;
+  int? homeGoals;
+  int? guestGoals;
   String time;
   String sortkey;
   int? number;
@@ -38,8 +38,8 @@ class GameEvent {
     required this.eventType,
     required this.eventTeam,
     required this.period,
-    required this.homeGoals,
-    required this.guestGoals,
+    this.homeGoals,
+    this.guestGoals,
     required this.time,
     required this.sortkey,
     this.number,
@@ -58,8 +58,8 @@ class GameEvent {
       eventType: json['event_type'] as String,
       eventTeam: json['event_team'] as String,
       period: json['period'] as int,
-      homeGoals: json['home_goals'] as int,
-      guestGoals: json['guest_goals'] as int,
+      homeGoals: json['home_goals'] as int?,
+      guestGoals: json['guest_goals'] as int?,
       time: json['time'] as String,
       sortkey: json['sortkey'] as String,
       number: json['number'] as int?,
@@ -109,10 +109,10 @@ class Player {
 class StartingPlayer {
   String position;
   String team;
-  int playerId;
+  String playerId;
   String playerFirstname;
   String playerName;
-  int trikotNumber;
+  String trikotNumber;
 
   StartingPlayer({
     required this.position,
@@ -127,10 +127,10 @@ class StartingPlayer {
     return StartingPlayer(
       position: json['position'] as String,
       team: json['team'] as String,
-      playerId: json['player_id'] as int,
+      playerId: json['player_id'] as String,
       playerFirstname: json['player_firstname'] as String,
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as int,
+      trikotNumber: json['trikot_number'] as String,
     );
   }
 }
@@ -138,10 +138,10 @@ class StartingPlayer {
 class Award {
   String award;
   String team;
-  int playerId;
+  String playerId;
   String playerFirstname;
   String playerName;
-  int trikotNumber;
+  String trikotNumber;
 
   Award({
     required this.award,
@@ -156,10 +156,10 @@ class Award {
     return Award(
       award: json['award'] as String,
       team: json['team'] as String,
-      playerId: json['player_id'] as int,
+      playerId: json['player_id'] as String,
       playerFirstname: json['player_firstname'] as String,
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as int,
+      trikotNumber: json['trikot_number'] as String,
     );
   }
 }
@@ -460,7 +460,10 @@ class DetailedGame {
   }
 
   // Static method to fetch game data from server
-  static Future<DetailedGame> fetchFromServer(RestClient client, int gameId) async {
+  static Future<DetailedGame> fetchFromServer(
+    RestClient client,
+    int gameId,
+  ) async {
     final uri = Uri.parse('https://saisonmanager.de/api/v2/games/$gameId.json');
 
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
