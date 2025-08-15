@@ -6,11 +6,7 @@ class TeamLineup extends StatelessWidget {
   final String teamName;
   final List<Player> players;
 
-  const TeamLineup({
-    super.key,
-    required this.teamName,
-    required this.players,
-  });
+  const TeamLineup({super.key, required this.teamName, required this.players});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +16,10 @@ class TeamLineup extends StatelessWidget {
         // Team name header
         Text(
           teamName,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        
+
         // Table
         Container(
           decoration: BoxDecoration(
@@ -41,16 +34,21 @@ class TeamLineup extends StatelessWidget {
                   final index = entry.key;
                   final player = entry.value;
                   final isEven = index % 2 == 0;
-                  
+
                   return Container(
                     decoration: BoxDecoration(
                       color: isEven ? Colors.grey.shade50 : Colors.white,
-                      border: index > 0 ? Border(
-                        top: BorderSide(color: Colors.grey.shade300, width: 0.5),
-                      ) : null,
+                      border: index > 0
+                          ? Border(
+                              top: BorderSide(
+                                color: Colors.grey.shade300,
+                                width: 0.5,
+                              ),
+                            )
+                          : null,
                     ),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12, 
+                      horizontal: 12,
                       vertical: 8,
                     ),
                     child: Row(
@@ -68,9 +66,9 @@ class TeamLineup extends StatelessWidget {
                             ),
                           ),
                         ),
-                        
+
                         const SizedBox(width: 12),
-                        
+
                         // Player number
                         SizedBox(
                           width: 30,
@@ -82,29 +80,25 @@ class TeamLineup extends StatelessWidget {
                             ),
                           ),
                         ),
-                        
+
                         const SizedBox(width: 12),
-                        
+
                         // Player name
                         Expanded(
                           child: Text(
                             '${player.playerFirstname} ${player.playerName}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                            style: const TextStyle(fontSize: 14),
                           ),
                         ),
-                        
+
                         const SizedBox(width: 12),
-                        
+
                         // Position
                         SizedBox(
                           width: 60,
                           child: Text(
                             player.position,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
+                            style: const TextStyle(fontSize: 14),
                             textAlign: TextAlign.right,
                           ),
                         ),
@@ -112,7 +106,7 @@ class TeamLineup extends StatelessWidget {
                     ),
                   );
                 }),
-              
+
               // Empty state
               if (players.isEmpty)
                 Container(
