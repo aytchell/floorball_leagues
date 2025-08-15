@@ -1,4 +1,5 @@
 import '../net/rest_client.dart';
+import 'period_title.dart';
 
 // Data models for game details from saisonmanager
 class GameDay {
@@ -19,7 +20,7 @@ class GameEvent {
   int eventId;
   String eventType;
   String eventTeam;
-  int period;
+  double period;
   int? homeGoals;
   int? guestGoals;
   String time;
@@ -57,7 +58,7 @@ class GameEvent {
       eventId: json['event_id'] as int,
       eventType: json['event_type'] as String,
       eventTeam: json['event_team'] as String,
-      period: json['period'] as int,
+      period: (json['period'] as num).toDouble(),
       homeGoals: json['home_goals'] as int?,
       guestGoals: json['guest_goals'] as int?,
       time: json['time'] as String,
@@ -215,38 +216,6 @@ class GameResult {
           : null,
       forfait: json['forfait'] as bool,
       overtime: json['overtime'] as bool,
-    );
-  }
-}
-
-class PeriodTitle {
-  double period;
-  String shortTitle;
-  String title;
-  String statusId;
-  bool canEndGame;
-  bool optional;
-  bool running;
-
-  PeriodTitle({
-    required this.period,
-    required this.shortTitle,
-    required this.title,
-    required this.statusId,
-    required this.canEndGame,
-    required this.optional,
-    required this.running,
-  });
-
-  factory PeriodTitle.fromJson(Map<String, dynamic> json) {
-    return PeriodTitle(
-      period: (json['period'] as num).toDouble(),
-      shortTitle: json['short_title'] as String,
-      title: json['title'] as String,
-      statusId: json['status_id'] as String,
-      canEndGame: json['can_end_game'] as bool,
-      optional: json['optional'] as bool,
-      running: json['running'] as bool,
     );
   }
 }
