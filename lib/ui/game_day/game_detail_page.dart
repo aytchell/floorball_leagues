@@ -1,14 +1,18 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import "package:collection/collection.dart";
 
 import '../../app_state.dart';
 import '../../api_models/game_day.dart';
 import '../../api_models/detailed_game.dart';
+import '../../api_models/period_title.dart';
 import '../main_app_scaffold.dart';
 import '../app_text_styles.dart';
 import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
+import 'details/events_of_period.dart';
 
 class GameDetailPage extends StatefulWidget {
   final int gameId;
@@ -113,6 +117,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildGameHeader(),
+          const SizedBox(height: 24),
+          _buildGameEvents(),
           const SizedBox(height: 24),
           _buildTeamLineups(),
         ],
@@ -256,6 +262,38 @@ class _GameDetailPageState extends State<GameDetailPage> {
     );
   }
 
+  Widget _buildGameEvents() {
+    final game = _detailedGame!;
+    final sortedPeriods = game.periodTitles;
+    sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
+    final groupedEvents = groupBy(game.events, (event) => event.period);
+    final currentPeriodId = game.currentPeriodTitle!.period;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        const Text(
+          'Spielverlauf',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        ...sortedPeriods
+            .map((period) {
+              return [
+                const SizedBox(height: 16),
+                EventsOfPeriod(
+                  period: period,
+                  currentPeriodId: currentPeriodId,
+                  events: groupedEvents[period.period],
+                ),
+              ];
+            })
+            .expand((i) => i)
+            .toList(),
+      ],
+    );
+  }
+
   Widget _buildTeamLineups() {
     final game = _detailedGame!;
 
@@ -269,18 +307,12 @@ class _GameDetailPageState extends State<GameDetailPage> {
         const SizedBox(height: 16),
 
         // Home team table
-        TeamLineup(
-            teamName: game.homeTeamName,
-            players: game.players.home,
-        ),
-        
+        TeamLineup(teamName: game.homeTeamName, players: game.players.home),
+
         const SizedBox(height: 24),
-        
-        // Guest team table  
-        TeamLineup(
-            teamName: game.guestTeamName,
-            players: game.players.guest,
-        ),
+
+        // Guest team table
+        TeamLineup(teamName: game.guestTeamName, players: game.players.guest),
       ],
     );
   }
