@@ -72,7 +72,7 @@ class EventsOfPeriod extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   child: const Text(
-                    '(noch) keine Ereignisse',
+                    'keine Ereignisse',
                     style: TextStyle(
                       color: Colors.grey,
                       fontStyle: FontStyle.italic,
