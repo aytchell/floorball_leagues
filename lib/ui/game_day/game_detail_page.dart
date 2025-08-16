@@ -13,6 +13,7 @@ import '../app_text_styles.dart';
 import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
 import 'details/events_of_period.dart';
+import 'details/team_logo.dart';
 
 class GameDetailPage extends StatefulWidget {
   final int gameId;
@@ -141,7 +142,11 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 Expanded(
                   child: Column(
                     children: [
-                      _buildTeamLogo(game.homeTeamLogo),
+                      TeamLogo(
+                        logoPath: game.homeTeamLogo,
+                        height: 48,
+                        width: 48,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         game.homeTeamName ?? 'Unbekannt',
@@ -200,7 +205,11 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 Expanded(
                   child: Column(
                     children: [
-                      _buildTeamLogo(game.guestTeamLogo),
+                      TeamLogo(
+                        logoPath: game.guestTeamLogo,
+                        height: 48,
+                        width: 48,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         game.guestTeamName ?? 'Unbekannt',
@@ -232,34 +241,11 @@ class _GameDetailPageState extends State<GameDetailPage> {
     return 'Geplant';
   }
 
-  Widget _buildTeamLogo(String? logoPath) {
-    final logoHost = 'https://saisonmanager.de';
-
-    if (logoPath != null) {
-      return Image.network(
-        '${logoHost}${logoPath}',
-        width: 48,
-        height: 48,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholderLogo();
-        },
-      );
-    } else {
-      return _buildPlaceholderLogo();
-    }
-  }
-
-  Widget _buildPlaceholderLogo() {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(Icons.sports_soccer, size: 28, color: Colors.grey.shade600),
-    );
+  Map<int, String> _buildPlayerNamesMap(List<Player> players) {
+    return groupBy(
+      players,
+      (player) => player.trikotNumber,
+    ).map((k, v) => MapEntry(k, v[0].name));
   }
 
   Widget _buildGameEvents() {
@@ -268,6 +254,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
     sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
     final groupedEvents = groupBy(game.events, (event) => event.period);
     final currentPeriodId = game.currentPeriodTitle!.period;
+    final homePlayerNames = _buildPlayerNamesMap(game.players.home);
+    final guestPlayerNames = _buildPlayerNamesMap(game.players.guest);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,6 +272,10 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 EventsOfPeriod(
                   period: period,
                   currentPeriodId: currentPeriodId,
+                  homePlayerNames: homePlayerNames,
+                  guestPlayerNames: guestPlayerNames,
+                  homeLogo: game.homeTeamSmallLogo,
+                  guestLogo: game.guestTeamSmallLogo,
                   events: groupedEvents[period.period],
                 ),
               ];

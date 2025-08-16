@@ -86,7 +86,7 @@ class TeamLineup extends StatelessWidget {
                         // Player name
                         Expanded(
                           child: Text(
-                            '${player.playerFirstname} ${player.playerName}',
+                            player.name,
                             style: const TextStyle(fontSize: 14),
                           ),
                         ),

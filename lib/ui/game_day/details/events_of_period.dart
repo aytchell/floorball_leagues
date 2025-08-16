@@ -2,16 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../api_models/period_title.dart';
 import '../../../api_models/detailed_game.dart';
+import 'single_game_event.dart';
 
 class EventsOfPeriod extends StatelessWidget {
   final PeriodTitle period;
   final double currentPeriodId;
+  final Map<int, String> homePlayerNames;
+  final Map<int, String> guestPlayerNames;
+  final String? homeLogo;
+  final String? guestLogo;
   final List<GameEvent>? events;
 
   const EventsOfPeriod({
     super.key,
     required this.period,
     required this.currentPeriodId,
+    required this.homePlayerNames,
+    required this.guestPlayerNames,
+    required this.homeLogo,
+    required this.guestLogo,
     required this.events,
   });
 
@@ -94,19 +103,12 @@ class EventsOfPeriod extends StatelessWidget {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                          child: Text(
-                            '${event.eventType}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: SingleGameEvent(
+                      event: event,
+                      homePlayerNames: homePlayerNames,
+                      guestPlayerNames: guestPlayerNames,
+                      homeLogo: homeLogo,
+                      guestLogo: guestLogo,
                     ),
                   );
                 }),

@@ -94,6 +94,8 @@ class Player {
     this.captain,
   });
 
+  String get name => '$playerFirstname $playerName';
+
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
       playerId: json['player_id'] as int,
@@ -124,6 +126,8 @@ class StartingPlayer {
     required this.trikotNumber,
   });
 
+  String get name => '$playerFirstname $playerName';
+
   factory StartingPlayer.fromJson(Map<String, dynamic> json) {
     return StartingPlayer(
       position: json['position'] as String,
@@ -152,6 +156,8 @@ class Award {
     required this.playerName,
     required this.trikotNumber,
   });
+
+  String get name => '$playerFirstname $playerName';
 
   factory Award.fromJson(Map<String, dynamic> json) {
     return Award(
