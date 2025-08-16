@@ -162,8 +162,69 @@ class SingleGameEvent extends StatelessWidget {
   }
 
   Widget _buildPenaltyEvent() {
-    // TODO
-    return _fallback();
+    final penalizedPlayer = _playerNames[event.number] ?? '??';
+    return Row(
+      children: [
+        // logo of team that got penalized
+        SizedBox(
+          width: 30,
+          child: TeamLogo(logoPath: _logoPath, height: 25, width: 25),
+        ),
+
+        const SizedBox(width: 24),
+
+        // Name of penalized player
+        Text(
+          '$penalizedPlayer',
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        ),
+
+        // Spacer to push content to the right
+        const Expanded(child: SizedBox()),
+
+        SizedBox(
+          width: 120, // Give it a fixed width for proper text wrapping
+          child: _buildPenaltyReason(),
+        ),
+
+        const SizedBox(width: 8),
+
+        // time of event (game clock)
+        SizedBox(
+          width: 40,
+          child: Text(
+            '${event.time}',
+            style: const TextStyle(fontSize: 14),
+            textAlign: TextAlign.right,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPenaltyReason() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          'Strafe ${event.penaltyTypeString}',
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.right,
+        ),
+        if (event.penaltyReasonString != null && event.penaltyReasonString!.isNotEmpty)
+          Text(
+            '${event.penaltyReasonString}',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black54,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+          ),
+      ],
+    );
   }
 
   Widget _fallback() {
