@@ -277,7 +277,7 @@ class Awards {
 class DetailedGame {
   int id;
   String gameNumber;
-  String startTime;
+  String? startTime;
   String? actualStartTime;
   String date;
   GameDay gameDay;
@@ -315,7 +315,7 @@ class DetailedGame {
   String arenaName;
   String arenaAddress;
   String arenaShort;
-  String nominatedReferees;
+  String? nominatedReferees;
   bool deletable;
   String? noticeType;
   String? noticeString;
@@ -324,7 +324,7 @@ class DetailedGame {
   DetailedGame({
     required this.id,
     required this.gameNumber,
-    required this.startTime,
+    this.startTime,
     this.actualStartTime,
     required this.date,
     required this.gameDay,
@@ -362,7 +362,7 @@ class DetailedGame {
     required this.arenaName,
     required this.arenaAddress,
     required this.arenaShort,
-    required this.nominatedReferees,
+    this.nominatedReferees,
     required this.deletable,
     this.noticeType,
     this.noticeString,
@@ -377,7 +377,7 @@ class DetailedGame {
     return DetailedGame(
       id: parseInt(json, 'id'),
       gameNumber: parseString(json, 'game_number'),
-      startTime: parseString(json, 'start_time'),
+      startTime: parseNullableString(json, 'start_time'),
       actualStartTime: parseNullableString(json, 'actual_start_time'),
       date: parseString(json, 'date'),
       gameDay: GameDay.fromJson(json['game_day']),
@@ -421,7 +421,7 @@ class DetailedGame {
       arenaName: parseString(json, 'arena_name'),
       arenaAddress: parseString(json, 'arena_address'),
       arenaShort: parseString(json, 'arena_short'),
-      nominatedReferees: parseString(json, 'nominated_referees'),
+      nominatedReferees: parseNullableString(json, 'nominated_referees'),
       deletable: json['deletable'] as bool,
       noticeType: parseNullableString(json, 'notice_type'),
       noticeString: parseNullableString(json, 'notice_string'),
