@@ -13,6 +13,7 @@ import '../app_text_styles.dart';
 import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
 import 'details/starting_six.dart';
+import 'details/awarded_players.dart';
 import 'details/events_of_period.dart';
 import 'details/team_logo.dart';
 import 'details/game_meta_data.dart';
@@ -149,6 +150,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
       TeamLineup(game: _detailedGame!),
       const SizedBox(height: 24),
       StartingSix(game: _detailedGame!),
+      const SizedBox(height: 24),
+      AwardedPlayers(game: _detailedGame!),
     ];
   }
 

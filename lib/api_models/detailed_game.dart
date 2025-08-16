@@ -161,6 +161,7 @@ class Award {
   });
 
   String get name => '$playerFirstname $playerName';
+  bool get notGiven => (trikotNumber == null);
 
   factory Award.fromJson(Map<String, dynamic> json) {
     return Award(
@@ -268,6 +269,11 @@ class Awards {
   List<Award> guest;
 
   Awards({required this.home, required this.guest});
+
+  bool get notGiven {
+    return (home.isEmpty || home.every((p) => p.notGiven)) &&
+        (guest.isEmpty || guest.every((p) => p.notGiven));
+  }
 
   factory Awards.fromJson(Map<String, dynamic> json) {
     var homeJson = json['home'] as List? ?? [];
