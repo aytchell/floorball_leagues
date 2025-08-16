@@ -14,6 +14,7 @@ import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
 import 'details/events_of_period.dart';
 import 'details/team_logo.dart';
+import 'details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
   final int gameId;
@@ -121,7 +122,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
           const SizedBox(height: 24),
           ..._buildGameDetails(),
           const SizedBox(height: 24),
-          _buildGameMetadata(),
+          GameMetaData(game: _detailedGame!),
         ],
       ),
     );
@@ -326,63 +327,6 @@ class _GameDetailPageState extends State<GameDetailPage> {
 
         // Guest team table
         TeamLineup(teamName: game.guestTeamName, players: game.players.guest),
-      ],
-    );
-  }
-
-  Widget _buildGameMetadata() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Caption
-        const Padding(
-          padding: EdgeInsets.only(bottom: 16.0),
-          child: Text(
-            'Spielinfo',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
-
-        // Metadata table
-        Table(
-          columnWidths: const {0: IntrinsicColumnWidth(), 1: FlexColumnWidth()},
-          children: [
-            _buildTableRow('Liga', _detailedGame!.leagueName),
-            _buildTableRow('Spielnummer', _detailedGame!.gameNumber),
-            _buildTableRow('Datum', _detailedGame!.date),
-            _buildTableRow('Austragungshalle', _detailedGame!.arenaName),
-            _buildTableRow('Austragungsort', _detailedGame!.arenaAddress),
-            _buildTableRow('Spielbeginn', _detailedGame!.startTime),
-            _buildTableRow(
-              'Zuschauerzahl',
-              _detailedGame!.audience?.toString() ?? '-',
-            ),
-            _buildTableRow('Schiedsrichter', _detailedGame!.nominatedReferees),
-          ],
-        ),
-      ],
-    );
-  }
-
-  TableRow _buildTableRow(String label, String value) {
-    return TableRow(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
-          child: Text(
-            '$label:',
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-            textAlign: TextAlign.left,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 14),
-            textAlign: TextAlign.right,
-          ),
-        ),
       ],
     );
   }
