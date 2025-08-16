@@ -14,13 +14,33 @@ class PlayerAdapter implements TableContentProvider {
 }
 
 class TeamLineup extends StatelessWidget {
-  final String teamName;
-  final List<Player> players;
+  final DetailedGame game;
 
-  const TeamLineup({super.key, required this.teamName, required this.players});
+  const TeamLineup({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Aufstellung',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+
+        // Home team table
+        _buildListForTeam(game.homeTeamName, game.players.home),
+
+        const SizedBox(height: 24),
+
+        // Guest team table
+        _buildListForTeam(game.guestTeamName, game.players.guest),
+      ],
+    );
+  }
+
+  Widget _buildListForTeam(final String teamName, final List<Player> players) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

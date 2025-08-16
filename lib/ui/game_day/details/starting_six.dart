@@ -20,13 +20,37 @@ class StartingPlayerAdapter implements TableContentProvider {
 }
 
 class StartingSix extends StatelessWidget {
-  final String teamName;
-  final List<StartingPlayer> players;
+  final DetailedGame game;
 
-  const StartingSix({super.key, required this.teamName, required this.players});
+  const StartingSix({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
+    if (game.startingPlayers == null || game.startingPlayers!.notGiven) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Starting six',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+
+        // Home team table
+        _buildListForTeam(game.homeTeamName, game.startingPlayers!.home),
+
+        const SizedBox(height: 24),
+
+        // Guest team table
+        _buildListForTeam(game.guestTeamName, game.startingPlayers!.guest),
+      ],
+    );
+  }
+
+  Widget _buildListForTeam(String teamName, List<StartingPlayer> players) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

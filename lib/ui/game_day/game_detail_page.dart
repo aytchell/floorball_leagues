@@ -146,9 +146,9 @@ class _GameDetailPageState extends State<GameDetailPage> {
     return [
       _buildGameEvents(),
       const SizedBox(height: 24),
-      _buildTeamLineups(),
+      TeamLineup(game: _detailedGame!),
       const SizedBox(height: 24),
-      _buildStartingSix(),
+      StartingSix(game: _detailedGame!),
     ];
   }
 
@@ -307,61 +307,6 @@ class _GameDetailPageState extends State<GameDetailPage> {
             })
             .expand((i) => i)
             .toList(),
-      ],
-    );
-  }
-
-  Widget _buildTeamLineups() {
-    final game = _detailedGame!;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Aufstellung',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-
-        // Home team table
-        TeamLineup(teamName: game.homeTeamName, players: game.players.home),
-
-        const SizedBox(height: 24),
-
-        // Guest team table
-        TeamLineup(teamName: game.guestTeamName, players: game.players.guest),
-      ],
-    );
-  }
-
-  Widget _buildStartingSix() {
-    final game = _detailedGame!;
-    if (game.startingPlayers == null || game.startingPlayers!.notGiven) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Starting six',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-
-        // Home team table
-        StartingSix(
-          teamName: game.homeTeamName,
-          players: game.startingPlayers!.home,
-        ),
-
-        const SizedBox(height: 24),
-
-        // Guest team table
-        StartingSix(
-          teamName: game.guestTeamName,
-          players: game.startingPlayers!.guest,
-        ),
       ],
     );
   }
