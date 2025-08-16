@@ -1,5 +1,6 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
+import 'int_parser.dart';
 
 // Data models for a game in a game day from saisonmanager
 class Referee {
@@ -67,18 +68,11 @@ class GameResult {
   });
 
   factory GameResult.fromJson(Map<String, dynamic> json) {
-    var homeGoalsPeriodJson = json['home_goals_period'] as List;
-    var guestGoalsPeriodJson = json['guest_goals_period'] as List;
-
     return GameResult(
-      homeGoals: json['home_goals'] as int,
-      guestGoals: json['guest_goals'] as int,
-      homeGoalsPeriod: homeGoalsPeriodJson
-          .map((number) => number as int)
-          .toList(),
-      guestGoalsPeriod: guestGoalsPeriodJson
-          .map((number) => number as int)
-          .toList(),
+      homeGoals: parseInt(json, 'home_goals'),
+      guestGoals: parseInt(json, 'guest_goals'),
+      homeGoalsPeriod: parseListOfInt(json, 'home_goals_period'),
+      guestGoalsPeriod: parseListOfInt(json, 'guest_goals_period'),
       postfix: GameResultPostfix.fromJson(json['postfix']),
       forfait: json['forfait'] as bool,
       overtime: json['overtime'] as bool,
@@ -169,15 +163,15 @@ class Game {
     var rawResult = json['result'] as Map<String, dynamic>?;
 
     return Game(
-      gameId: json['game_id'] as int,
-      gameNumber: json['game_number'] as int,
-      gameDay: json['game_day'] as int,
-      arenaId: json['arena'] as int?,
+      gameId: parseInt(json, 'game_id'),
+      gameNumber: parseInt(json, 'game_number'),
+      gameDay: parseInt(json, 'game_day'),
+      arenaId: parseNullableInt(json, 'arena'),
       arenaName: json['arena_name'] as String?,
       arenaAddress: json['arena_address'] as String?,
       arenaShort: json['arena_short'] as String?,
       hostingClub: json['hosting_club'] as String?,
-      gameDayId: json['game_day_id'] as int,
+      gameDayId: parseInt(json, 'game_day_id'),
       date: json['date'] as String?,
       time: json['time'] as String?,
       started: json['started'] as bool,
@@ -203,10 +197,16 @@ class Game {
       seriesNumber: json['series_number'] as String?,
       homeTeamFillingRule: json['home_team_filling_rule'] as String?,
       homeTeamFillingTitle: json['home_team_filling_title'] as String?,
-      homeTeamFillingParameter: json['home_team_filling_parameter'] as int?,
+      homeTeamFillingParameter: parseNullableInt(
+        json,
+        'home_team_filling_parameter',
+      ),
       guestTeamFillingRule: json['guest_team_filling_rule'] as String?,
       guestTeamFillingTitle: json['guest_team_filling_title'] as String?,
-      guestTeamFillingParameter: json['guest_team_filling_parameter'] as int?,
+      guestTeamFillingParameter: parseNullableInt(
+        json,
+        'guest_team_filling_parameter',
+      ),
       resultString: json['result_string'] as String?,
       result: rawResult != null ? GameResult.fromJson(rawResult) : null,
     );

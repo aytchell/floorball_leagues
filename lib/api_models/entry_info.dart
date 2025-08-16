@@ -1,4 +1,5 @@
 import '../net/rest_client.dart';
+import 'int_parser.dart';
 
 // Data models for init.json from saisonmanager
 class SeasonInfo {
@@ -10,7 +11,7 @@ class SeasonInfo {
 
   factory SeasonInfo.fromJson(Map<String, dynamic> json) {
     return SeasonInfo(
-      id: json['id'] as int,
+      id: parseInt(json, 'id'),
       name: json['name'] as String,
       current: json['current'] as bool? ?? false,
     );
@@ -18,18 +19,18 @@ class SeasonInfo {
 }
 
 class GameOperation {
-  int? id;
-  String? name;
+  int id;
+  String name;
   String? shortName;
-  String? path;
+  String path;
   Uri? logoUrl;
   Uri? logoQuadUrl;
 
   GameOperation({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.shortName,
-    this.path,
+    required this.path,
     this.logoUrl,
     this.logoQuadUrl,
   });
@@ -39,10 +40,10 @@ class GameOperation {
     final logoQuadUrlStr = json['logo_quad_url'] as String?;
 
     return GameOperation(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
+      id: parseInt(json, 'id'),
+      name: json['name'] as String,
       shortName: json['short_name'] as String?,
-      path: json['path'] as String?,
+      path: json['path'] as String,
       logoUrl: logoUrlStr != null ? Uri.parse(logoUrlStr.trim()) : null,
       logoQuadUrl: logoQuadUrlStr != null
           ? Uri.parse(logoQuadUrlStr.trim())
@@ -76,7 +77,7 @@ class EntryInfo {
       seasons: seasonsJson
           .map((seasonJson) => SeasonInfo.fromJson(seasonJson))
           .toList(),
-      currentSeasonId: json['current_season_id'] as int?,
+      currentSeasonId: parseNullableInt(json, 'current_season_id'),
       gameOperations: operationsJson
           .map((operationJson) => GameOperation.fromJson(operationJson))
           .toList(),

@@ -1,4 +1,5 @@
 import '../net/rest_client.dart';
+import 'int_parser.dart';
 
 // Data models for top scorers from saisonmanager
 class ScorerEntry {
@@ -50,27 +51,27 @@ class ScorerEntry {
 
   factory ScorerEntry.fromJson(Map<String, dynamic> json) {
     return ScorerEntry(
-      games: json['games'] as int,
-      goals: json['goals'] as int,
-      assists: json['assists'] as int,
-      penalty2: json['penalty_2'] as int,
-      penalty2and2: json['penalty_2and2'] as int,
-      penalty5: json['penalty_5'] as int,
-      penalty10: json['penalty_10'] as int,
-      penaltyMsTech: json['penalty_ms_tech'] as int,
-      penaltyMsFull: json['penalty_ms_full'] as int,
-      penaltyMs1: json['penalty_ms1'] as int,
-      penaltyMs2: json['penalty_ms2'] as int,
-      penaltyMs3: json['penalty_ms3'] as int,
-      playerId: json['player_id'] as int,
-      teamId: json['team_id'] as int,
+      games: parseInt(json, 'games'),
+      goals: parseInt(json, 'goals'),
+      assists: parseInt(json, 'assists'),
+      penalty2: parseInt(json, 'penalty_2'),
+      penalty2and2: parseInt(json, 'penalty_2and2'),
+      penalty5: parseInt(json, 'penalty_5'),
+      penalty10: parseInt(json, 'penalty_10'),
+      penaltyMsTech: parseInt(json, 'penalty_ms_tech'),
+      penaltyMsFull: parseInt(json, 'penalty_ms_full'),
+      penaltyMs1: parseInt(json, 'penalty_ms1'),
+      penaltyMs2: parseInt(json, 'penalty_ms2'),
+      penaltyMs3: parseInt(json, 'penalty_ms3'),
+      playerId: parseInt(json, 'player_id'),
+      teamId: parseInt(json, 'team_id'),
       teamName: json['team_name'] as String,
       firstName: json['first_name'] as String,
       lastName: json['last_name'] as String,
       image: json['image'] as String?,
       imageSmall: json['image_small'] as String?,
-      sort: json['sort'] as int,
-      position: json['position'] as int,
+      sort: parseInt(json, 'sort'),
+      position: parseInt(json, 'position'),
     );
   }
 

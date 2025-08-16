@@ -1,4 +1,5 @@
 import '../net/rest_client.dart';
+import 'int_parser.dart';
 
 // Data models for leagues and cups from saisonmanager
 class GameDayTitle {
@@ -9,7 +10,7 @@ class GameDayTitle {
 
   factory GameDayTitle.fromJson(Map<String, dynamic> json) {
     return GameDayTitle(
-      gameDayNumber: json['game_day_number'] as int,
+      gameDayNumber: parseInt(json, 'game_day_number'),
       title: json['title'] as String,
     );
   }
@@ -75,12 +76,11 @@ class GameOperationLeague {
   });
 
   factory GameOperationLeague.fromJson(Map<String, dynamic> json) {
-    var gameDayNumbersJson = json['game_day_numbers'] as List;
     var gameDayTitlesJson = json['game_day_titles'] as List;
 
     return GameOperationLeague(
-      id: json['id'] as int,
-      gameOperationId: json['game_operation_id'] as int,
+      id: parseInt(json, 'id'),
+      gameOperationId: parseInt(json, 'game_operation_id'),
       gameOperationName: json['game_operation_name'] as String,
       gameOperationShortName: json['game_operation_short_name'] as String?,
       gameOperationSlug: json['game_operation_slug'] as String?,
@@ -94,9 +94,7 @@ class GameOperationLeague {
       shortName: json['short_name'] as String?,
       seasonId: json['season_id'] as String?,
       orderKey: json['order_key'] as String?,
-      gameDayNumbers: gameDayNumbersJson
-          .map((number) => number as int)
-          .toList(),
+      gameDayNumbers: parseListOfInt(json, 'game_day_numbers'),
       gameDayTitles: gameDayTitlesJson
           .map((title) => GameDayTitle.fromJson(title))
           .toList(),
@@ -107,9 +105,9 @@ class GameOperationLeague {
       leagueModus: json['league_modus'] as String?,
       hasPreround: json['has_preround'] as bool?,
       tableModus: json['table_modus'] as String?,
-      periods: json['periods'] as int?,
-      periodLength: json['period_length'] as int?,
-      overtimeLength: json['overtime_length'] as int?,
+      periods: parseNullableInt(json, 'periods'),
+      periodLength: parseNullableInt(json, 'period_length'),
+      overtimeLength: parseNullableInt(json, 'overtime_length'),
     );
   }
 }

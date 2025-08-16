@@ -1,5 +1,6 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
+import 'int_parser.dart';
 
 // Data models for game details from saisonmanager
 class GameDay {
@@ -10,7 +11,7 @@ class GameDay {
 
   factory GameDay.fromJson(Map<String, dynamic> json) {
     return GameDay(
-      gameDayNumber: json['game_day_number'] as int,
+      gameDayNumber: parseInt(json, 'game_day_number'),
       title: json['title'] as String,
     );
   }
@@ -55,21 +56,21 @@ class GameEvent {
 
   factory GameEvent.fromJson(Map<String, dynamic> json) {
     return GameEvent(
-      eventId: json['event_id'] as int,
+      eventId: parseInt(json, 'event_id'),
       eventType: json['event_type'] as String,
       eventTeam: json['event_team'] as String,
       period: (json['period'] as num).toDouble(),
-      homeGoals: json['home_goals'] as int?,
-      guestGoals: json['guest_goals'] as int?,
+      homeGoals: parseNullableInt(json, 'home_goals'),
+      guestGoals: parseNullableInt(json, 'guest_goals'),
       time: json['time'] as String,
       sortkey: json['sortkey'] as String,
-      number: json['number'] as int?,
-      assist: json['assist'] as int?,
+      number: parseNullableInt(json, 'number'),
+      assist: parseNullableInt(json, 'assist'),
       goalType: json['goal_type'] as String?,
       goalTypeString: json['goal_type_string'] as String?,
       penaltyType: json['penalty_type'] as String?,
       penaltyTypeString: json['penalty_type_string'] as String?,
-      penaltyReason: json['penalty_reason'] as int?,
+      penaltyReason: parseNullableInt(json, 'penalty_reason'),
       penaltyReasonString: json['penalty_reason_string'] as String?,
     );
   }
@@ -98,9 +99,9 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-      playerId: json['player_id'] as int,
+      playerId: parseInt(json, 'player_id'),
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as int,
+      trikotNumber: parseInt(json, 'trikot_number'),
       playerFirstname: json['player_firstname'] as String,
       position: json['position'] as String,
       goalkeeper: json['goalkeeper'] as bool?,
@@ -112,10 +113,10 @@ class Player {
 class StartingPlayer {
   String position;
   String team;
-  String playerId;
+  int? playerId;
   String playerFirstname;
   String playerName;
-  String trikotNumber;
+  int? trikotNumber;
 
   StartingPlayer({
     required this.position,
@@ -132,10 +133,10 @@ class StartingPlayer {
     return StartingPlayer(
       position: json['position'] as String,
       team: json['team'] as String,
-      playerId: json['player_id'] as String,
+      playerId: parseNullableInt(json, 'player_id'),
       playerFirstname: json['player_firstname'] as String,
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as String,
+      trikotNumber: parseNullableInt(json, 'trikot_number'),
     );
   }
 }
@@ -143,10 +144,10 @@ class StartingPlayer {
 class Award {
   String award;
   String team;
-  int playerId;
+  int? playerId;
   String playerFirstname;
   String playerName;
-  int trikotNumber;
+  int? trikotNumber;
 
   Award({
     required this.award,
@@ -163,10 +164,10 @@ class Award {
     return Award(
       award: json['award'] as String,
       team: json['team'] as String,
-      playerId: json['player_id'] as int,
+      playerId: parseNullableInt(json, 'player_id'),
       playerFirstname: json['player_firstname'] as String,
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as int,
+      trikotNumber: parseNullableInt(json, 'trikot_number'),
     );
   }
 }
@@ -205,18 +206,11 @@ class GameResult {
   });
 
   factory GameResult.fromJson(Map<String, dynamic> json) {
-    var homeGoalsPeriodJson = json['home_goals_period'] as List;
-    var guestGoalsPeriodJson = json['guest_goals_period'] as List;
-
     return GameResult(
-      homeGoals: json['home_goals'] as int,
-      guestGoals: json['guest_goals'] as int,
-      homeGoalsPeriod: homeGoalsPeriodJson
-          .map((goals) => goals as int)
-          .toList(),
-      guestGoalsPeriod: guestGoalsPeriodJson
-          .map((goals) => goals as int)
-          .toList(),
+      homeGoals: parseInt(json, 'home_goals'),
+      guestGoals: parseInt(json, 'guest_goals'),
+      homeGoalsPeriod: parseListOfInt(json, 'home_goals_period'),
+      guestGoalsPeriod: parseListOfInt(json, 'guest_goals_period'),
       postfix: json['postfix'] != null
           ? GameResultPostfix.fromJson(json['postfix'])
           : null,
@@ -380,7 +374,7 @@ class DetailedGame {
     var refereesJson = json['referees'] as List;
 
     return DetailedGame(
-      id: json['id'] as int,
+      id: parseInt(json, 'id'),
       gameNumber: json['game_number'] as String,
       startTime: json['start_time'] as String,
       actualStartTime: json['actual_start_time'] as String?,
@@ -388,11 +382,11 @@ class DetailedGame {
       gameDay: GameDay.fromJson(json['game_day']),
       gameStatus: json['game_status'] as String?,
       ingameStatus: json['ingame_status'] as String?,
-      audience: json['audience'] as int?,
+      audience: parseNullableInt(json, 'audience'),
       homeTeamName: json['home_team_name'] as String,
       guestTeamName: json['guest_team_name'] as String,
-      homeTeamId: json['home_team_id'] as int,
-      guestTeamId: json['guest_team_id'] as int,
+      homeTeamId: parseInt(json, 'home_team_id'),
+      guestTeamId: parseInt(json, 'guest_team_id'),
       homeTeamLogo: json['home_team_logo'] as String,
       homeTeamSmallLogo: json['home_team_small_logo'] as String,
       guestTeamLogo: json['guest_team_logo'] as String,
@@ -409,10 +403,10 @@ class DetailedGame {
       result: json['result'] != null
           ? GameResult.fromJson(json['result'])
           : null,
-      leagueId: json['league_id'] as int,
+      leagueId: parseInt(json, 'league_id'),
       leagueName: json['league_name'] as String,
       leagueShortName: json['league_short_name'] as String,
-      gameOperationId: json['game_operation_id'] as int,
+      gameOperationId: parseInt(json, 'game_operation_id'),
       gameOperationName: json['game_operation_name'] as String,
       gameOperationShortName: json['game_operation_short_name'] as String,
       gameOperationSlug: json['game_operation_slug'] as String,
@@ -422,7 +416,7 @@ class DetailedGame {
       currentPeriodTitle: json['current_period_title'] != null
           ? PeriodTitle.fromJson(json['current_period_title'])
           : null,
-      arena: json['arena'] as int,
+      arena: parseInt(json, 'arena'),
       arenaName: json['arena_name'] as String,
       arenaAddress: json['arena_address'] as String,
       arenaShort: json['arena_short'] as String,

@@ -1,4 +1,5 @@
 import '../net/rest_client.dart';
+import 'int_parser.dart';
 
 // Data models for a league table from saisonmanager
 class TeamTableEntry {
@@ -42,23 +43,23 @@ class TeamTableEntry {
 
   factory TeamTableEntry.fromJson(Map<String, dynamic> json) {
     return TeamTableEntry(
-      games: json['games'] as int,
-      won: json['won'] as int,
-      draw: json['draw'] as int,
-      lost: json['lost'] as int,
-      wonOt: json['won_ot'] as int,
-      lostOt: json['lost_ot'] as int,
-      goalsScored: json['goals_scored'] as int,
-      goalsReceived: json['goals_received'] as int,
-      goalsDiff: json['goals_diff'] as int,
-      points: json['points'] as int,
+      games: parseInt(json, 'games'),
+      won: parseInt(json, 'won'),
+      draw: parseInt(json, 'draw'),
+      lost: parseInt(json, 'lost'),
+      wonOt: parseInt(json, 'won_ot'),
+      lostOt: parseInt(json, 'lost_ot'),
+      goalsScored: parseInt(json, 'goals_scored'),
+      goalsReceived: parseInt(json, 'goals_received'),
+      goalsDiff: parseInt(json, 'goals_diff'),
+      points: parseInt(json, 'points'),
       teamName: json['team_name'] as String,
-      teamId: json['team_id'] as int,
+      teamId: parseInt(json, 'team_id'),
       teamLogo: json['team_logo'] as String?,
       teamLogoSmall: json['team_logo_small'] as String?,
-      pointCorrections: json['point_corrections'] as int?,
-      sort: json['sort'] as int,
-      position: json['position'] as int,
+      pointCorrections: parseNullableInt(json, 'point_corrections'),
+      sort: parseInt(json, 'sort'),
+      position: parseInt(json, 'position'),
     );
   }
 }
