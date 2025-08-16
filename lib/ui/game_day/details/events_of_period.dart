@@ -6,7 +6,7 @@ import 'single_game_event.dart';
 
 class EventsOfPeriod extends StatelessWidget {
   final PeriodTitle period;
-  final double currentPeriodId;
+  final double? currentPeriodId;
   final Map<int, String> homePlayerNames;
   final Map<int, String> guestPlayerNames;
   final String? homeLogo;
@@ -31,7 +31,7 @@ class EventsOfPeriod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (period.period > currentPeriodId)
+    if (currentPeriodId == null || period.period > currentPeriodId!)
       return const SizedBox.shrink(); // Renders nothing
 
     if (_isPause()) {

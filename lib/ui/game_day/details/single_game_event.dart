@@ -211,7 +211,8 @@ class SingleGameEvent extends StatelessWidget {
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           textAlign: TextAlign.right,
         ),
-        if (event.penaltyReasonString != null && event.penaltyReasonString!.isNotEmpty)
+        if (event.penaltyReasonString != null &&
+            event.penaltyReasonString!.isNotEmpty)
           Text(
             '${event.penaltyReasonString}',
             style: const TextStyle(

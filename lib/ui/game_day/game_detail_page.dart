@@ -119,12 +119,31 @@ class _GameDetailPageState extends State<GameDetailPage> {
         children: [
           _buildGameHeader(),
           const SizedBox(height: 24),
-          _buildGameEvents(),
-          const SizedBox(height: 24),
-          _buildTeamLineups(),
+          ..._buildGameDetails(),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildGameDetails() {
+    if (_detailedGame!.currentPeriodTitle == null) {
+      return [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Noch keine Spieldaten vorhanden',
+              style: TextStyle(fontSize: 16, color: Colors.black54),
+            ),
+          ],
+        ),
+      ];
+    }
+    return [
+      _buildGameEvents(),
+      const SizedBox(height: 24),
+      _buildTeamLineups(),
+    ];
   }
 
   Widget _buildGameHeader() {
@@ -253,7 +272,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
     final sortedPeriods = game.periodTitles;
     sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
     final groupedEvents = groupBy(game.events, (event) => event.period);
-    final currentPeriodId = game.currentPeriodTitle!.period;
+    final currentPeriodId = game.currentPeriodTitle?.period;
     final homePlayerNames = _buildPlayerNamesMap(game.players.home);
     final guestPlayerNames = _buildPlayerNamesMap(game.players.guest);
 
