@@ -115,17 +115,17 @@ class StartingPlayer {
   String position;
   String team;
   int? playerId;
-  String playerFirstname;
-  String playerName;
+  String? playerFirstname;
+  String? playerName;
   int? trikotNumber;
 
   StartingPlayer({
     required this.position,
     required this.team,
-    required this.playerId,
-    required this.playerFirstname,
-    required this.playerName,
-    required this.trikotNumber,
+    this.playerId,
+    this.playerFirstname,
+    this.playerName,
+    this.trikotNumber,
   });
 
   String get name => '$playerFirstname $playerName';
@@ -136,8 +136,8 @@ class StartingPlayer {
       position: parseString(json, 'position'),
       team: parseString(json, 'team'),
       playerId: parseNullableInt(json, 'player_id'),
-      playerFirstname: parseString(json, 'player_firstname'),
-      playerName: parseString(json, 'player_name'),
+      playerFirstname: parseNullableString(json, 'player_firstname'),
+      playerName: parseNullableString(json, 'player_name'),
       trikotNumber: parseNullableInt(json, 'trikot_number'),
     );
   }
