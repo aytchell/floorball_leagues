@@ -89,19 +89,6 @@ class PlayerTable extends StatelessWidget {
                 ),
               );
             }),
-
-          // Empty state
-          if (providers.isEmpty)
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: const Text(
-                'Keine Aufstellung verfügbar',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ),
         ],
       ),
     );
@@ -117,7 +104,7 @@ class PlayerTable extends StatelessWidget {
 
       // Position
       SizedBox(
-        width: 60,
+        width: 90,
         child: Text(
           player.position!,
           style: const TextStyle(fontSize: 14),

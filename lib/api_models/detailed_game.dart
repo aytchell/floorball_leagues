@@ -129,6 +129,7 @@ class StartingPlayer {
   });
 
   String get name => '$playerFirstname $playerName';
+  bool get notGiven => (trikotNumber == null);
 
   factory StartingPlayer.fromJson(Map<String, dynamic> json) {
     return StartingPlayer(
@@ -244,6 +245,11 @@ class StartingPlayers {
 
   StartingPlayers({required this.home, required this.guest});
 
+  bool get notGiven {
+    return (home.isEmpty || home.every((p) => p.notGiven)) &&
+        (guest.isEmpty || guest.every((p) => p.notGiven));
+  }
+
   factory StartingPlayers.fromJson(Map<String, dynamic> json) {
     var homeJson = json['home'] as List? ?? [];
     var guestJson = json['guest'] as List? ?? [];
@@ -296,8 +302,8 @@ class DetailedGame {
   String? vodLink;
   List<GameEvent> events;
   Players players;
-  StartingPlayers startingPlayers;
-  Awards awards;
+  StartingPlayers? startingPlayers;
+  Awards? awards;
   bool started;
   bool ended;
   String? resultString;
@@ -343,8 +349,8 @@ class DetailedGame {
     this.vodLink,
     required this.events,
     required this.players,
-    required this.startingPlayers,
-    required this.awards,
+    this.startingPlayers,
+    this.awards,
     required this.started,
     required this.ended,
     this.resultString,
@@ -373,6 +379,12 @@ class DetailedGame {
     var eventsJson = json['events'] as List;
     var periodTitlesJson = json['period_titles'] as List;
     var refereesJson = json['referees'] as List;
+    var startingPlayers = (json['starting_players'] == null)
+        ? null
+        : StartingPlayers.fromJson(json['starting_players']);
+    final awards = (json['awards'] == null)
+        ? null
+        : Awards.fromJson(json['awards']);
 
     return DetailedGame(
       id: parseInt(json, 'id'),
@@ -396,8 +408,8 @@ class DetailedGame {
       vodLink: parseNullableString(json, 'vod_link'),
       events: eventsJson.map((event) => GameEvent.fromJson(event)).toList(),
       players: Players.fromJson(json['players'] ?? {}),
-      startingPlayers: StartingPlayers.fromJson(json['starting_players'] ?? {}),
-      awards: Awards.fromJson(json['awards'] ?? {}),
+      startingPlayers: startingPlayers,
+      awards: awards,
       started: json['started'] as bool,
       ended: json['ended'] as bool,
       resultString: parseNullableString(json, 'result_string'),

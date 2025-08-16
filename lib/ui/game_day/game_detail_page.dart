@@ -12,6 +12,7 @@ import '../main_app_scaffold.dart';
 import '../app_text_styles.dart';
 import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
+import 'details/starting_six.dart';
 import 'details/events_of_period.dart';
 import 'details/team_logo.dart';
 import 'details/game_meta_data.dart';
@@ -146,6 +147,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
       _buildGameEvents(),
       const SizedBox(height: 24),
       _buildTeamLineups(),
+      const SizedBox(height: 24),
+      _buildStartingSix(),
     ];
   }
 
@@ -327,6 +330,38 @@ class _GameDetailPageState extends State<GameDetailPage> {
 
         // Guest team table
         TeamLineup(teamName: game.guestTeamName, players: game.players.guest),
+      ],
+    );
+  }
+
+  Widget _buildStartingSix() {
+    final game = _detailedGame!;
+    if (game.startingPlayers == null || game.startingPlayers!.notGiven) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Starting six',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+
+        // Home team table
+        StartingSix(
+          teamName: game.homeTeamName,
+          players: game.startingPlayers!.home,
+        ),
+
+        const SizedBox(height: 24),
+
+        // Guest team table
+        StartingSix(
+          teamName: game.guestTeamName,
+          players: game.startingPlayers!.guest,
+        ),
       ],
     );
   }
