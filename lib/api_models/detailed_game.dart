@@ -433,7 +433,7 @@ class DetailedGame {
     RestClient client,
     int gameId,
   ) async {
-    final uri = Uri.parse('https://saisonmanager.de/api/v2/games/$gameId.json');
+    final uri = Uri.parse('https://www.saisonmanager.de/api/v2/games/$gameId.json');
 
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
     return DetailedGame.fromJson(jsonData);

@@ -13,7 +13,7 @@ class TeamLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoHost = 'https://saisonmanager.de';
+    final logoHost = 'https://www.saisonmanager.de';
 
     if (logoPath != null) {
       return Image.network(

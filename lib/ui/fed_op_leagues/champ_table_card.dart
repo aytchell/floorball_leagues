@@ -251,7 +251,7 @@ class ExpandableChampTableCard extends StatelessWidget {
   }
 
   Widget _buildTeamLogo(String? logoPath) {
-    final logoHost = 'https://saisonmanager.de';
+    final logoHost = 'https://www.saisonmanager.de';
     final placeholderLogo = 'assets/images/logo_placeholder.svg';
 
     if (logoPath != null) {
