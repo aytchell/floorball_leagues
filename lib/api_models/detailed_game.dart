@@ -143,10 +143,10 @@ class StartingPlayer {
 class Award {
   String award;
   String team;
-  String playerId;
+  int playerId;
   String playerFirstname;
   String playerName;
-  String trikotNumber;
+  int trikotNumber;
 
   Award({
     required this.award,
@@ -163,10 +163,10 @@ class Award {
     return Award(
       award: json['award'] as String,
       team: json['team'] as String,
-      playerId: json['player_id'] as String,
+      playerId: json['player_id'] as int,
       playerFirstname: json['player_firstname'] as String,
       playerName: json['player_name'] as String,
-      trikotNumber: json['trikot_number'] as String,
+      trikotNumber: json['trikot_number'] as int,
     );
   }
 }
