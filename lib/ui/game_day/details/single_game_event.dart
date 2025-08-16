@@ -66,11 +66,11 @@ class SingleGameEvent extends StatelessWidget {
         ),
         const SizedBox(width: 8),
 
-        // event type - usually 'Tor'
+        // event type - 'Tor' or 'Eigentor'
         SizedBox(
           width: 30,
           child: Text(
-            '${event.goalTypeString}',
+            'Tor',
             style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.right,
           ),
@@ -93,6 +93,13 @@ class SingleGameEvent extends StatelessWidget {
 
   Widget _buildScorerAndAssist() {
     final scorerName = _playerNames[event.number] ?? '??';
+
+    if (event.goalTypeString == 'Eigentor') {
+      return Text(
+        'Eigentor',
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      );
+    }
 
     if (event.assist == 0) {
       return Text(
