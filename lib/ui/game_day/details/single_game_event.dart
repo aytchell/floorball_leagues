@@ -29,7 +29,15 @@ class SingleGameEvent extends StatelessWidget {
       return _buildGoalEvent();
     }
 
-    return _fallback(event);
+    if (event.eventType == 'timeout') {
+      return _buildTimeoutEvent();
+    }
+
+    if (event.eventType == 'penalty') {
+      return _buildPenaltyEvent();
+    }
+
+    return _fallback();
   }
 
   Widget _buildGoalEvent() {
@@ -113,7 +121,45 @@ class SingleGameEvent extends StatelessWidget {
     }
   }
 
-  Widget _fallback(GameEvent event) {
+  Widget _buildTimeoutEvent() {
+    return Row(
+      children: [
+        // logo of team that scored
+        SizedBox(
+          width: 30,
+          child: TeamLogo(logoPath: _logoPath, height: 25, width: 25),
+        ),
+
+        // Spacer to push content to the right
+        const Expanded(child: SizedBox()),
+
+        const Text(
+          'Auszeit',
+          style: TextStyle(fontSize: 14),
+          textAlign: TextAlign.right,
+        ),
+
+        const SizedBox(width: 8),
+
+        // time of event (game clock)
+        SizedBox(
+          width: 40,
+          child: Text(
+            '${event.time}',
+            style: const TextStyle(fontSize: 14),
+            textAlign: TextAlign.right,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPenaltyEvent() {
+    // TODO
+    return _fallback();
+  }
+
+  Widget _fallback() {
     return Row(
       children: [
         SizedBox(
