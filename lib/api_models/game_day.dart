@@ -1,5 +1,6 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
+import 'game_result.dart';
 import 'int_parser.dart';
 import 'logo_host.dart';
 
@@ -34,52 +35,6 @@ class Referee {
     "optional": true,
     "running": false}
 */
-
-class GameResultPostfix {
-  String short;
-  String long;
-
-  GameResultPostfix({required this.short, required this.long});
-
-  factory GameResultPostfix.fromJson(Map<String, dynamic> json) {
-    return GameResultPostfix(
-      short: json['short'] as String,
-      long: json['long'] as String,
-    );
-  }
-}
-
-class GameResult {
-  int homeGoals;
-  int guestGoals;
-  List<int> homeGoalsPeriod;
-  List<int> guestGoalsPeriod;
-  GameResultPostfix postfix;
-  bool forfait;
-  bool overtime;
-
-  GameResult({
-    required this.homeGoals,
-    required this.guestGoals,
-    required this.homeGoalsPeriod,
-    required this.guestGoalsPeriod,
-    required this.postfix,
-    required this.forfait,
-    required this.overtime,
-  });
-
-  factory GameResult.fromJson(Map<String, dynamic> json) {
-    return GameResult(
-      homeGoals: parseInt(json, 'home_goals'),
-      guestGoals: parseInt(json, 'guest_goals'),
-      homeGoalsPeriod: parseListOfInt(json, 'home_goals_period'),
-      guestGoalsPeriod: parseListOfInt(json, 'guest_goals_period'),
-      postfix: GameResultPostfix.fromJson(json['postfix']),
-      forfait: json['forfait'] as bool,
-      overtime: json['overtime'] as bool,
-    );
-  }
-}
 
 class Game {
   int gameId;
