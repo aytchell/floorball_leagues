@@ -4,6 +4,7 @@ import 'game_result.dart';
 import 'int_parser.dart';
 import 'string_parser.dart';
 import 'logo_host.dart';
+import 'referee.dart';
 
 // Data models for game details from saisonmanager
 class GameDay {
@@ -285,7 +286,7 @@ class DetailedGame {
   bool deletable;
   String? noticeType;
   String? noticeString;
-  List<dynamic> referees;
+  List<Referee> referees;
 
   DetailedGame({
     required this.id,
@@ -402,7 +403,9 @@ class DetailedGame {
       deletable: json['deletable'] as bool,
       noticeType: parseNullableString(json, 'notice_type'),
       noticeString: parseNullableString(json, 'notice_string'),
-      referees: refereesJson,
+      referees: refereesJson
+          .map((referee) => Referee.fromJson(referee))
+          .toList(),
     );
   }
 

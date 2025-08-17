@@ -1,40 +1,11 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
 import 'game_result.dart';
+import 'referee.dart';
 import 'int_parser.dart';
 import 'logo_host.dart';
 
 // Data models for a game in a game day from saisonmanager
-class Referee {
-  String? licenseId;
-  String? firstName;
-  String? lastName;
-
-  Referee({
-    required this.licenseId,
-    required this.firstName,
-    required this.lastName,
-  });
-
-  factory Referee.fromJson(Map<String, dynamic> json) {
-    return Referee(
-      licenseId: json['license_id'] as String?,
-      firstName: json['first_name'] as String?,
-      lastName: json['last_name'] as String?,
-    );
-  }
-}
-
-/* 'period' is a double which looks a bit weird. Here's a real live example:
-{
-    "period": 2.5,
-    "short_title": "PV",
-    "title": "Pause vor Verlängerung",
-    "status_id": "pause_et",
-    "can_end_game": false,
-    "optional": true,
-    "running": false}
-*/
 
 class Game {
   int gameId;

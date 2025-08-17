@@ -1,3 +1,14 @@
+/* 'period' is a double which looks a bit weird. Here's a real live example:
+{
+    "period": 2.5,
+    "short_title": "PV",
+    "title": "Pause vor Verlängerung",
+    "status_id": "pause_et",
+    "can_end_game": false,
+    "optional": true,
+    "running": false}
+*/
+
 class PeriodTitle {
   double period;
   String shortTitle;
