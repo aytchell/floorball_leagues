@@ -1,6 +1,7 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
 import 'int_parser.dart';
+import 'logo_host.dart';
 
 // Data models for a game in a game day from saisonmanager
 class Referee {
@@ -156,6 +157,11 @@ class Game {
     this.resultString,
     this.result,
   });
+
+  Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
+  Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
+  Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
+  Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
   factory Game.fromJson(Map<String, dynamic> json) {
     var refereesJson = json['referees'] as List;

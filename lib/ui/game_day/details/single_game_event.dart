@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../api_models/detailed_game.dart';
-import 'team_logo.dart';
+import '../../widgets/team_logo.dart';
 
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
   final Map<int, String> homePlayerNames;
   final Map<int, String> guestPlayerNames;
-  final String? homeLogo;
-  final String? guestLogo;
+  final Uri? homeLogo;
+  final Uri? guestLogo;
 
-  final String? _logoPath;
+  final Uri? _logoUri;
   final Map<int, String> _playerNames;
 
   SingleGameEvent({
@@ -18,7 +18,7 @@ class SingleGameEvent extends StatelessWidget {
     required this.guestPlayerNames,
     required this.homeLogo,
     required this.guestLogo,
-  }) : _logoPath = (event.eventTeam == 'home') ? homeLogo : guestLogo,
+  }) : _logoUri = (event.eventTeam == 'home') ? homeLogo : guestLogo,
        _playerNames = (event.eventTeam == 'home')
            ? homePlayerNames
            : guestPlayerNames;
@@ -46,7 +46,7 @@ class SingleGameEvent extends StatelessWidget {
         // logo of team that scored
         SizedBox(
           width: 30,
-          child: TeamLogo(logoPath: _logoPath, height: 25, width: 25),
+          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
         ),
 
         const SizedBox(width: 24),
@@ -134,7 +134,7 @@ class SingleGameEvent extends StatelessWidget {
         // logo of team that scored
         SizedBox(
           width: 30,
-          child: TeamLogo(logoPath: _logoPath, height: 25, width: 25),
+          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
         ),
 
         // Spacer to push content to the right
@@ -168,7 +168,7 @@ class SingleGameEvent extends StatelessWidget {
         // logo of team that got penalized
         SizedBox(
           width: 30,
-          child: TeamLogo(logoPath: _logoPath, height: 25, width: 25),
+          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
         ),
 
         const SizedBox(width: 24),

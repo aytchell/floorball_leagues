@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../api_models/detailed_game.dart';
 import 'player_table.dart';
 

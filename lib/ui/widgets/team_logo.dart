@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TeamLogo extends StatelessWidget {
-  final String? logoPath;
+  final Uri? uri;
   final double height;
   final double width;
 
+  final _placeholderLogo = 'assets/images/logo_placeholder.svg';
+
   const TeamLogo({
-    required this.logoPath,
+    required this.uri,
     required this.height,
     required this.width,
   });
 
   @override
   Widget build(BuildContext context) {
-    final logoHost = 'https://www.saisonmanager.de';
-
-    if (logoPath != null) {
+    if (uri != null) {
       return Image.network(
-        '${logoHost}${logoPath}',
+        uri.toString(),
         width: width,
         height: height,
         fit: BoxFit.contain,
@@ -31,14 +32,12 @@ class TeamLogo extends StatelessWidget {
   }
 
   Widget _buildPlaceholderLogo() {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(Icons.sports_soccer, size: 28, color: Colors.grey.shade600),
+    return SvgPicture.asset(
+      _placeholderLogo,
+      width: width,
+      height: height,
+      fit: BoxFit.contain,
+      colorFilter: ColorFilter.mode(Colors.grey[500]!, BlendMode.srcIn),
     );
   }
 }

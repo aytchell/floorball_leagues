@@ -1,5 +1,6 @@
 import '../net/rest_client.dart';
 import 'int_parser.dart';
+import 'logo_host.dart';
 
 // Data models for a league table from saisonmanager
 class TeamTableEntry {
@@ -40,6 +41,9 @@ class TeamTableEntry {
     required this.sort,
     required this.position,
   });
+
+  Uri? get teamLogoUri => buildLogoUri(teamLogo);
+  Uri? get teamLogoSmallUri => buildLogoUri(teamLogoSmall);
 
   factory TeamTableEntry.fromJson(Map<String, dynamic> json) {
     return TeamTableEntry(

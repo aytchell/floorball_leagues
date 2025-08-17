@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
 
@@ -15,7 +14,7 @@ import 'details/team_lineup.dart';
 import 'details/starting_six.dart';
 import 'details/awarded_players.dart';
 import 'details/events_of_period.dart';
-import 'details/team_logo.dart';
+import '../widgets/team_logo.dart';
 import 'details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
@@ -170,11 +169,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 Expanded(
                   child: Column(
                     children: [
-                      TeamLogo(
-                        logoPath: game.homeTeamLogo,
-                        height: 48,
-                        width: 48,
-                      ),
+                      TeamLogo(uri: game.homeLogoUri, height: 48, width: 48),
                       const SizedBox(height: 8),
                       Text(
                         game.homeTeamName ?? 'Unbekannt',
@@ -233,11 +228,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 Expanded(
                   child: Column(
                     children: [
-                      TeamLogo(
-                        logoPath: game.guestTeamLogo,
-                        height: 48,
-                        width: 48,
-                      ),
+                      TeamLogo(uri: game.guestLogoUri, height: 48, width: 48),
                       const SizedBox(height: 8),
                       Text(
                         game.guestTeamName ?? 'Unbekannt',
@@ -302,8 +293,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
                   currentPeriodId: currentPeriodId,
                   homePlayerNames: homePlayerNames,
                   guestPlayerNames: guestPlayerNames,
-                  homeLogo: game.homeTeamSmallLogo,
-                  guestLogo: game.guestTeamSmallLogo,
+                  homeLogo: game.homeLogoSmallUri,
+                  guestLogo: game.guestLogoSmallUri,
                   events: groupedEvents[period.period],
                 ),
               ];

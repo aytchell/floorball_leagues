@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../api_models/table.dart';
 import '../app_text_styles.dart';
+import '../widgets/team_logo.dart';
 
 class ExpandableChampTableCard extends StatelessWidget {
   final String title;
@@ -224,7 +224,7 @@ class ExpandableChampTableCard extends StatelessWidget {
           SizedBox(width: 8.0),
 
           // Team logo
-          _buildTeamLogo(entry.teamLogoSmall),
+          TeamLogo(uri: entry.teamLogoSmallUri, height: 20, width: 20),
 
           SizedBox(width: 8.0),
 
@@ -247,44 +247,6 @@ class ExpandableChampTableCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildTeamLogo(String? logoPath) {
-    final logoHost = 'https://www.saisonmanager.de';
-    final placeholderLogo = 'assets/images/logo_placeholder.svg';
-
-    if (logoPath != null) {
-      return Image.network(
-        '${logoHost}${logoPath}',
-        width: 20,
-        height: 20,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholderLogo();
-        },
-      );
-    } else {
-      return SvgPicture.asset(
-        placeholderLogo,
-        width: 20,
-        height: 20,
-        fit: BoxFit.contain,
-        colorFilter: ColorFilter.mode(Colors.grey[500]!, BlendMode.srcIn),
-        placeholderBuilder: (context) => _buildPlaceholderLogo(),
-      );
-    }
-  }
-
-  Widget _buildPlaceholderLogo() {
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade300,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(Icons.sports_soccer, size: 12, color: Colors.grey.shade600),
     );
   }
 }

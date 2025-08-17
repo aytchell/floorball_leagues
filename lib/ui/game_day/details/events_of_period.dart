@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../api_models/period_title.dart';
 import '../../../api_models/detailed_game.dart';
 import 'single_game_event.dart';
@@ -9,8 +8,8 @@ class EventsOfPeriod extends StatelessWidget {
   final double? currentPeriodId;
   final Map<int, String> homePlayerNames;
   final Map<int, String> guestPlayerNames;
-  final String? homeLogo;
-  final String? guestLogo;
+  final Uri? homeLogo;
+  final Uri? guestLogo;
   final List<GameEvent>? events;
 
   const EventsOfPeriod({
