@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../api_models/entry_info.dart';
+import '../../api/models/entry_info.dart';
 import '../app_text_styles.dart';
 import '../widgets/cached_network_image.dart';
 

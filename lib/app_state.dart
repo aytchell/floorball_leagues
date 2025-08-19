@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 
-import 'api_models/entry_info.dart';
+import 'api/models/entry_info.dart';
 
 class AppState extends ChangeNotifier {
   SeasonInfo? _selectedSeason;

@@ -4,7 +4,8 @@ import 'package:logging/logging.dart';
 import 'game_operation_card.dart';
 import '../fed_op_leagues/leagues_list.dart';
 import '../../net/rest_client.dart';
-import '../../api_models/entry_info.dart';
+import '../../api/models/entry_info.dart';
+import '../../api/saisonmanager.dart';
 import '../app_text_styles.dart';
 import '../main_app_scaffold.dart';
 import '../../app_state.dart';
@@ -35,7 +36,8 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     restClient ??= await RestClient.instance;
     try {
       log.info('Loding game operations');
-      final entryInfo = await EntryInfo.fetchFromServer(restClient!);
+      final manager = Saisonmanager(client: restClient!);
+      final entryInfo = await manager.getStart();
       if (entryInfo != null) {
         final appState = Provider.of<AppState>(context, listen: false);
         final allSeasons = _findAllSeasons(appState, entryInfo);
