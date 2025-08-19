@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../api_models/entry_info.dart';
 import '../app_text_styles.dart';
+import 'cached_network_image.dart';
 
 class GameOperationCard extends StatelessWidget {
   final GameOperation gameOperation;
@@ -29,31 +30,10 @@ class GameOperationCard extends StatelessWidget {
                 child: gameOperation.logoUrl != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          gameOperation.logoUrl.toString(),
+                        child: CachedNetworkImage(
+                          imageUrl: gameOperation.logoUrl.toString(),
                           fit: BoxFit.contain,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: Colors.red, //Colors.grey[300],
-                              child: Icon(
-                                Icons.error_outline,
-                                size: 50,
-                                color: Colors.green, //Colors.grey[600],
-                              ),
-                            );
-                          },
+                          showProgress: true,
                         ),
                       )
                     : Container(
