@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../api_models/entry_info.dart';
 import '../app_text_styles.dart';
-import 'cached_network_image.dart';
+import '../widgets/cached_network_image.dart';
 
 class GameOperationCard extends StatelessWidget {
   final GameOperation gameOperation;
@@ -31,7 +31,7 @@ class GameOperationCard extends StatelessWidget {
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: CachedNetworkImage(
-                          imageUrl: gameOperation.logoUrl.toString(),
+                          imageUrl: gameOperation.logoUrl,
                           fit: BoxFit.contain,
                           showProgress: true,
                         ),

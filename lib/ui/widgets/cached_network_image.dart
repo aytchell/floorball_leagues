@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CachedNetworkImage extends StatelessWidget {
-  final String imageUrl;
+  final Uri? imageUrl;
   final BoxFit? fit;
   final double? width;
   final double? height;
-  final Widget? placeholder;
-  final Widget? errorWidget;
+  final Widget Function(double? width, double? height)? placeholder;
+  final Widget Function(double? width, double? height)? errorWidget;
   final bool showProgress;
 
   const CachedNetworkImage({
@@ -23,37 +23,42 @@ class CachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<FileResponse>(
-      stream: DefaultCacheManager().getImageFile(imageUrl),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final fileResponse = snapshot.data!;
+    if (imageUrl == null) {
+      return errorWidget?.call(width, height) ?? _defaultPlaceholder();
+    } else {
+      return StreamBuilder<FileResponse>(
+        stream: DefaultCacheManager().getImageFile(imageUrl!.toString()),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final fileResponse = snapshot.data!;
 
-          if (fileResponse is FileInfo) {
-            // Image is fully downloaded and cached
-            return Image.file(
-              fileResponse.file,
-              fit: fit,
-              width: width,
-              height: height,
-              errorBuilder: (context, error, stackTrace) {
-                return errorWidget ?? _defaultErrorWidget();
-              },
-            );
-          } else if (fileResponse is DownloadProgress && showProgress) {
-            // Show download progress
-            return _buildProgressIndicator(fileResponse);
+            if (fileResponse is FileInfo) {
+              // Image is fully downloaded and cached
+              return Image.file(
+                fileResponse.file,
+                fit: fit,
+                width: width,
+                height: height,
+                errorBuilder: (context, error, stackTrace) {
+                  return errorWidget?.call(width, height) ??
+                      _defaultErrorWidget();
+                },
+              );
+            } else if (fileResponse is DownloadProgress && showProgress) {
+              // Show download progress
+              return _buildProgressIndicator(fileResponse);
+            }
           }
-        }
 
-        if (snapshot.hasError) {
-          return errorWidget ?? _defaultErrorWidget();
-        }
+          if (snapshot.hasError) {
+            return errorWidget?.call(width, height) ?? _defaultErrorWidget();
+          }
 
-        // Initial loading state
-        return placeholder ?? _defaultPlaceholder();
-      },
-    );
+          // Initial loading state
+          return placeholder?.call(width, height) ?? _defaultPlaceholder();
+        },
+      );
+    }
   }
 
   Widget _buildProgressIndicator(DownloadProgress progress) {

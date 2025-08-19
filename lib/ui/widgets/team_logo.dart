@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'cached_network_image.dart';
 
 class TeamLogo extends StatelessWidget {
   final Uri? uri;
   final double height;
   final double width;
 
-  final _placeholderLogo = 'assets/images/logo_placeholder.svg';
+  static final _placeholderLogo = 'assets/images/logo_placeholder.svg';
 
   const TeamLogo({
     required this.uri,
@@ -16,22 +17,16 @@ class TeamLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (uri != null) {
-      return Image.network(
-        uri.toString(),
-        width: width,
-        height: height,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholderLogo();
-        },
-      );
-    } else {
-      return _buildPlaceholderLogo();
-    }
+    return CachedNetworkImage(
+      imageUrl: uri,
+      fit: BoxFit.contain,
+      width: width,
+      height: height,
+      errorWidget: (w, h) => _buildLogoReplacement(w, h),
+    );
   }
 
-  Widget _buildPlaceholderLogo() {
+  static Widget _buildLogoReplacement(double? width, double? height) {
     return SvgPicture.asset(
       _placeholderLogo,
       width: width,
