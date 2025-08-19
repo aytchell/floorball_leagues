@@ -1,29 +1,5 @@
-// Data models for init.json from saisonmanager
-class SeasonInfo {
-  int id;
-  String name;
-  bool current = false;
-
-  SeasonInfo({required this.id, required this.name, this.current = false});
-}
-
-class GameOperation {
-  int id;
-  String name;
-  String? shortName;
-  String path;
-  Uri? logoUrl;
-  Uri? logoQuadUrl;
-
-  GameOperation({
-    required this.id,
-    required this.name,
-    this.shortName,
-    required this.path,
-    this.logoUrl,
-    this.logoQuadUrl,
-  });
-}
+import 'game_operation.dart';
+import 'season_info.dart';
 
 class EntryInfo {
   final List<SeasonInfo> seasons;

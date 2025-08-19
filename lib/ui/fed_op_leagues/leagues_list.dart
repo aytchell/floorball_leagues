@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../api/models/entry_info.dart';
+import '../../api/models/season_info.dart';
 import '../../api_models/game_operations.dart';
 import '../../net/rest_client.dart';
 import 'league_tabs.dart';

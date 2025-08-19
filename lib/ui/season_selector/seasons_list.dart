@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main_app_scaffold.dart';
-import '../../api/models/entry_info.dart';
+import '../../api/models/season_info.dart';
 import '../../app_state.dart';
 
 class SeasonSelectionScreen extends StatelessWidget {

@@ -1,54 +1,11 @@
 import '../../net/rest_client.dart';
-import '../models/entry_info.dart';
 import '../../api_models/int_parser.dart';
 
-// Data models for init.json from saisonmanager
-class SeasonInfoImpl extends SeasonInfo {
-  SeasonInfoImpl({required int id, required String name, bool current = false})
-    : super(id: id, name: name, current: current);
-
-  factory SeasonInfoImpl.fromJson(Map<String, dynamic> json) {
-    return SeasonInfoImpl(
-      id: parseInt(json, 'id'),
-      name: json['name'] as String,
-      current: json['current'] as bool? ?? false,
-    );
-  }
-}
-
-class GameOperationImpl extends GameOperation {
-  GameOperationImpl({
-    required int id,
-    required String name,
-    String? shortName,
-    required String path,
-    Uri? logoUrl,
-    Uri? logoQuadUrl,
-  }) : super(
-         id: id,
-         name: name,
-         shortName: shortName,
-         path: path,
-         logoUrl: logoUrl,
-         logoQuadUrl: logoQuadUrl,
-       );
-
-  factory GameOperationImpl.fromJson(Map<String, dynamic> json) {
-    final logoUrlStr = json['logo_url'] as String?;
-    final logoQuadUrlStr = json['logo_quad_url'] as String?;
-
-    return GameOperationImpl(
-      id: parseInt(json, 'id'),
-      name: json['name'] as String,
-      shortName: json['short_name'] as String?,
-      path: json['path'] as String,
-      logoUrl: logoUrlStr != null ? Uri.parse(logoUrlStr.trim()) : null,
-      logoQuadUrl: logoQuadUrlStr != null
-          ? Uri.parse(logoQuadUrlStr.trim())
-          : null,
-    );
-  }
-}
+import '../models/entry_info.dart';
+import '../models/season_info.dart';
+import '../models/game_operation.dart';
+import 'season_info_impl.dart';
+import 'game_operation_impl.dart';
 
 class EntryInfoImpl extends EntryInfo {
   EntryInfoImpl({
