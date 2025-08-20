@@ -3,12 +3,12 @@ import '../../net/rest_client.dart';
 import '../../api_models/period_title.dart';
 import '../../api_models/game_result.dart';
 import '../../api_models/logo_host.dart';
-import '../../api_models/referee.dart';
 import '../models/detailed_game.dart';
 
 import 'int_parser.dart';
 import 'string_parser.dart';
 
+import 'referee_parser.dart';
 import 'game_day_parser.dart';
 import 'game_event_parser.dart';
 import 'player_parser.dart';
@@ -73,7 +73,7 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
     deletable: json['deletable'] as bool,
     noticeType: parseNullableString(json, 'notice_type'),
     noticeString: parseNullableString(json, 'notice_string'),
-    referees: refereesJson.map((referee) => Referee.fromJson(referee)).toList(),
+    referees: refereesJson.map((referee) => parseReferee(referee)).toList(),
   );
 }
 

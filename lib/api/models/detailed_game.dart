@@ -1,8 +1,8 @@
 import '../../api_models/period_title.dart';
 import '../../api_models/game_result.dart';
 import '../../api_models/logo_host.dart';
-import '../../api_models/referee.dart';
 
+import 'referee.dart';
 import 'game_day.dart';
 import 'game_event.dart';
 import 'player.dart';

@@ -1,7 +1,8 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
 import 'game_result.dart';
-import 'referee.dart';
+import '../api/models/referee.dart';
+import '../api/impls/referee_parser.dart';
 import '../api/impls/int_parser.dart';
 import 'logo_host.dart';
 
@@ -115,9 +116,7 @@ class Game {
       guestTeamLogo: json['guest_team_logo'] as String?,
       guestTeamSmallLogo: json['guest_team_small_logo'] as String?,
       nominatedRefereeString: json['nominated_referee_string'] as String?,
-      referees: refereesJson
-          .map((referee) => Referee.fromJson(referee))
-          .toList(),
+      referees: refereesJson.map((referee) => parseReferee(referee)).toList(),
       noticeType: json['notice_type'] as String?,
       noticeString: json['notice_string'] as String?,
       state: json['state'] as String,
