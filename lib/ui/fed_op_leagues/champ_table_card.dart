@@ -5,7 +5,7 @@ import '../widgets/team_logo.dart';
 
 class ExpandableChampTableCard extends StatelessWidget {
   final String title;
-  final List<GroupTable> groupTables;
+  final List<ChampGroupTable> groupTables;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -137,7 +137,7 @@ class ExpandableChampTableCard extends StatelessWidget {
     );
   }
 
-  Widget _buildGroupTable(GroupTable group) {
+  Widget _buildGroupTable(ChampGroupTable group) {
     return Container(
       margin: EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
@@ -186,7 +186,7 @@ class ExpandableChampTableCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTeamTable(List<TeamTableEntry> table, bool hidePoints) {
+  Widget _buildTeamTable(List<LeagueTableRow> table, bool hidePoints) {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Column(
@@ -197,7 +197,7 @@ class ExpandableChampTableCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTableRow(TeamTableEntry entry, bool hidePoints) {
+  Widget _buildTableRow(LeagueTableRow entry, bool hidePoints) {
     return Container(
       height: 36.0,
       margin: EdgeInsets.only(bottom: 4.0),

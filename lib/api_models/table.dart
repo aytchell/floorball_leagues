@@ -3,7 +3,7 @@ import '../api/impls/int_parser.dart';
 import '../api/models/logo_host.dart';
 
 // Data models for a league table from saisonmanager
-class TeamTableEntry {
+class LeagueTableRow {
   int games;
   int won;
   int draw;
@@ -22,7 +22,7 @@ class TeamTableEntry {
   int sort;
   int position;
 
-  TeamTableEntry({
+  LeagueTableRow({
     required this.games,
     required this.won,
     required this.draw,
@@ -45,8 +45,8 @@ class TeamTableEntry {
   Uri? get teamLogoUri => buildLogoUri(teamLogo);
   Uri? get teamLogoSmallUri => buildLogoUri(teamLogoSmall);
 
-  factory TeamTableEntry.fromJson(Map<String, dynamic> json) {
-    return TeamTableEntry(
+  factory LeagueTableRow.fromJson(Map<String, dynamic> json) {
+    return LeagueTableRow(
       games: parseInt(json, 'games'),
       won: parseInt(json, 'won'),
       draw: parseInt(json, 'draw'),
@@ -68,32 +68,32 @@ class TeamTableEntry {
   }
 }
 
-class GroupTable {
+class ChampGroupTable {
   String groupIdentifier;
   String name;
-  List<TeamTableEntry> table;
+  List<LeagueTableRow> table;
   bool hidePoints;
 
-  GroupTable({
+  ChampGroupTable({
     required this.groupIdentifier,
     required this.name,
     required this.table,
     this.hidePoints = false,
   });
 
-  factory GroupTable.fromJson(Map<String, dynamic> json) {
+  factory ChampGroupTable.fromJson(Map<String, dynamic> json) {
     final tableJson = json['table'] as List<dynamic>;
 
-    return GroupTable(
+    return ChampGroupTable(
       groupIdentifier: json['group_identifier'] as String,
       name: json['name'] as String,
-      table: tableJson.map((entry) => TeamTableEntry.fromJson(entry)).toList(),
+      table: tableJson.map((entry) => LeagueTableRow.fromJson(entry)).toList(),
     );
   }
 }
 
 class TeamTable {
-  static Future<List<TeamTableEntry>> fetchLeagueTableFromServer(
+  static Future<List<LeagueTableRow>> fetchLeagueTableFromServer(
     RestClient client,
     int leagueId,
   ) async {
@@ -102,10 +102,10 @@ class TeamTable {
     );
 
     final jsonData = await client.getJson(uri) as List<dynamic>;
-    return jsonData.map((entry) => TeamTableEntry.fromJson(entry)).toList();
+    return jsonData.map((entry) => LeagueTableRow.fromJson(entry)).toList();
   }
 
-  static Future<List<GroupTable>> fetchChampTableFromServer(
+  static Future<List<ChampGroupTable>> fetchChampTableFromServer(
     RestClient client,
     int leagueId,
   ) async {
@@ -115,7 +115,7 @@ class TeamTable {
 
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
     return jsonData
-        .map((key, value) => MapEntry.new(key, GroupTable.fromJson(value)))
+        .map((key, value) => MapEntry.new(key, ChampGroupTable.fromJson(value)))
         .values
         .toList();
   }

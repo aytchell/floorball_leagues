@@ -5,7 +5,7 @@ import '../widgets/team_logo.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String title;
-  final List<TeamTableEntry> teamEntries;
+  final List<LeagueTableRow> teamEntries;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -137,7 +137,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTableRow(TeamTableEntry entry) {
+  Widget _buildTableRow(LeagueTableRow entry) {
     return Container(
       margin: EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),

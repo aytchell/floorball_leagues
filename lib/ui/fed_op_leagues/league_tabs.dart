@@ -55,8 +55,8 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
   RestClient? restClient;
   Map<int, List<Game>> gameDays = {};
-  List<TeamTableEntry> leagueTable = [];
-  List<GroupTable> champTable = [];
+  List<LeagueTableRow> leagueTable = [];
+  List<ChampGroupTable> champTable = [];
   List<Scorer> scorers = [];
 
   @override
@@ -97,13 +97,13 @@ class _LeagueTabsState extends State<LeagueTabs> {
     } else {
       final tableEntries = (widget.leagueType == 'league')
           ? await _fetchLeagueTable(restClient!)
-          : <TeamTableEntry>[];
+          : <LeagueTableRow>[];
       final champEntries = (widget.leagueType == 'champ')
           ? await _fetchChampTable(
               restClient!,
               days.values.expand((games) => games).toList(),
             )
-          : <GroupTable>[];
+          : <ChampGroupTable>[];
       final fetchedScorers = await _fetchScorerList(restClient!);
 
       setState(() {
@@ -116,11 +116,11 @@ class _LeagueTabsState extends State<LeagueTabs> {
     }
   }
 
-  Future<List<TeamTableEntry>> _fetchLeagueTable(RestClient restClient) async {
+  Future<List<LeagueTableRow>> _fetchLeagueTable(RestClient restClient) async {
     return TeamTable.fetchLeagueTableFromServer(restClient, widget.league.id);
   }
 
-  Future<List<GroupTable>> _fetchChampTable(
+  Future<List<ChampGroupTable>> _fetchChampTable(
     RestClient restClient,
     List<Game> games,
   ) async {
@@ -153,7 +153,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         .toList();
 
     groupTables.add(
-      GroupTable(
+      ChampGroupTable(
         groupIdentifier: 'final_round',
         name: 'Endstand',
         table: finalTable,
@@ -167,7 +167,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     return widget.league.getScorers();
   }
 
-  List<TeamTableEntry> _buildMicroTable(Game game, int position) {
+  List<LeagueTableRow> _buildMicroTable(Game game, int position) {
     if (!game.ended) {
       return [
         _buildDummyTeamTableEntry(position, "Noch unbekannt", null, null),
@@ -208,13 +208,13 @@ class _LeagueTabsState extends State<LeagueTabs> {
     }
   }
 
-  TeamTableEntry _buildDummyTeamTableEntry(
+  LeagueTableRow _buildDummyTeamTableEntry(
     int position,
     String name,
     String? teamLogo,
     String? teamLogoSmall,
   ) {
-    return TeamTableEntry(
+    return LeagueTableRow(
       games: 0,
       won: 0,
       draw: 0,
