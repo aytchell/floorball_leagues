@@ -1,9 +1,10 @@
 import 'period_title.dart';
+import 'detailed_game.dart';
 import 'game_result.dart';
 import 'referee.dart';
 import 'logo_host.dart';
 
-class Game {
+abstract class Game {
   int gameId;
   int gameNumber;
   int gameDay;
@@ -84,4 +85,6 @@ class Game {
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  Future<DetailedGame?> getDetailedVersion();
 }
