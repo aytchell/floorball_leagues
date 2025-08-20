@@ -108,22 +108,4 @@ class DetailedGame {
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
-
-  bool get isFinished => ended;
-
-  bool get isUpcoming => !started && !ended;
-
-  String get displayResult {
-    if (resultString != null) {
-      return resultString!;
-    } else if (result != null) {
-      return '${result!.homeGoals}:${result!.guestGoals}';
-    } else {
-      return '-:-';
-    }
-  }
-
-  DateTime get gameDateTime {
-    return DateTime.parse('$date $startTime:00');
-  }
 }
