@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../api_models/detailed_game.dart';
+import '../../../api/models/starting_player.dart';
 import 'player_table.dart';
 
 class StartingPlayerAdapter implements TableContentProvider {

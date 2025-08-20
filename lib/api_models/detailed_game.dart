@@ -11,38 +11,8 @@ import '../api/models/game_event.dart';
 import '../api/impls/game_event_parser.dart';
 import '../api/models/player.dart';
 import '../api/impls/player_parser.dart';
-
-class StartingPlayer {
-  String position;
-  String team;
-  int? playerId;
-  String? playerFirstname;
-  String? playerName;
-  int? trikotNumber;
-
-  StartingPlayer({
-    required this.position,
-    required this.team,
-    this.playerId,
-    this.playerFirstname,
-    this.playerName,
-    this.trikotNumber,
-  });
-
-  String get name => '$playerFirstname $playerName';
-  bool get notGiven => (trikotNumber == null);
-
-  factory StartingPlayer.fromJson(Map<String, dynamic> json) {
-    return StartingPlayer(
-      position: parseString(json, 'position'),
-      team: parseString(json, 'team'),
-      playerId: parseNullableInt(json, 'player_id'),
-      playerFirstname: parseNullableString(json, 'player_firstname'),
-      playerName: parseNullableString(json, 'player_name'),
-      trikotNumber: parseNullableInt(json, 'trikot_number'),
-    );
-  }
-}
+import '../api/models/starting_player.dart';
+import '../api/impls/starting_player_parser.dart';
 
 class Award {
   String award;
@@ -89,30 +59,6 @@ class Players {
     return Players(
       home: homeJson.map((player) => parsePlayer(player)).toList(),
       guest: guestJson.map((player) => parsePlayer(player)).toList(),
-    );
-  }
-}
-
-class StartingPlayers {
-  List<StartingPlayer> home;
-  List<StartingPlayer> guest;
-
-  StartingPlayers({required this.home, required this.guest});
-
-  bool get notGiven {
-    return (home.isEmpty || home.every((p) => p.notGiven)) &&
-        (guest.isEmpty || guest.every((p) => p.notGiven));
-  }
-
-  factory StartingPlayers.fromJson(Map<String, dynamic> json) {
-    var homeJson = json['home'] as List? ?? [];
-    var guestJson = json['guest'] as List? ?? [];
-
-    return StartingPlayers(
-      home: homeJson.map((player) => StartingPlayer.fromJson(player)).toList(),
-      guest: guestJson
-          .map((player) => StartingPlayer.fromJson(player))
-          .toList(),
     );
   }
 }
@@ -245,7 +191,7 @@ class DetailedGame {
     var refereesJson = json['referees'] as List;
     var startingPlayers = (json['starting_players'] == null)
         ? null
-        : StartingPlayers.fromJson(json['starting_players']);
+        : parseStartingPlayers(json['starting_players']);
     final awards = (json['awards'] == null)
         ? null
         : Awards.fromJson(json['awards']);
