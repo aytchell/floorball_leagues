@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../api/models/game_operation_league.dart';
-import '../../api_models/game.dart';
+import '../../api/models/game.dart';
 import '../../api_models/table.dart';
 import '../../api/models/scorer.dart';
 import '../../net/rest_client.dart';

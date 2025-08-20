@@ -1,6 +1,6 @@
 import 'game_day_title.dart';
 import 'scorer.dart';
-import '../../api_models/game.dart';
+import 'game.dart';
 
 abstract class GameOperationLeague {
   int id;
