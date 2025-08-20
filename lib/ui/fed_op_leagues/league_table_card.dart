@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../api_models/table.dart';
 import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
+import '../../api/models/league_table_row.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String title;

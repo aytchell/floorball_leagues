@@ -1,6 +1,8 @@
 import 'game_day_title.dart';
 import 'scorer.dart';
 import 'game.dart';
+import 'league_table_row.dart';
+import 'champ_group_table.dart';
 
 abstract class GameOperationLeague {
   int id;
@@ -63,4 +65,6 @@ abstract class GameOperationLeague {
 
   Future<List<Game>> getGames(int gameDayNumber);
   Future<List<Scorer>> getScorers();
+  Future<List<LeagueTableRow>> getLeagueTable();
+  Future<List<ChampGroupTable>> getChampTable();
 }

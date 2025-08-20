@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 import '../../api/models/game_operation_league.dart';
 import '../../api/models/game.dart';
-import '../../api_models/table.dart';
 import '../../api/models/scorer.dart';
+import '../../api/models/champ_group_table.dart';
+import '../../api/models/league_table_row.dart';
+
 import '../../net/rest_client.dart';
 import '../../app_state.dart';
 import '../game_day/game_card.dart';
@@ -117,17 +119,14 @@ class _LeagueTabsState extends State<LeagueTabs> {
   }
 
   Future<List<LeagueTableRow>> _fetchLeagueTable(RestClient restClient) async {
-    return TeamTable.fetchLeagueTableFromServer(restClient, widget.league.id);
+    return widget.league.getLeagueTable();
   }
 
   Future<List<ChampGroupTable>> _fetchChampTable(
     RestClient restClient,
     List<Game> games,
   ) async {
-    var groupTables = await TeamTable.fetchChampTableFromServer(
-      restClient,
-      widget.league.id,
-    );
+    var champTable = await widget.league.getChampTable();
 
     final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
     final placements = games
@@ -152,7 +151,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         .expand((i) => i)
         .toList();
 
-    groupTables.add(
+    champTable.add(
       ChampGroupTable(
         groupIdentifier: 'final_round',
         name: 'Endstand',
@@ -160,7 +159,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         hidePoints: true,
       ),
     );
-    return groupTables;
+    return champTable;
   }
 
   Future<List<Scorer>> _fetchScorerList(RestClient restClient) async {

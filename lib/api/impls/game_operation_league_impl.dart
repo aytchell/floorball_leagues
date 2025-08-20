@@ -3,9 +3,14 @@ import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
 import '../models/scorer.dart';
 import '../models/game.dart';
+import '../models/league_table_row.dart';
+import '../models/champ_group_table.dart';
 import 'game_parser.dart';
 import 'game_day_title_parser.dart';
 import 'scorer_fetcher.dart';
+import 'league_table_fetcher.dart';
+import 'champ_table_fetcher.dart';
+
 import 'int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
@@ -121,5 +126,13 @@ class GameOperationLeagueImpl extends GameOperationLeague {
 
   Future<List<Scorer>> getScorers() async {
     return fetchScorers(client, id);
+  }
+
+  Future<List<LeagueTableRow>> getLeagueTable() async {
+    return fetchLeagueTableFromServer(client, id);
+  }
+
+  Future<List<ChampGroupTable>> getChampTable() async {
+    return fetchChampTableFromServer(client, id);
   }
 }

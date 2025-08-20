@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../api_models/table.dart';
+import '../../api/models/champ_group_table.dart';
+import '../../api/models/league_table_row.dart';
 import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
 
