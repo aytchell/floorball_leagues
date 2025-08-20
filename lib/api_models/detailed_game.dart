@@ -13,38 +13,8 @@ import '../api/models/player.dart';
 import '../api/impls/player_parser.dart';
 import '../api/models/starting_player.dart';
 import '../api/impls/starting_player_parser.dart';
-
-class Award {
-  String award;
-  String team;
-  int? playerId;
-  String? playerFirstname;
-  String? playerName;
-  int? trikotNumber;
-
-  Award({
-    required this.award,
-    required this.team,
-    this.playerId,
-    this.playerFirstname,
-    this.playerName,
-    this.trikotNumber,
-  });
-
-  String get name => '$playerFirstname $playerName';
-  bool get notGiven => (trikotNumber == null);
-
-  factory Award.fromJson(Map<String, dynamic> json) {
-    return Award(
-      award: parseString(json, 'award'),
-      team: parseString(json, 'team'),
-      playerId: parseNullableInt(json, 'player_id'),
-      playerFirstname: parseNullableString(json, 'player_firstname'),
-      playerName: parseNullableString(json, 'player_name'),
-      trikotNumber: parseNullableInt(json, 'trikot_number'),
-    );
-  }
-}
+import '../api/models/award.dart';
+import '../api/impls/award_parser.dart';
 
 class Players {
   List<Player> home;
@@ -59,28 +29,6 @@ class Players {
     return Players(
       home: homeJson.map((player) => parsePlayer(player)).toList(),
       guest: guestJson.map((player) => parsePlayer(player)).toList(),
-    );
-  }
-}
-
-class Awards {
-  List<Award> home;
-  List<Award> guest;
-
-  Awards({required this.home, required this.guest});
-
-  bool get notGiven {
-    return (home.isEmpty || home.every((p) => p.notGiven)) &&
-        (guest.isEmpty || guest.every((p) => p.notGiven));
-  }
-
-  factory Awards.fromJson(Map<String, dynamic> json) {
-    var homeJson = json['home'] as List? ?? [];
-    var guestJson = json['guest'] as List? ?? [];
-
-    return Awards(
-      home: homeJson.map((award) => Award.fromJson(award)).toList(),
-      guest: guestJson.map((award) => Award.fromJson(award)).toList(),
     );
   }
 }
@@ -194,7 +142,7 @@ class DetailedGame {
         : parseStartingPlayers(json['starting_players']);
     final awards = (json['awards'] == null)
         ? null
-        : Awards.fromJson(json['awards']);
+        : parseAwards(json['awards']);
 
     return DetailedGame(
       id: parseInt(json, 'id'),
