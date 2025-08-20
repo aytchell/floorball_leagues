@@ -1,8 +1,9 @@
 import '../net/rest_client.dart';
-import 'period_title.dart';
+import '../api/models/period_title.dart';
 import 'game_result.dart';
 import '../api/models/referee.dart';
 import '../api/impls/referee_parser.dart';
+import '../api/impls/period_title_parser.dart';
 import '../api/impls/int_parser.dart';
 import 'logo_host.dart';
 
@@ -120,9 +121,7 @@ class Game {
       noticeType: json['notice_type'] as String?,
       noticeString: json['notice_string'] as String?,
       state: json['state'] as String,
-      currentPeriodTitle: rawTitle != null
-          ? PeriodTitle.fromJson(rawTitle)
-          : null,
+      currentPeriodTitle: rawTitle != null ? parsePeriodTitle(rawTitle) : null,
       groupIdentifier: json['group_identifier'] as String?,
       seriesTitle: json['series_title'] as String?,
       seriesNumber: json['series_number'] as String?,

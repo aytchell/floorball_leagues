@@ -7,7 +7,6 @@ import '../../app_state.dart';
 import '../../api/models/game_day.dart';
 import '../../api/models/detailed_game.dart';
 import '../../api/models/player.dart';
-import '../../api_models/period_title.dart';
 import '../../api/impls/detailed_game_fetcher.dart';
 import '../main_app_scaffold.dart';
 import '../app_text_styles.dart';

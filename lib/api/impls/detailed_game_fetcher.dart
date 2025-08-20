@@ -1,6 +1,5 @@
 import '../../net/rest_client.dart';
 
-import '../../api_models/period_title.dart';
 import '../../api_models/game_result.dart';
 import '../../api_models/logo_host.dart';
 import '../models/detailed_game.dart';
@@ -8,6 +7,7 @@ import '../models/detailed_game.dart';
 import 'int_parser.dart';
 import 'string_parser.dart';
 
+import 'period_title_parser.dart';
 import 'referee_parser.dart';
 import 'game_day_parser.dart';
 import 'game_event_parser.dart';
@@ -60,10 +60,10 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
     gameOperationShortName: parseString(json, 'game_operation_short_name'),
     gameOperationSlug: parseString(json, 'game_operation_slug'),
     periodTitles: periodTitlesJson
-        .map((title) => PeriodTitle.fromJson(title))
+        .map((title) => parsePeriodTitle(title))
         .toList(),
     currentPeriodTitle: json['current_period_title'] != null
-        ? PeriodTitle.fromJson(json['current_period_title'])
+        ? parsePeriodTitle(json['current_period_title'])
         : null,
     arena: parseInt(json, 'arena'),
     arenaName: parseString(json, 'arena_name'),

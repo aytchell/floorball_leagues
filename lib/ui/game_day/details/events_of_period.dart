@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../api_models/period_title.dart';
+import '../../../api/models/period_title.dart';
 import '../../../api/models/game_event.dart';
 import 'single_game_event.dart';
 
