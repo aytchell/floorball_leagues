@@ -10,7 +10,6 @@ import '../../api/models/scorer.dart';
 import '../../api/models/champ_group_table.dart';
 import '../../api/models/league_table_row.dart';
 
-import '../../net/rest_client.dart';
 import '../../app_state.dart';
 import '../game_day/game_card.dart';
 import '../game_day/game_day_table.dart';
@@ -55,7 +54,6 @@ class _LeagueTabsState extends State<LeagueTabs> {
   int? expandedIndex;
   bool isLoading = false;
 
-  RestClient? restClient;
   Map<int, List<Game>> gameDays = {};
   List<LeagueTableRow> leagueTable = [];
   List<ChampGroupTable> champTable = [];
@@ -71,8 +69,6 @@ class _LeagueTabsState extends State<LeagueTabs> {
     setState(() {
       isLoading = true;
     });
-
-    restClient ??= await RestClient.instance;
 
     final daysFutures = Map.fromIterable(
       widget.league.gameDayTitles,
@@ -98,15 +94,14 @@ class _LeagueTabsState extends State<LeagueTabs> {
       });
     } else {
       final tableEntries = (widget.leagueType == 'league')
-          ? await _fetchLeagueTable(restClient!)
+          ? await _fetchLeagueTable()
           : <LeagueTableRow>[];
       final champEntries = (widget.leagueType == 'champ')
           ? await _fetchChampTable(
-              restClient!,
               days.values.expand((games) => games).toList(),
             )
           : <ChampGroupTable>[];
-      final fetchedScorers = await _fetchScorerList(restClient!);
+      final fetchedScorers = await _fetchScorerList();
 
       setState(() {
         gameDays = days;
@@ -118,14 +113,11 @@ class _LeagueTabsState extends State<LeagueTabs> {
     }
   }
 
-  Future<List<LeagueTableRow>> _fetchLeagueTable(RestClient restClient) async {
+  Future<List<LeagueTableRow>> _fetchLeagueTable() async {
     return widget.league.getLeagueTable();
   }
 
-  Future<List<ChampGroupTable>> _fetchChampTable(
-    RestClient restClient,
-    List<Game> games,
-  ) async {
+  Future<List<ChampGroupTable>> _fetchChampTable(List<Game> games) async {
     var champTable = await widget.league.getChampTable();
 
     final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
@@ -162,7 +154,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     return champTable;
   }
 
-  Future<List<Scorer>> _fetchScorerList(RestClient restClient) async {
+  Future<List<Scorer>> _fetchScorerList() async {
     return widget.league.getScorers();
   }
 

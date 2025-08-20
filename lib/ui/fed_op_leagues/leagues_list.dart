@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../api/models/season_info.dart';
 import '../../api/models/game_operation.dart';
 import '../../api/models/game_operation_league.dart';
-import '../../net/rest_client.dart';
 import 'league_tabs.dart';
 import '../main_app_scaffold.dart';
 import '../widgets/nothing_found.dart';
@@ -24,7 +23,6 @@ class GameOperationLeagueList extends StatefulWidget {
 }
 
 class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
-  RestClient? restClient;
   List<GameOperationLeague> leagues = [];
   bool isLoading = false;
 
@@ -40,7 +38,6 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
     });
 
     try {
-      restClient ??= await RestClient.instance;
       final leagues = await widget.gameOp.getLeagues(widget.selectedSeason.id);
       setState(() {
         this.leagues = leagues!;
