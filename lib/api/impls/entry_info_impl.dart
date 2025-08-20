@@ -4,7 +4,7 @@ import '../../api_models/int_parser.dart';
 import '../models/entry_info.dart';
 import '../models/season_info.dart';
 import '../models/game_operation.dart';
-import 'season_info_impl.dart';
+import 'season_info_parser.dart';
 import 'game_operation_impl.dart';
 
 class EntryInfoImpl extends EntryInfo {
@@ -30,7 +30,7 @@ class EntryInfoImpl extends EntryInfo {
     var operationsJson = json['game_operations'] as List? ?? [];
     return EntryInfoImpl(
       seasons: seasonsJson
-          .map((seasonJson) => SeasonInfoImpl.fromJson(seasonJson))
+          .map((seasonJson) => parseSeasonInfo(seasonJson))
           .toList(),
       currentSeasonId: parseNullableInt(json, 'current_season_id'),
       gameOperations: operationsJson

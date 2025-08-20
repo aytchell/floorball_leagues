@@ -1,6 +1,6 @@
 import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
-import '../impls/game_day_title_impl.dart';
+import '../impls/game_day_title_parser.dart';
 import '../../api_models/int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
@@ -83,7 +83,7 @@ class GameOperationLeagueImpl extends GameOperationLeague {
       orderKey: json['order_key'] as String?,
       gameDayNumbers: parseListOfInt(json, 'game_day_numbers'),
       gameDayTitles: gameDayTitlesJson
-          .map((title) => GameDayTitleImpl.fromJson(title))
+          .map((title) => parseGameDayTitle(title))
           .toList(),
       deadline: json['deadline'] as String?,
       beforeDeadline: json['before_deadline'] as bool?,
