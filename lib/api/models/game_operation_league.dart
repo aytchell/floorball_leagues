@@ -1,4 +1,5 @@
 import 'game_day_title.dart';
+import 'scorer.dart';
 import '../../api_models/game.dart';
 
 abstract class GameOperationLeague {
@@ -61,4 +62,5 @@ abstract class GameOperationLeague {
   });
 
   Future<List<Game>> getGames(int gameDayNumber);
+  Future<List<Scorer>> getScorers();
 }

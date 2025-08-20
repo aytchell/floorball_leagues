@@ -1,8 +1,10 @@
 import '../../net/rest_client.dart';
 import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
+import '../models/scorer.dart';
 import '../../api_models/game.dart';
 import 'game_day_title_parser.dart';
+import 'scorer_fetcher.dart';
 import 'int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
@@ -114,5 +116,9 @@ class GameOperationLeagueImpl extends GameOperationLeague {
 
     final jsonData = await client.getJson(uri) as List<dynamic>;
     return jsonData.map((game) => Game.fromJson(game)).toList();
+  }
+
+  Future<List<Scorer>> getScorers() async {
+    return fetchScorers(client, id);
   }
 }

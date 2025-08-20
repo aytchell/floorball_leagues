@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../api/models/game_operation_league.dart';
 import '../../api_models/game.dart';
 import '../../api_models/table.dart';
-import '../../api_models/scorer.dart';
+import '../../api/models/scorer.dart';
 import '../../net/rest_client.dart';
 import '../../app_state.dart';
 import '../game_day/game_card.dart';
@@ -164,7 +164,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
   }
 
   Future<List<Scorer>> _fetchScorerList(RestClient restClient) async {
-    return Scorers.fetchFromServer(restClient, widget.league.id);
+    return widget.league.getScorers();
   }
 
   List<TeamTableEntry> _buildMicroTable(Game game, int position) {
