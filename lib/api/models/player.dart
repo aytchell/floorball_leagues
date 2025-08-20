@@ -19,3 +19,10 @@ class Player {
 
   String get name => '$playerFirstname $playerName';
 }
+
+class Players {
+  List<Player> home;
+  List<Player> guest;
+
+  Players({required this.home, required this.guest});
+}

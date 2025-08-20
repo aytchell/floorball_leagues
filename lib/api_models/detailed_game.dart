@@ -16,23 +16,6 @@ import '../api/impls/starting_player_parser.dart';
 import '../api/models/award.dart';
 import '../api/impls/award_parser.dart';
 
-class Players {
-  List<Player> home;
-  List<Player> guest;
-
-  Players({required this.home, required this.guest});
-
-  factory Players.fromJson(Map<String, dynamic> json) {
-    var homeJson = json['home'] as List? ?? [];
-    var guestJson = json['guest'] as List? ?? [];
-
-    return Players(
-      home: homeJson.map((player) => parsePlayer(player)).toList(),
-      guest: guestJson.map((player) => parsePlayer(player)).toList(),
-    );
-  }
-}
-
 class DetailedGame {
   int id;
   String gameNumber;
@@ -165,7 +148,7 @@ class DetailedGame {
       liveStreamLink: parseNullableString(json, 'live_stream_link'),
       vodLink: parseNullableString(json, 'vod_link'),
       events: eventsJson.map((event) => parseGameEvent(event)).toList(),
-      players: Players.fromJson(json['players'] ?? {}),
+      players: parsePlayers(json['players'] ?? {}),
       startingPlayers: startingPlayers,
       awards: awards,
       started: json['started'] as bool,

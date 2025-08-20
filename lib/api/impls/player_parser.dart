@@ -13,3 +13,13 @@ Player parsePlayer(Map<String, dynamic> json) {
     captain: json['captain'] as bool?,
   );
 }
+
+Players parsePlayers(Map<String, dynamic> json) {
+  var homeJson = json['home'] as List? ?? [];
+  var guestJson = json['guest'] as List? ?? [];
+
+  return Players(
+    home: homeJson.map((player) => parsePlayer(player)).toList(),
+    guest: guestJson.map((player) => parsePlayer(player)).toList(),
+  );
+}
