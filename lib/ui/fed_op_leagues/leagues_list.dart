@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../api/models/season_info.dart';
 import '../../api/models/game_operation.dart';
-import '../../api_models/game_operations.dart';
+import '../../api/models/game_operation_league.dart';
 import '../../net/rest_client.dart';
 import 'league_tabs.dart';
 import '../main_app_scaffold.dart';

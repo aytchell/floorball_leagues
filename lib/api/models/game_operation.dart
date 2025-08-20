@@ -1,4 +1,4 @@
-import '../../api_models/game_operations.dart';
+import '../../api/models/game_operation_league.dart';
 
 abstract class GameOperation {
   int id;

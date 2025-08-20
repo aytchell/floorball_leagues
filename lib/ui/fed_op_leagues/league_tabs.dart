@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../api_models/game_operations.dart';
+import '../../api/models/game_operation_league.dart';
 import '../../api_models/game_day.dart';
 import '../../api_models/table.dart';
 import '../../api_models/scorer.dart';

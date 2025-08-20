@@ -1,5 +1,6 @@
 import '../../api_models/int_parser.dart';
-import '../../api_models/game_operations.dart';
+import '../../api/models/game_operation_league.dart';
+import '../../api/impls/game_operation_league_impl.dart';
 import '../../net/rest_client.dart';
 
 import '../models/game_operation.dart';
@@ -52,7 +53,7 @@ class GameOperationImpl extends GameOperation {
 
     final jsonData = await client.getJson(uri) as List<dynamic>;
     return jsonData
-        .map((gameOp) => GameOperationLeague.fromJson(gameOp))
+        .map((gameOp) => GameOperationLeagueImpl.fromJson(gameOp))
         .toList();
     return null;
   }
