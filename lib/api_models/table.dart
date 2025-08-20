@@ -1,5 +1,5 @@
 import '../net/rest_client.dart';
-import 'int_parser.dart';
+import '../api/impls/int_parser.dart';
 import 'logo_host.dart';
 
 // Data models for a league table from saisonmanager

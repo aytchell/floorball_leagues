@@ -1,6 +1,6 @@
-import '../../api_models/int_parser.dart';
-import '../../api/models/game_operation_league.dart';
-import '../../api/impls/game_operation_league_impl.dart';
+import 'int_parser.dart';
+import '../models/game_operation_league.dart';
+import 'game_operation_league_impl.dart';
 import '../../net/rest_client.dart';
 
 import '../models/game_operation.dart';

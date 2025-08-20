@@ -1,5 +1,5 @@
 import '../../net/rest_client.dart';
-import '../../api_models/int_parser.dart';
+import 'int_parser.dart';
 
 import '../models/entry_info.dart';
 import '../models/season_info.dart';

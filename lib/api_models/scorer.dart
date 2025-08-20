@@ -1,5 +1,5 @@
 import '../net/rest_client.dart';
-import 'int_parser.dart';
+import '../api/impls/int_parser.dart';
 
 // Data models for top scorers from saisonmanager
 class ScorerEntry {

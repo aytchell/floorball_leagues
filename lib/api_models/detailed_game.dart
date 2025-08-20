@@ -1,8 +1,8 @@
 import '../net/rest_client.dart';
 import 'period_title.dart';
 import 'game_result.dart';
-import 'int_parser.dart';
-import 'string_parser.dart';
+import '../api/impls/int_parser.dart';
+import '../api/impls/string_parser.dart';
 import 'logo_host.dart';
 import 'referee.dart';
 

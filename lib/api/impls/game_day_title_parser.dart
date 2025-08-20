@@ -1,5 +1,5 @@
 import '../models/game_day_title.dart';
-import '../../api_models/int_parser.dart';
+import 'int_parser.dart';
 
 GameDayTitle parseGameDayTitle(Map<String, dynamic> json) {
   return GameDayTitle(

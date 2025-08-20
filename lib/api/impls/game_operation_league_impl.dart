@@ -1,7 +1,7 @@
 import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
-import '../impls/game_day_title_parser.dart';
-import '../../api_models/int_parser.dart';
+import 'game_day_title_parser.dart';
+import 'int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
   GameOperationLeagueImpl({

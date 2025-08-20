@@ -1,5 +1,5 @@
-import 'int_parser.dart';
-import 'string_parser.dart';
+import '../api/impls/int_parser.dart';
+import '../api/impls/string_parser.dart';
 
 class GameResultPostfix {
   String? short;

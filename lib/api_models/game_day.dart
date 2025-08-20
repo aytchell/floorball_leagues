@@ -2,7 +2,7 @@ import '../net/rest_client.dart';
 import 'period_title.dart';
 import 'game_result.dart';
 import 'referee.dart';
-import 'int_parser.dart';
+import '../api/impls/int_parser.dart';
 import 'logo_host.dart';
 
 // Data models for a game in a game day from saisonmanager

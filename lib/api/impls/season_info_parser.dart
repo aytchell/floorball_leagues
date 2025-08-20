@@ -1,4 +1,4 @@
-import '../../api_models/int_parser.dart';
+import 'int_parser.dart';
 import '../models/season_info.dart';
 
 SeasonInfo parseSeasonInfo(Map<String, dynamic> json) {
