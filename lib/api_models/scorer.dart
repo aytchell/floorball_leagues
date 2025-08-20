@@ -2,7 +2,7 @@ import '../net/rest_client.dart';
 import '../api/impls/int_parser.dart';
 
 // Data models for top scorers from saisonmanager
-class ScorerEntry {
+class Scorer {
   int games;
   int goals;
   int assists;
@@ -25,7 +25,7 @@ class ScorerEntry {
   int sort;
   int position;
 
-  ScorerEntry({
+  Scorer({
     required this.games,
     required this.goals,
     required this.assists,
@@ -49,8 +49,8 @@ class ScorerEntry {
     required this.position,
   });
 
-  factory ScorerEntry.fromJson(Map<String, dynamic> json) {
-    return ScorerEntry(
+  factory Scorer.fromJson(Map<String, dynamic> json) {
+    return Scorer(
       games: parseInt(json, 'games'),
       goals: parseInt(json, 'goals'),
       assists: parseInt(json, 'assists'),
@@ -84,7 +84,7 @@ class ScorerEntry {
 }
 
 class Scorers {
-  static Future<List<ScorerEntry>> fetchFromServer(
+  static Future<List<Scorer>> fetchFromServer(
     RestClient client,
     int leagueId,
   ) async {
@@ -94,7 +94,7 @@ class Scorers {
 
     try {
       final jsonData = await client.getJson(uri) as List<dynamic>;
-      return jsonData.map((entry) => ScorerEntry.fromJson(entry)).toList();
+      return jsonData.map((entry) => Scorer.fromJson(entry)).toList();
     } catch (e) {
       throw Exception('Failed to fetch scorers: $e');
     }

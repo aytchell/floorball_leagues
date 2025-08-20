@@ -57,7 +57,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
   Map<int, List<Game>> gameDays = {};
   List<TeamTableEntry> leagueTable = [];
   List<GroupTable> champTable = [];
-  List<ScorerEntry> scorersList = [];
+  List<Scorer> scorers = [];
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         gameDays = {};
         leagueTable = [];
         champTable = [];
-        scorersList = [];
+        scorers = [];
         isLoading = false;
       });
     } else {
@@ -104,13 +104,13 @@ class _LeagueTabsState extends State<LeagueTabs> {
               days.values.expand((games) => games).toList(),
             )
           : <GroupTable>[];
-      final scorerEntries = await _fetchScorerList(restClient!);
+      final fetchedScorers = await _fetchScorerList(restClient!);
 
       setState(() {
         gameDays = days;
         leagueTable = tableEntries;
         champTable = champEntries;
-        scorersList = scorerEntries;
+        scorers = fetchedScorers;
         isLoading = false;
       });
     }
@@ -163,7 +163,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     return groupTables;
   }
 
-  Future<List<ScorerEntry>> _fetchScorerList(RestClient restClient) async {
+  Future<List<Scorer>> _fetchScorerList(RestClient restClient) async {
     return Scorers.fetchFromServer(restClient, widget.league.id);
   }
 
@@ -311,7 +311,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
     return ExpandableScorerCard(
       title: 'Scorer',
-      scorerEntries: this.scorersList,
+      scorers: this.scorers,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {

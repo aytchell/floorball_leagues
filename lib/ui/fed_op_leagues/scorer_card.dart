@@ -6,14 +6,14 @@ import '../app_text_styles.dart';
 
 class ExpandableScorerCard extends StatelessWidget {
   final String title;
-  final List<ScorerEntry> scorerEntries;
+  final List<Scorer> scorers;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableScorerCard({
     Key? key,
     required this.title,
-    required this.scorerEntries,
+    required this.scorers,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -21,7 +21,7 @@ class ExpandableScorerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // If no scorers, show simple non-expandable card
-    if (scorerEntries.isEmpty) {
+    if (scorers.isEmpty) {
       return _buildEmptyCard();
     }
 
@@ -122,13 +122,13 @@ class ExpandableScorerCard extends StatelessWidget {
 
   Widget _buildScorerListContent() {
     return Column(
-      children: scorerEntries
-          .mapIndexed((index, entry) => _buildScorerRow(index, entry))
+      children: scorers
+          .mapIndexed((index, scorer) => _buildScorerRow(index, scorer))
           .toList(),
     );
   }
 
-  Widget _buildScorerRow(int index, ScorerEntry entry) {
+  Widget _buildScorerRow(int index, Scorer scorer) {
     return Container(
       margin: EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -165,13 +165,13 @@ class ExpandableScorerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  entry.fullName,
+                  scorer.fullName,
                   style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 2.0),
                 Text(
-                  entry.teamName,
+                  scorer.teamName,
                   style: TextStyle(
                     fontSize: 12.0,
                     color: Colors.grey[600],
@@ -185,7 +185,7 @@ class ExpandableScorerCard extends StatelessWidget {
 
           // Points
           Text(
-            '${entry.points} Pkt',
+            '${scorer.points} Pkt',
             style: TextStyle(
               fontSize: 12.0,
               color: Colors.grey[600],
