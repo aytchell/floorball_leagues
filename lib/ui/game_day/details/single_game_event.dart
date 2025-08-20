@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../api_models/detailed_game.dart';
+import '../../../api/models/game_event.dart';
 import '../../widgets/team_logo.dart';
 
 class SingleGameEvent extends StatelessWidget {

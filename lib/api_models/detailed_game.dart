@@ -7,65 +7,8 @@ import 'logo_host.dart';
 import 'referee.dart';
 import '../api/models/game_day.dart';
 import '../api/impls/game_day_parser.dart';
-
-class GameEvent {
-  int eventId;
-  String eventType;
-  String eventTeam;
-  double period;
-  int? homeGoals;
-  int? guestGoals;
-  String time;
-  String sortkey;
-  int? number;
-  int? assist;
-  String? goalType;
-  String? goalTypeString;
-  String? penaltyType;
-  String? penaltyTypeString;
-  int? penaltyReason;
-  String? penaltyReasonString;
-
-  GameEvent({
-    required this.eventId,
-    required this.eventType,
-    required this.eventTeam,
-    required this.period,
-    this.homeGoals,
-    this.guestGoals,
-    required this.time,
-    required this.sortkey,
-    this.number,
-    this.assist,
-    this.goalType,
-    this.goalTypeString,
-    this.penaltyType,
-    this.penaltyTypeString,
-    this.penaltyReason,
-    this.penaltyReasonString,
-  });
-
-  factory GameEvent.fromJson(Map<String, dynamic> json) {
-    return GameEvent(
-      eventId: parseInt(json, 'event_id'),
-      eventType: parseString(json, 'event_type'),
-      eventTeam: parseString(json, 'event_team'),
-      period: (json['period'] as num).toDouble(),
-      homeGoals: parseNullableInt(json, 'home_goals'),
-      guestGoals: parseNullableInt(json, 'guest_goals'),
-      time: parseString(json, 'time'),
-      sortkey: parseString(json, 'sortkey'),
-      number: parseNullableInt(json, 'number'),
-      assist: parseNullableInt(json, 'assist'),
-      goalType: parseNullableString(json, 'goal_type'),
-      goalTypeString: parseNullableString(json, 'goal_type_string'),
-      penaltyType: parseNullableString(json, 'penalty_type'),
-      penaltyTypeString: parseNullableString(json, 'penalty_type_string'),
-      penaltyReason: parseNullableInt(json, 'penalty_reason'),
-      penaltyReasonString: parseNullableString(json, 'penalty_reason_string'),
-    );
-  }
-}
+import '../api/models/game_event.dart';
+import '../api/impls/game_event_parser.dart';
 
 class Player {
   int playerId;
@@ -359,7 +302,7 @@ class DetailedGame {
       guestTeamSmallLogo: parseString(json, 'guest_team_small_logo'),
       liveStreamLink: parseNullableString(json, 'live_stream_link'),
       vodLink: parseNullableString(json, 'vod_link'),
-      events: eventsJson.map((event) => GameEvent.fromJson(event)).toList(),
+      events: eventsJson.map((event) => parseGameEvent(event)).toList(),
       players: Players.fromJson(json['players'] ?? {}),
       startingPlayers: startingPlayers,
       awards: awards,
