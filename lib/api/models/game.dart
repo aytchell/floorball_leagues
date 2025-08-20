@@ -1,7 +1,7 @@
 import 'period_title.dart';
 import 'game_result.dart';
 import 'referee.dart';
-import '../../api_models/logo_host.dart';
+import 'logo_host.dart';
 
 class Game {
   int gameId;

@@ -1,6 +1,6 @@
 import '../../net/rest_client.dart';
 
-import '../../api_models/logo_host.dart';
+import '../models/logo_host.dart';
 import '../models/detailed_game.dart';
 
 import 'int_parser.dart';

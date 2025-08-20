@@ -1,5 +1,4 @@
-import '../../api_models/logo_host.dart';
-
+import 'logo_host.dart';
 import 'game_result.dart';
 import 'period_title.dart';
 import 'referee.dart';

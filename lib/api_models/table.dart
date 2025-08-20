@@ -1,6 +1,6 @@
 import '../net/rest_client.dart';
 import '../api/impls/int_parser.dart';
-import 'logo_host.dart';
+import '../api/models/logo_host.dart';
 
 // Data models for a league table from saisonmanager
 class TeamTableEntry {
