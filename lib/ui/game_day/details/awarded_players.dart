@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../api_models/detailed_game.dart';
+import '../../../api/models/detailed_game.dart';
 import '../../../api/models/award.dart';
 import 'player_table.dart';
 
