@@ -1,12 +1,12 @@
 import '../../net/rest_client.dart';
 
-import '../../api_models/game_result.dart';
 import '../../api_models/logo_host.dart';
 import '../models/detailed_game.dart';
 
 import 'int_parser.dart';
 import 'string_parser.dart';
 
+import 'game_result_parser.dart';
 import 'period_title_parser.dart';
 import 'referee_parser.dart';
 import 'game_day_parser.dart';
@@ -51,7 +51,7 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
     started: json['started'] as bool,
     ended: json['ended'] as bool,
     resultString: parseNullableString(json, 'result_string'),
-    result: json['result'] != null ? GameResult.fromJson(json['result']) : null,
+    result: json['result'] != null ? parseGameResult(json['result']) : null,
     leagueId: parseInt(json, 'league_id'),
     leagueName: parseString(json, 'league_name'),
     leagueShortName: parseString(json, 'league_short_name'),

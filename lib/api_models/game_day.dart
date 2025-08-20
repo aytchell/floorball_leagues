@@ -1,6 +1,7 @@
 import '../net/rest_client.dart';
 import '../api/models/period_title.dart';
-import 'game_result.dart';
+import '../api/models/game_result.dart';
+import '../api/impls/game_result_parser.dart';
 import '../api/models/referee.dart';
 import '../api/impls/referee_parser.dart';
 import '../api/impls/period_title_parser.dart';
@@ -138,7 +139,7 @@ class Game {
         'guest_team_filling_parameter',
       ),
       resultString: json['result_string'] as String?,
-      result: rawResult != null ? GameResult.fromJson(rawResult) : null,
+      result: rawResult != null ? parseGameResult(rawResult) : null,
     );
   }
 }
