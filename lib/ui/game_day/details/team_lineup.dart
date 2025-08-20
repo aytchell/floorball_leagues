@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../api/models/player.dart';
 import '../../../api_models/detailed_game.dart';
 import 'player_table.dart';
 

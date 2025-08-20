@@ -9,40 +9,8 @@ import '../api/models/game_day.dart';
 import '../api/impls/game_day_parser.dart';
 import '../api/models/game_event.dart';
 import '../api/impls/game_event_parser.dart';
-
-class Player {
-  int playerId;
-  String playerName;
-  int trikotNumber;
-  String playerFirstname;
-  String position;
-  bool? goalkeeper;
-  bool? captain;
-
-  Player({
-    required this.playerId,
-    required this.playerName,
-    required this.trikotNumber,
-    required this.playerFirstname,
-    required this.position,
-    this.goalkeeper,
-    this.captain,
-  });
-
-  String get name => '$playerFirstname $playerName';
-
-  factory Player.fromJson(Map<String, dynamic> json) {
-    return Player(
-      playerId: parseInt(json, 'player_id'),
-      playerName: parseString(json, 'player_name'),
-      trikotNumber: parseInt(json, 'trikot_number'),
-      playerFirstname: parseString(json, 'player_firstname'),
-      position: parseString(json, 'position'),
-      goalkeeper: json['goalkeeper'] as bool?,
-      captain: json['captain'] as bool?,
-    );
-  }
-}
+import '../api/models/player.dart';
+import '../api/impls/player_parser.dart';
 
 class StartingPlayer {
   String position;
@@ -119,8 +87,8 @@ class Players {
     var guestJson = json['guest'] as List? ?? [];
 
     return Players(
-      home: homeJson.map((player) => Player.fromJson(player)).toList(),
-      guest: guestJson.map((player) => Player.fromJson(player)).toList(),
+      home: homeJson.map((player) => parsePlayer(player)).toList(),
+      guest: guestJson.map((player) => parsePlayer(player)).toList(),
     );
   }
 }
