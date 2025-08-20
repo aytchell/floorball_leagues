@@ -111,21 +111,3 @@ class GameOperationLeague {
     );
   }
 }
-
-class AllOperationLeagues {
-  static Future<List<GameOperationLeague>?> fetchFromServer(
-    RestClient client,
-    int gameOperationId,
-    int seasonId,
-  ) async {
-    final uri = Uri.parse(
-      'https://www.saisonmanager.de/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
-    );
-
-    final jsonData = await client.getJson(uri) as List<dynamic>;
-    return jsonData
-        .map((gameOp) => GameOperationLeague.fromJson(gameOp))
-        .toList();
-    return null;
-  }
-}

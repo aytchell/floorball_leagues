@@ -154,8 +154,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
       context,
       MaterialPageRoute(
         builder: (context) => GameOperationLeagueList(
-          gameOpId: gameOp.id!,
-          gameOpName: gameOp.name!,
+          gameOp: gameOp,
           selectedSeason: selectedSeason!,
         ),
       ),

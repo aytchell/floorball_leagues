@@ -21,11 +21,11 @@ class EntryInfoImpl extends EntryInfo {
   static Future<EntryInfo?> fetchFromServer(RestClient client) async {
     final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
     final jsonData = await client.getJson(uri) as Map<String, dynamic>;
-    return EntryInfoImpl.fromJson(jsonData);
+    return EntryInfoImpl.fromJson(client, jsonData);
     return null;
   }
 
-  factory EntryInfoImpl.fromJson(Map<String, dynamic> json) {
+  factory EntryInfoImpl.fromJson(RestClient client, Map<String, dynamic> json) {
     var seasonsJson = json['seasons'] as List? ?? [];
     var operationsJson = json['game_operations'] as List? ?? [];
     return EntryInfoImpl(
@@ -34,7 +34,10 @@ class EntryInfoImpl extends EntryInfo {
           .toList(),
       currentSeasonId: parseNullableInt(json, 'current_season_id'),
       gameOperations: operationsJson
-          .map((operationJson) => GameOperationImpl.fromJson(operationJson))
+          .map(
+            (operationJson) =>
+                GameOperationImpl.fromJson(client, operationJson),
+          )
           .toList(),
     );
   }

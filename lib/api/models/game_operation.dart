@@ -1,4 +1,6 @@
-class GameOperation {
+import '../../api_models/game_operations.dart';
+
+abstract class GameOperation {
   int id;
   String name;
   String? shortName;
@@ -14,4 +16,6 @@ class GameOperation {
     this.logoUrl,
     this.logoQuadUrl,
   });
+
+  Future<List<GameOperationLeague>?> getLeagues(int seasonId);
 }

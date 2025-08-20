@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../api/models/season_info.dart';
+import '../../api/models/game_operation.dart';
 import '../../api_models/game_operations.dart';
 import '../../net/rest_client.dart';
 import 'league_tabs.dart';
@@ -8,14 +9,12 @@ import '../widgets/nothing_found.dart';
 import '../widgets/loading_spinner.dart';
 
 class GameOperationLeagueList extends StatefulWidget {
-  final int gameOpId;
-  final String gameOpName;
+  final GameOperation gameOp;
   final SeasonInfo selectedSeason;
 
   const GameOperationLeagueList({
     super.key,
-    required this.gameOpId,
-    required this.gameOpName,
+    required this.gameOp,
     required this.selectedSeason,
   });
 
@@ -42,11 +41,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
 
     try {
       restClient ??= await RestClient.instance;
-      final leagues = await AllOperationLeagues.fetchFromServer(
-        restClient!,
-        widget.gameOpId,
-        widget.selectedSeason.id,
-      );
+      final leagues = await widget.gameOp.getLeagues(widget.selectedSeason.id);
       setState(() {
         this.leagues = leagues!;
         isLoading = false;
@@ -61,7 +56,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
   @override
   Widget build(BuildContext context) {
     return MainAppScaffold(
-      title: widget.gameOpName,
+      title: widget.gameOp.name,
       showBackButton: true,
       body: _buildBody(context),
       selectedSeason: widget.selectedSeason,
@@ -107,7 +102,7 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
     return NothingFoundInfoBox(
       title: 'Keine Liga-Liste verfügbar',
       message:
-          'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOpName}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
+          'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOp.name}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
       isLoading: isLoading,
       onRetry: loadData,
     );
