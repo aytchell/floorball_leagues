@@ -1,6 +1,7 @@
 import 'game_day_title.dart';
+import '../../api_models/game_day.dart';
 
-class GameOperationLeague {
+abstract class GameOperationLeague {
   int id;
   int gameOperationId;
   String gameOperationName;
@@ -58,4 +59,6 @@ class GameOperationLeague {
     this.periodLength,
     this.overtimeLength,
   });
+
+  Future<List<Game>> getGames(int gameDayNumber);
 }

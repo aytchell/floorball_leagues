@@ -53,7 +53,7 @@ class GameOperationImpl extends GameOperation {
 
     final jsonData = await client.getJson(uri) as List<dynamic>;
     return jsonData
-        .map((gameOp) => GameOperationLeagueImpl.fromJson(gameOp))
+        .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
         .toList();
     return null;
   }

@@ -143,18 +143,3 @@ class Game {
     );
   }
 }
-
-class GameDay {
-  static Future<List<Game>> fetchFromServer(
-    RestClient client,
-    int leagueId,
-    int gameDayNumber,
-  ) async {
-    final uri = Uri.parse(
-      'https://www.saisonmanager.de/api/v2/leagues/$leagueId/game_days/$gameDayNumber/schedule.json',
-    );
-
-    final jsonData = await client.getJson(uri) as List<dynamic>;
-    return jsonData.map((game) => Game.fromJson(game)).toList();
-  }
-}

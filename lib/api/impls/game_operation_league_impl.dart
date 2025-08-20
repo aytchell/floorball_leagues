@@ -1,10 +1,15 @@
+import '../../net/rest_client.dart';
 import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
+import '../../api_models/game_day.dart';
 import 'game_day_title_parser.dart';
 import 'int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
+  final RestClient client;
+
   GameOperationLeagueImpl({
+    required this.client,
     required int id,
     required int gameOperationId,
     required String gameOperationName,
@@ -62,10 +67,14 @@ class GameOperationLeagueImpl extends GameOperationLeague {
          overtimeLength: overtimeLength,
        );
 
-  factory GameOperationLeagueImpl.fromJson(Map<String, dynamic> json) {
+  factory GameOperationLeagueImpl.fromJson(
+    RestClient client,
+    Map<String, dynamic> json,
+  ) {
     var gameDayTitlesJson = json['game_day_titles'] as List;
 
     return GameOperationLeagueImpl(
+      client: client,
       id: parseInt(json, 'id'),
       gameOperationId: parseInt(json, 'game_operation_id'),
       gameOperationName: json['game_operation_name'] as String,
@@ -96,5 +105,14 @@ class GameOperationLeagueImpl extends GameOperationLeague {
       periodLength: parseNullableInt(json, 'period_length'),
       overtimeLength: parseNullableInt(json, 'overtime_length'),
     );
+  }
+
+  Future<List<Game>> getGames(int gameDayNumber) async {
+    final uri = Uri.parse(
+      'https://www.saisonmanager.de/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json',
+    );
+
+    final jsonData = await client.getJson(uri) as List<dynamic>;
+    return jsonData.map((game) => Game.fromJson(game)).toList();
   }
 }

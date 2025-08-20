@@ -75,11 +75,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     final daysFutures = Map.fromIterable(
       widget.league.gameDayTitles,
       key: (gdt) => gdt.gameDayNumber as int,
-      value: (gdt) => GameDay.fetchFromServer(
-        restClient!,
-        widget.league.id,
-        gdt.gameDayNumber,
-      ),
+      value: (gdt) => widget.league.getGames(gdt.gameDayNumber),
     );
 
     final Map<int, List<Game>> days = Map.fromEntries(
