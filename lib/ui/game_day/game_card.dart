@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../api_models/game_day.dart';
+import '../../api_models/game.dart';
 import '../app_text_styles.dart';
 import 'game_detail_page.dart';
 import '../widgets/team_logo.dart';

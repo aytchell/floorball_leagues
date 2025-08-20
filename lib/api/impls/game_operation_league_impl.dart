@@ -1,7 +1,7 @@
 import '../../net/rest_client.dart';
 import '../models/game_operation_league.dart';
 import '../models/game_day_title.dart';
-import '../../api_models/game_day.dart';
+import '../../api_models/game.dart';
 import 'game_day_title_parser.dart';
 import 'int_parser.dart';
 
