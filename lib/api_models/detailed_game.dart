@@ -5,21 +5,8 @@ import '../api/impls/int_parser.dart';
 import '../api/impls/string_parser.dart';
 import 'logo_host.dart';
 import 'referee.dart';
-
-// Data models for game details from saisonmanager
-class GameDay {
-  int gameDayNumber;
-  String title;
-
-  GameDay({required this.gameDayNumber, required this.title});
-
-  factory GameDay.fromJson(Map<String, dynamic> json) {
-    return GameDay(
-      gameDayNumber: parseInt(json, 'game_day_number'),
-      title: parseString(json, 'title'),
-    );
-  }
-}
+import '../api/models/game_day.dart';
+import '../api/impls/game_day_parser.dart';
 
 class GameEvent {
   int eventId;
@@ -358,7 +345,7 @@ class DetailedGame {
       startTime: parseNullableString(json, 'start_time'),
       actualStartTime: parseNullableString(json, 'actual_start_time'),
       date: parseString(json, 'date'),
-      gameDay: GameDay.fromJson(json['game_day']),
+      gameDay: parseGameDay(json['game_day']),
       gameStatus: parseNullableString(json, 'game_status'),
       ingameStatus: parseNullableString(json, 'ingame_status'),
       audience: parseNullableInt(json, 'audience'),
