@@ -5,12 +5,12 @@ import "package:collection/collection.dart";
 
 import '../../app_state.dart';
 import '../../api/models/game_day.dart';
+import '../../api/models/game.dart';
 import '../../api/models/detailed_game.dart';
 import '../../api/models/player.dart';
 import '../../api/impls/detailed_game_fetcher.dart';
 import '../main_app_scaffold.dart';
 import '../app_text_styles.dart';
-import '../../net/rest_client.dart';
 import 'details/team_lineup.dart';
 import 'details/starting_six.dart';
 import 'details/awarded_players.dart';
@@ -19,9 +19,9 @@ import '../widgets/team_logo.dart';
 import 'details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
-  final int gameId;
+  final Game game;
 
-  const GameDetailPage({super.key, required this.gameId});
+  const GameDetailPage({super.key, required this.game});
 
   @override
   State<GameDetailPage> createState() => _GameDetailPageState();
@@ -45,9 +45,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
         _error = null;
       });
 
-      final restClient = await RestClient.instance;
-
-      final detailedGame = await fetchDetailedGame(restClient, widget.gameId);
+      final detailedGame = await widget.game.getDetailedVersion();
 
       setState(() {
         _detailedGame = detailedGame;
