@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
 import '../../api/models/league_table_row.dart';
+import 'team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String title;
@@ -132,60 +133,76 @@ class ExpandableLeagueTableCard extends StatelessWidget {
       );
     }
 
-    return Column(
-      children: teamEntries.map((entry) => _buildTableRow(entry)).toList(),
+    return Builder(
+      builder: (context) => Column(
+        children: teamEntries
+            .map((entry) => _buildTableRow(context, entry))
+            .toList(),
+      ),
     );
   }
 
-  Widget _buildTableRow(LeagueTableRow entry) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(6.0),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Row(
-        children: [
-          // Position
-          Container(
-            width: 30.0,
-            child: Text(
-              '${entry.position}.',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+  Widget _buildTableRow(BuildContext context, LeagueTableRow entry) {
+    return InkWell(
+      onTap: () => _navigateToTeamDetails(context, entry),
+      borderRadius: BorderRadius.circular(6.0),
+      child: Container(
+        margin: EdgeInsets.only(bottom: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6.0),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Row(
+          children: [
+            // Position
+            Container(
+              width: 30.0,
+              child: Text(
+                '${entry.position}.',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
-          ),
 
-          SizedBox(width: 12.0),
+            SizedBox(width: 12.0),
 
-          // Team logo
-          TeamLogo(uri: entry.teamLogoSmallUri, height: 24, width: 24),
+            // Team logo
+            TeamLogo(uri: entry.teamLogoSmallUri, height: 24, width: 24),
 
-          SizedBox(width: 12.0),
+            SizedBox(width: 12.0),
 
-          // Team name
-          Expanded(
-            child: Text(
-              entry.teamName,
-              style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-              overflow: TextOverflow.ellipsis,
+            // Team name
+            Expanded(
+              child: Text(
+                entry.teamName,
+                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
 
-          Text(
-            '${entry.points} Pkt',
-            style: TextStyle(
-              fontSize: 12.0,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
+            Text(
+              '${entry.points} Pkt',
+              style: TextStyle(
+                fontSize: 12.0,
+                color: Colors.grey[600],
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TeamDetailsView(teamEntry: entry),
       ),
     );
   }
