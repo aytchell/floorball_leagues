@@ -5,6 +5,7 @@ import '../../api/models/league_table_row.dart';
 import 'team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
+  final String leagueName;
   final String title;
   final List<LeagueTableRow> teamEntries;
   final bool isExpanded;
@@ -12,6 +13,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
 
   const ExpandableLeagueTableCard({
     Key? key,
+    required this.leagueName,
     required this.title,
     required this.teamEntries,
     required this.isExpanded,
@@ -202,7 +204,8 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TeamDetailsView(teamEntry: entry),
+        builder: (context) =>
+            TeamDetailsView(leagueName: leagueName, teamEntry: entry),
       ),
     );
   }

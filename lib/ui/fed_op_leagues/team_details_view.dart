@@ -6,16 +6,21 @@ import '../main_app_scaffold.dart';
 import '../widgets/team_logo.dart';
 
 class TeamDetailsView extends StatelessWidget {
+  final String leagueName;
   final LeagueTableRow teamEntry;
 
-  const TeamDetailsView({Key? key, required this.teamEntry}) : super(key: key);
+  const TeamDetailsView({
+    Key? key,
+    required this.leagueName,
+    required this.teamEntry,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: false);
 
     return MainAppScaffold(
-      title: 'Team Details',
+      title: leagueName,
       showBackButton: true,
       body: _buildBody(context),
       selectedSeason: appState.selectedSeason,

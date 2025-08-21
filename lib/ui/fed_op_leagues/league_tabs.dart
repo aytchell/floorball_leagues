@@ -304,6 +304,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     final isExpanded = expandedIndex == cardIndex;
 
     return ExpandableLeagueTableCard(
+      leagueName: widget.league.name,
       title: 'Tabelle',
       teamEntries: this.leagueTable,
       isExpanded: isExpanded,
