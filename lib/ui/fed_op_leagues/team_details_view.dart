@@ -69,8 +69,26 @@ class TeamDetailsView extends StatelessWidget {
                       color: Colors.grey[800],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   _buildStatisticsTable(),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Spiele',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Scorer',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[800],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -80,32 +98,28 @@ class TeamDetailsView extends StatelessWidget {
     );
   }
 
+  String _buildPoints() {
+    return '${teamEntry.points} (von ${3 * teamEntry.games})';
+  }
+
+  String _buildGameOutcomes() {
+    return '${teamEntry.won} | ${teamEntry.draw} | ${teamEntry.lost}';
+  }
+
+  String _buildGoals() {
+    final diff = (teamEntry.goalsDiff >= 0)
+        ? '+${teamEntry.goalsDiff}'
+        : '${teamEntry.goalsDiff}';
+    return '${teamEntry.goalsScored}:${teamEntry.goalsReceived} | $diff';
+  }
+
   Widget _buildStatisticsTable() {
     final statistics = [
       _StatisticItem(label: 'Position', value: '${teamEntry.position}.'),
       _StatisticItem(label: 'Spiele', value: '${teamEntry.games}'),
-      _StatisticItem(label: 'Punkte', value: '${teamEntry.points}'),
-      _StatisticItem(label: 'Siege', value: '${teamEntry.won}'),
-      _StatisticItem(label: 'Unentschieden', value: '${teamEntry.draw}'),
-      _StatisticItem(label: 'Niederlagen', value: '${teamEntry.lost}'),
-      if (teamEntry.wonOt > 0 || teamEntry.lostOt > 0) ...[
-        _StatisticItem(label: 'Siege n.V.', value: '${teamEntry.wonOt}'),
-        _StatisticItem(label: 'Niederlagen n.V.', value: '${teamEntry.lostOt}'),
-      ],
-      _StatisticItem(
-        label: 'Tore geschossen',
-        value: '${teamEntry.goalsScored}',
-      ),
-      _StatisticItem(
-        label: 'Tore erhalten',
-        value: '${teamEntry.goalsReceived}',
-      ),
-      _StatisticItem(
-        label: 'Tordifferenz',
-        value: teamEntry.goalsDiff >= 0
-            ? '+${teamEntry.goalsDiff}'
-            : '${teamEntry.goalsDiff}',
-      ),
+      _StatisticItem(label: 'Punkte', value: _buildPoints()),
+      _StatisticItem(label: 'S | U | N', value: _buildGameOutcomes()),
+      _StatisticItem(label: 'Tore', value: _buildGoals()),
     ];
 
     return Container(
