@@ -338,6 +338,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
     final games = gameDays[gameDayTitle.gameDayNumber]!;
 
     return ExpandableGameDayCard(
+      leagueName: widget.league.name,
       title: _computeTitle(gameDayTitle.title, games),
       games: games,
       isExpanded: isExpanded,
@@ -384,6 +385,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
 // Separate Card widget
 class ExpandableGameDayCard extends StatelessWidget {
+  final String leagueName;
   final String title;
   final List<Game> games;
   final bool isExpanded;
@@ -391,6 +393,7 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   const ExpandableGameDayCard({
     Key? key,
+    required this.leagueName,
     required this.title,
     required this.games,
     required this.isExpanded,
@@ -647,7 +650,7 @@ class ExpandableGameDayCard extends StatelessWidget {
           ),
         )
         .toList();
-    return SportGamesTable(subdays: gameData);
+    return SportGamesTable(leagueName: leagueName, subdays: gameData);
   }
 
   Widget _buildGameSubDayInfoCard(GameSubDayInfo info) {

@@ -9,14 +9,23 @@ class GameSubdayRows {
 }
 
 class SportGamesTable extends StatelessWidget {
+  final String leagueName;
   final List<GameSubdayRows> subdays;
 
-  const SportGamesTable({Key? key, required this.subdays}) : super(key: key);
+  const SportGamesTable({
+    Key? key,
+    required this.leagueName,
+    required this.subdays,
+  }) : super(key: key);
 
   List<Widget> _buildSubday(GameSubdayRows sub) {
     List<Widget> list = [];
     list.add(sub.info);
-    list.addAll(sub.games.map((game) => GameCard(game: game)).toList());
+    list.addAll(
+      sub.games
+          .map((game) => GameCard(leagueName: leagueName, game: game))
+          .toList(),
+    );
     return list;
   }
 

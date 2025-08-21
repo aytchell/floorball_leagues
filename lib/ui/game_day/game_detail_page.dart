@@ -19,9 +19,14 @@ import '../widgets/team_logo.dart';
 import 'details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
+  final String leagueName;
   final Game game;
 
-  const GameDetailPage({super.key, required this.game});
+  const GameDetailPage({
+    super.key,
+    required this.leagueName,
+    required this.game,
+  });
 
   @override
   State<GameDetailPage> createState() => _GameDetailPageState();
@@ -63,7 +68,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
-      title: 'Spieldetails',
+      title: widget.leagueName,
       showBackButton: true,
       body: _buildBody(),
       selectedSeason: appState.selectedSeason,

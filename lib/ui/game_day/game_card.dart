@@ -61,9 +61,11 @@ class GameResultSlice {
 }
 
 class GameCard extends StatelessWidget {
+  final String leagueName;
   final GameResultSlice game;
 
-  GameCard({Key? key, required this.game}) : super(key: key);
+  GameCard({Key? key, required this.leagueName, required this.game})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,8 @@ class GameCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => GameDetailPage(game: game.game),
+            builder: (context) =>
+                GameDetailPage(leagueName: leagueName, game: game.game),
           ),
         );
       },
