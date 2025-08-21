@@ -3,6 +3,7 @@ import 'scorer.dart';
 import 'game.dart';
 import 'league_table_row.dart';
 import 'champ_group_table.dart';
+import 'date_formatter.dart';
 
 abstract class GameOperationLeague {
   int id;
@@ -62,6 +63,8 @@ abstract class GameOperationLeague {
     this.periodLength,
     this.overtimeLength,
   });
+
+  String? get beautifiedDeadline => beautifyDate(deadline!);
 
   Future<List<Game>> getGames(int gameDayNumber);
   Future<List<Scorer>> getScorers();

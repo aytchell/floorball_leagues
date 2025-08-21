@@ -174,7 +174,7 @@ class ExpandablLeagueInfoCard extends StatelessWidget {
     final youngerOrOlder = (league.beforeDeadline!)
         ? 'und älter'
         : 'und jünger';
-    return '${league.deadline!}\n$youngerOrOlder';
+    return '${league.beautifiedDeadline!}\n$youngerOrOlder';
   }
 
   List<LeagueInfoItem> _getLeagueInfoItems() {
