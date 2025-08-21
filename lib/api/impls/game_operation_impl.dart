@@ -47,11 +47,9 @@ class GameOperationImpl extends GameOperation {
 
   @override
   Future<List<GameOperationLeague>?> getLeagues(int seasonId) async {
-    final uri = Uri.parse(
-      'https://www.saisonmanager.de/api/v2/game_operations/$id/leagues/$seasonId.json',
-    );
+    final path = '/api/v2/game_operations/$id/leagues/$seasonId.json';
 
-    final jsonData = await client.getJson(uri) as List<dynamic>;
+    final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
     return jsonData
         .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
         .toList();

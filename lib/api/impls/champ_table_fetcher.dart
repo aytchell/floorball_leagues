@@ -16,11 +16,9 @@ Future<List<ChampGroupTable>> fetchChampTableFromServer(
   RestClient client,
   int leagueId,
 ) async {
-  final uri = Uri.parse(
-    'https://www.saisonmanager.de/api/v2/leagues/$leagueId/grouped_table.json',
-  );
+  final path = '/api/v2/leagues/$leagueId/grouped_table.json';
 
-  final jsonData = await client.getJson(uri) as Map<String, dynamic>;
+  final jsonData = await client.getJsonFromPath(path) as Map<String, dynamic>;
   return jsonData
       .map((key, value) => MapEntry.new(key, parseChampGroupTable(value)))
       .values

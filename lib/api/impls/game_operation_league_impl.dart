@@ -116,11 +116,9 @@ class GameOperationLeagueImpl extends GameOperationLeague {
   }
 
   Future<List<Game>> getGames(int gameDayNumber) async {
-    final uri = Uri.parse(
-      'https://www.saisonmanager.de/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json',
-    );
+    final path = '/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json';
 
-    final jsonData = await client.getJson(uri) as List<dynamic>;
+    final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
     return jsonData.map((game) => GameImpl.fromJson(client, game)).toList();
   }
 

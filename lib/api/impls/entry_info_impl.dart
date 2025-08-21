@@ -19,8 +19,8 @@ class EntryInfoImpl extends EntryInfo {
        );
 
   static Future<EntryInfo?> fetchFromServer(RestClient client) async {
-    final uri = Uri.parse('https://www.saisonmanager.de/api/v2/init.json');
-    final jsonData = await client.getJson(uri) as Map<String, dynamic>;
+    final path = '/api/v2/init.json';
+    final jsonData = await client.getJsonFromPath(path) as Map<String, dynamic>;
     return EntryInfoImpl.fromJson(client, jsonData);
     return null;
   }

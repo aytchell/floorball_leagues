@@ -28,10 +28,8 @@ Future<List<LeagueTableRow>> fetchLeagueTableFromServer(
   RestClient client,
   int leagueId,
 ) async {
-  final uri = Uri.parse(
-    'https://www.saisonmanager.de/api/v2/leagues/$leagueId/table.json',
-  );
+  final path = '/api/v2/leagues/$leagueId/table.json';
 
-  final jsonData = await client.getJson(uri) as List<dynamic>;
+  final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
   return jsonData.map((row) => parseLeagueTableRow(row)).toList();
 }

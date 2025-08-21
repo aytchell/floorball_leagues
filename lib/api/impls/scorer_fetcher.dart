@@ -29,12 +29,10 @@ Scorer _parseScorer(Map<String, dynamic> json) {
 }
 
 Future<List<Scorer>> fetchScorers(RestClient client, int leagueId) async {
-  final uri = Uri.parse(
-    'https://www.saisonmanager.de/api/v2/leagues/$leagueId/scorer.json',
-  );
+  final path = '/api/v2/leagues/$leagueId/scorer.json';
 
   try {
-    final jsonData = await client.getJson(uri) as List<dynamic>;
+    final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
     return jsonData.map((entry) => _parseScorer(entry)).toList();
   } catch (e) {
     throw Exception('Failed to fetch scorers: $e');

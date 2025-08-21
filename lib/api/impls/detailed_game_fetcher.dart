@@ -79,10 +79,8 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
 
 // Static method to fetch game data from server
 Future<DetailedGame> fetchDetailedGame(RestClient client, int gameId) async {
-  final uri = Uri.parse(
-    'https://www.saisonmanager.de/api/v2/games/$gameId.json',
-  );
+  final path = '/api/v2/games/$gameId.json';
 
-  final jsonData = await client.getJson(uri) as Map<String, dynamic>;
+  final jsonData = await client.getJsonFromPath(path) as Map<String, dynamic>;
   return _parseDetailedGame(jsonData);
 }
