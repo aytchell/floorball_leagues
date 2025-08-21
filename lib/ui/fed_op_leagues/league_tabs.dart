@@ -20,6 +20,7 @@ import '../main_app_scaffold.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
 import 'scorer_card.dart';
+import 'league_info_card.dart';
 import 'date_and_club.dart';
 
 final log = Logger('LeagueTabs');
@@ -248,19 +249,37 @@ class _LeagueTabsState extends State<LeagueTabs> {
   Widget _buildGameDays() {
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
-      itemCount: gameDays.length + 2,
+      itemCount: gameDays.length + 3,
       itemBuilder: (context, index) {
         if (index == 0) {
+          return _buildLeagueInfoCard(context, index);
+        } else if (index == 1) {
           if (widget.leagueType == 'champ') {
             return _buildChampTableCard(context, index);
           } else {
             return _buildLeagueTableCard(context, index);
           }
-        } else if (index == 1) {
+        } else if (index == 2) {
           return _buildScorerCard(context, index);
         } else {
-          return _buildGameDayCard(context, index, index - 2);
+          return _buildGameDayCard(context, index, index - 3);
         }
+      },
+    );
+  }
+
+  Widget _buildLeagueInfoCard(BuildContext context, int cardIndex) {
+    final isExpanded = expandedIndex == cardIndex;
+
+    return ExpandablLeagueInfoCard(
+      title: 'Liga-Infos',
+      league: widget.league,
+      isExpanded: isExpanded,
+      onTap: () {
+        setState(() {
+          // Toggle expansion: if already expanded, collapse it, otherwise expand it
+          expandedIndex = isExpanded ? null : cardIndex;
+        });
       },
     );
   }
