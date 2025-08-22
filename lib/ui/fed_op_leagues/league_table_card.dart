@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
 import '../../api/models/league_table_row.dart';
+import '../../api/models/scorer.dart';
 import 'team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;
   final String title;
   final List<LeagueTableRow> teamEntries;
+  final List<Scorer> scorers;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -16,6 +18,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     required this.leagueName,
     required this.title,
     required this.teamEntries,
+    required this.scorers,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -204,8 +207,11 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            TeamDetailsView(leagueName: leagueName, teamEntry: entry),
+        builder: (context) => TeamDetailsView(
+          leagueName: leagueName,
+          teamEntry: entry,
+          scorers: scorers,
+        ),
       ),
     );
   }

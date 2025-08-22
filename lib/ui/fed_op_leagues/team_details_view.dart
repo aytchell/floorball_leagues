@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../api/models/league_table_row.dart';
+import '../../api/models/scorer.dart';
 import '../../app_state.dart';
 import '../main_app_scaffold.dart';
 import '../widgets/team_logo.dart';
@@ -8,11 +9,13 @@ import '../widgets/team_logo.dart';
 class TeamDetailsView extends StatelessWidget {
   final String leagueName;
   final LeagueTableRow teamEntry;
+  final List<Scorer> scorers;
 
   const TeamDetailsView({
     Key? key,
     required this.leagueName,
     required this.teamEntry,
+    required this.scorers,
   }) : super(key: key);
 
   @override

@@ -307,6 +307,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
       leagueName: widget.league.name,
       title: 'Tabelle',
       teamEntries: this.leagueTable,
+      scorers: this.scorers,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
