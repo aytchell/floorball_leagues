@@ -180,7 +180,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
             SizedBox(width: 12.0),
 
             // Team logo
-            TeamLogo(uri: entry.teamLogoSmallUri, height: 24, width: 24),
+            TeamLogo(uri: entry.teamLogoSmallUri, height: 25, width: 25),
 
             SizedBox(width: 12.0),
 

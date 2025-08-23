@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../api/models/league_table_row.dart';
 import '../../api/models/game.dart';
+import '../widgets/team_logo.dart';
 
 class GamesOverviewTable extends StatelessWidget {
   final LeagueTableRow team;
@@ -147,7 +148,7 @@ class _GameListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(width: 8),
-                    _TeamLogo(logoUri: game.homeLogoSmallUri),
+                    TeamLogo(uri: game.homeLogoSmallUri, height: 25, width: 25),
                   ],
                 ),
               ),
@@ -162,7 +163,11 @@ class _GameListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _TeamLogo(logoUri: game.guestLogoSmallUri),
+                    TeamLogo(
+                      uri: game.guestLogoSmallUri,
+                      height: 25,
+                      width: 25,
+                    ),
                     const SizedBox(width: 8),
                   ],
                 ),
@@ -221,67 +226,5 @@ class _GameListItem extends StatelessWidget {
     final time = game.time ?? '';
 
     return '${date} ${time}';
-  }
-}
-
-class _TeamLogo extends StatelessWidget {
-  final Uri? logoUri;
-
-  const _TeamLogo({this.logoUri});
-
-  @override
-  Widget build(BuildContext context) {
-    if (logoUri == null) {
-      return Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Icon(Icons.sports_soccer, size: 16, color: Colors.grey),
-      );
-    }
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: Image.network(
-        logoUri.toString(),
-        width: 24,
-        height: 24,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.sports_soccer,
-              size: 16,
-              color: Colors.grey,
-            ),
-          );
-        },
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const SizedBox(
-              width: 12,
-              height: 12,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-          );
-        },
-      ),
-    );
   }
 }
