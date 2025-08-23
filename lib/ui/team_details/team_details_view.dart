@@ -9,17 +9,51 @@ import '../main_app_scaffold.dart';
 import '../widgets/team_logo.dart';
 import 'team_scorer_table.dart';
 
+class TeamPenalties {
+  int penalty2;
+  int penalty2and2;
+  int penalty10;
+
+  TeamPenalties({this.penalty2 = 0, this.penalty2and2 = 0, this.penalty10 = 0});
+
+  TeamPenalties plus(Scorer scorer) {
+    return TeamPenalties(
+      penalty2: penalty2 + scorer.penalty2,
+      penalty2and2: penalty2and2 + scorer.penalty2and2,
+      penalty10: penalty10 + scorer.penalty10,
+    );
+  }
+
+  String toString() {
+    return '${penalty2}, ${penalty2and2}, ${penalty10}';
+  }
+}
+
+List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
+  return scorers
+      .mapIndexed(
+        (index, scorer) => IndexedScorer(
+          index: index + 1, // Start ranking from 1
+          scorer: scorer,
+        ),
+      )
+      .where((entry) => entry.scorer.teamId == teamId)
+      .toList();
+}
+
 class TeamDetailsView extends StatelessWidget {
   final String leagueName;
   final LeagueTableRow teamEntry;
   final List<Scorer> scorers;
+  final List<IndexedScorer> teamScorers;
 
-  const TeamDetailsView({
+  TeamDetailsView({
     Key? key,
     required this.leagueName,
     required this.teamEntry,
     required this.scorers,
-  }) : super(key: key);
+  }) : teamScorers = _extractTeamScorers(scorers, teamEntry.teamId),
+       super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +102,7 @@ class TeamDetailsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tabellenplatz',
+                    'Mannschaft',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -76,7 +110,7 @@ class TeamDetailsView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  _buildStatisticsTable(),
+                  _buildTeamTable(),
                   const SizedBox(height: 16),
                   Text(
                     'Spiele',
@@ -88,7 +122,7 @@ class TeamDetailsView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Scorer',
+                    'Spieler',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -96,7 +130,7 @@ class TeamDetailsView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  _buildScorerTable(),
+                  TeamScorerTable(scorers: teamScorers),
                 ],
               ),
             ),
@@ -104,19 +138,6 @@ class TeamDetailsView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildScorerTable() {
-    final teamScorers = scorers
-        .mapIndexed(
-          (index, scorer) => IndexedScorer(
-            index: index + 1, // Start ranking from 1
-            scorer: scorer,
-          ),
-        )
-        .where((entry) => entry.scorer.teamId == teamEntry.teamId)
-        .toList();
-    return TeamScorerTable(scorers: teamScorers);
   }
 
   String _buildPoints() {
@@ -134,13 +155,21 @@ class TeamDetailsView extends StatelessWidget {
     return '${teamEntry.goalsScored}:${teamEntry.goalsReceived} | $diff';
   }
 
-  Widget _buildStatisticsTable() {
+  String _buildPenalties() {
+    return teamScorers
+        .map((idx) => idx.scorer)
+        .fold(TeamPenalties(), (penalties, scorer) => penalties.plus(scorer))
+        .toString();
+  }
+
+  Widget _buildTeamTable() {
     final statistics = [
       _StatisticItem(label: 'Position', value: '${teamEntry.position}.'),
       _StatisticItem(label: 'Spiele', value: '${teamEntry.games}'),
       _StatisticItem(label: 'Punkte', value: _buildPoints()),
       _StatisticItem(label: 'S | U | N', value: _buildGameOutcomes()),
       _StatisticItem(label: 'Tore', value: _buildGoals()),
+      _StatisticItem(label: 'Strafen: 2, 2+2, 10)', value: _buildPenalties()),
     ];
 
     return Container(
