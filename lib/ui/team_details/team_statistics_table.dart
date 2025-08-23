@@ -2,31 +2,7 @@ import 'package:flutter/material.dart';
 import '../../api/models/league_table_row.dart';
 import '../../api/models/scorer.dart';
 import 'indexed_scorer.dart';
-
-class TeamPenalties {
-  int penalty2;
-  int penalty2and2;
-  int penalty10;
-
-  TeamPenalties({this.penalty2 = 0, this.penalty2and2 = 0, this.penalty10 = 0});
-
-  factory TeamPenalties.extract(List<IndexedScorer> scorers) {
-    return scorers
-        .map((idx) => idx.scorer)
-        .fold(TeamPenalties(), (penalties, scorer) => penalties.plus(scorer));
-  }
-
-  TeamPenalties plus(Scorer scorer) {
-    penalty2 = penalty2 + scorer.penalty2;
-    penalty2and2 = penalty2and2 + scorer.penalty2and2;
-    penalty10 = penalty10 + scorer.penalty10;
-    return this;
-  }
-
-  String toString() {
-    return '${penalty2}, ${penalty2and2}, ${penalty10}';
-  }
-}
+import 'team_penalties.dart';
 
 class _StatisticItem {
   final String label;
@@ -38,11 +14,18 @@ class _StatisticItem {
 class TeamStatisticsTable extends StatelessWidget {
   final LeagueTableRow team;
   final List<IndexedScorer> scorers;
+  final int seasonId;
 
-  TeamStatisticsTable({required this.team, required this.scorers});
+  TeamStatisticsTable({
+    required this.team,
+    required this.scorers,
+    required this.seasonId,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final TeamPenalties penalties = TeamPenalties.extract(scorers, seasonId);
+
     final statistics = [
       _StatisticItem(label: 'Position', value: '${team.position}.'),
       _StatisticItem(label: 'Spiele', value: '${team.games}'),
@@ -50,8 +33,12 @@ class TeamStatisticsTable extends StatelessWidget {
       _StatisticItem(label: 'S | U | N', value: _buildGameOutcomes()),
       _StatisticItem(label: 'Tore', value: _buildGoals()),
       _StatisticItem(
-        label: 'Strafen (2, 2+2, 10)',
-        value: TeamPenalties.extract(scorers).toString(),
+        label: penalties.expiringTitle(),
+        value: penalties.expiringPenaltiesAsString(),
+      ),
+      _StatisticItem(
+        label: penalties.matchTitle(),
+        value: penalties.matchPenaltiesAsString(),
       ),
     ];
 

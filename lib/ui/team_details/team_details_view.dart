@@ -11,6 +11,8 @@ import 'indexed_scorer.dart';
 import 'player_statistics_table.dart';
 import 'team_statistics_table.dart';
 
+final int someSeasonIdWithNewPenalties = 16;
+
 List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
   return scorers
       .mapIndexed(
@@ -44,12 +46,14 @@ class TeamDetailsView extends StatelessWidget {
     return MainAppScaffold(
       title: leagueName,
       showBackButton: true,
-      body: _buildBody(context),
+      body: _buildBody(
+        appState.selectedSeason?.id ?? someSeasonIdWithNewPenalties,
+      ),
       selectedSeason: appState.selectedSeason,
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(int seasonId) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -92,7 +96,11 @@ class TeamDetailsView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  TeamStatisticsTable(team: teamEntry, scorers: teamScorers),
+                  TeamStatisticsTable(
+                    team: teamEntry,
+                    scorers: teamScorers,
+                    seasonId: seasonId,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Spiele',
