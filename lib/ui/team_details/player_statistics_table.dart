@@ -160,7 +160,7 @@ class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
         ],
         rowCount: _sortedScorers.length,
         rowHeight: 34.0,
-        headerHeight: 75.0, // Increased height for rotated text
+        headerHeight: 85.0, // Increased height for rotated text
         headerBuilder: (context, contentBuilder) {
           return Container(
             decoration: BoxDecoration(
@@ -298,7 +298,7 @@ class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
     Widget content = InkWell(
       onTap: () => _sortBy(column),
       child: Container(
-        alignment: Alignment.center,
+        alignment: Alignment.bottomCenter,
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: rotated
             ? RotatedBox(
@@ -306,6 +306,7 @@ class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    const SizedBox(width: 4),
                     _tableHeaderText(text, textColor),
                     const SizedBox(width: 4),
                     RotatedBox(
