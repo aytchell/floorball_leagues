@@ -65,93 +65,21 @@ class TeamScorerTable extends StatelessWidget {
             child: contentBuilder(context, (context, column) {
               switch (column) {
                 case 0:
-                  return Container(
-                    alignment: Alignment.center,
-                    child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        'Platz',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _rotatedTableHeader('Platz');
                 case 1:
                   return Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      'Name',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        color: Colors.grey[800],
-                      ),
-                    ),
+                    child: _tableHeaderText('Name'),
                   );
                 case 2:
-                  return Container(
-                    alignment: Alignment.center,
-                    child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        'Spiele',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _rotatedTableHeader('Spiele');
                 case 3:
-                  return Container(
-                    alignment: Alignment.center,
-                    child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        'Punkte',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _rotatedTableHeader('Punkte');
                 case 4:
-                  return Container(
-                    alignment: Alignment.center,
-                    child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        'Tore',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _rotatedTableHeader('Tore');
                 case 5:
-                  return Container(
-                    alignment: Alignment.center,
-                    child: RotatedBox(
-                      quarterTurns: 3,
-                      child: Text(
-                        'Assists',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ),
-                  );
+                  return _rotatedTableHeader('Assists');
                 default:
                   return const SizedBox.shrink();
               }
@@ -203,6 +131,24 @@ class TeamScorerTable extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _rotatedTableHeader(String text) {
+    return Container(
+      alignment: Alignment.center,
+      child: RotatedBox(quarterTurns: 3, child: _tableHeaderText(text)),
+    );
+  }
+
+  Widget _tableHeaderText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+        color: Colors.grey[800],
       ),
     );
   }
