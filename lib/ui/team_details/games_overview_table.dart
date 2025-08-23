@@ -56,11 +56,31 @@ class _GameListItem extends StatelessWidget {
 
   const _GameListItem({required this.teamName, required this.game});
 
-  String _getOpponentsName(Game game) {
+  String _homeOrGuest(Game game) {
+    return (teamName == game.homeTeamName) ? 'Heim' : 'Gast';
+  }
+
+  Widget _buildOpponentsName(Game game) {
     final raw = (teamName == game.homeTeamName)
         ? game.guestTeamName
         : game.homeTeamName;
-    return raw ?? 'TBD';
+    final opponentsName = raw ?? 'TBD';
+    return RichText(
+      text: TextSpan(
+        style: const TextStyle(
+          fontSize: 14,
+          color: Colors.black, // Make sure to set the base color
+        ),
+        children: [
+          TextSpan(text: '${_homeOrGuest(game)} gegen '),
+          TextSpan(
+            text: opponentsName,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
   }
 
   @override
@@ -108,15 +128,9 @@ class _GameListItem extends StatelessWidget {
           if (game.hostingClub != null) ...[
             Row(
               children: [
-                const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+                // const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
                 const SizedBox(width: 4),
-                Expanded(
-                  child: Text(
-                    '${_getOpponentsName(game)}',
-                    style: const TextStyle(fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                Expanded(child: _buildOpponentsName(game)),
               ],
             ),
             const SizedBox(height: 12),
@@ -130,18 +144,8 @@ class _GameListItem extends StatelessWidget {
                 flex: 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      child: Text(
-                        game.homeTeamName ?? 'TBD',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.right,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
                     const SizedBox(width: 8),
                     _TeamLogo(logoUri: game.homeLogoSmallUri),
                   ],
@@ -149,51 +153,17 @@ class _GameListItem extends StatelessWidget {
               ),
 
               // VS divider and result
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    const Text(
-                      ':',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (game.resultString != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        game.resultString!,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: game.ended ? Colors.green : Colors.orange,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
+              _buildResult(game),
 
               // Guest Team
               Expanded(
                 flex: 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _TeamLogo(logoUri: game.guestLogoSmallUri),
                     const SizedBox(width: 8),
-                    Flexible(
-                      child: Text(
-                        game.guestTeamName ?? 'TBD',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -221,6 +191,44 @@ class _GameListItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildResult(Game game) {
+    if (game.result == null) {
+      return Expanded(
+        flex: 2,
+        child: Column(
+          children: [
+            const Text(
+              ':',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      );
+    } else {
+      final res = game.result!;
+      final postfix = res.postfix?.short;
+      return Expanded(
+        flex: 1,
+        child: Column(
+          children: [
+            Text(
+              '${res.homeGoals} : ${res.guestGoals}',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            if (postfix != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                postfix,
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ],
+        ),
+      );
+    }
   }
 
   String _formatDateTime() {
