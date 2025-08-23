@@ -121,7 +121,7 @@ class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
           borderRadius: BorderRadius.circular(4),
         ),
         child: const Text(
-          'Keine Torschützen verfügbar',
+          'Keine Spielerinfo verfügbar',
           style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
       );

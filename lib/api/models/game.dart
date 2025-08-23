@@ -3,6 +3,7 @@ import 'detailed_game.dart';
 import 'game_result.dart';
 import 'referee.dart';
 import 'logo_host.dart';
+import 'date_formatter.dart';
 
 abstract class Game {
   int gameId;
@@ -85,6 +86,8 @@ abstract class Game {
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  String? get beautifiedDate => beautifyDate(date!);
 
   Future<DetailedGame?> getDetailedVersion();
 }

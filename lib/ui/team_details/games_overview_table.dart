@@ -10,6 +10,301 @@ class GamesOverviewTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Es sind ${games.length} Spiele');
+    if (games.isEmpty) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'Keine Spiele verfügbar',
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Insgesamt: ${games.length}',
+              style: TextStyle(fontSize: 18, color: Colors.grey[800]),
+            ),
+          ),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: games.length,
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final game = games[index];
+              return _GameListItem(teamName: team.teamName, game: game);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GameListItem extends StatelessWidget {
+  final String teamName;
+  final Game game;
+
+  const _GameListItem({required this.teamName, required this.game});
+
+  String _getOpponentsName(Game game) {
+    final raw = (teamName == game.homeTeamName)
+        ? game.guestTeamName
+        : game.homeTeamName;
+    return raw ?? 'TBD';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Zeit (Date & Time)
+          Row(
+            children: [
+              const Icon(Icons.schedule, size: 16, color: Colors.grey),
+              const SizedBox(width: 4),
+              Text(
+                '${_formatDateTime()}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Ort
+          if (game.hostingClub != null) ...[
+            Row(
+              children: [
+                const Icon(Icons.location_on, size: 16, color: Colors.grey),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    '${game.hostingClub}',
+                    style: const TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ],
+          const SizedBox(height: 8),
+
+          // Gegner
+          if (game.hostingClub != null) ...[
+            Row(
+              children: [
+                const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    '${_getOpponentsName(game)}',
+                    style: const TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
+
+          // Teams and Result
+          Row(
+            children: [
+              // Home Team
+              Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        game.homeTeamName ?? 'TBD',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.right,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    _TeamLogo(logoUri: game.homeLogoSmallUri),
+                  ],
+                ),
+              ),
+
+              // VS divider and result
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    const Text(
+                      ':',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (game.resultString != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        game.resultString!,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: game.ended ? Colors.green : Colors.orange,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+
+              // Guest Team
+              Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _TeamLogo(logoUri: game.guestLogoSmallUri),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        game.guestTeamName ?? 'TBD',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          // Game status indicator
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: _getStatusColor().withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: _getStatusColor().withOpacity(0.3)),
+            ),
+            child: Text(
+              _getStatusText(),
+              style: TextStyle(
+                fontSize: 12,
+                color: _getStatusColor(),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatDateTime() {
+    final date = game.beautifiedDate!;
+    if (date == null) {
+      return 'TBD';
+    }
+
+    final time = game.time ?? '';
+
+    return '${date} ${time}';
+  }
+
+  Color _getStatusColor() {
+    if (game.ended) return Colors.green;
+    if (game.started) return Colors.orange;
+    return Colors.blue;
+  }
+
+  String _getStatusText() {
+    if (game.ended) return 'Beendet';
+    if (game.started) return 'Läuft';
+    return 'Anstehend';
+  }
+}
+
+class _TeamLogo extends StatelessWidget {
+  final Uri? logoUri;
+
+  const _TeamLogo({this.logoUri});
+
+  @override
+  Widget build(BuildContext context) {
+    if (logoUri == null) {
+      return Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.sports_soccer, size: 16, color: Colors.grey),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.network(
+        logoUri.toString(),
+        width: 24,
+        height: 24,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.sports_soccer,
+              size: 16,
+              color: Colors.grey,
+            ),
+          );
+        },
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: 24,
+            height: 24,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const SizedBox(
+              width: 12,
+              height: 12,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
