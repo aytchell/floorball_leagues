@@ -4,12 +4,14 @@ import 'package:collection/collection.dart';
 
 import '../../api/models/league_table_row.dart';
 import '../../api/models/scorer.dart';
+import '../../api/models/game.dart';
 import '../../app_state.dart';
 import '../main_app_scaffold.dart';
 import '../widgets/team_logo.dart';
 import 'indexed_scorer.dart';
 import 'player_statistics_table.dart';
 import 'team_statistics_table.dart';
+import 'games_overview_table.dart';
 
 final int someSeasonIdWithNewPenalties = 16;
 
@@ -29,6 +31,7 @@ class TeamDetailsView extends StatelessWidget {
   final String leagueName;
   final LeagueTableRow teamEntry;
   final List<Scorer> scorers;
+  final List<Game> teamGames;
   final List<IndexedScorer> teamScorers;
 
   TeamDetailsView({
@@ -36,6 +39,7 @@ class TeamDetailsView extends StatelessWidget {
     required this.leagueName,
     required this.teamEntry,
     required this.scorers,
+    required this.teamGames,
   }) : teamScorers = _extractTeamScorers(scorers, teamEntry.teamId),
        super(key: key);
 
@@ -110,6 +114,8 @@ class TeamDetailsView extends StatelessWidget {
                       color: Colors.grey[800],
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  GamesOverviewTable(team: teamEntry, games: teamGames),
                   const SizedBox(height: 8),
                   Text(
                     'Spieler',

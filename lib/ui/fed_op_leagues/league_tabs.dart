@@ -59,6 +59,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
   List<LeagueTableRow> leagueTable = [];
   List<ChampGroupTable> champTable = [];
   List<Scorer> scorers = [];
+  List<Game> games = [];
 
   @override
   void initState() {
@@ -91,6 +92,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         leagueTable = [];
         champTable = [];
         scorers = [];
+        games = [];
         isLoading = false;
       });
     } else {
@@ -300,6 +302,10 @@ class _LeagueTabsState extends State<LeagueTabs> {
     );
   }
 
+  List<Game> _getFlattenedGames() {
+    return this.gameDays.values.expand((i) => i).toList();
+  }
+
   Widget _buildLeagueTableCard(BuildContext context, int cardIndex) {
     final isExpanded = expandedIndex == cardIndex;
 
@@ -308,6 +314,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
       title: 'Tabelle',
       teamEntries: this.leagueTable,
       scorers: this.scorers,
+      games: _getFlattenedGames(),
       isExpanded: isExpanded,
       onTap: () {
         setState(() {

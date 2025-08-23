@@ -3,6 +3,7 @@ import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
 import '../../api/models/league_table_row.dart';
 import '../../api/models/scorer.dart';
+import '../../api/models/game.dart';
 import '../team_details/team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
@@ -10,6 +11,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   final String title;
   final List<LeagueTableRow> teamEntries;
   final List<Scorer> scorers;
+  final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -19,6 +21,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     required this.title,
     required this.teamEntries,
     required this.scorers,
+    required this.games,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -211,8 +214,15 @@ class ExpandableLeagueTableCard extends StatelessWidget {
           leagueName: leagueName,
           teamEntry: entry,
           scorers: scorers,
+          teamGames: games
+              .where((g) => _isTeamInvolved(g, entry.teamName))
+              .toList(),
         ),
       ),
     );
+  }
+
+  bool _isTeamInvolved(Game game, String teamName) {
+    return (teamName == game.homeTeamName) || (teamName == game.guestTeamName);
   }
 }
