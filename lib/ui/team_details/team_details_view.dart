@@ -7,7 +7,7 @@ import '../../api/models/scorer.dart';
 import '../../app_state.dart';
 import '../main_app_scaffold.dart';
 import '../widgets/team_logo.dart';
-import 'team_scorer_table.dart';
+import 'player_statistics_table.dart';
 
 class TeamPenalties {
   int penalty2;
@@ -130,7 +130,7 @@ class TeamDetailsView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  TeamScorerTable(scorers: teamScorers),
+                  PlayerStatisticsTable(scorers: teamScorers),
                 ],
               ),
             ),

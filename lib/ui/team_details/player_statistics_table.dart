@@ -25,20 +25,20 @@ enum SortColumn {
   penaltyMsFull,
 }
 
-class TeamScorerTable extends StatefulWidget {
+class PlayerStatisticsTable extends StatefulWidget {
   final List<IndexedScorer> scorers;
   final maxRank;
 
-  TeamScorerTable({required this.scorers})
+  PlayerStatisticsTable({required this.scorers})
     : maxRank = (scorers.isEmpty
           ? 0
           : scorers.map((idx) => idx.index).reduce(math.max));
 
   @override
-  _TeamScorerTableState createState() => _TeamScorerTableState();
+  _PlayerStatisticsTableState createState() => _PlayerStatisticsTableState();
 }
 
-class _TeamScorerTableState extends State<TeamScorerTable> {
+class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
   List<IndexedScorer> _sortedScorers = [];
   SortColumn? _currentSortColumn;
   bool _isAscending = true;
@@ -50,7 +50,7 @@ class _TeamScorerTableState extends State<TeamScorerTable> {
   }
 
   @override
-  void didUpdateWidget(TeamScorerTable oldWidget) {
+  void didUpdateWidget(PlayerStatisticsTable oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.scorers != oldWidget.scorers) {
       _sortedScorers = List.from(widget.scorers);
