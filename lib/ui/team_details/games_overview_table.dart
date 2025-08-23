@@ -93,7 +93,7 @@ class _GameListItem extends StatelessWidget {
           // Zeit (Date & Time)
           Row(
             children: [
-              const Icon(Icons.schedule, size: 16, color: Colors.grey),
+              const Icon(Icons.schedule, size: 22, color: Colors.grey),
               const SizedBox(width: 4),
               Text(
                 '${_formatDateTime()}',
@@ -110,7 +110,7 @@ class _GameListItem extends StatelessWidget {
           if (game.hostingClub != null) ...[
             Row(
               children: [
-                const Icon(Icons.location_on, size: 16, color: Colors.grey),
+                const Icon(Icons.location_on, size: 22, color: Colors.grey),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -169,25 +169,6 @@ class _GameListItem extends StatelessWidget {
               ),
             ],
           ),
-
-          // Game status indicator
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: _getStatusColor().withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _getStatusColor().withOpacity(0.3)),
-            ),
-            child: Text(
-              _getStatusText(),
-              style: TextStyle(
-                fontSize: 12,
-                color: _getStatusColor(),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -210,7 +191,7 @@ class _GameListItem extends StatelessWidget {
       final res = game.result!;
       final postfix = res.postfix?.short;
       return Expanded(
-        flex: 1,
+        flex: 2,
         child: Column(
           children: [
             Text(
@@ -240,18 +221,6 @@ class _GameListItem extends StatelessWidget {
     final time = game.time ?? '';
 
     return '${date} ${time}';
-  }
-
-  Color _getStatusColor() {
-    if (game.ended) return Colors.green;
-    if (game.started) return Colors.orange;
-    return Colors.blue;
-  }
-
-  String _getStatusText() {
-    if (game.ended) return 'Beendet';
-    if (game.started) return 'Läuft';
-    return 'Anstehend';
   }
 }
 
