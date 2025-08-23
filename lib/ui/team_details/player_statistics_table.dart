@@ -3,13 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:material_table_view/material_table_view.dart';
 import '../../api/models/scorer.dart';
-
-class IndexedScorer {
-  final int index;
-  final Scorer scorer;
-
-  IndexedScorer({required this.index, required this.scorer});
-}
+import 'indexed_scorer.dart';
 
 enum SortColumn {
   rank,
