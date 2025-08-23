@@ -4,7 +4,7 @@ import 'string_parser.dart';
 
 GameEvent parseGameEvent(Map<String, dynamic> json) {
   return GameEvent(
-    eventId: parseInt(json, 'event_id'),
+    eventId: parseNullableInt(json, 'event_id'),
     eventType: parseString(json, 'event_type'),
     eventTeam: parseString(json, 'event_team'),
     period: (json['period'] as num).toDouble(),

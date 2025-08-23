@@ -1,5 +1,5 @@
 class GameEvent {
-  int eventId;
+  int? eventId;
   String eventType;
   String eventTeam;
   double period;
@@ -17,7 +17,7 @@ class GameEvent {
   String? penaltyReasonString;
 
   GameEvent({
-    required this.eventId,
+    this.eventId,
     required this.eventType,
     required this.eventTeam,
     required this.period,
