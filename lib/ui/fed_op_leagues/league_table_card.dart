@@ -3,7 +3,7 @@ import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
 import '../../api/models/league_table_row.dart';
 import '../../api/models/scorer.dart';
-import 'team_details_view.dart';
+import '../team_details/team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;
