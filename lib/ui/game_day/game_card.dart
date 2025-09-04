@@ -198,22 +198,16 @@ class GameCard extends StatelessWidget {
   }
 
   Widget _buildTeamName(String? teamName) {
-    if (teamName != null) {
-      return Expanded(
-        child: Text(
-          teamName!,
-          style: AppTextStyles.gameCardTeamFont,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    } else {
-      return Expanded(
-        child: Text(
-          'Noch nicht bekannt',
-          style: AppTextStyles.gameCardTeamFont.copyWith(color: Colors.grey),
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    }
+    final textStyle = teamName != null
+        ? AppTextStyles.gameCardTeamFont
+        : AppTextStyles.gameCardTeamFont.copyWith(color: Colors.grey);
+
+    return Expanded(
+      child: Text(
+        teamName ?? 'Noch nicht bekannt',
+        style: textStyle,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
   }
 }
