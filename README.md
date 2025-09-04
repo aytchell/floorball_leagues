@@ -1,16 +1,26 @@
-# floorball
+# Floorball Manager
 
-A new Flutter project.
+An app for browsing all games, results, players, ... of all German floorball
+leagues. This app makes use of the APIs of https://saisonmanager.de/
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
+Fetch a Flutter SDK (view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+samples, guidance on mobile development), and run `flutter run`.
+
+## Contributing
+
+Feel free to report issues or add improvements (via PR).
+While I do know enough about programming to get payed for it, this is my first
+flutter (and mobile) project. So please have mercy when looking at the code.
+Cleanups and refactorings are welcome, too.
+
+## License
+
+Copyright 2025
+Hannes Lerchl
+
+This code is licensed under the GPL General Public License 3 or higher.
+The license text is contained in this repo. You can also get a copy in other
+file formats at https://www.gnu.org/licenses/gpl-3.0.html
