@@ -169,37 +169,22 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ];
     }
 
-    if (game.result!.homeGoals > game.result!.guestGoals) {
-      return [
-        _buildDummyTeamTableEntry(
-          position,
-          game.homeTeamName!,
-          game.homeTeamLogo,
-          game.homeTeamSmallLogo,
-        ),
-        _buildDummyTeamTableEntry(
-          position + 1,
-          game.guestTeamName!,
-          game.guestTeamLogo,
-          game.guestTeamSmallLogo,
-        ),
-      ];
-    } else {
-      return [
-        _buildDummyTeamTableEntry(
-          position,
-          game.guestTeamName!,
-          game.guestTeamLogo,
-          game.guestTeamSmallLogo,
-        ),
-        _buildDummyTeamTableEntry(
-          position + 1,
-          game.homeTeamName!,
-          game.homeTeamLogo,
-          game.homeTeamSmallLogo,
-        ),
-      ];
-    }
+    final homeWin = game.result!.homeGoals > game.result!.guestGoals;
+
+    return [
+      _buildDummyTeamTableEntry(
+        position,
+        homeWin ? game.homeTeamName! : game.guestTeamName!,
+        homeWin ? game.homeTeamLogo! : game.guestTeamLogo!,
+        homeWin ? game.homeTeamSmallLogo! : game.guestTeamSmallLogo!,
+      ),
+      _buildDummyTeamTableEntry(
+        position + 1,
+        !homeWin ? game.homeTeamName! : game.guestTeamName!,
+        !homeWin ? game.homeTeamLogo! : game.guestTeamLogo!,
+        !homeWin ? game.homeTeamSmallLogo! : game.guestTeamSmallLogo!,
+      ),
+    ];
   }
 
   LeagueTableRow _buildDummyTeamTableEntry(
