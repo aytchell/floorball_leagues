@@ -23,10 +23,10 @@ class CachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl == null) {
+    if (imageUrl == null)
       return errorWidget?.call(width, height) ?? _defaultPlaceholder();
-    } else {
-      return StreamBuilder<FileResponse>(
+    
+    return StreamBuilder<FileResponse>(
         stream: DefaultCacheManager().getImageFile(imageUrl!.toString()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -58,7 +58,6 @@ class CachedNetworkImage extends StatelessWidget {
           return placeholder?.call(width, height) ?? _defaultPlaceholder();
         },
       );
-    }
   }
 
   Widget _buildProgressIndicator(DownloadProgress progress) {
