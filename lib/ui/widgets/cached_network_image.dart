@@ -25,39 +25,39 @@ class CachedNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (imageUrl == null)
       return errorWidget?.call(width, height) ?? _defaultPlaceholder();
-    
+
     return StreamBuilder<FileResponse>(
-        stream: DefaultCacheManager().getImageFile(imageUrl!.toString()),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final fileResponse = snapshot.data!;
+      stream: DefaultCacheManager().getImageFile(imageUrl!.toString()),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final fileResponse = snapshot.data!;
 
-            if (fileResponse is FileInfo) {
-              // Image is fully downloaded and cached
-              return Image.file(
-                fileResponse.file,
-                fit: fit,
-                width: width,
-                height: height,
-                errorBuilder: (context, error, stackTrace) {
-                  return errorWidget?.call(width, height) ??
-                      _defaultErrorWidget();
-                },
-              );
-            } else if (fileResponse is DownloadProgress && showProgress) {
-              // Show download progress
-              return _buildProgressIndicator(fileResponse);
-            }
+          if (fileResponse is FileInfo) {
+            // Image is fully downloaded and cached
+            return Image.file(
+              fileResponse.file,
+              fit: fit,
+              width: width,
+              height: height,
+              errorBuilder: (context, error, stackTrace) {
+                return errorWidget?.call(width, height) ??
+                    _defaultErrorWidget();
+              },
+            );
+          } else if (fileResponse is DownloadProgress && showProgress) {
+            // Show download progress
+            return _buildProgressIndicator(fileResponse);
           }
+        }
 
-          if (snapshot.hasError) {
-            return errorWidget?.call(width, height) ?? _defaultErrorWidget();
-          }
+        if (snapshot.hasError) {
+          return errorWidget?.call(width, height) ?? _defaultErrorWidget();
+        }
 
-          // Initial loading state
-          return placeholder?.call(width, height) ?? _defaultPlaceholder();
-        },
-      );
+        // Initial loading state
+        return placeholder?.call(width, height) ?? _defaultPlaceholder();
+      },
+    );
   }
 
   Widget _buildProgressIndicator(DownloadProgress progress) {
