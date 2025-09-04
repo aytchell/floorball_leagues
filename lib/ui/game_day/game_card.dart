@@ -28,26 +28,13 @@ class GameResultSlice {
   String? _translateGroupIdentifier(String? groupIdentifier) {
     if (groupIdentifier == null) return null;
 
-    switch (groupIdentifier!) {
-      case 'group_a':
-        return 'Gruppe A';
-      case 'group_b':
-        return 'Gruppe B';
-      case 'group_c':
-        return 'Gruppe C';
-      case 'group_d':
-        return 'Gruppe D';
-      case 'group_e':
-        return 'Gruppe E';
-      case 'group_f':
-        return 'Gruppe F';
-      case 'group_g':
-        return 'Gruppe G';
-      case 'group_h':
-        return 'Gruppe H';
-      default:
-        return groupIdentifier!;
-    }
+    RegExp validGroups = RegExp(r'^group_[a-z]$');
+
+    if (!validGroups.hasMatch(groupIdentifier)) return groupIdentifier!;
+
+    var groupId = groupIdentifier.substring(groupIdentifier.length - 1);
+
+    return "Gruppe " + groupId.toUpperCase();
   }
 
   String? _translateSeriesTitle(String? seriesTitle) {
