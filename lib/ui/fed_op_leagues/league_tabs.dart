@@ -146,6 +146,8 @@ class _LeagueTabsState extends State<LeagueTabs> {
         .expand((i) => i)
         .toList();
 
+    finalTable.sort((a, b) => a.position.compareTo(b.position)) ;
+
     champTable.add(
       ChampGroupTable(
         groupIdentifier: 'final_round',
@@ -173,16 +175,16 @@ class _LeagueTabsState extends State<LeagueTabs> {
 
     return [
       _buildDummyTeamTableEntry(
-        position,
-        homeWin ? game.homeTeamName! : game.guestTeamName!,
-        homeWin ? game.homeTeamLogo! : game.guestTeamLogo!,
-        homeWin ? game.homeTeamSmallLogo! : game.guestTeamSmallLogo!,
+        position + (homeWin ? 0 : 1),
+        game.homeTeamName!,
+        game.homeTeamLogo!,
+        game.homeTeamSmallLogo!,
       ),
       _buildDummyTeamTableEntry(
-        position + 1,
-        !homeWin ? game.homeTeamName! : game.guestTeamName!,
-        !homeWin ? game.homeTeamLogo! : game.guestTeamLogo!,
-        !homeWin ? game.homeTeamSmallLogo! : game.guestTeamSmallLogo!,
+        position + (homeWin ? 1 : 0),
+        game.guestTeamName!,
+        game.guestTeamLogo!,
+        game.guestTeamSmallLogo!,
       ),
     ];
   }
