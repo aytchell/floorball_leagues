@@ -167,19 +167,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
             Row(
               children: [
                 // Home team
-                Expanded(
-                  child: Column(
-                    children: [
-                      TeamLogo(uri: game.homeLogoUri, height: 48, width: 48),
-                      const SizedBox(height: 8),
-                      Text(
-                        game.homeTeamName ?? 'Unbekannt',
-                        style: AppTextStyles.gameCardTeamFont,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
+                _buildTeam(game.homeLogoUri, game.homeTeamName),
 
                 // Score/Time
                 Expanded(
@@ -226,23 +214,27 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 ),
 
                 // Guest team
-                Expanded(
-                  child: Column(
-                    children: [
-                      TeamLogo(uri: game.guestLogoUri, height: 48, width: 48),
-                      const SizedBox(height: 8),
-                      Text(
-                        game.guestTeamName ?? 'Unbekannt',
-                        style: AppTextStyles.gameCardTeamFont,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
+                _buildTeam(game.guestLogoUri, game.guestTeamName),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Expanded _buildTeam(Uri? logoUri, String teamName) {
+    return Expanded(
+      child: Column(
+        children: [
+          TeamLogo(uri: logoUri, height: 48, width: 48),
+          const SizedBox(height: 8),
+          Text(
+            teamName ?? 'Unbekannt',
+            style: AppTextStyles.gameCardTeamFont,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

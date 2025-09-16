@@ -146,6 +146,8 @@ class _LeagueTabsState extends State<LeagueTabs> {
         .expand((i) => i)
         .toList();
 
+    finalTable.sort((a, b) => a.position.compareTo(b.position)) ;
+
     champTable.add(
       ChampGroupTable(
         groupIdentifier: 'final_round',
@@ -169,37 +171,22 @@ class _LeagueTabsState extends State<LeagueTabs> {
       ];
     }
 
-    if (game.result!.homeGoals > game.result!.guestGoals) {
-      return [
-        _buildDummyTeamTableEntry(
-          position,
-          game.homeTeamName!,
-          game.homeTeamLogo,
-          game.homeTeamSmallLogo,
-        ),
-        _buildDummyTeamTableEntry(
-          position + 1,
-          game.guestTeamName!,
-          game.guestTeamLogo,
-          game.guestTeamSmallLogo,
-        ),
-      ];
-    } else {
-      return [
-        _buildDummyTeamTableEntry(
-          position,
-          game.guestTeamName!,
-          game.guestTeamLogo,
-          game.guestTeamSmallLogo,
-        ),
-        _buildDummyTeamTableEntry(
-          position + 1,
-          game.homeTeamName!,
-          game.homeTeamLogo,
-          game.homeTeamSmallLogo,
-        ),
-      ];
-    }
+    final homeWin = game.result!.homeGoals > game.result!.guestGoals;
+
+    return [
+      _buildDummyTeamTableEntry(
+        position + (homeWin ? 0 : 1),
+        game.homeTeamName!,
+        game.homeTeamLogo!,
+        game.homeTeamSmallLogo!,
+      ),
+      _buildDummyTeamTableEntry(
+        position + (homeWin ? 1 : 0),
+        game.guestTeamName!,
+        game.guestTeamLogo!,
+        game.guestTeamSmallLogo!,
+      ),
+    ];
   }
 
   LeagueTableRow _buildDummyTeamTableEntry(

@@ -79,21 +79,18 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
   SeasonInfo? _findSelectedSeason(AppState appState, EntryInfo entryInfo) {
     final selectedSeason = appState.selectedSeason;
 
-    if (selectedSeason != null) {
-      return selectedSeason;
-    } else {
-      SeasonInfo? info;
-      try {
-        info = entryInfo.seasons.firstWhere((season) => season.current);
-      } catch (e) {
-        // If no current season found, use the first one
-        info = entryInfo.seasons.isNotEmpty ? entryInfo.seasons.first : null;
-      }
-      if (info != null) {
-        appState.setSelectedSeason(info!);
-      }
-      return info;
+    if (selectedSeason != null) return selectedSeason;
+    SeasonInfo? info;
+    try {
+      info = entryInfo.seasons.firstWhere((season) => season.current);
+    } catch (e) {
+      // If no current season found, use the first one
+      info = entryInfo.seasons.isNotEmpty ? entryInfo.seasons.first : null;
     }
+    if (info != null) {
+      appState.setSelectedSeason(info!);
+    }
+    return info;
   }
 
   @override
