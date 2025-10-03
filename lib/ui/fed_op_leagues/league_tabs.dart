@@ -16,6 +16,7 @@ import '../game_day/game_day_table.dart';
 import '../app_text_styles.dart';
 import '../widgets/nothing_found.dart';
 import '../widgets/loading_spinner.dart';
+import '../widgets/expandable_card.dart';
 import '../main_app_scaffold.dart';
 import 'league_table_card.dart';
 import 'champ_table_card.dart';
@@ -462,12 +463,17 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
-      elevation: 2,
-      child: Column(
-        children: [_buildButtonLikeHeader(), _buildExpandableContent()],
-      ),
+    return ExpandableCard(
+      title: title,
+      isExpanded: isExpanded,
+      onTap: onTap,
+      expandedBackgroundColor: expandedBackgroundColor,
+      expandedContentBackgroundColor: expandedContentBackgroundColor,
+      customHeader: Column(children: [
+        _buildGameDayTitle(),
+        ..._buildGameDateAndClubs(),
+      ]),
+      child: _buildGamesTable(),
     );
   }
 
