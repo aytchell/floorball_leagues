@@ -147,7 +147,7 @@ class _LeagueTabsState extends State<LeagueTabs> {
         .expand((i) => i)
         .toList();
 
-    finalTable.sort((a, b) => a.position.compareTo(b.position)) ;
+    finalTable.sort((a, b) => a.position.compareTo(b.position));
 
     champTable.add(
       ChampGroupTable(
@@ -469,10 +469,9 @@ class ExpandableGameDayCard extends StatelessWidget {
       onTap: onTap,
       expandedBackgroundColor: expandedBackgroundColor,
       expandedContentBackgroundColor: expandedContentBackgroundColor,
-      customHeader: Column(children: [
-        _buildGameDayTitle(),
-        ..._buildGameDateAndClubs(),
-      ]),
+      customHeader: Column(
+        children: [_buildGameDayTitle(), ..._buildGameDateAndClubs()],
+      ),
       child: _buildGamesTable(),
     );
   }

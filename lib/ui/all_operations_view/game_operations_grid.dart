@@ -10,6 +10,7 @@ import '../../api/models/game_operation.dart';
 import '../../api/saisonmanager.dart';
 import '../app_text_styles.dart';
 import '../main_app_scaffold.dart';
+import '../widgets/loading_spinner.dart';
 import '../../app_state.dart';
 
 final log = Logger('GameOperationsGrid');
@@ -113,7 +114,7 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
 
   Widget _buildBody() {
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingSpinner(title: 'Lade Verbände ...');
     }
 
     if (gameOperations.isEmpty) {

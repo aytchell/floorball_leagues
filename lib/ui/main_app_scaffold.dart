@@ -71,7 +71,9 @@ class MainAppScaffold extends StatelessWidget {
               _buildBottomNavItem(
                 icon: Icons.date_range,
                 isEnabled: !isSeasonPicker,
-                onTap: isSeasonPicker ? null : () => _navigateToSeasons(context),
+                onTap: isSeasonPicker
+                    ? null
+                    : () => _navigateToSeasons(context),
               ),
               const Spacer(),
               _buildSeasonIndicator(),

@@ -11,6 +11,7 @@ import '../../api/models/player.dart';
 import '../../api/impls/detailed_game_fetcher.dart';
 import '../main_app_scaffold.dart';
 import '../app_text_styles.dart';
+import '../widgets/loading_spinner.dart';
 import 'details/team_lineup.dart';
 import 'details/starting_six.dart';
 import 'details/awarded_players.dart';
@@ -77,7 +78,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
 
   Widget _buildBody() {
     if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const LoadingSpinner(title: 'Lade Spieldetails ...');
     }
 
     if (_error != null) {

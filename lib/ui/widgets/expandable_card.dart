@@ -43,12 +43,7 @@ class ExpandableCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 4.0),
       elevation: 2,
-      child: Column(
-        children: [
-          _buildHeader(),
-          _buildExpandableContent(),
-        ],
-      ),
+      child: Column(children: [_buildHeader(), _buildExpandableContent()]),
     );
   }
 
