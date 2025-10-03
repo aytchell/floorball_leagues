@@ -43,8 +43,9 @@ class MainAppScaffold extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Container(
-      height: 60,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -56,21 +57,27 @@ class MainAppScaffold extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          _buildBottomNavItem(
-            icon: Icons.home,
-            isEnabled: !isHomePage,
-            onTap: isHomePage ? null : () => _navigateToHome(context),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            children: [
+              _buildBottomNavItem(
+                icon: Icons.home,
+                isEnabled: !isHomePage,
+                onTap: isHomePage ? null : () => _navigateToHome(context),
+              ),
+              _buildBottomNavItem(
+                icon: Icons.date_range,
+                isEnabled: !isSeasonPicker,
+                onTap: isSeasonPicker ? null : () => _navigateToSeasons(context),
+              ),
+              const Spacer(),
+              _buildSeasonIndicator(),
+            ],
           ),
-          _buildBottomNavItem(
-            icon: Icons.date_range,
-            isEnabled: !isSeasonPicker,
-            onTap: isSeasonPicker ? null : () => _navigateToSeasons(context),
-          ),
-          const Spacer(),
-          _buildSeasonIndicator(),
-        ],
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import '../../api/models/champ_group_table.dart';
 import '../../api/models/league_table_row.dart';
 import '../app_text_styles.dart';
 import '../widgets/team_logo.dart';
+import '../widgets/expandable_card.dart';
 
 class ExpandableChampTableCard extends StatelessWidget {
   final String title;
@@ -26,12 +27,11 @@ class ExpandableChampTableCard extends StatelessWidget {
     }
 
     // Otherwise show expandable card
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 4.0),
-      elevation: 2,
-      child: Column(
-        children: [_buildButtonLikeHeader(), _buildExpandableContent()],
-      ),
+    return ExpandableCard(
+      title: title,
+      isExpanded: isExpanded,
+      onTap: onTap,
+      child: _buildTablesContent(),
     );
   }
 
@@ -61,62 +61,6 @@ class ExpandableChampTableCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildButtonLikeHeader() {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: isExpanded ? Colors.blue[50] : Colors.white,
-          borderRadius: isExpanded
-              ? BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                )
-              : BorderRadius.circular(4),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: isExpanded
-                  ? AppTextStyles.gameDayTitleExpanded
-                  : AppTextStyles.gameDayTitleCollapsed,
-            ),
-            Icon(
-              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-              color: isExpanded ? Colors.blue[700] : Colors.grey[600],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildExpandableContent() {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      height: isExpanded ? null : 0,
-      child: isExpanded
-          ? Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: _buildTablesContent(),
-            )
-          : SizedBox.shrink(),
     );
   }
 
