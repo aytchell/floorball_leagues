@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../api/models/league_table_row.dart';
 import '../../api/models/scorer.dart';
 import 'indexed_scorer.dart';
+import '../widgets/striped_table_row.dart';
 import 'team_penalties.dart';
 
 class _StatisticItem {
@@ -51,17 +52,9 @@ class TeamStatisticsTable extends StatelessWidget {
         children: statistics.asMap().entries.map((entry) {
           final index = entry.key;
           final statistic = entry.value;
-          final isEven = index % 2 == 0;
 
-          return Container(
-            decoration: BoxDecoration(
-              color: isEven ? Colors.grey.shade50 : Colors.white,
-              border: index > 0
-                  ? Border(
-                      top: BorderSide(color: Colors.grey.shade300, width: 0.5),
-                    )
-                  : null,
-            ),
+          return StripedTableRow(
+            index: index,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               children: [

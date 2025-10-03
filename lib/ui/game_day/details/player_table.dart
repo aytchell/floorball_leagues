@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../widgets/striped_table_row.dart';
 
 abstract interface class TableContentProvider {
   String get trikotNumber;
@@ -28,22 +29,8 @@ class PlayerTable extends StatelessWidget {
               final player = entry.value;
               final isEven = index % 2 == 0;
 
-              return Container(
-                decoration: BoxDecoration(
-                  color: isEven ? Colors.grey.shade50 : Colors.white,
-                  border: index > 0
-                      ? Border(
-                          top: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 0.5,
-                          ),
-                        )
-                      : null,
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+              return StripedTableRow(
+                index: index,
                 child: Row(
                   children: [
                     // Jersey icon

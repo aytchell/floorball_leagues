@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../api/models/period_title.dart';
 import '../../../api/models/game_event.dart';
+import '../../widgets/striped_table_row.dart';
 import 'single_game_event.dart';
 
 class EventsOfPeriod extends StatelessWidget {
@@ -84,24 +85,9 @@ class EventsOfPeriod extends StatelessWidget {
                 ...events!.asMap().entries.map((entry) {
                   final index = entry.key;
                   final event = entry.value;
-                  final isEven = index % 2 == 0;
 
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: isEven ? Colors.grey.shade50 : Colors.white,
-                      border: index > 0
-                          ? Border(
-                              top: BorderSide(
-                                color: Colors.grey.shade300,
-                                width: 0.5,
-                              ),
-                            )
-                          : null,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
+                  return StripedTableRow(
+                    index: index,
                     child: SingleGameEvent(
                       event: event,
                       homePlayerNames: homePlayerNames,

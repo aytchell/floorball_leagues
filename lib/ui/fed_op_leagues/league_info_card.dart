@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../api/models/game_operation_league.dart';
 import '../app_text_styles.dart';
 import '../widgets/expandable_card.dart';
+import '../widgets/striped_table_row.dart';
 
 class ExpandablLeagueInfoCard extends StatelessWidget {
   final String title;
@@ -40,18 +41,9 @@ class ExpandablLeagueInfoCard extends StatelessWidget {
         children: infoItems.asMap().entries.map((entry) {
           final index = entry.key;
           final item = entry.value;
-          final isEven = index % 2 == 0;
 
-          return Container(
-            decoration: BoxDecoration(
-              color: isEven ? Colors.grey.shade50 : Colors.white,
-              border: index > 0
-                  ? Border(
-                      top: BorderSide(color: Colors.grey.shade300, width: 0.5),
-                    )
-                  : null,
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          return StripedTableRow(
+            index: index,
             child: Row(
               children: [
                 // Label
