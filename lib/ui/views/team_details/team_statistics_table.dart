@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/ui/team_details/indexed_scorer.dart';
+import 'package:floorball/ui/views/team_details/indexed_scorer.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
-import 'package:floorball/ui/team_details/team_penalties.dart';
+import 'package:floorball/ui/views/team_details/team_penalties.dart';
 
 class _StatisticItem {
   final String label;

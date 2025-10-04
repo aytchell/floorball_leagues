@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:material_table_view/material_table_view.dart';
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/ui/team_details/indexed_scorer.dart';
+import 'package:floorball/ui/views/team_details/indexed_scorer.dart';
 
 enum SortColumn {
   rank,
