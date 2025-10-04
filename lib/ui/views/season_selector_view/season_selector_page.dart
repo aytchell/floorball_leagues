@@ -4,8 +4,8 @@ import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/app_state.dart';
 
-class SeasonSelectionScreen extends StatelessWidget {
-  const SeasonSelectionScreen({super.key});
+class SeasonSelectorPage extends StatelessWidget {
+  const SeasonSelectorPage({super.key});
 
   @override
   Widget build(BuildContext context) {

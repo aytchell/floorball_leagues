@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
 import 'package:floorball/ui/views/landing_view/game_operation_card.dart';
-import 'package:floorball/ui/views/leagues_list_view/leagues_list.dart';
+import 'package:floorball/ui/views/leagues_list_view/leagues_list_page.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/season_info.dart';
@@ -13,16 +13,16 @@ import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/app_state.dart';
 
-final log = Logger('GameOperationsGrid');
+final log = Logger('LandingPage');
 
-class GameOperationsGrid extends StatefulWidget {
-  const GameOperationsGrid({super.key});
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key});
 
   @override
-  _GameOperationsGridState createState() => _GameOperationsGridState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _GameOperationsGridState extends State<GameOperationsGrid> {
+class _LandingPageState extends State<LandingPage> {
   List<GameOperation> gameOperations = [];
   List<SeasonInfo> seasons = [];
   SeasonInfo? selectedSeason;
@@ -151,10 +151,8 @@ class _GameOperationsGridState extends State<GameOperationsGrid> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GameOperationLeagueList(
-          gameOp: gameOp,
-          selectedSeason: selectedSeason!,
-        ),
+        builder: (context) =>
+            LeaguesListPage(gameOp: gameOp, selectedSeason: selectedSeason!),
       ),
     );
   }

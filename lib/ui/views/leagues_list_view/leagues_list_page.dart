@@ -2,27 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
-import 'package:floorball/ui/views/league_details_view/league_tabs.dart';
+import 'package:floorball/ui/views/league_details_view/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/nothing_found.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 
-class GameOperationLeagueList extends StatefulWidget {
+class LeaguesListPage extends StatefulWidget {
   final GameOperation gameOp;
   final SeasonInfo selectedSeason;
 
-  const GameOperationLeagueList({
+  const LeaguesListPage({
     super.key,
     required this.gameOp,
     required this.selectedSeason,
   });
 
   @override
-  _GameOperationLeagueListState createState() =>
-      _GameOperationLeagueListState();
+  _LeaguesListPageState createState() => _LeaguesListPageState();
 }
 
-class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
+class _LeaguesListPageState extends State<LeaguesListPage> {
   List<GameOperationLeague> leagues = [];
   bool isLoading = false;
 
@@ -80,7 +79,8 @@ class _GameOperationLeagueListState extends State<GameOperationLeagueList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LeagueTabs(league: leagues[index]),
+                  builder: (context) =>
+                      LeagueDetailsPage(league: leagues[index]),
                 ),
               );
             },

@@ -5,7 +5,7 @@ import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/ui/views/team_details_view/team_details_view.dart';
+import 'package:floorball/ui/views/team_details_view/team_details_page.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;
@@ -154,7 +154,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TeamDetailsView(
+        builder: (context) => TeamDetailsPage(
           leagueName: leagueName,
           teamEntry: entry,
           scorers: scorers,

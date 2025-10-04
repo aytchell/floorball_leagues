@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
-import 'ui/views/landing_view/game_operations_grid.dart';
-import 'ui/views/season_selector_view/seasons_list.dart';
+import 'ui/views/landing_view/landing_page.dart';
+import 'ui/views/season_selector_view/season_selector_page.dart';
 import 'app_state.dart';
 
 final log = Logger('Main');
@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => GameOperationsGrid(),
-        '/seasons': (context) => SeasonSelectionScreen(),
+        '/': (context) => LandingPage(),
+        '/seasons': (context) => SeasonSelectorPage(),
       },
     );
   }

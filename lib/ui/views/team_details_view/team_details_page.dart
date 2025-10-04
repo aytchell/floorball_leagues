@@ -27,14 +27,14 @@ List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
       .toList();
 }
 
-class TeamDetailsView extends StatelessWidget {
+class TeamDetailsPage extends StatelessWidget {
   final String leagueName;
   final LeagueTableRow teamEntry;
   final List<Scorer> scorers;
   final List<Game> teamGames;
   final List<IndexedScorer> teamScorers;
 
-  TeamDetailsView({
+  TeamDetailsPage({
     Key? key,
     required this.leagueName,
     required this.teamEntry,

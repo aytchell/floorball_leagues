@@ -24,7 +24,7 @@ import 'package:floorball/ui/views/league_details_view/scorer_card.dart';
 import 'package:floorball/ui/views/league_details_view/league_info_card.dart';
 import 'package:floorball/ui/views/league_details_view/date_and_club.dart';
 
-final log = Logger('LeagueTabs');
+final log = Logger('LeagueDetailsPage');
 
 class GameSubDayInfo {
   final String dateAtClub;
@@ -40,18 +40,18 @@ class GameSubDayInfo {
   });
 }
 
-class LeagueTabs extends StatefulWidget {
+class LeagueDetailsPage extends StatefulWidget {
   final GameOperationLeague league;
   String leagueType;
 
-  LeagueTabs({required this.league})
+  LeagueDetailsPage({required this.league})
     : leagueType = league.leagueType ?? "league";
 
   @override
-  _LeagueTabsState createState() => _LeagueTabsState();
+  _LeagueDetailsPageState createState() => _LeagueDetailsPageState();
 }
 
-class _LeagueTabsState extends State<LeagueTabs> {
+class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
   bool isLoading = false;
