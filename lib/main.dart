@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
-import 'ui/all_operations_view/game_operations_grid.dart';
+import 'ui/views/landing_view/game_operations_grid.dart';
 import 'ui/season_selector/seasons_list.dart';
 import 'app_state.dart';
 
