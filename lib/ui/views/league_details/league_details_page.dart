@@ -590,7 +590,12 @@ class ExpandableGameDayCard extends StatelessWidget {
   }
 
   List<DateAndClub> _extractDateAndClubs() {
-    final today = DateTime.now();
+    // This is a little hack: the date of a game day has a time of 00:00:00
+    // whereas 'now' has a valid time. We want a game day to "not be bygone"
+    // for the whole day. So instead of adding 23h to each game day time
+    // we simply subtract 23h from "today".
+    final today = DateTime.now().subtract(Duration(hours: 23));
+
     var eventList = games
         .map((game) => DateAndClub.create(game.date!, game.hostingClub!, today))
         .toSet()
