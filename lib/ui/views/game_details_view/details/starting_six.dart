@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/starting_player.dart';
-import 'package:floorball/ui/views/game_detail_view/details/player_table.dart';
+import 'package:floorball/ui/views/game_details_view/details/player_table.dart';
 
 class StartingPlayerAdapter implements TableContentProvider {
   final StartingPlayer player;
