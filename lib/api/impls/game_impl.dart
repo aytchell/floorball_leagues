@@ -1,16 +1,16 @@
-import '../../net/rest_client.dart';
-import '../models/game.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/game.dart';
 
-import '../models/referee.dart';
-import '../models/period_title.dart';
-import '../models/game_result.dart';
-import '../models/detailed_game.dart';
+import 'package:floorball/api/models/referee.dart';
+import 'package:floorball/api/models/period_title.dart';
+import 'package:floorball/api/models/game_result.dart';
+import 'package:floorball/api/models/detailed_game.dart';
 
-import 'game_result_parser.dart';
-import 'referee_parser.dart';
-import 'period_title_parser.dart';
-import 'detailed_game_fetcher.dart';
-import 'int_parser.dart';
+import 'package:floorball/api/impls/game_result_parser.dart';
+import 'package:floorball/api/impls/referee_parser.dart';
+import 'package:floorball/api/impls/period_title_parser.dart';
+import 'package:floorball/api/impls/detailed_game_fetcher.dart';
+import 'package:floorball/api/impls/int_parser.dart';
 
 class GameImpl extends Game {
   RestClient client;

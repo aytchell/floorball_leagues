@@ -1,4 +1,4 @@
-import '../models/period_title.dart';
+import 'package:floorball/api/models/period_title.dart';
 
 PeriodTitle parsePeriodTitle(Map<String, dynamic> json) {
   return PeriodTitle(

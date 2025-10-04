@@ -1,5 +1,5 @@
-import 'int_parser.dart';
-import '../models/season_info.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/models/season_info.dart';
 
 SeasonInfo parseSeasonInfo(Map<String, dynamic> json) {
   return SeasonInfo(

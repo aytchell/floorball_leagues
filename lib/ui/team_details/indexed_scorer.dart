@@ -1,4 +1,4 @@
-import '../../api/models/scorer.dart';
+import 'package:floorball/api/models/scorer.dart';
 
 class IndexedScorer {
   final int index;

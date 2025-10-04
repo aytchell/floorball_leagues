@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../api/models/game_operation.dart';
-import '../app_text_styles.dart';
-import '../widgets/cached_network_image.dart';
+import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/cached_network_image.dart';
 
 class GameOperationCard extends StatelessWidget {
   final GameOperation gameOperation;

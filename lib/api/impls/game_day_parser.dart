@@ -1,6 +1,6 @@
-import '../models/game_day.dart';
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/models/game_day.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
 GameDay parseGameDay(Map<String, dynamic> json) {
   return GameDay(

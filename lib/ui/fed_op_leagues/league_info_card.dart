@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../api/models/game_operation_league.dart';
-import '../app_text_styles.dart';
-import '../widgets/expandable_card.dart';
-import '../widgets/striped_table_row.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/expandable_card.dart';
+import 'package:floorball/ui/widgets/striped_table_row.dart';
 
 class ExpandablLeagueInfoCard extends StatelessWidget {
   final String title;

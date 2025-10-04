@@ -1,17 +1,17 @@
-import '../../net/rest_client.dart';
-import '../models/game_operation_league.dart';
-import '../models/game_day_title.dart';
-import '../models/scorer.dart';
-import '../models/game.dart';
-import '../models/league_table_row.dart';
-import '../models/champ_group_table.dart';
-import 'game_impl.dart';
-import 'game_day_title_parser.dart';
-import 'scorer_fetcher.dart';
-import 'league_table_fetcher.dart';
-import 'champ_table_fetcher.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/game_day_title.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/models/champ_group_table.dart';
+import 'package:floorball/api/impls/game_impl.dart';
+import 'package:floorball/api/impls/game_day_title_parser.dart';
+import 'package:floorball/api/impls/scorer_fetcher.dart';
+import 'package:floorball/api/impls/league_table_fetcher.dart';
+import 'package:floorball/api/impls/champ_table_fetcher.dart';
 
-import 'int_parser.dart';
+import 'package:floorball/api/impls/int_parser.dart';
 
 class GameOperationLeagueImpl extends GameOperationLeague {
   final RestClient client;

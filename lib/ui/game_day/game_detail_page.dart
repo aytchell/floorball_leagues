@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
 
-import '../../app_state.dart';
-import '../../api/models/game_day.dart';
-import '../../api/models/game.dart';
-import '../../api/models/detailed_game.dart';
-import '../../api/models/player.dart';
-import '../../api/impls/detailed_game_fetcher.dart';
-import '../main_app_scaffold.dart';
-import '../app_text_styles.dart';
-import '../widgets/loading_spinner.dart';
-import 'details/team_lineup.dart';
-import 'details/starting_six.dart';
-import 'details/awarded_players.dart';
-import 'details/events_of_period.dart';
-import '../widgets/team_logo.dart';
-import 'details/game_meta_data.dart';
+import 'package:floorball/app_state.dart';
+import 'package:floorball/api/models/game_day.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/api/models/player.dart';
+import 'package:floorball/api/impls/detailed_game_fetcher.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:floorball/ui/game_day/details/team_lineup.dart';
+import 'package:floorball/ui/game_day/details/starting_six.dart';
+import 'package:floorball/ui/game_day/details/awarded_players.dart';
+import 'package:floorball/ui/game_day/details/events_of_period.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/ui/game_day/details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
   final String leagueName;

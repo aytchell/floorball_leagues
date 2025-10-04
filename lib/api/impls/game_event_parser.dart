@@ -1,6 +1,6 @@
-import '../models/game_event.dart';
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/models/game_event.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
 GameEvent parseGameEvent(Map<String, dynamic> json) {
   return GameEvent(

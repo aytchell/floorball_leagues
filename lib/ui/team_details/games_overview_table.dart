@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../api/models/league_table_row.dart';
-import '../../api/models/game.dart';
-import '../widgets/team_logo.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
 
 class GamesOverviewTable extends StatelessWidget {
   final LeagueTableRow team;

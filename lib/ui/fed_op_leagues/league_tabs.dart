@@ -4,25 +4,25 @@ import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/models/game_operation_league.dart';
-import '../../api/models/game.dart';
-import '../../api/models/scorer.dart';
-import '../../api/models/champ_group_table.dart';
-import '../../api/models/league_table_row.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/champ_group_table.dart';
+import 'package:floorball/api/models/league_table_row.dart';
 
-import '../../app_state.dart';
-import '../game_day/game_card.dart';
-import '../game_day/game_day_table.dart';
-import '../app_text_styles.dart';
-import '../widgets/nothing_found.dart';
-import '../widgets/loading_spinner.dart';
-import '../widgets/expandable_card.dart';
-import '../main_app_scaffold.dart';
-import 'league_table_card.dart';
-import 'champ_table_card.dart';
-import 'scorer_card.dart';
-import 'league_info_card.dart';
-import 'date_and_club.dart';
+import 'package:floorball/app_state.dart';
+import 'package:floorball/ui/game_day/game_card.dart';
+import 'package:floorball/ui/game_day/game_day_table.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/nothing_found.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:floorball/ui/widgets/expandable_card.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/fed_op_leagues/league_table_card.dart';
+import 'package:floorball/ui/fed_op_leagues/champ_table_card.dart';
+import 'package:floorball/ui/fed_op_leagues/scorer_card.dart';
+import 'package:floorball/ui/fed_op_leagues/league_info_card.dart';
+import 'package:floorball/ui/fed_op_leagues/date_and_club.dart';
 
 final log = Logger('LeagueTabs');
 

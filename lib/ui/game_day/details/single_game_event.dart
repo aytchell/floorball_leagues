@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../api/models/game_event.dart';
-import '../../widgets/team_logo.dart';
+import 'package:floorball/api/models/game_event.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
 
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;

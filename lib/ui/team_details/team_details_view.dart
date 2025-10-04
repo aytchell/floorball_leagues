@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
 
-import '../../api/models/league_table_row.dart';
-import '../../api/models/scorer.dart';
-import '../../api/models/game.dart';
-import '../../app_state.dart';
-import '../main_app_scaffold.dart';
-import '../widgets/team_logo.dart';
-import 'indexed_scorer.dart';
-import 'player_statistics_table.dart';
-import 'team_statistics_table.dart';
-import 'games_overview_table.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/app_state.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/ui/team_details/indexed_scorer.dart';
+import 'package:floorball/ui/team_details/player_statistics_table.dart';
+import 'package:floorball/ui/team_details/team_statistics_table.dart';
+import 'package:floorball/ui/team_details/games_overview_table.dart';
 
 final int someSeasonIdWithNewPenalties = 16;
 

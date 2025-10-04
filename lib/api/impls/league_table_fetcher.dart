@@ -1,6 +1,6 @@
-import '../../net/rest_client.dart';
-import '../models/league_table_row.dart';
-import 'int_parser.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/impls/int_parser.dart';
 
 LeagueTableRow parseLeagueTableRow(Map<String, dynamic> json) {
   return LeagueTableRow(

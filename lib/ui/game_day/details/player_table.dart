@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../widgets/striped_table_row.dart';
+import 'package:floorball/ui/widgets/striped_table_row.dart';
 
 abstract interface class TableContentProvider {
   String get trikotNumber;

@@ -1,9 +1,9 @@
-import 'int_parser.dart';
-import '../models/game_operation_league.dart';
-import 'game_operation_league_impl.dart';
-import '../../net/rest_client.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/impls/game_operation_league_impl.dart';
+import 'package:floorball/net/rest_client.dart';
 
-import '../models/game_operation.dart';
+import 'package:floorball/api/models/game_operation.dart';
 
 class GameOperationImpl extends GameOperation {
   final RestClient client;

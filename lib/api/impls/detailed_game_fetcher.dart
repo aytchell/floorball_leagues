@@ -1,19 +1,19 @@
-import '../../net/rest_client.dart';
+import 'package:floorball/net/rest_client.dart';
 
-import '../models/logo_host.dart';
-import '../models/detailed_game.dart';
+import 'package:floorball/api/models/logo_host.dart';
+import 'package:floorball/api/models/detailed_game.dart';
 
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
-import 'game_result_parser.dart';
-import 'period_title_parser.dart';
-import 'referee_parser.dart';
-import 'game_day_parser.dart';
-import 'game_event_parser.dart';
-import 'player_parser.dart';
-import 'starting_player_parser.dart';
-import 'award_parser.dart';
+import 'package:floorball/api/impls/game_result_parser.dart';
+import 'package:floorball/api/impls/period_title_parser.dart';
+import 'package:floorball/api/impls/referee_parser.dart';
+import 'package:floorball/api/impls/game_day_parser.dart';
+import 'package:floorball/api/impls/game_event_parser.dart';
+import 'package:floorball/api/impls/player_parser.dart';
+import 'package:floorball/api/impls/starting_player_parser.dart';
+import 'package:floorball/api/impls/award_parser.dart';
 
 DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
   var eventsJson = json['events'] as List;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../api/models/game.dart';
-import '../app_text_styles.dart';
-import 'game_detail_page.dart';
-import '../widgets/team_logo.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/game_day/game_detail_page.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
 
 class GameResultSlice {
   final Game game;

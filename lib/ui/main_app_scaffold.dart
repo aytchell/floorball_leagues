@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../app_state.dart';
-import '../api/models/season_info.dart';
+import 'package:floorball/app_state.dart';
+import 'package:floorball/api/models/season_info.dart';
 
 class MainAppScaffold extends StatelessWidget {
   final String title;

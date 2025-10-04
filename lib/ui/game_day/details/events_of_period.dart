@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../api/models/period_title.dart';
-import '../../../api/models/game_event.dart';
-import '../../widgets/striped_table_row.dart';
-import 'single_game_event.dart';
+import 'package:floorball/api/models/period_title.dart';
+import 'package:floorball/api/models/game_event.dart';
+import 'package:floorball/ui/widgets/striped_table_row.dart';
+import 'package:floorball/ui/game_day/details/single_game_event.dart';
 
 class EventsOfPeriod extends StatelessWidget {
   final PeriodTitle period;

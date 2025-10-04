@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
-import 'game_operation_card.dart';
-import '../fed_op_leagues/leagues_list.dart';
-import '../../net/rest_client.dart';
-import '../../api/models/entry_info.dart';
-import '../../api/models/season_info.dart';
-import '../../api/models/game_operation.dart';
-import '../../api/saisonmanager.dart';
-import '../app_text_styles.dart';
-import '../main_app_scaffold.dart';
-import '../widgets/loading_spinner.dart';
-import '../../app_state.dart';
+import 'package:floorball/ui/all_operations_view/game_operation_card.dart';
+import 'package:floorball/ui/fed_op_leagues/leagues_list.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/entry_info.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/saisonmanager.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:floorball/app_state.dart';
 
 final log = Logger('GameOperationsGrid');
 

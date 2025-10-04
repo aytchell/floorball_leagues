@@ -1,6 +1,6 @@
-import '../models/award.dart';
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/models/award.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
 Award parseAward(Map<String, dynamic> json) {
   return Award(

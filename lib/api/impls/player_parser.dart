@@ -1,6 +1,6 @@
-import '../models/player.dart';
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/models/player.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
 Player parsePlayer(Map<String, dynamic> json) {
   return Player(

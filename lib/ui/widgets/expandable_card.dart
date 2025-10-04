@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../app_text_styles.dart';
+import 'package:floorball/ui/app_text_styles.dart';
 
 /// A reusable expandable card widget with animated expand/collapse behavior.
 ///

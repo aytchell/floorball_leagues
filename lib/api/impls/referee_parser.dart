@@ -1,6 +1,6 @@
-import 'int_parser.dart';
-import 'string_parser.dart';
-import '../models/referee.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
+import 'package:floorball/api/models/referee.dart';
 
 Referee parseReferee(Map<String, dynamic> json) {
   return Referee(

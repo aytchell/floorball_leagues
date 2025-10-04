@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../api/models/detailed_game.dart';
+import 'package:floorball/api/models/detailed_game.dart';
 
 class GameMetaData extends StatelessWidget {
   final DetailedGame game;

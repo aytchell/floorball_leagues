@@ -1,6 +1,6 @@
-import '../../net/rest_client.dart';
-import 'int_parser.dart';
-import '../models/scorer.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/models/scorer.dart';
 
 Scorer _parseScorer(Map<String, dynamic> json) {
   return Scorer(

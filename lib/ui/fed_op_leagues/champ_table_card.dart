@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../api/models/champ_group_table.dart';
-import '../../api/models/league_table_row.dart';
-import '../app_text_styles.dart';
-import '../widgets/team_logo.dart';
-import '../widgets/expandable_card.dart';
+import 'package:floorball/api/models/champ_group_table.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/ui/widgets/expandable_card.dart';
 
 class ExpandableChampTableCard extends StatelessWidget {
   final String title;

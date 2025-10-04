@@ -1,6 +1,6 @@
-import '../../net/rest_client.dart';
-import '../models/champ_group_table.dart';
-import 'league_table_fetcher.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/champ_group_table.dart';
+import 'package:floorball/api/impls/league_table_fetcher.dart';
 
 ChampGroupTable parseChampGroupTable(Map<String, dynamic> json) {
   final tableJson = json['table'] as List<dynamic>;

@@ -1,4 +1,4 @@
-import '../../api/models/game_operation_league.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
 
 abstract class GameOperation {
   int id;

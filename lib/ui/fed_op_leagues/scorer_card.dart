@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:collection/collection.dart';
-import '../../api/models/scorer.dart';
-import '../app_text_styles.dart';
-import '../widgets/expandable_card.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/expandable_card.dart';
 
 class ExpandableScorerCard extends StatelessWidget {
   final String title;

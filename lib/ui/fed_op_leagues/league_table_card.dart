@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../app_text_styles.dart';
-import '../widgets/team_logo.dart';
-import '../widgets/expandable_card.dart';
-import '../../api/models/league_table_row.dart';
-import '../../api/models/scorer.dart';
-import '../../api/models/game.dart';
-import '../team_details/team_details_view.dart';
+import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/ui/widgets/expandable_card.dart';
+import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/game.dart';
+import 'package:floorball/ui/team_details/team_details_view.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;

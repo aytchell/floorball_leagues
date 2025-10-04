@@ -1,6 +1,6 @@
-import '../net/rest_client.dart';
-import 'models/entry_info.dart';
-import 'impls/entry_info_impl.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/models/entry_info.dart';
+import 'package:floorball/api/impls/entry_info_impl.dart';
 
 class Saisonmanager {
   final RestClient _client;

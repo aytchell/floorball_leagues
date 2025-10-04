@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../api/models/season_info.dart';
-import '../../api/models/game_operation.dart';
-import '../../api/models/game_operation_league.dart';
-import 'league_tabs.dart';
-import '../main_app_scaffold.dart';
-import '../widgets/nothing_found.dart';
-import '../widgets/loading_spinner.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/ui/fed_op_leagues/league_tabs.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/widgets/nothing_found.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
 
 class GameOperationLeagueList extends StatefulWidget {
   final GameOperation gameOp;

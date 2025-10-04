@@ -1,11 +1,11 @@
-import '../../net/rest_client.dart';
-import 'int_parser.dart';
+import 'package:floorball/net/rest_client.dart';
+import 'package:floorball/api/impls/int_parser.dart';
 
-import '../models/entry_info.dart';
-import '../models/season_info.dart';
-import '../models/game_operation.dart';
-import 'season_info_parser.dart';
-import 'game_operation_impl.dart';
+import 'package:floorball/api/models/entry_info.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/impls/season_info_parser.dart';
+import 'package:floorball/api/impls/game_operation_impl.dart';
 
 class EntryInfoImpl extends EntryInfo {
   EntryInfoImpl({

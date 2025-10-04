@@ -1,7 +1,7 @@
-import '../models/game_result.dart';
+import 'package:floorball/api/models/game_result.dart';
 
-import 'int_parser.dart';
-import 'string_parser.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 
 GameResultPostfix parseGameResultPostfix(Map<String, dynamic> json) {
   return GameResultPostfix(
