@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
-import 'package:floorball/ui/views/landing_view/game_operation_card.dart';
-import 'package:floorball/ui/views/leagues_list_view/leagues_list_page.dart';
+import 'package:floorball/ui/views/landing/game_operation_card.dart';
+import 'package:floorball/ui/views/leagues_list/leagues_list_page.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/season_info.dart';

@@ -11,18 +11,18 @@ import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 
 import 'package:floorball/app_state.dart';
-import 'package:floorball/ui/views/league_details_view/game_card.dart';
-import 'package:floorball/ui/views/league_details_view/game_day_table.dart';
+import 'package:floorball/ui/views/league_details/game_card.dart';
+import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/nothing_found.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/views/league_details_view/league_table_card.dart';
-import 'package:floorball/ui/views/league_details_view/champ_table_card.dart';
-import 'package:floorball/ui/views/league_details_view/scorer_card.dart';
-import 'package:floorball/ui/views/league_details_view/league_info_card.dart';
-import 'package:floorball/ui/views/league_details_view/date_and_club.dart';
+import 'package:floorball/ui/views/league_details/league_table_card.dart';
+import 'package:floorball/ui/views/league_details/champ_table_card.dart';
+import 'package:floorball/ui/views/league_details/scorer_card.dart';
+import 'package:floorball/ui/views/league_details/league_info_card.dart';
+import 'package:floorball/ui/views/league_details/date_and_club.dart';
 
 final log = Logger('LeagueDetailsPage');
 

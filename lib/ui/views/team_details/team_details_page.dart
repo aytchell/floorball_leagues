@@ -8,10 +8,10 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/app_state.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
-import 'package:floorball/ui/views/team_details_view/indexed_scorer.dart';
-import 'package:floorball/ui/views/team_details_view/player_statistics_table.dart';
-import 'package:floorball/ui/views/team_details_view/team_statistics_table.dart';
-import 'package:floorball/ui/views/team_details_view/games_overview_table.dart';
+import 'package:floorball/ui/views/team_details/indexed_scorer.dart';
+import 'package:floorball/ui/views/team_details/player_statistics_table.dart';
+import 'package:floorball/ui/views/team_details/team_statistics_table.dart';
+import 'package:floorball/ui/views/team_details/games_overview_table.dart';
 
 final int someSeasonIdWithNewPenalties = 16;
 

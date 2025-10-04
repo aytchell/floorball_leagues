@@ -5,7 +5,7 @@ import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/ui/views/team_details_view/team_details_page.dart';
+import 'package:floorball/ui/views/team_details/team_details_page.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;
