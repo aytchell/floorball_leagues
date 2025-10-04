@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
-import 'package:floorball/ui/fed_op_leagues/league_tabs.dart';
+import 'package:floorball/ui/views/league_details_view/league_tabs.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/nothing_found.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';

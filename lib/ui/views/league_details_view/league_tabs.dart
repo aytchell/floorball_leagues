@@ -18,11 +18,11 @@ import 'package:floorball/ui/widgets/nothing_found.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/fed_op_leagues/league_table_card.dart';
-import 'package:floorball/ui/fed_op_leagues/champ_table_card.dart';
-import 'package:floorball/ui/fed_op_leagues/scorer_card.dart';
-import 'package:floorball/ui/fed_op_leagues/league_info_card.dart';
-import 'package:floorball/ui/fed_op_leagues/date_and_club.dart';
+import 'package:floorball/ui/views/league_details_view/league_table_card.dart';
+import 'package:floorball/ui/views/league_details_view/champ_table_card.dart';
+import 'package:floorball/ui/views/league_details_view/scorer_card.dart';
+import 'package:floorball/ui/views/league_details_view/league_info_card.dart';
+import 'package:floorball/ui/views/league_details_view/date_and_club.dart';
 
 final log = Logger('LeagueTabs');
 
