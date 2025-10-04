@@ -12,12 +12,12 @@ import 'package:floorball/api/impls/detailed_game_fetcher.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
-import 'package:floorball/ui/game_day/details/team_lineup.dart';
-import 'package:floorball/ui/game_day/details/starting_six.dart';
-import 'package:floorball/ui/game_day/details/awarded_players.dart';
-import 'package:floorball/ui/game_day/details/events_of_period.dart';
+import 'package:floorball/ui/views/game_detail_view/details/team_lineup.dart';
+import 'package:floorball/ui/views/game_detail_view/details/starting_six.dart';
+import 'package:floorball/ui/views/game_detail_view/details/awarded_players.dart';
+import 'package:floorball/ui/views/game_detail_view/details/events_of_period.dart';
+import 'package:floorball/ui/views/game_detail_view/details/game_meta_data.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
-import 'package:floorball/ui/game_day/details/game_meta_data.dart';
 
 class GameDetailPage extends StatefulWidget {
   final String leagueName;

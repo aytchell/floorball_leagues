@@ -11,8 +11,8 @@ import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 
 import 'package:floorball/app_state.dart';
-import 'package:floorball/ui/game_day/game_card.dart';
-import 'package:floorball/ui/game_day/game_day_table.dart';
+import 'package:floorball/ui/views/league_details_view/game_card.dart';
+import 'package:floorball/ui/views/league_details_view/game_day_table.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/nothing_found.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
