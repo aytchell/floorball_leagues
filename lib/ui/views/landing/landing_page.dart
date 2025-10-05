@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
 import 'package:floorball/ui/views/landing/game_operation_card.dart';
 import 'package:floorball/ui/views/leagues_list/leagues_list_page.dart';
-import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
@@ -16,7 +15,9 @@ import 'package:floorball/app_state.dart';
 final log = Logger('LandingPage');
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({super.key});
+  LandingPage({super.key, required this.manager});
+
+  final Future<SaisonManager> manager;
 
   @override
   _LandingPageState createState() => _LandingPageState();
@@ -25,8 +26,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   List<GameOperation> gameOperations = [];
   List<SeasonInfo> seasons = [];
+
   SeasonInfo? selectedSeason;
-  RestClient? restClient;
   bool isLoading = true;
 
   @override
@@ -35,36 +36,26 @@ class _LandingPageState extends State<LandingPage> {
     loadData();
   }
 
-  Future<void> loadData() async {
-    restClient ??= await RestClient.instance;
-    try {
-      log.info('Loding game operations');
-      final manager = Saisonmanager(client: restClient!);
-      final entryInfo = await manager.getStart();
-      if (entryInfo != null) {
-        final appState = Provider.of<AppState>(context, listen: false);
-        final allSeasons = _findAllSeasons(appState, entryInfo);
-        final selectedSeason = _findSelectedSeason(appState, entryInfo);
-        log.info('Selected season is ${selectedSeason!.name}');
+  void _setStateFromEntryInfo(EntryInfo info) {
+    final appState = Provider.of<AppState>(context, listen: false);
+    final allSeasons = _findAllSeasons(appState, info);
+    final selectedSeason = _findSelectedSeason(appState, info);
+    log.info('Selected season is ${selectedSeason!.name}');
 
-        setState(() {
-          gameOperations = entryInfo.gameOperations;
-          seasons = allSeasons;
-          this.selectedSeason = selectedSeason;
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      // Handle error
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error loading data: $e')));
-      }
-    }
+    setState(() {
+      gameOperations = info.gameOperations;
+      seasons = allSeasons;
+      this.selectedSeason = selectedSeason;
+      isLoading = false;
+    });
+  }
+
+  Future<void> loadData() async {
+    final manager = await widget.manager;
+
+    manager.getStart().forEach((futureInfo) {
+      futureInfo.then((info) => _setStateFromEntryInfo(info));
+    });
   }
 
   List<SeasonInfo> _findAllSeasons(AppState appState, EntryInfo entryInfo) {

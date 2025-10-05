@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
+import 'package:floorball/api/saisonmanager.dart';
 import 'ui/views/landing/landing_page.dart';
 import 'ui/views/season_selector/season_selector_page.dart';
 import 'app_state.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LandingPage(),
+        '/': (context) => LandingPage(manager: SaisonManager.init()),
         '/seasons': (context) => SeasonSelectorPage(),
       },
     );

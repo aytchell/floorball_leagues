@@ -18,11 +18,15 @@ class EntryInfoImpl extends EntryInfo {
          gameOperations: gameOperations,
        );
 
-  static Future<EntryInfo?> fetchFromServer(RestClient client) async {
+  static Stream<Future<EntryInfo>> fetchFromServer(RestClient client) {
     final path = '/api/v2/init.json';
-    final jsonData = await client.getJsonFromPath(path) as Map<String, dynamic>;
-    return EntryInfoImpl.fromJson(client, jsonData);
-    return null;
+
+    return client.getJsonStreamFromPath(path).map((futureData) {
+      return futureData.then((data) {
+        final json = data as Map<String, dynamic>;
+        return EntryInfoImpl.fromJson(client, json);
+      });
+    });
   }
 
   factory EntryInfoImpl.fromJson(RestClient client, Map<String, dynamic> json) {
