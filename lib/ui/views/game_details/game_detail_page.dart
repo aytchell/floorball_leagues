@@ -36,7 +36,6 @@ class GameDetailPage extends StatefulWidget {
 class _GameDetailPageState extends State<GameDetailPage> {
   DetailedGame? _detailedGame = null;
   bool _isLoading = true;
-  String? _error;
 
   @override
   void initState() {
@@ -44,19 +43,16 @@ class _GameDetailPageState extends State<GameDetailPage> {
     _loadData();
   }
 
-  Future<void> _loadData() async {
+  void _setStateFromDetailedGame(DetailedGame detailedGame) {
     setState(() {
-      _isLoading = true;
-      _error = null;
+      _detailedGame = detailedGame;
+      _isLoading = false;
     });
+  }
+
+  Future<void> _loadData() async {
     widget.game.getDetailedVersion().forEach((futureGame) {
-      futureGame.then((game) {
-        setState(() {
-          _detailedGame = game;
-          _isLoading = false;
-          _error = null;
-        });
-      });
+      futureGame.then((game) => _setStateFromDetailedGame(game));
     });
   }
 
@@ -74,37 +70,6 @@ class _GameDetailPageState extends State<GameDetailPage> {
   Widget _buildBody() {
     if (_isLoading) {
       return const LoadingSpinner(title: 'Lade Spieldetails ...');
-    }
-
-    if (_error != null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red[400]),
-            const SizedBox(height: 16),
-            Text(
-              'Fehler beim Laden der Spieldetails',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.red[700],
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _error!,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _loadData,
-              child: const Text('Erneut versuchen'),
-            ),
-          ],
-        ),
-      );
     }
 
     if (_detailedGame == null) {
