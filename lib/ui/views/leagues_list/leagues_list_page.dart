@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
@@ -23,30 +24,27 @@ class LeaguesListPage extends StatefulWidget {
 
 class _LeaguesListPageState extends State<LeaguesListPage> {
   List<GameOperationLeague> leagues = [];
-  bool isLoading = false;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    loadData();
+    _loadData();
   }
 
-  Future<void> loadData() async {
+  void _setStateFromList(List<GameOperationLeague> list) {
     setState(() {
-      isLoading = true;
+      this.leagues = list;
+      isLoading = false;
     });
+  }
 
-    try {
-      final leagues = await widget.gameOp.getLeagues(widget.selectedSeason.id);
-      setState(() {
-        this.leagues = leagues!;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-    }
+  Future<void> _loadData() async {
+    widget.gameOp.getLeagues(widget.selectedSeason.id).forEach((
+      futureLeagesList,
+    ) {
+      futureLeagesList.then((list) => _setStateFromList(list));
+    });
   }
 
   @override
@@ -101,7 +99,7 @@ class _LeaguesListPageState extends State<LeaguesListPage> {
       message:
           'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOp.name}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
       isLoading: isLoading,
-      onRetry: loadData,
+      onRetry: _loadData,
     );
   }
 }

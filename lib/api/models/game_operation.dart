@@ -17,5 +17,5 @@ abstract class GameOperation {
     this.logoQuadUrl,
   });
 
-  Future<List<GameOperationLeague>?> getLeagues(int seasonId);
+  Stream<Future<List<GameOperationLeague>>> getLeagues(int seasonId);
 }
