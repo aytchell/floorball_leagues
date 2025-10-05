@@ -19,14 +19,10 @@ class EntryInfoImpl extends EntryInfo {
        );
 
   static Stream<Future<EntryInfo>> fetchFromServer(RestClient client) {
-    final path = '/api/v2/init.json';
-
-    return client.getJsonStreamFromPath(path).map((futureData) {
-      return futureData.then((data) {
-        final json = data as Map<String, dynamic>;
-        return EntryInfoImpl.fromJson(client, json);
-      });
-    });
+    return client.streamApiData(
+      '/api/v2/init.json',
+      (data) => EntryInfoImpl.fromJson(client, data as Map<String, dynamic>),
+    );
   }
 
   factory EntryInfoImpl.fromJson(RestClient client, Map<String, dynamic> json) {

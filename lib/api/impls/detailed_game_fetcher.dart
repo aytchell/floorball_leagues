@@ -79,12 +79,8 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
 
 // Static method to fetch game data from server
 Stream<Future<DetailedGame>> fetchDetailedGame(RestClient client, int gameId) {
-  final path = '/api/v2/games/$gameId.json';
-
-  return client.getJsonStreamFromPath(path).map((futureData) {
-    return futureData.then((data) {
-      final json = data as Map<String, dynamic>;
-      return _parseDetailedGame(json);
-    });
-  });
+  return client.streamApiData(
+    '/api/v2/games/$gameId.json',
+    (data) => _parseDetailedGame(data as Map<String, dynamic>),
+  );
 }

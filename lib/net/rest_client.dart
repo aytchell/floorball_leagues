@@ -40,6 +40,12 @@ class RestClient {
     return json.decode(await file.readAsString());
   }
 
+  Stream<Future<T>> streamApiData<T>(String path, T convert(dynamic data)) {
+    return getJsonStreamFromPath(path).map((futureData) {
+      return futureData.then((data) => convert(data));
+    });
+  }
+
   Stream<Future<dynamic>> getJsonStreamFromPath(String path) {
     return getJsonStream(Uri(scheme: scheme, host: host, path: path));
   }

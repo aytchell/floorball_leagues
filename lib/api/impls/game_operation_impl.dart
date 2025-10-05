@@ -47,15 +47,14 @@ class GameOperationImpl extends GameOperation {
 
   @override
   Stream<Future<List<GameOperationLeague>>> getLeagues(int seasonId) {
-    final path = '/api/v2/game_operations/$id/leagues/$seasonId.json';
-
-    return client.getJsonStreamFromPath(path).map((futureData) {
-      return futureData.then((data) {
+    return client.streamApiData(
+      '/api/v2/game_operations/$id/leagues/$seasonId.json',
+      (data) {
         final json = data as List<dynamic>;
         return json
             .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
             .toList();
-      });
-    });
+      },
+    );
   }
 }
