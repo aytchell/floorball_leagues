@@ -89,5 +89,5 @@ abstract class Game {
 
   String? get beautifiedDate => beautifyDate(date!);
 
-  Future<DetailedGame?> getDetailedVersion();
+  Stream<Future<DetailedGame>> getDetailedVersion();
 }

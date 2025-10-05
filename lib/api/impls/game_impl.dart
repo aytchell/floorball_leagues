@@ -145,7 +145,7 @@ class GameImpl extends Game {
   }
 
   @override
-  Future<DetailedGame?> getDetailedVersion() async {
+  Stream<Future<DetailedGame>> getDetailedVersion() {
     return fetchDetailedGame(client, gameId);
   }
 }

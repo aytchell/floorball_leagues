@@ -34,7 +34,7 @@ class GameDetailPage extends StatefulWidget {
 }
 
 class _GameDetailPageState extends State<GameDetailPage> {
-  DetailedGame? _detailedGame;
+  DetailedGame? _detailedGame = null;
   bool _isLoading = true;
   String? _error;
 
@@ -45,24 +45,19 @@ class _GameDetailPageState extends State<GameDetailPage> {
   }
 
   Future<void> _loadData() async {
-    try {
-      setState(() {
-        _isLoading = true;
-        _error = null;
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    widget.game.getDetailedVersion().forEach((futureGame) {
+      futureGame.then((game) {
+        setState(() {
+          _detailedGame = game;
+          _isLoading = false;
+          _error = null;
+        });
       });
-
-      final detailedGame = await widget.game.getDetailedVersion();
-
-      setState(() {
-        _detailedGame = detailedGame;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = e.toString();
-        _isLoading = false;
-      });
-    }
+    });
   }
 
   @override
