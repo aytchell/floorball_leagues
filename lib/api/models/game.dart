@@ -4,6 +4,7 @@ import 'game_result.dart';
 import 'referee.dart';
 import 'logo_host.dart';
 import 'date_formatter.dart';
+import 'package:floorball/utils/date_time_utils.dart';
 
 abstract class Game {
   int gameId;
@@ -43,6 +44,8 @@ abstract class Game {
   String? resultString;
   GameResult? result;
 
+  DateTime? dateTime;
+
   Game({
     required this.gameId,
     required this.gameNumber,
@@ -80,7 +83,7 @@ abstract class Game {
     this.guestTeamFillingParameter,
     this.resultString,
     this.result,
-  });
+  }) : dateTime = parseDateTimeFromStrings(date, time);
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
