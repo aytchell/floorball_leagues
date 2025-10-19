@@ -124,9 +124,12 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       expandedBackgroundColor: expandedBackgroundColor,
       expandedContentBackgroundColor: expandedContentBackgroundColor,
       customHeader: Column(
-        children: [_buildGameDayTitle(), ..._buildGameDateAndClubs()],
+        children: [
+          _buildGameDayTitle(),
+          ..._buildGameDateAndClubs(widget.games),
+        ],
       ),
-      child: _buildGamesTable(),
+      child: _buildGamesTable(widget.games),
     );
   }
 
@@ -150,8 +153,8 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     );
   }
 
-  List<Row> _buildGameDateAndClubs() {
-    final dateAndClubs = _extractDateAndClubs();
+  List<Row> _buildGameDateAndClubs(List<Game> games) {
+    final dateAndClubs = _extractDateAndClubs(games);
     final dateStyle = widget.isExpanded
         ? _expandedDateStyle
         : _collapsedDateStyle;
@@ -228,14 +231,14 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     );
   }
 
-  List<DateAndClub> _extractDateAndClubs() {
+  List<DateAndClub> _extractDateAndClubs(final List<Game> games) {
     // This is a little hack: the date of a game day has a time of 00:00:00
     // whereas 'now' has a valid time. We want a game day to "not be bygone"
     // for the whole day. So instead of adding 23h to each game day time
     // we simply subtract 23h from "today".
     final today = DateTime.now().subtract(Duration(hours: 23));
 
-    var eventList = widget.games
+    var eventList = games
         .map((game) => DateAndClub.create(game.date!, game.hostingClub!, today))
         .toSet()
         .toList();
@@ -261,8 +264,8 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     );
   }
 
-  Widget _buildGamesTable() {
-    final gameData = _groupBySubday(widget.games).entries
+  Widget _buildGamesTable(List<Game> games) {
+    final gameData = _groupBySubday(games).entries
         .map(
           (sub) => GameSubdayRows(
             info: _buildGameSubDayInfoCard(sub.value),
