@@ -130,30 +130,6 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     );
   }
 
-  Widget _buildButtonLikeHeader() {
-    final List<Row> rows = [];
-    rows.add(_buildGameDayTitle());
-    rows.addAll(_buildGameDateAndClubs());
-
-    return InkWell(
-      onTap: widget.onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: widget.isExpanded ? expandedBackgroundColor : Colors.white,
-          borderRadius: widget.isExpanded
-              ? const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(4),
-                )
-              : BorderRadius.circular(4),
-        ),
-        child: Column(children: rows),
-      ),
-    );
-  }
-
   Row _buildGameDayTitle() {
     final expandedStyle = AppTextStyles.gameDayTitleExpanded;
     final collapsedStyle = AppTextStyles.gameDayTitleCollapsed;
