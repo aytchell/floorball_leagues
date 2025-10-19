@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -5,32 +6,44 @@ import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 
-class ExpandableChampTableCard extends StatelessWidget {
+class ExpandableChampTableCard extends StatefulWidget {
   final String title;
+  final GameOperationLeague league;
   final List<ChampGroupTable> groupTables;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableChampTableCard({
-    Key? key,
+    super.key,
     required this.title,
+    required this.league,
     required this.groupTables,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  });
+
+  @override
+  State<StatefulWidget> createState() => _ChampTableState();
+}
+
+class _ChampTableState extends State<ExpandableChampTableCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // If no group tables, show simple non-expandable card
-    if (groupTables.isEmpty) {
+    if (widget.groupTables.isEmpty) {
       return _buildEmptyCard();
     }
 
     // Otherwise show expandable card
     return ExpandableCard(
-      title: title,
-      isExpanded: isExpanded,
-      onTap: onTap,
+      title: widget.title,
+      isExpanded: widget.isExpanded,
+      onTap: widget.onTap,
       child: _buildTablesContent(),
     );
   }
@@ -49,7 +62,7 @@ class ExpandableChampTableCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(widget.title, style: AppTextStyles.gameDayTitleCollapsed),
             Text(
               'Noch keine Tabelle vorhanden',
               style: TextStyle(
@@ -65,7 +78,7 @@ class ExpandableChampTableCard extends StatelessWidget {
   }
 
   Widget _buildTablesContent() {
-    if (groupTables.isEmpty) {
+    if (widget.groupTables.isEmpty) {
       return Container(
         padding: EdgeInsets.all(16.0),
         child: Center(
@@ -78,7 +91,9 @@ class ExpandableChampTableCard extends StatelessWidget {
     }
 
     return Column(
-      children: groupTables.map((group) => _buildGroupTable(group)).toList(),
+      children: widget.groupTables
+          .map((group) => _buildGroupTable(group))
+          .toList(),
     );
   }
 

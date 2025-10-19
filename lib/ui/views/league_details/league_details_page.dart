@@ -263,6 +263,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
     return ExpandableChampTableCard(
       title: 'Tabelle',
+      league: widget.league,
       groupTables: this.champTable,
       isExpanded: isExpanded,
       onTap: () {
@@ -316,7 +317,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   Widget _buildGameDayCard(BuildContext context, int cardIndex, int gameIndex) {
     final gameDayTitle = widget.league.gameDayTitles[gameIndex];
     final isExpanded = expandedIndex == cardIndex;
-    final games = gameDays[gameDayTitle.gameDayNumber]!;
 
     return ExpandableGameDayCard(
       league: widget.league,
