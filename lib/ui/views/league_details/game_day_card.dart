@@ -23,7 +23,7 @@ class GameSubDayInfo {
   });
 }
 
-class ExpandableGameDayCard extends StatelessWidget {
+class ExpandableGameDayCard extends StatefulWidget {
   const ExpandableGameDayCard({
     Key? key,
     required this.league,
@@ -41,6 +41,11 @@ class ExpandableGameDayCard extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback onTap;
 
+  @override
+  _ExpandableGameDayCardState createState() => _ExpandableGameDayCardState();
+}
+
+class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   // Define color constants to avoid accessing theme colors in static contexts
   static const Color expandedTextColor = Color(
     0xFF1976D2,
@@ -106,11 +111,16 @@ class ExpandableGameDayCard extends StatelessWidget {
   );
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableCard(
-      title: title,
-      isExpanded: isExpanded,
-      onTap: onTap,
+      title: widget.title,
+      isExpanded: widget.isExpanded,
+      onTap: widget.onTap,
       expandedBackgroundColor: expandedBackgroundColor,
       expandedContentBackgroundColor: expandedContentBackgroundColor,
       customHeader: Column(
@@ -126,13 +136,13 @@ class ExpandableGameDayCard extends StatelessWidget {
     rows.addAll(_buildGameDateAndClubs());
 
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: isExpanded ? expandedBackgroundColor : Colors.white,
-          borderRadius: isExpanded
+          color: widget.isExpanded ? expandedBackgroundColor : Colors.white,
+          borderRadius: widget.isExpanded
               ? const BorderRadius.only(
                   topLeft: Radius.circular(4),
                   topRight: Radius.circular(4),
@@ -150,10 +160,15 @@ class ExpandableGameDayCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: isExpanded ? expandedStyle : collapsedStyle),
+        Text(
+          widget.title,
+          style: widget.isExpanded ? expandedStyle : collapsedStyle,
+        ),
         Icon(
-          isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: isExpanded ? expandedTextColor : collapsedIconColor,
+          widget.isExpanded
+              ? Icons.keyboard_arrow_up
+              : Icons.keyboard_arrow_down,
+          color: widget.isExpanded ? expandedTextColor : collapsedIconColor,
         ),
       ],
     );
@@ -161,12 +176,16 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   List<Row> _buildGameDateAndClubs() {
     final dateAndClubs = _extractDateAndClubs();
-    final dateStyle = isExpanded ? _expandedDateStyle : _collapsedDateStyle;
-    final textStyle = isExpanded ? _expandedTextStyle : _collapsedTextStyle;
-    final bygoneDateStyle = isExpanded
+    final dateStyle = widget.isExpanded
+        ? _expandedDateStyle
+        : _collapsedDateStyle;
+    final textStyle = widget.isExpanded
+        ? _expandedTextStyle
+        : _collapsedTextStyle;
+    final bygoneDateStyle = widget.isExpanded
         ? _expandedBygoneDateStyle
         : _collapsedBygoneDateStyle;
-    final bygoneTextStyle = isExpanded
+    final bygoneTextStyle = widget.isExpanded
         ? _expandedBygoneTextStyle
         : _collapsedBygoneTextStyle;
     if (dateAndClubs.length <= 3) {
@@ -240,7 +259,7 @@ class ExpandableGameDayCard extends StatelessWidget {
     // we simply subtract 23h from "today".
     final today = DateTime.now().subtract(Duration(hours: 23));
 
-    var eventList = games
+    var eventList = widget.games
         .map((game) => DateAndClub.create(game.date!, game.hostingClub!, today))
         .toSet()
         .toList();
@@ -253,8 +272,8 @@ class ExpandableGameDayCard extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
-      height: isExpanded ? null : 0,
-      child: isExpanded
+      height: widget.isExpanded ? null : 0,
+      child: widget.isExpanded
           ? Container(
               width: double.infinity,
               padding: const EdgeInsets.all(4.0),
@@ -290,7 +309,7 @@ class ExpandableGameDayCard extends StatelessWidget {
   }
 
   Widget _buildGamesTable() {
-    final gameData = _groupBySubday(games).entries
+    final gameData = _groupBySubday(widget.games).entries
         .map(
           (sub) => GameSubdayRows(
             info: _buildGameSubDayInfoCard(sub.value),
@@ -300,7 +319,7 @@ class ExpandableGameDayCard extends StatelessWidget {
           ),
         )
         .toList();
-    return SportGamesTable(leagueName: league.name, subdays: gameData);
+    return SportGamesTable(leagueName: widget.league.name, subdays: gameData);
   }
 
   Widget _buildGameSubDayInfoCard(GameSubDayInfo info) {
