@@ -32,7 +32,7 @@ class LeagueDetailsPage extends StatefulWidget {
 
   @override
   _LeagueDetailsPageState createState() =>
-    _LeagueDetailsPageState(league.gameDayTitles);
+      _LeagueDetailsPageState(league.gameDayTitles);
 }
 
 class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
@@ -320,6 +320,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
     return ExpandableGameDayCard(
       league: widget.league,
+      gameDayNumber: gameDayTitle.gameDayNumber,
       title: _computeTitle(gameDayTitle.title, games),
       games: games,
       isExpanded: isExpanded,

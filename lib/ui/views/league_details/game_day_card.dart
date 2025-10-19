@@ -24,20 +24,22 @@ class GameSubDayInfo {
 }
 
 class ExpandableGameDayCard extends StatelessWidget {
-  final GameOperationLeague league;
-  final String title;
-  final List<Game> games;
-  final bool isExpanded;
-  final VoidCallback onTap;
-
   const ExpandableGameDayCard({
     Key? key,
     required this.league,
+    required this.gameDayNumber,
     required this.title,
     required this.games,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
+
+  final GameOperationLeague league;
+  final int gameDayNumber;
+  final String title;
+  final List<Game> games;
+  final bool isExpanded;
+  final VoidCallback onTap;
 
   // Define color constants to avoid accessing theme colors in static contexts
   static const Color expandedTextColor = Color(
