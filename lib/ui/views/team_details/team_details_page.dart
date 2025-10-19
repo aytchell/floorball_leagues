@@ -134,6 +134,7 @@ class _TeamDetailsState extends State<TeamDetailsPage> {
                   ),
                   const SizedBox(height: 8),
                   GamesOverviewTable(
+                    league: widget.league,
                     team: widget.teamEntry,
                     games: widget.teamGames,
                   ),

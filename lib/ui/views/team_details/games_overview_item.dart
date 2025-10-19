@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 
-
-
 class GamesOverviewItem extends StatelessWidget {
   final String teamName;
   final Game game;
