@@ -132,7 +132,8 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     );
   }
 
-  Future<List<Scorer>> getScorers() async {
+  @override
+  Stream<Future<List<Scorer>>> getScorers() {
     return fetchScorers(client, id);
   }
 

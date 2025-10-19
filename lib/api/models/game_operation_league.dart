@@ -69,7 +69,7 @@ abstract class GameOperationLeague {
   Stream<Future<List<Game>>> getGames(int gameDayNumber);
 
   Future<List<Game>> getGamesTheOldWay(int gameDayNumber);
-  Future<List<Scorer>> getScorers();
+  Stream<Future<List<Scorer>>> getScorers();
   Future<List<LeagueTableRow>> getLeagueTable();
   Future<List<ChampGroupTable>> getChampTable();
 }

@@ -1,3 +1,5 @@
+import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:collection/collection.dart';
@@ -5,32 +7,57 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 
-class ExpandableScorerCard extends StatelessWidget {
+class ExpandableScorerCard extends StatefulWidget {
   final String title;
-  final List<Scorer> scorers;
+  final GameOperationLeague league;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableScorerCard({
-    Key? key,
+    super.key,
     required this.title,
-    required this.scorers,
+    required this.league,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  });
+
+  @override
+  State<StatefulWidget> createState() => _ScorerCardState();
+}
+
+class _ScorerCardState extends State<ExpandableScorerCard> {
+  bool _isLoading = true;
+  List<Scorer> _scorers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.league.getScorers().forEach(
+      (futureList) => futureList.then((list) {
+        setState(() {
+          _scorers = list;
+          _isLoading = false;
+        });
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const LoadingSpinner(title: 'Lade Scorer ...');
+    }
+
     // If no scorers, show simple non-expandable card
-    if (scorers.isEmpty) {
+    if (_scorers.isEmpty) {
       return _buildEmptyCard();
     }
 
     // Otherwise show expandable card
     return ExpandableCard(
-      title: title,
-      isExpanded: isExpanded,
-      onTap: onTap,
+      title: widget.title,
+      isExpanded: widget.isExpanded,
+      onTap: widget.onTap,
       child: _buildScorerListContent(),
     );
   }
@@ -49,7 +76,7 @@ class ExpandableScorerCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(widget.title, style: AppTextStyles.gameDayTitleCollapsed),
             Text(
               'Noch keine Scorer vorhanden',
               style: TextStyle(
@@ -66,7 +93,7 @@ class ExpandableScorerCard extends StatelessWidget {
 
   Widget _buildScorerListContent() {
     return Column(
-      children: scorers
+      children: _scorers
           .mapIndexed((index, scorer) => _buildScorerRow(index, scorer))
           .toList(),
     );

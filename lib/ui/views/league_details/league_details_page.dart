@@ -140,7 +140,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Future<List<Scorer>> _fetchScorerList() async {
-    return widget.league.getScorers();
+    return await widget.league.getScorers().first;
   }
 
   List<LeagueTableRow> _buildMicroTable(Game game, int position) {
@@ -294,7 +294,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
     return ExpandableScorerCard(
       title: 'Scorer',
-      scorers: this.scorers,
+      league: widget.league,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
