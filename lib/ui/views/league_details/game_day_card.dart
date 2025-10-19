@@ -267,29 +267,6 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     return eventList;
   }
 
-  Widget _buildExpandableContent() {
-    // Expandable content
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      height: widget.isExpanded ? null : 0,
-      child: widget.isExpanded
-          ? Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(4.0),
-              decoration: const BoxDecoration(
-                color: expandedContentBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: _buildGamesTable(),
-            )
-          : const SizedBox.shrink(),
-    );
-  }
-
   Map<String, GameSubDayInfo> _groupBySubday(List<Game> games) {
     // entries in map should be sorted by key
     final groups = SplayTreeMap.from(
