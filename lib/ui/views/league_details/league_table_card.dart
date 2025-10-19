@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -10,6 +11,7 @@ import 'package:floorball/ui/views/team_details/team_details_page.dart';
 class ExpandableLeagueTableCard extends StatelessWidget {
   final String leagueName;
   final String title;
+  final GameOperationLeague league;
   final List<LeagueTableRow> teamEntries;
   final List<Scorer> scorers;
   final List<Game> games;
@@ -20,6 +22,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     Key? key,
     required this.leagueName,
     required this.title,
+    required this.league,
     required this.teamEntries,
     required this.scorers,
     required this.games,
@@ -155,9 +158,8 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TeamDetailsPage(
-          leagueName: leagueName,
+          league: league,
           teamEntry: entry,
-          scorers: scorers,
           teamGames: games
               .where((g) => _isTeamInvolved(g, entry.teamName))
               .toList(),

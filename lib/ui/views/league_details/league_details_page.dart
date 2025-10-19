@@ -276,6 +276,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     return ExpandableLeagueTableCard(
       leagueName: widget.league.name,
       title: 'Tabelle',
+      league: widget.league,
       teamEntries: this.leagueTable,
       scorers: this.scorers,
       games: games,

@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart';
@@ -15,40 +16,57 @@ import 'package:floorball/ui/views/team_details/games_overview_table.dart';
 
 final int someSeasonIdWithNewPenalties = 16;
 
-List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
-  return scorers
-      .mapIndexed(
-        (index, scorer) => IndexedScorer(
-          index: index + 1, // Start ranking from 1
-          scorer: scorer,
-        ),
-      )
-      .where((entry) => entry.scorer.teamId == teamId)
-      .toList();
+class TeamDetailsPage extends StatefulWidget {
+  final GameOperationLeague league;
+  final LeagueTableRow teamEntry;
+  final List<Game> teamGames;
+
+  const TeamDetailsPage({
+    super.key,
+    required this.league,
+    required this.teamEntry,
+    required this.teamGames,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _TeamDetailsState();
 }
 
-class TeamDetailsPage extends StatelessWidget {
-  final String leagueName;
-  final LeagueTableRow teamEntry;
-  final List<Scorer> scorers;
-  final List<Game> teamGames;
-  final List<IndexedScorer> teamScorers;
+class _TeamDetailsState extends State<TeamDetailsPage> {
+  List<IndexedScorer> teamScorers = [];
 
-  TeamDetailsPage({
-    Key? key,
-    required this.leagueName,
-    required this.teamEntry,
-    required this.scorers,
-    required this.teamGames,
-  }) : teamScorers = _extractTeamScorers(scorers, teamEntry.teamId),
-       super(key: key);
+  @override
+  void initState() {
+    super.initState();
+
+    widget.league.getScorers().forEach((futureList) {
+      futureList.then((list) {
+        final teamScorers = _extractTeamScorers(list, widget.teamEntry.teamId);
+        setState(() {
+          this.teamScorers = teamScorers;
+        });
+      });
+    });
+  }
+
+  List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
+    return scorers
+        .mapIndexed(
+          (index, scorer) => IndexedScorer(
+            index: index + 1, // Start ranking from 1
+            scorer: scorer,
+          ),
+        )
+        .where((entry) => entry.scorer.teamId == teamId)
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<AppState>(context, listen: false);
 
     return MainAppScaffold(
-      title: leagueName,
+      title: widget.league.name,
       showBackButton: true,
       body: _buildBody(
         appState.selectedSeason?.id ?? someSeasonIdWithNewPenalties,
@@ -66,13 +84,13 @@ class TeamDetailsPage extends StatelessWidget {
           const SizedBox(height: 32),
 
           // Team Logo
-          TeamLogo(uri: teamEntry.teamLogoUri, height: 120, width: 120),
+          TeamLogo(uri: widget.teamEntry.teamLogoUri, height: 120, width: 120),
 
           const SizedBox(height: 24),
 
           // Team Name
           Text(
-            teamEntry.teamName,
+            widget.teamEntry.teamName,
             style: const TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -101,7 +119,7 @@ class TeamDetailsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   TeamStatisticsTable(
-                    team: teamEntry,
+                    team: widget.teamEntry,
                     scorers: teamScorers,
                     seasonId: seasonId,
                   ),
@@ -115,7 +133,10 @@ class TeamDetailsPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  GamesOverviewTable(team: teamEntry, games: teamGames),
+                  GamesOverviewTable(
+                    team: widget.teamEntry,
+                    games: widget.teamGames,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     'Spieler',
