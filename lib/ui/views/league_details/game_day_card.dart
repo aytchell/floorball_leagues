@@ -148,7 +148,10 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       expandedBackgroundColor: expandedBackgroundColor,
       expandedContentBackgroundColor: expandedContentBackgroundColor,
       customHeader: Column(
-        children: [_buildGameDayTitle(), ..._buildGameDateAndClubs(games)],
+        children: [
+          _buildGameDayTitle(gameDayTitle),
+          ..._buildGameDateAndClubs(games),
+        ],
       ),
       child: _buildGamesTable(games),
     );
@@ -185,16 +188,13 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     return (title != null) ? "Platzierungsphase" : null;
   }
 
-  Row _buildGameDayTitle() {
+  Row _buildGameDayTitle(String title) {
     final expandedStyle = AppTextStyles.gameDayTitleExpanded;
     final collapsedStyle = AppTextStyles.gameDayTitleCollapsed;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          widget.title,
-          style: widget.isExpanded ? expandedStyle : collapsedStyle,
-        ),
+        Text(title, style: widget.isExpanded ? expandedStyle : collapsedStyle),
         Icon(
           widget.isExpanded
               ? Icons.keyboard_arrow_up
