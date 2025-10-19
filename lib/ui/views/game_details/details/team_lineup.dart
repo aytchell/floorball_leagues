@@ -1,9 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/ui/views/game_details/details/player_table.dart';
 
-class PlayerAdapter implements TableContentProvider {
+class PlayerAdapter extends Equatable
+    implements TableContentProvider, Comparable<PlayerAdapter> {
   final Player player;
 
   PlayerAdapter({required this.player});
@@ -11,6 +13,14 @@ class PlayerAdapter implements TableContentProvider {
   String get trikotNumber => '${player.trikotNumber}';
   String get playerName => player.name;
   String? get position => player.position;
+
+  @override
+  List<Object?> get props => [player.playerId];
+
+  @override
+  int compareTo(PlayerAdapter other) {
+    return player.trikotNumber.compareTo(other.player.trikotNumber);
+  }
 }
 
 class TeamLineup extends StatelessWidget {
@@ -41,6 +51,9 @@ class TeamLineup extends StatelessWidget {
   }
 
   Widget _buildListForTeam(final String teamName, final List<Player> players) {
+    final playersList = players.map((p) => PlayerAdapter(player: p)).toList();
+    playersList.sort();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,9 +64,7 @@ class TeamLineup extends StatelessWidget {
         ),
         const SizedBox(height: 8),
 
-        PlayerTable(
-          providers: players.map((p) => PlayerAdapter(player: p)).toList(),
-        ),
+        PlayerTable(providers: playersList),
       ],
     );
   }
