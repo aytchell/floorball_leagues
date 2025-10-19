@@ -71,5 +71,5 @@ abstract class GameOperationLeague {
   Future<List<Game>> getGamesTheOldWay(int gameDayNumber);
   Stream<Future<List<Scorer>>> getScorers();
   Future<List<LeagueTableRow>> getLeagueTable();
-  Future<List<ChampGroupTable>> getChampTable();
+  Stream<Future<List<ChampGroupTable>>> getChampTable();
 }

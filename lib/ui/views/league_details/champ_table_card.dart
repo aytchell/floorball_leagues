@@ -9,7 +9,6 @@ import 'package:floorball/ui/widgets/expandable_card.dart';
 class ExpandableChampTableCard extends StatefulWidget {
   final String title;
   final GameOperationLeague league;
-  final List<ChampGroupTable> groupTables;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -17,7 +16,6 @@ class ExpandableChampTableCard extends StatefulWidget {
     super.key,
     required this.title,
     required this.league,
-    required this.groupTables,
     required this.isExpanded,
     required this.onTap,
   });
@@ -27,15 +25,76 @@ class ExpandableChampTableCard extends StatefulWidget {
 }
 
 class _ChampTableState extends State<ExpandableChampTableCard> {
+  List<ChampGroupTable> champTables = [];
+
   @override
   void initState() {
     super.initState();
+
+    widget.league.getChampTable().forEach((futureList) {
+      futureList.then((list) {
+        setState(() {
+          champTables = list;
+        });
+      });
+    });
+
+    /*
+    final games = (await Future.wait(
+        widget.league.gameDayTitles.map(
+    (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
+    ),
+    )).expand((i) => i).toList();
+
+    final champEntries = await _fetchChampTable(games);
+    */
   }
+
+  /*
+  Future<List<ChampGroupTable>> _fetchChampTable(List<Game> games) async {
+    var champTable = await widget.league.getChampTable();
+
+    final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
+    final placements = games
+        .where(
+          (game) =>
+      game.seriesTitle != null &&
+          game.seriesTitle!.startsWith('Spiel '),
+    )
+        .toList();
+    placements.sort(
+          (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
+    );
+    var endRound = [finalGame];
+    endRound.addAll(placements);
+    final finalTable = endRound
+        .asMap()
+        .map(
+          (index, game) =>
+          MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
+    )
+        .values
+        .expand((i) => i)
+        .toList();
+
+    finalTable.sort((a, b) => a.position.compareTo(b.position));
+
+    champTable.add(
+      ChampGroupTable(
+        groupIdentifier: 'final_round',
+        name: 'Endstand',
+        table: finalTable,
+        hidePoints: true,
+      ),
+    );
+    return champTable;
+  }
+   */
 
   @override
   Widget build(BuildContext context) {
     // If no group tables, show simple non-expandable card
-    if (widget.groupTables.isEmpty) {
+    if (champTables.isEmpty) {
       return _buildEmptyCard();
     }
 
@@ -78,7 +137,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
   }
 
   Widget _buildTablesContent() {
-    if (widget.groupTables.isEmpty) {
+    if (champTables.isEmpty) {
       return Container(
         padding: EdgeInsets.all(16.0),
         child: Center(
@@ -91,9 +150,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
     }
 
     return Column(
-      children: widget.groupTables
-          .map((group) => _buildGroupTable(group))
-          .toList(),
+      children: champTables.map((group) => _buildGroupTable(group)).toList(),
     );
   }
 

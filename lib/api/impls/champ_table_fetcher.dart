@@ -12,15 +12,17 @@ ChampGroupTable parseChampGroupTable(Map<String, dynamic> json) {
   );
 }
 
-Future<List<ChampGroupTable>> fetchChampTableFromServer(
+Stream<Future<List<ChampGroupTable>>> fetchChampTableFromServer(
   RestClient client,
   int leagueId,
-) async {
-  final path = '/api/v2/leagues/$leagueId/grouped_table.json';
-
-  final jsonData = await client.getJsonFromPath(path) as Map<String, dynamic>;
-  return jsonData
-      .map((key, value) => MapEntry.new(key, parseChampGroupTable(value)))
-      .values
-      .toList();
+) {
+  return client.streamApiData('/api/v2/leagues/$leagueId/grouped_table.json', (
+    data,
+  ) {
+    final json = data as Map<String, dynamic>;
+    return json
+        .map((key, value) => MapEntry.new(key, parseChampGroupTable(value)))
+        .values
+        .toList();
+  });
 }

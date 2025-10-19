@@ -45,7 +45,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   final List<GameDayTitle> gameDayTitles;
 
   List<LeagueTableRow> leagueTable = [];
-  List<ChampGroupTable> champTable = [];
   List<Scorer> scorers = [];
   List<Game> games = [];
 
@@ -72,7 +71,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     if (games.isEmpty) {
       setState(() {
         leagueTable = [];
-        champTable = [];
         scorers = [];
         this.games = [];
         isLoading = false;
@@ -81,14 +79,10 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
       final tableEntries = (widget.leagueType == 'league')
           ? await _fetchLeagueTable()
           : <LeagueTableRow>[];
-      final champEntries = (widget.leagueType == 'champ')
-          ? await _fetchChampTable(games)
-          : <ChampGroupTable>[];
       final fetchedScorers = await _fetchScorerList();
 
       setState(() {
         leagueTable = tableEntries;
-        champTable = champEntries;
         scorers = fetchedScorers;
         this.games = games;
         isLoading = false;
@@ -98,45 +92,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
   Future<List<LeagueTableRow>> _fetchLeagueTable() async {
     return widget.league.getLeagueTable();
-  }
-
-  Future<List<ChampGroupTable>> _fetchChampTable(List<Game> games) async {
-    var champTable = await widget.league.getChampTable();
-
-    final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
-    final placements = games
-        .where(
-          (game) =>
-              game.seriesTitle != null &&
-              game.seriesTitle!.startsWith('Spiel '),
-        )
-        .toList();
-    placements.sort(
-      (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
-    );
-    var endRound = [finalGame];
-    endRound.addAll(placements);
-    final finalTable = endRound
-        .asMap()
-        .map(
-          (index, game) =>
-              MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
-        )
-        .values
-        .expand((i) => i)
-        .toList();
-
-    finalTable.sort((a, b) => a.position.compareTo(b.position));
-
-    champTable.add(
-      ChampGroupTable(
-        groupIdentifier: 'final_round',
-        name: 'Endstand',
-        table: finalTable,
-        hidePoints: true,
-      ),
-    );
-    return champTable;
   }
 
   Future<List<Scorer>> _fetchScorerList() async {
@@ -259,7 +214,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     return ExpandableChampTableCard(
       title: 'Tabelle',
       league: widget.league,
-      groupTables: this.champTable,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {

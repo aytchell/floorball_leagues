@@ -141,7 +141,7 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     return fetchLeagueTableFromServer(client, id);
   }
 
-  Future<List<ChampGroupTable>> getChampTable() async {
+  Stream<Future<List<ChampGroupTable>>> getChampTable() {
     return fetchChampTableFromServer(client, id);
   }
 }
