@@ -31,7 +31,10 @@ class TeamStatisticsTable extends StatelessWidget {
       _StatisticItem(label: 'Position', value: '${team.position}.'),
       _StatisticItem(label: 'Spiele', value: '${team.games}'),
       _StatisticItem(label: 'Punkte', value: _buildPoints()),
-      _StatisticItem(label: 'S | U | N', value: _buildGameOutcomes()),
+      _StatisticItem(
+        label: 'S | S(OT) | U | N(OT) | N',
+        value: _buildGameOutcomes(),
+      ),
       _StatisticItem(label: 'Tore', value: _buildGoals()),
       _StatisticItem(
         label: penalties.expiringTitle(),
@@ -88,7 +91,7 @@ class TeamStatisticsTable extends StatelessWidget {
   }
 
   String _buildGameOutcomes() {
-    return '${team.won} | ${team.draw} | ${team.lost}';
+    return '${team.won} | ${team.wonOt} | ${team.draw} | ${team.lostOt} | ${team.lost}';
   }
 
   String _buildGoals() {
