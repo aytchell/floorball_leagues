@@ -19,13 +19,11 @@ final int someSeasonIdWithNewPenalties = 16;
 class TeamDetailsPage extends StatefulWidget {
   final GameOperationLeague league;
   final LeagueTableRow teamEntry;
-  final List<Game> teamGames;
 
   const TeamDetailsPage({
     super.key,
     required this.league,
     required this.teamEntry,
-    required this.teamGames,
   });
 
   @override

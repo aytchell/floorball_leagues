@@ -14,7 +14,6 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   final GameOperationLeague league;
   final List<LeagueTableRow> teamEntries;
   final List<Scorer> scorers;
-  final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -25,7 +24,6 @@ class ExpandableLeagueTableCard extends StatelessWidget {
     required this.league,
     required this.teamEntries,
     required this.scorers,
-    required this.games,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -157,18 +155,8 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TeamDetailsPage(
-          league: league,
-          teamEntry: entry,
-          teamGames: games
-              .where((g) => _isTeamInvolved(g, entry.teamName))
-              .toList(),
-        ),
+        builder: (context) => TeamDetailsPage(league: league, teamEntry: entry),
       ),
     );
-  }
-
-  bool _isTeamInvolved(Game game, String teamName) {
-    return (teamName == game.homeTeamName) || (teamName == game.guestTeamName);
   }
 }
