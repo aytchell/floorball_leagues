@@ -26,20 +26,20 @@ class GameSubDayInfo {
 }
 
 class ExpandableGameDayCard extends StatefulWidget {
-  const ExpandableGameDayCard({
+  ExpandableGameDayCard({
     Key? key,
     required this.league,
     required this.gameDayTitle,
-    required this.title,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  }) : leagueType = league.leagueType ?? "league",
+       super(key: key);
 
   final GameOperationLeague league;
   final GameDayTitle gameDayTitle;
-  final String title;
   final bool isExpanded;
   final VoidCallback onTap;
+  final String leagueType;
 
   @override
   _ExpandableGameDayCardState createState() => _ExpandableGameDayCardState();
@@ -139,8 +139,10 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       return const LoadingSpinner(title: 'Lade Spieltage ...');
     }
 
+    final gameDayTitle = _computeTitle(widget.gameDayTitle.title, games);
+
     return ExpandableCard(
-      title: widget.title,
+      title: gameDayTitle,
       isExpanded: widget.isExpanded,
       onTap: widget.onTap,
       expandedBackgroundColor: expandedBackgroundColor,
@@ -150,6 +152,37 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       ),
       child: _buildGamesTable(games),
     );
+  }
+
+  String _computeTitle(final String title, final List<Game> games) {
+    if (widget.leagueType == "champ") {
+      final groups = games
+          .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
+          .expand((i) => i)
+          .toSet();
+      var type = "";
+      if (groups.length == 1) {
+        type = '(${groups.first})';
+      } else if (groups.length == 2) {
+        type = '(Gruppen/Platzierung)';
+      }
+
+      return '$title $type';
+      // } else if (widget.leagueType == "cup") {
+      // TODO
+    } else {
+      return title;
+    }
+  }
+
+  String? _groupIdentifier(Game game) {
+    final ident = game.groupIdentifier;
+    return (ident != null) ? "Gruppenphase" : null;
+  }
+
+  String? _seriesTitle(Game game) {
+    final title = game.seriesTitle;
+    return (title != null) ? "Platzierungsphase" : null;
   }
 
   Row _buildGameDayTitle() {

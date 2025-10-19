@@ -321,7 +321,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     return ExpandableGameDayCard(
       league: widget.league,
       gameDayTitle: gameDayTitle,
-      title: _computeTitle(gameDayTitle.title, games),
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
@@ -330,36 +329,5 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
         });
       },
     );
-  }
-
-  String _computeTitle(final String title, final List<Game> games) {
-    if (widget.leagueType == "champ") {
-      final groups = games
-          .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
-          .expand((i) => i)
-          .toSet();
-      var type = "";
-      if (groups.length == 1) {
-        type = '(${groups.first})';
-      } else if (groups.length == 2) {
-        type = '(Gruppen/Platzierung)';
-      }
-
-      return '$title $type';
-      // } else if (widget.leagueType == "cup") {
-      // TODO
-    } else {
-      return title;
-    }
-  }
-
-  String? _groupIdentifier(Game game) {
-    final ident = game.groupIdentifier;
-    return (ident != null) ? "Gruppenphase" : null;
-  }
-
-  String? _seriesTitle(Game game) {
-    final title = game.seriesTitle;
-    return (title != null) ? "Platzierungsphase" : null;
   }
 }
