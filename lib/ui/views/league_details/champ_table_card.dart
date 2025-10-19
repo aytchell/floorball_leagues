@@ -1,10 +1,14 @@
 import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
+import 'package:floorball/api/models/game.dart';
+
+final log = Logger('ChampTableCard');
 
 class ExpandableChampTableCard extends StatefulWidget {
   final String title;
@@ -25,6 +29,10 @@ class ExpandableChampTableCard extends StatefulWidget {
 }
 
 class _ChampTableState extends State<ExpandableChampTableCard> {
+  List<ChampGroupTable> baseTables = [];
+  List<Game> games = [];
+  ChampGroupTable finalTable = _buildDummyChampGroupTable();
+
   List<ChampGroupTable> champTables = [];
 
   @override
@@ -34,62 +42,138 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
     widget.league.getChampTable().forEach((futureList) {
       futureList.then((list) {
         setState(() {
-          champTables = list;
+          baseTables = list;
+          champTables = new List<ChampGroupTable>.from(baseTables);
+          champTables.add(finalTable);
         });
       });
     });
 
-    /*
-    final games = (await Future.wait(
-        widget.league.gameDayTitles.map(
-    (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
-    ),
-    )).expand((i) => i).toList();
+    widget.league.gameDayTitles.map((gdt) => gdt.gameDayNumber).forEach((
+      number,
+    ) {
+      widget.league.getGames(number).forEach((futureList) {
+        futureList.then((streamedGames) {
+          final newIds = streamedGames.map((game) => game.gameId).toSet();
+          final newGames = games
+              .where((game) => !newIds.contains(game.gameId))
+              .toList();
+          newGames.addAll(streamedGames);
 
-    final champEntries = await _fetchChampTable(games);
-    */
+          final newFinalTable = _computeFinalTable(newGames);
+          setState(() {
+            games = newGames;
+            finalTable = newFinalTable;
+            champTables = new List<ChampGroupTable>.from(baseTables);
+            champTables.add(finalTable);
+          });
+        });
+      });
+    });
   }
 
-  /*
-  Future<List<ChampGroupTable>> _fetchChampTable(List<Game> games) async {
-    var champTable = await widget.league.getChampTable();
+  static ChampGroupTable _buildDummyChampGroupTable() {
+    return ChampGroupTable(
+      groupIdentifier: 'final_round',
+      name: 'Endstand',
+      table: [_buildTeamTableEntry(1, 'Noch unbekannt', null, null)],
+      hidePoints: true,
+    );
+  }
 
-    final finalGame = games.where((game) => game.seriesTitle == 'Finale').first;
-    final placements = games
+  ChampGroupTable _computeFinalTable(List<Game> allGames) {
+    log.info("cft: received ${allGames.length} games with seriesTitles ...");
+    allGames.forEach((game) => log.info(game.seriesTitle));
+    final finalGame = allGames
+        .where((game) => game.seriesTitle == 'Finale')
+        .first;
+
+    final placements = allGames
         .where(
           (game) =>
-      game.seriesTitle != null &&
-          game.seriesTitle!.startsWith('Spiel '),
-    )
+              game.seriesTitle != null &&
+              game.seriesTitle!.startsWith('Spiel '),
+        )
         .toList();
+    log.info("cft: found ${placements.length} placement games");
     placements.sort(
-          (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
+      (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
     );
     var endRound = [finalGame];
     endRound.addAll(placements);
+    log.info("cft: endRound has ${endRound.length} games");
+
     final finalTable = endRound
         .asMap()
         .map(
           (index, game) =>
-          MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
-    )
+              MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
+        )
         .values
         .expand((i) => i)
         .toList();
 
     finalTable.sort((a, b) => a.position.compareTo(b.position));
-
-    champTable.add(
-      ChampGroupTable(
-        groupIdentifier: 'final_round',
-        name: 'Endstand',
-        table: finalTable,
-        hidePoints: true,
-      ),
+    return ChampGroupTable(
+      groupIdentifier: 'final_round',
+      name: 'Endstand',
+      table: finalTable,
+      hidePoints: true,
     );
-    return champTable;
   }
-   */
+
+  List<LeagueTableRow> _buildMicroTable(Game game, int position) {
+    if (!game.ended) {
+      return [
+        _buildTeamTableEntry(position, "Noch unbekannt", null, null),
+        _buildTeamTableEntry(position + 1, "Noch unbekannt", null, null),
+      ];
+    }
+
+    final homeWin = game.result!.homeGoals > game.result!.guestGoals;
+
+    return [
+      _buildTeamTableEntry(
+        position + (homeWin ? 0 : 1),
+        game.homeTeamName!,
+        game.homeTeamLogo!,
+        game.homeTeamSmallLogo!,
+      ),
+      _buildTeamTableEntry(
+        position + (homeWin ? 1 : 0),
+        game.guestTeamName!,
+        game.guestTeamLogo!,
+        game.guestTeamSmallLogo!,
+      ),
+    ];
+  }
+
+  static LeagueTableRow _buildTeamTableEntry(
+    int position,
+    String name,
+    String? teamLogo,
+    String? teamLogoSmall,
+  ) {
+    return LeagueTableRow(
+      games: 0,
+      won: 0,
+      draw: 0,
+      lost: 0,
+      wonOt: 0,
+      lostOt: 0,
+      goalsScored: 0,
+      goalsReceived: 0,
+      goalsDiff: 0,
+      points: 0,
+      teamName: name,
+      teamId: 0,
+      teamLogo: teamLogo,
+      teamLogoSmall: teamLogoSmall,
+      pointCorrections: null,
+      sort: position - 1,
+      position: position,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

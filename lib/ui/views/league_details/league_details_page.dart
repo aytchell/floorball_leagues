@@ -46,7 +46,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
   List<LeagueTableRow> leagueTable = [];
   List<Scorer> scorers = [];
-  List<Game> games = [];
 
   @override
   void initState() {
@@ -55,39 +54,16 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Future<void> loadData() async {
-    /*
-    final daysFutures = Map.fromIterable(
-      gameDayTitles,
-      key: (gdt) => gdt.gameDayNumber as int,
-      value: (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
-    );
-     */
-    final games = (await Future.wait(
-      gameDayTitles.map(
-        (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
-      ),
-    )).expand((i) => i).toList();
+    final tableEntries = (widget.leagueType == 'league')
+        ? await _fetchLeagueTable()
+        : <LeagueTableRow>[];
+    final fetchedScorers = await _fetchScorerList();
 
-    if (games.isEmpty) {
-      setState(() {
-        leagueTable = [];
-        scorers = [];
-        this.games = [];
-        isLoading = false;
-      });
-    } else {
-      final tableEntries = (widget.leagueType == 'league')
-          ? await _fetchLeagueTable()
-          : <LeagueTableRow>[];
-      final fetchedScorers = await _fetchScorerList();
-
-      setState(() {
-        leagueTable = tableEntries;
-        scorers = fetchedScorers;
-        this.games = games;
-        isLoading = false;
-      });
-    }
+    setState(() {
+      leagueTable = tableEntries;
+      scorers = fetchedScorers;
+      isLoading = false;
+    });
   }
 
   Future<List<LeagueTableRow>> _fetchLeagueTable() async {
@@ -96,59 +72,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
   Future<List<Scorer>> _fetchScorerList() async {
     return await widget.league.getScorers().first;
-  }
-
-  List<LeagueTableRow> _buildMicroTable(Game game, int position) {
-    if (!game.ended) {
-      return [
-        _buildDummyTeamTableEntry(position, "Noch unbekannt", null, null),
-        _buildDummyTeamTableEntry(position + 1, "Noch unbekannt", null, null),
-      ];
-    }
-
-    final homeWin = game.result!.homeGoals > game.result!.guestGoals;
-
-    return [
-      _buildDummyTeamTableEntry(
-        position + (homeWin ? 0 : 1),
-        game.homeTeamName!,
-        game.homeTeamLogo!,
-        game.homeTeamSmallLogo!,
-      ),
-      _buildDummyTeamTableEntry(
-        position + (homeWin ? 1 : 0),
-        game.guestTeamName!,
-        game.guestTeamLogo!,
-        game.guestTeamSmallLogo!,
-      ),
-    ];
-  }
-
-  LeagueTableRow _buildDummyTeamTableEntry(
-    int position,
-    String name,
-    String? teamLogo,
-    String? teamLogoSmall,
-  ) {
-    return LeagueTableRow(
-      games: 0,
-      won: 0,
-      draw: 0,
-      lost: 0,
-      wonOt: 0,
-      lostOt: 0,
-      goalsScored: 0,
-      goalsReceived: 0,
-      goalsDiff: 0,
-      points: 0,
-      teamName: name,
-      teamId: 0,
-      teamLogo: teamLogo,
-      teamLogoSmall: teamLogoSmall,
-      pointCorrections: null,
-      sort: position - 1,
-      position: position,
-    );
   }
 
   @override
