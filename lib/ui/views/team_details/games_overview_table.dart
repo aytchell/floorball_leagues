@@ -34,8 +34,7 @@ class _GamesOverviewTableState extends State<GamesOverviewTable> {
           );
           setState(() {
             games.addAll(involved);
-            // TODO: make sure we have no duplicates
-            // TODO: sort games according to datetime
+            _removeDuplicatesAndSort();
           });
         });
       });
@@ -44,6 +43,20 @@ class _GamesOverviewTableState extends State<GamesOverviewTable> {
 
   bool _isTeamInvolved(Game game, String teamName) {
     return (teamName == game.homeTeamName) || (teamName == game.guestTeamName);
+  }
+
+  void _removeDuplicatesAndSort() {
+    // Remove duplicates by gameId
+    final seenIds = <int>{};
+    games.retainWhere((game) => seenIds.add(game.gameId));
+
+    // Sort by dateTime (nulls last)
+    games.sort((a, b) {
+      if (a.dateTime == null && b.dateTime == null) return 0;
+      if (a.dateTime == null) return 1;
+      if (b.dateTime == null) return -1;
+      return a.dateTime!.compareTo(b.dateTime!);
+    });
   }
 
   @override
