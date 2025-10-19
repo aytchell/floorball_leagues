@@ -66,7 +66,9 @@ abstract class GameOperationLeague {
 
   String? get beautifiedDeadline => beautifyDate(deadline!);
 
-  Future<List<Game>> getGames(int gameDayNumber);
+  Stream<Future<List<Game>>> getGames(int gameDayNumber);
+
+  Future<List<Game>> getGamesTheOldWay(int gameDayNumber);
   Future<List<Scorer>> getScorers();
   Future<List<LeagueTableRow>> getLeagueTable();
   Future<List<ChampGroupTable>> getChampTable();

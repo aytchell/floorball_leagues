@@ -60,7 +60,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     final daysFutures = Map.fromIterable(
       gameDayTitles,
       key: (gdt) => gdt.gameDayNumber as int,
-      value: (gdt) => widget.league.getGames(gdt.gameDayNumber),
+      value: (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
     );
 
     final Map<int, List<Game>> days = Map.fromEntries(

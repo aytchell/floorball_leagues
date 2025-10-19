@@ -115,11 +115,21 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     );
   }
 
-  Future<List<Game>> getGames(int gameDayNumber) async {
+  Future<List<Game>> getGamesTheOldWay(int gameDayNumber) async {
     final path = '/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json';
 
     final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
     return jsonData.map((game) => GameImpl.fromJson(client, game)).toList();
+  }
+
+  Stream<Future<List<Game>>> getGames(int gameDayNumber) {
+    return client.streamApiData(
+      '/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json',
+      (data) {
+        final json = data as List<dynamic>;
+        return json.map((game) => GameImpl.fromJson(client, game)).toList();
+      },
+    );
   }
 
   Future<List<Scorer>> getScorers() async {
