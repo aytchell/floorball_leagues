@@ -44,7 +44,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
   final List<GameDayTitle> gameDayTitles;
 
-  Map<int, List<Game>> gameDays = {};
   List<LeagueTableRow> leagueTable = [];
   List<ChampGroupTable> champTable = [];
   List<Scorer> scorers = [];
@@ -57,27 +56,25 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Future<void> loadData() async {
+    /*
     final daysFutures = Map.fromIterable(
       gameDayTitles,
       key: (gdt) => gdt.gameDayNumber as int,
       value: (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
     );
-
-    final Map<int, List<Game>> days = Map.fromEntries(
-      await Future.wait(
-        daysFutures.entries.map(
-          (entry) async => MapEntry(entry.key, await entry.value),
-        ),
+     */
+    final games = (await Future.wait(
+      gameDayTitles.map(
+        (gdt) => widget.league.getGamesTheOldWay(gdt.gameDayNumber),
       ),
-    );
+    )).expand((i) => i).toList();
 
-    if (days.isEmpty) {
+    if (games.isEmpty) {
       setState(() {
-        gameDays = {};
         leagueTable = [];
         champTable = [];
         scorers = [];
-        games = [];
+        this.games = [];
         isLoading = false;
       });
     } else {
@@ -85,17 +82,15 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
           ? await _fetchLeagueTable()
           : <LeagueTableRow>[];
       final champEntries = (widget.leagueType == 'champ')
-          ? await _fetchChampTable(
-              days.values.expand((games) => games).toList(),
-            )
+          ? await _fetchChampTable(games)
           : <ChampGroupTable>[];
       final fetchedScorers = await _fetchScorerList();
 
       setState(() {
-        gameDays = days;
         leagueTable = tableEntries;
         champTable = champEntries;
         scorers = fetchedScorers;
+        this.games = games;
         isLoading = false;
       });
     }
@@ -275,10 +270,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     );
   }
 
-  List<Game> _getFlattenedGames() {
-    return this.gameDays.values.expand((i) => i).toList();
-  }
-
   Widget _buildLeagueTableCard(BuildContext context, int cardIndex) {
     final isExpanded = expandedIndex == cardIndex;
 
@@ -287,7 +278,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
       title: 'Tabelle',
       teamEntries: this.leagueTable,
       scorers: this.scorers,
-      games: _getFlattenedGames(),
+      games: games,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
