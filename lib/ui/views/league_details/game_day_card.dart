@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details/game_card.dart';
 import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/api/models/game.dart';
@@ -23,7 +24,7 @@ class GameSubDayInfo {
 }
 
 class ExpandableGameDayCard extends StatelessWidget {
-  final String leagueName;
+  final GameOperationLeague league;
   final String title;
   final List<Game> games;
   final bool isExpanded;
@@ -31,7 +32,7 @@ class ExpandableGameDayCard extends StatelessWidget {
 
   const ExpandableGameDayCard({
     Key? key,
-    required this.leagueName,
+    required this.league,
     required this.title,
     required this.games,
     required this.isExpanded,
@@ -297,7 +298,7 @@ class ExpandableGameDayCard extends StatelessWidget {
           ),
         )
         .toList();
-    return SportGamesTable(leagueName: leagueName, subdays: gameData);
+    return SportGamesTable(leagueName: league.name, subdays: gameData);
   }
 
   Widget _buildGameSubDayInfoCard(GameSubDayInfo info) {

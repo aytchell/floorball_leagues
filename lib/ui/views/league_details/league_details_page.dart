@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -23,19 +24,25 @@ final log = Logger('LeagueDetailsPage');
 
 class LeagueDetailsPage extends StatefulWidget {
   final GameOperationLeague league;
+
   String leagueType;
 
   LeagueDetailsPage({required this.league})
     : leagueType = league.leagueType ?? "league";
 
   @override
-  _LeagueDetailsPageState createState() => _LeagueDetailsPageState();
+  _LeagueDetailsPageState createState() =>
+    _LeagueDetailsPageState(league.gameDayTitles);
 }
 
 class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
+  _LeagueDetailsPageState(this.gameDayTitles);
+
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
-  bool isLoading = false;
+  bool isLoading = true;
+
+  final List<GameDayTitle> gameDayTitles;
 
   Map<int, List<Game>> gameDays = {};
   List<LeagueTableRow> leagueTable = [];
@@ -50,12 +57,8 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Future<void> loadData() async {
-    setState(() {
-      isLoading = true;
-    });
-
     final daysFutures = Map.fromIterable(
-      widget.league.gameDayTitles,
+      gameDayTitles,
       key: (gdt) => gdt.gameDayNumber as int,
       value: (gdt) => widget.league.getGames(gdt.gameDayNumber),
     );
@@ -220,7 +223,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   Widget _buildGameDays() {
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
-      itemCount: gameDays.length + 3,
+      itemCount: gameDayTitles.length + 3,
       itemBuilder: (context, index) {
         if (index == 0) {
           return _buildLeagueInfoCard(context, index);
@@ -316,7 +319,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     final games = gameDays[gameDayTitle.gameDayNumber]!;
 
     return ExpandableGameDayCard(
-      leagueName: widget.league.name,
+      league: widget.league,
       title: _computeTitle(gameDayTitle.title, games),
       games: games,
       isExpanded: isExpanded,
