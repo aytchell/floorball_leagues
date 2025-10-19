@@ -5,6 +5,7 @@ import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details/game_card.dart';
 import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
@@ -28,14 +29,14 @@ class ExpandableGameDayCard extends StatefulWidget {
   const ExpandableGameDayCard({
     Key? key,
     required this.league,
-    required this.gameDayNumber,
+    required this.gameDayTitle,
     required this.title,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
 
   final GameOperationLeague league;
-  final int gameDayNumber;
+  final GameDayTitle gameDayTitle;
   final String title;
   final bool isExpanded;
   final VoidCallback onTap;
@@ -119,7 +120,8 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   }
 
   void _loadData() {
-    widget.league.getGames(widget.gameDayNumber).forEach((futureGamesList) {
+    int number = widget.gameDayTitle.gameDayNumber;
+    widget.league.getGames(number).forEach((futureGamesList) {
       futureGamesList.then((gamesList) => _setStateFromGamesList(gamesList));
     });
   }

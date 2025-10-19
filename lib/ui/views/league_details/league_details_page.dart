@@ -320,7 +320,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
     return ExpandableGameDayCard(
       league: widget.league,
-      gameDayNumber: gameDayTitle.gameDayNumber,
+      gameDayTitle: gameDayTitle,
       title: _computeTitle(gameDayTitle.title, games),
       isExpanded: isExpanded,
       onTap: () {
