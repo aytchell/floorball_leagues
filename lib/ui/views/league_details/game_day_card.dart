@@ -7,6 +7,7 @@ import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 
 class GameSubDayInfo {
@@ -29,7 +30,6 @@ class ExpandableGameDayCard extends StatefulWidget {
     required this.league,
     required this.gameDayNumber,
     required this.title,
-    required this.games,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
@@ -37,7 +37,6 @@ class ExpandableGameDayCard extends StatefulWidget {
   final GameOperationLeague league;
   final int gameDayNumber;
   final String title;
-  final List<Game> games;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -46,6 +45,9 @@ class ExpandableGameDayCard extends StatefulWidget {
 }
 
 class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
+  List<Game> games = [];
+  bool isLoading = true;
+
   // Define color constants to avoid accessing theme colors in static contexts
   static const Color expandedTextColor = Color(
     0xFF1976D2,
@@ -113,10 +115,28 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
+
+  void _loadData() {
+    widget.league.getGames(widget.gameDayNumber).forEach((futureGamesList) {
+      futureGamesList.then((gamesList) => _setStateFromGamesList(gamesList));
+    });
+  }
+
+  void _setStateFromGamesList(List<Game> games) {
+    setState(() {
+      this.games = games;
+      isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const LoadingSpinner(title: 'Lade Spieltage ...');
+    }
+
     return ExpandableCard(
       title: widget.title,
       isExpanded: widget.isExpanded,
@@ -124,12 +144,9 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       expandedBackgroundColor: expandedBackgroundColor,
       expandedContentBackgroundColor: expandedContentBackgroundColor,
       customHeader: Column(
-        children: [
-          _buildGameDayTitle(),
-          ..._buildGameDateAndClubs(widget.games),
-        ],
+        children: [_buildGameDayTitle(), ..._buildGameDateAndClubs(games)],
       ),
-      child: _buildGamesTable(widget.games),
+      child: _buildGamesTable(games),
     );
   }
 

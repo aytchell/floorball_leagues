@@ -322,7 +322,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
       league: widget.league,
       gameDayNumber: gameDayTitle.gameDayNumber,
       title: _computeTitle(gameDayTitle.title, games),
-      games: games,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
