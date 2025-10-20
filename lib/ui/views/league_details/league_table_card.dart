@@ -8,7 +8,7 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/views/team_details/team_details_page.dart';
 
-class ExpandableLeagueTableCard extends StatelessWidget {
+class ExpandableLeagueTableCard extends StatefulWidget {
   final String title;
   final GameOperationLeague league;
   final List<LeagueTableRow> teamEntries;
@@ -25,17 +25,22 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ExpandableLeagueTableCard> createState() => _ExpandableLeagueTableCardState();
+}
+
+class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
+  @override
   Widget build(BuildContext context) {
     // If no team entries, show simple non-expandable card
-    if (teamEntries.isEmpty) {
+    if (widget.teamEntries.isEmpty) {
       return _buildEmptyCard();
     }
 
     // Otherwise show expandable card
     return ExpandableCard(
-      title: title,
-      isExpanded: isExpanded,
-      onTap: onTap,
+      title: widget.title,
+      isExpanded: widget.isExpanded,
+      onTap: widget.onTap,
       child: _buildTableContent(),
     );
   }
@@ -54,7 +59,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: AppTextStyles.gameDayTitleCollapsed),
+            Text(widget.title, style: AppTextStyles.gameDayTitleCollapsed),
             Text(
               'Noch keine Tabelle vorhanden',
               style: TextStyle(
@@ -70,7 +75,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   }
 
   Widget _buildTableContent() {
-    if (teamEntries.isEmpty) {
+    if (widget.teamEntries.isEmpty) {
       return Container(
         padding: EdgeInsets.all(16.0),
         child: Center(
@@ -84,7 +89,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
 
     return Builder(
       builder: (context) => Column(
-        children: teamEntries
+        children: widget.teamEntries
             .map((entry) => _buildTableRow(context, entry))
             .toList(),
       ),
@@ -151,7 +156,7 @@ class ExpandableLeagueTableCard extends StatelessWidget {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TeamDetailsPage(league: league, teamEntry: entry),
+        builder: (context) => TeamDetailsPage(league: widget.league, teamEntry: entry),
       ),
     );
   }
