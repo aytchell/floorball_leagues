@@ -45,7 +45,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   final List<GameDayTitle> gameDayTitles;
 
   List<LeagueTableRow> leagueTable = [];
-  List<Scorer> scorers = [];
 
   @override
   void initState() {
@@ -57,21 +56,15 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     final tableEntries = (widget.leagueType == 'league')
         ? await _fetchLeagueTable()
         : <LeagueTableRow>[];
-    final fetchedScorers = await _fetchScorerList();
 
     setState(() {
       leagueTable = tableEntries;
-      scorers = fetchedScorers;
       isLoading = false;
     });
   }
 
   Future<List<LeagueTableRow>> _fetchLeagueTable() async {
     return widget.league.getLeagueTable();
-  }
-
-  Future<List<Scorer>> _fetchScorerList() async {
-    return await widget.league.getScorers().first;
   }
 
   @override
@@ -151,11 +144,9 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     final isExpanded = expandedIndex == cardIndex;
 
     return ExpandableLeagueTableCard(
-      leagueName: widget.league.name,
       title: 'Tabelle',
       league: widget.league,
       teamEntries: this.leagueTable,
-      scorers: this.scorers,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {

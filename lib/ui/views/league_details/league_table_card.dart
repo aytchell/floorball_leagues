@@ -9,21 +9,17 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/views/team_details/team_details_page.dart';
 
 class ExpandableLeagueTableCard extends StatelessWidget {
-  final String leagueName;
   final String title;
   final GameOperationLeague league;
   final List<LeagueTableRow> teamEntries;
-  final List<Scorer> scorers;
   final bool isExpanded;
   final VoidCallback onTap;
 
   const ExpandableLeagueTableCard({
     Key? key,
-    required this.leagueName,
     required this.title,
     required this.league,
     required this.teamEntries,
-    required this.scorers,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
