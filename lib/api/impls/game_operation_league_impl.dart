@@ -130,7 +130,7 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     return fetchScorers(client, id);
   }
 
-  Future<List<LeagueTableRow>> getLeagueTable() async {
+  Stream<Future<List<LeagueTableRow>>> getLeagueTable() {
     return fetchLeagueTableFromServer(client, id);
   }
 

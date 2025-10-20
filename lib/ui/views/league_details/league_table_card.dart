@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -11,7 +12,6 @@ import 'package:floorball/ui/views/team_details/team_details_page.dart';
 class ExpandableLeagueTableCard extends StatefulWidget {
   final String title;
   final GameOperationLeague league;
-  final List<LeagueTableRow> teamEntries;
   final bool isExpanded;
   final VoidCallback onTap;
 
@@ -19,20 +19,40 @@ class ExpandableLeagueTableCard extends StatefulWidget {
     Key? key,
     required this.title,
     required this.league,
-    required this.teamEntries,
     required this.isExpanded,
     required this.onTap,
   }) : super(key: key);
 
   @override
-  State<ExpandableLeagueTableCard> createState() => _ExpandableLeagueTableCardState();
+  State<ExpandableLeagueTableCard> createState() =>
+      _ExpandableLeagueTableCardState();
 }
 
 class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
+  bool _isLoading = true;
+  List<LeagueTableRow> _tableEntries = [];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.league.getLeagueTable().forEach(
+      (futureList) => futureList.then((list) {
+        setState(() {
+          _tableEntries = list;
+          _isLoading = false;
+        });
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const LoadingSpinner(title: 'Lade Tabelle ...');
+    }
+
     // If no team entries, show simple non-expandable card
-    if (widget.teamEntries.isEmpty) {
+    if (_tableEntries.isEmpty) {
       return _buildEmptyCard();
     }
 
@@ -75,7 +95,7 @@ class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
   }
 
   Widget _buildTableContent() {
-    if (widget.teamEntries.isEmpty) {
+    if (_tableEntries.isEmpty) {
       return Container(
         padding: EdgeInsets.all(16.0),
         child: Center(
@@ -89,7 +109,7 @@ class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
 
     return Builder(
       builder: (context) => Column(
-        children: widget.teamEntries
+        children: _tableEntries
             .map((entry) => _buildTableRow(context, entry))
             .toList(),
       ),
@@ -156,7 +176,8 @@ class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
   void _navigateToTeamDetails(BuildContext context, LeagueTableRow entry) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TeamDetailsPage(league: widget.league, teamEntry: entry),
+        builder: (context) =>
+            TeamDetailsPage(league: widget.league, teamEntry: entry),
       ),
     );
   }

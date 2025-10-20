@@ -24,47 +24,24 @@ final log = Logger('LeagueDetailsPage');
 
 class LeagueDetailsPage extends StatefulWidget {
   final GameOperationLeague league;
+  final String leagueType;
+  final List<GameDayTitle> gameDayTitles;
 
-  String leagueType;
-
-  LeagueDetailsPage({required this.league})
-    : leagueType = league.leagueType ?? "league";
+  LeagueDetailsPage({super.key, required this.league})
+    : leagueType = league.leagueType ?? "league",
+      gameDayTitles = league.gameDayTitles;
 
   @override
-  _LeagueDetailsPageState createState() =>
-      _LeagueDetailsPageState(league.gameDayTitles);
+  _LeagueDetailsPageState createState() => _LeagueDetailsPageState();
 }
 
 class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
-  _LeagueDetailsPageState(this.gameDayTitles);
-
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
-  bool isLoading = true;
-
-  final List<GameDayTitle> gameDayTitles;
-
-  List<LeagueTableRow> leagueTable = [];
 
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  Future<void> loadData() async {
-    final tableEntries = (widget.leagueType == 'league')
-        ? await _fetchLeagueTable()
-        : <LeagueTableRow>[];
-
-    setState(() {
-      leagueTable = tableEntries;
-      isLoading = false;
-    });
-  }
-
-  Future<List<LeagueTableRow>> _fetchLeagueTable() async {
-    return widget.league.getLeagueTable();
   }
 
   @override
@@ -79,17 +56,9 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (isLoading) {
-      return LoadingSpinner(title: 'Lade Spieltage ...');
-    } else {
-      return _buildGameDays();
-    }
-  }
-
-  Widget _buildGameDays() {
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
-      itemCount: gameDayTitles.length + 3,
+      itemCount: widget.gameDayTitles.length + 3,
       itemBuilder: (context, index) {
         if (index == 0) {
           return _buildLeagueInfoCard(context, index);
@@ -146,7 +115,6 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
     return ExpandableLeagueTableCard(
       title: 'Tabelle',
       league: widget.league,
-      teamEntries: this.leagueTable,
       isExpanded: isExpanded,
       onTap: () {
         setState(() {
@@ -174,7 +142,7 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
   }
 
   Widget _buildGameDayCard(BuildContext context, int cardIndex, int gameIndex) {
-    final gameDayTitle = widget.league.gameDayTitles[gameIndex];
+    final gameDayTitle = widget.gameDayTitles[gameIndex];
     final isExpanded = expandedIndex == cardIndex;
 
     return ExpandableGameDayCard(

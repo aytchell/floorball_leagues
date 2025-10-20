@@ -24,12 +24,12 @@ LeagueTableRow parseLeagueTableRow(Map<String, dynamic> json) {
   );
 }
 
-Future<List<LeagueTableRow>> fetchLeagueTableFromServer(
+Stream<Future<List<LeagueTableRow>>> fetchLeagueTableFromServer(
   RestClient client,
   int leagueId,
-) async {
-  final path = '/api/v2/leagues/$leagueId/table.json';
-
-  final jsonData = await client.getJsonFromPath(path) as List<dynamic>;
-  return jsonData.map((row) => parseLeagueTableRow(row)).toList();
+) {
+  return client.streamApiData('/api/v2/leagues/$leagueId/table.json', (data) {
+    final json = data as List<dynamic>;
+    return json.map((row) => parseLeagueTableRow(row)).toList();
+  });
 }
