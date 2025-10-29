@@ -1,11 +1,17 @@
+import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/app_state.dart';
+import 'package:floorball/ui/views/landing/landing_page.dart';
 
 class SeasonSelectorPage extends StatelessWidget {
   const SeasonSelectorPage({super.key});
+
+  static const routePath = '/seasons';
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +130,7 @@ class SeasonSelectorPage extends StatelessWidget {
   }
 
   void _navigateToHome(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+    context.go(LandingPage.routePath);
   }
 
   Widget _buildLeadingIcon(bool isSelected, bool isCurrent) {

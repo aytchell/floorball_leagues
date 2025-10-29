@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:floorball/app_state.dart';
 import 'package:floorball/api/models/season_info.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:floorball/ui/views/landing/landing_page.dart';
+import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 
 class MainAppScaffold extends StatelessWidget {
   final String title;
@@ -66,14 +70,16 @@ class MainAppScaffold extends StatelessWidget {
               _buildBottomNavItem(
                 icon: Icons.home,
                 isEnabled: !isHomePage,
-                onTap: isHomePage ? null : () => _navigateToHome(context),
+                onTap: isHomePage
+                    ? null
+                    : () => context.go(LandingPage.routePath),
               ),
               _buildBottomNavItem(
                 icon: Icons.date_range,
                 isEnabled: !isSeasonPicker,
                 onTap: isSeasonPicker
                     ? null
-                    : () => _navigateToSeasons(context),
+                    : () => context.go(SeasonSelectorPage.routePath),
               ),
               const Spacer(),
               _buildSeasonIndicator(),
@@ -134,13 +140,5 @@ class MainAppScaffold extends StatelessWidget {
     } else {
       return const SizedBox(width: 60, height: 60);
     }
-  }
-
-  void _navigateToHome(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-  }
-
-  void _navigateToSeasons(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil('/seasons', (route) => false);
   }
 }

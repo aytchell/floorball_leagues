@@ -17,6 +17,8 @@ final log = Logger('LandingPage');
 class LandingPage extends StatefulWidget {
   LandingPage({super.key, required this.manager});
 
+  static const routePath = '/';
+
   final Future<SaisonManager> manager;
 
   @override
