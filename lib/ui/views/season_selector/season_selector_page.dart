@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/ui/views/landing/landing_page.dart';
 
 class SeasonSelectorPage extends StatelessWidget {
   const SeasonSelectorPage({super.key});

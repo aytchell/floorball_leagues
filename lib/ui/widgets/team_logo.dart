@@ -10,6 +10,7 @@ class TeamLogo extends StatelessWidget {
   static final _placeholderLogo = 'assets/images/logo_placeholder.svg';
 
   const TeamLogo({
+    super.key,
     required this.uri,
     required this.height,
     required this.width,

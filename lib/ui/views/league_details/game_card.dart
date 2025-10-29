@@ -15,32 +15,33 @@ class GameResultSlice {
   String? get guestTeamName => game.guestTeamName;
   Uri? get guestLogoUri => game.guestLogoSmallUri;
 
-  bool get hasStarted => game.started ?? false;
-  bool get hasEnded => game.ended ?? false;
+  bool get hasStarted => game.started;
+  bool get hasEnded => game.ended;
   String get time => game.time ?? '??:??';
   String get result => game.resultString ?? '- : -';
 
   String? get seriesName =>
       _translateGroupIdentifier(game.groupIdentifier) ??
-      _translateSeriesTitle(game.seriesTitle) ??
-      null;
+      _translateSeriesTitle(game.seriesTitle);
 
   String? _translateGroupIdentifier(String? groupIdentifier) {
     if (groupIdentifier == null) return null;
 
     RegExp validGroups = RegExp(r'^group_[a-z]$');
 
-    if (!validGroups.hasMatch(groupIdentifier)) return groupIdentifier!;
+    if (!validGroups.hasMatch(groupIdentifier)) return groupIdentifier;
 
     var groupId = groupIdentifier.substring(groupIdentifier.length - 1);
 
-    return "Gruppe " + groupId.toUpperCase();
+    return "Gruppe ${groupId.toUpperCase()}";
   }
 
   String? _translateSeriesTitle(String? seriesTitle) {
     if (seriesTitle == 'Spiel um Platz 3') return 'Platz 3';
-    if (seriesTitle == 'Spiel im Platz 3') // sic!
+    if (seriesTitle == 'Spiel im Platz 3') {
+      // sic!
       return 'Platz 3';
+    }
     if (seriesTitle == 'Spiel um Platz 5') return 'Platz 5';
     if (seriesTitle == 'Spiel um Platz 7') return 'Platz 7';
     return seriesTitle;
@@ -51,8 +52,7 @@ class GameCard extends StatelessWidget {
   final String leagueName;
   final GameResultSlice game;
 
-  GameCard({Key? key, required this.leagueName, required this.game})
-    : super(key: key);
+  const GameCard({super.key, required this.leagueName, required this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +183,7 @@ class GameCard extends StatelessWidget {
         ),
       );
     } else {
-      final startTime = (game.time == null || game.time.isEmpty)
-          ? '??'
-          : game.time;
+      final startTime = (game.time.isEmpty) ? '??' : game.time;
       return Container(
         alignment: Alignment.center,
         child: Text(

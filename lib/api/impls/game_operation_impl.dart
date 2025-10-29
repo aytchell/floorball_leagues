@@ -10,20 +10,13 @@ class GameOperationImpl extends GameOperation {
 
   GameOperationImpl({
     required this.client,
-    required int id,
-    required String name,
-    String? shortName,
-    required String path,
-    Uri? logoUrl,
-    Uri? logoQuadUrl,
-  }) : super(
-         id: id,
-         name: name,
-         shortName: shortName,
-         path: path,
-         logoUrl: logoUrl,
-         logoQuadUrl: logoQuadUrl,
-       );
+    required super.id,
+    required super.name,
+    super.shortName,
+    required super.path,
+    super.logoUrl,
+    super.logoQuadUrl,
+  });
 
   factory GameOperationImpl.fromJson(
     RestClient client,

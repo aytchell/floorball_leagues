@@ -13,10 +13,10 @@ class SportGamesTable extends StatelessWidget {
   final List<GameSubdayRows> subdays;
 
   const SportGamesTable({
-    Key? key,
+    super.key,
     required this.leagueName,
     required this.subdays,
-  }) : super(key: key);
+  });
 
   List<Widget> _buildSubday(GameSubdayRows sub) {
     List<Widget> list = [];

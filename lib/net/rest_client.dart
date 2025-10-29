@@ -40,7 +40,10 @@ class RestClient {
     return json.decode(await file.readAsString());
   }
 
-  Stream<Future<T>> streamApiData<T>(String path, T convert(dynamic data)) {
+  Stream<Future<T>> streamApiData<T>(
+    String path,
+    T Function(dynamic data) convert,
+  ) {
     return getJsonStreamFromPath(path).map((futureData) {
       return futureData.then((data) => convert(data));
     });
@@ -68,7 +71,10 @@ class RestClient {
     return stream;
   }
 
-  Stream<T> streamApiDataSync<T>(String path, T convert(dynamic data)) {
+  Stream<T> streamApiDataSync<T>(
+    String path,
+    T Function(dynamic data) convert,
+  ) {
     return getJsonStreamFromPathSync(path).map((data) => convert(data));
   }
 

@@ -3,7 +3,7 @@ import 'package:logging/logging.dart';
 final log = Logger('IntParser');
 
 int? _parseDynamic(dynamic value) {
-  if (value is int) return value as int;
+  if (value is int) return value;
   if (value is String && value.isNotEmpty) return int.tryParse(value);
   return null;
 }

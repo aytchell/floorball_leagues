@@ -111,7 +111,7 @@ class _ScorerCardState extends State<ExpandableScorerCard> {
       child: Row(
         children: [
           // Position
-          Container(
+          SizedBox(
             width: 30.0,
             child: Text(
               '${index + 1}.',

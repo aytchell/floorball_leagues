@@ -16,7 +16,8 @@ class TeamStatisticsTable extends StatelessWidget {
   final List<IndexedScorer> scorers;
   final int seasonId;
 
-  TeamStatisticsTable({
+  const TeamStatisticsTable({
+    super.key,
     required this.team,
     required this.scorers,
     required this.seasonId,

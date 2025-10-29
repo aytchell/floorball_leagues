@@ -43,7 +43,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
       futureList.then((list) {
         setState(() {
           baseTables = list;
-          champTables = new List<ChampGroupTable>.from(baseTables);
+          champTables = List<ChampGroupTable>.from(baseTables);
           champTables.add(finalTable);
         });
       });
@@ -64,7 +64,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
           setState(() {
             games = newGames;
             finalTable = newFinalTable;
-            champTables = new List<ChampGroupTable>.from(baseTables);
+            champTables = List<ChampGroupTable>.from(baseTables);
             champTables.add(finalTable);
           });
         });
@@ -83,7 +83,9 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
 
   ChampGroupTable _computeFinalTable(List<Game> allGames) {
     log.info("cft: received ${allGames.length} games with seriesTitles ...");
-    allGames.forEach((game) => log.info(game.seriesTitle));
+    for (var game in allGames) {
+      log.info(game.seriesTitle);
+    }
     final finalGame = allGames
         .where((game) => game.seriesTitle == 'Finale')
         .first;
@@ -107,7 +109,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
         .asMap()
         .map(
           (index, game) =>
-              MapEntry.new(index, _buildMicroTable(game, 2 * index + 1)),
+              MapEntry(index, _buildMicroTable(game, 2 * index + 1)),
         )
         .values
         .expand((i) => i)
@@ -310,7 +312,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
       child: Row(
         children: [
           // Position
-          Container(
+          SizedBox(
             width: 24.0,
             child: Text(
               '${entry.position}.',

@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
     }
 
     final found = seasons.where((s) => s.id == currentSeasonId);
-    if (!found.isEmpty) {
+    if (found.isNotEmpty) {
       // This should normally yield the current season
       return found.first;
     }
@@ -122,11 +122,11 @@ class MyApp extends StatelessWidget {
 
   SeasonInfo _latestSeason(List<SeasonInfo> seasons) {
     SeasonInfo latest = seasons.first;
-    seasons.forEach((season) {
+    for (var season in seasons) {
       if (season.id > latest.id) {
         latest = season;
       }
-    });
+    }
 
     return latest;
   }

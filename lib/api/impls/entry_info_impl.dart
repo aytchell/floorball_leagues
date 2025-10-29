@@ -2,21 +2,15 @@ import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/impls/int_parser.dart';
 
 import 'package:floorball/api/models/entry_info.dart';
-import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/api/models/game_operation.dart';
 import 'package:floorball/api/impls/season_info_parser.dart';
 import 'package:floorball/api/impls/game_operation_impl.dart';
 
 class EntryInfoImpl extends EntryInfo {
   EntryInfoImpl({
-    required List<SeasonInfo> seasons,
-    int? currentSeasonId,
-    required List<GameOperation> gameOperations,
-  }) : super(
-         seasons: seasons,
-         currentSeasonId: currentSeasonId,
-         gameOperations: gameOperations,
-       );
+    required super.seasons,
+    super.currentSeasonId,
+    required super.gameOperations,
+  });
 
   static Stream<Future<EntryInfo>> fetchFromServer(RestClient client) {
     return client.streamApiData(

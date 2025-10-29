@@ -29,7 +29,7 @@ class GameDetailPage extends StatefulWidget {
 }
 
 class _GameDetailPageState extends State<GameDetailPage> {
-  DetailedGame? _detailedGame = null;
+  DetailedGame? _detailedGame;
   bool _isLoading = true;
 
   @override
@@ -184,7 +184,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
           TeamLogo(uri: logoUri, height: 48, width: 48),
           const SizedBox(height: 8),
           Text(
-            teamName ?? 'Unbekannt',
+            teamName,
             style: AppTextStyles.gameCardTeamFont,
             textAlign: TextAlign.center,
           ),
@@ -246,8 +246,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 ),
               ];
             })
-            .expand((i) => i)
-            .toList(),
+            .expand((i) => i),
       ],
     );
   }

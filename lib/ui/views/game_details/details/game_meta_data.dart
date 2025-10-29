@@ -4,7 +4,7 @@ import 'package:floorball/api/models/detailed_game.dart';
 class GameMetaData extends StatelessWidget {
   final DetailedGame game;
 
-  GameMetaData({required this.game});
+  const GameMetaData({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {

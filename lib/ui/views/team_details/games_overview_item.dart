@@ -6,7 +6,11 @@ class GamesOverviewItem extends StatelessWidget {
   final String teamName;
   final Game game;
 
-  const GamesOverviewItem({required this.teamName, required this.game});
+  const GamesOverviewItem({
+    super.key,
+    required this.teamName,
+    required this.game,
+  });
 
   String _homeOrGuest(Game game) {
     return (teamName == game.homeTeamName) ? 'Heim' : 'Gast';
@@ -48,7 +52,7 @@ class GamesOverviewItem extends StatelessWidget {
               const Icon(Icons.schedule, size: 22, color: Colors.grey),
               const SizedBox(width: 4),
               Text(
-                '${_formatDateTime()}',
+                _formatDateTime(),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -170,12 +174,8 @@ class GamesOverviewItem extends StatelessWidget {
 
   String _formatDateTime() {
     final date = game.beautifiedDate!;
-    if (date == null) {
-      return 'TBD';
-    }
-
     final time = game.time ?? '';
 
-    return '${date} ${time}';
+    return '$date $time';
   }
 }

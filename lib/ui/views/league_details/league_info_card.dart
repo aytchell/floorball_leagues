@@ -10,12 +10,12 @@ class ExpandablLeagueInfoCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ExpandablLeagueInfoCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.league,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +103,9 @@ class ExpandablLeagueInfoCard extends StatelessWidget {
   }
 
   String _playerAges() {
-    if (league.deadline == null || league.beforeDeadline == null)
+    if (league.deadline == null || league.beforeDeadline == null) {
       return 'Nicht angegeben';
+    }
 
     final youngerOrOlder = (league.beforeDeadline!)
         ? 'und älter'

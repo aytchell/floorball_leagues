@@ -8,9 +8,9 @@ import 'models/game_operation_league.dart';
 class ApiRepository {
   Future<Stream<EntryInfo>> getStart() {
     return RestClient.instance.then(
-      (_client) => _client.streamApiDataSync(
+      (client) => client.streamApiDataSync(
         '/api/v2/init.json',
-        (data) => EntryInfoImpl.fromJson(_client, data as Map<String, dynamic>),
+        (data) => EntryInfoImpl.fromJson(client, data as Map<String, dynamic>),
       ),
     );
   }
@@ -19,12 +19,12 @@ class ApiRepository {
     int seasonId,
     int gameOperationId,
   ) => RestClient.instance.then(
-    (_client) => _client.streamApiDataSync(
+    (client) => client.streamApiDataSync(
       '/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
       (data) {
         final json = data as List<dynamic>;
         return json
-            .map((gameOp) => GameOperationLeagueImpl.fromJson(_client, gameOp))
+            .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
             .toList();
       },
     ),

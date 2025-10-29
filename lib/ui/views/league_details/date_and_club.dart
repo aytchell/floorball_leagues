@@ -30,7 +30,7 @@ class DateAndClub implements Comparable<DateAndClub> {
         beautifiedDate,
         parsedDate.isBefore(today),
         hostingClub,
-        '${yyyyMmDd} @ $hostingClub',
+        '$yyyyMmDd @ $hostingClub',
       );
     } catch (e) {
       log.severe('Error parsing date string "$yyyyMmDd": $e');
@@ -38,7 +38,7 @@ class DateAndClub implements Comparable<DateAndClub> {
         yyyyMmDd,
         false,
         hostingClub,
-        '${yyyyMmDd} @ $hostingClub',
+        '$yyyyMmDd @ $hostingClub',
       );
     }
   }

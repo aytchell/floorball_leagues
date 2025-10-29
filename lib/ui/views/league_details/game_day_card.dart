@@ -27,13 +27,12 @@ class GameSubDayInfo {
 
 class ExpandableGameDayCard extends StatefulWidget {
   ExpandableGameDayCard({
-    Key? key,
+    super.key,
     required this.league,
     required this.gameDayTitle,
     required this.isExpanded,
     required this.onTap,
-  }) : leagueType = league.leagueType ?? "league",
-       super(key: key);
+  }) : leagueType = league.leagueType ?? "league";
 
   final GameOperationLeague league;
   final GameDayTitle gameDayTitle;
@@ -42,10 +41,10 @@ class ExpandableGameDayCard extends StatefulWidget {
   final String leagueType;
 
   @override
-  _ExpandableGameDayCardState createState() => _ExpandableGameDayCardState();
+  ExpandableGameDayCardState createState() => ExpandableGameDayCardState();
 }
 
-class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
+class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   List<Game> games = [];
   bool isLoading = true;
 
@@ -256,7 +255,7 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     final dateStyle = isBygone ? bygoneDateStyle : upcomingDateStyle;
     return Row(
       children: [
-        Text('${dac.date}', style: dateStyle),
+        Text(dac.date, style: dateStyle),
         Text(' bei ${dac.hostingClub}', style: textStyle),
       ],
     );
@@ -276,9 +275,9 @@ class _ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
     return Row(
       children: [
         Text('von ', style: textStyle),
-        Text('${dacs.first.date}', style: dateStyle),
+        Text(dacs.first.date, style: dateStyle),
         Text(' bis ', style: textStyle),
-        Text('${dacs.last.date}', style: dateStyle),
+        Text(dacs.last.date, style: dateStyle),
       ],
     );
   }

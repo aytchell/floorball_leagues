@@ -1,6 +1,5 @@
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
-import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -18,62 +17,34 @@ class GameOperationLeagueImpl extends GameOperationLeague {
 
   GameOperationLeagueImpl({
     required this.client,
-    required int id,
-    required int gameOperationId,
-    required String gameOperationName,
-    String? gameOperationShortName,
-    String? gameOperationSlug,
-    String? leagueCategoryId,
-    String? leagueClassId,
-    String? leagueSystemId,
-    String? leagueType,
-    required String name,
-    bool? female,
-    bool? enableScorer,
-    String? shortName,
-    String? seasonId,
-    String? orderKey,
-    required List<int> gameDayNumbers,
-    required List<GameDayTitle> gameDayTitles,
-    String? deadline,
-    bool? beforeDeadline,
-    bool? legacyLeague,
-    String? fieldSize,
-    String? leagueModus,
-    bool? hasPreround,
-    String? tableModus,
-    int? periods,
-    int? periodLength,
-    int? overtimeLength,
-  }) : super(
-         id: id,
-         gameOperationId: gameOperationId,
-         gameOperationName: gameOperationName,
-         gameOperationShortName: gameOperationShortName,
-         gameOperationSlug: gameOperationSlug,
-         leagueCategoryId: leagueCategoryId,
-         leagueClassId: leagueClassId,
-         leagueSystemId: leagueSystemId,
-         leagueType: leagueType,
-         name: name,
-         female: female,
-         enableScorer: enableScorer,
-         shortName: shortName,
-         seasonId: seasonId,
-         orderKey: orderKey,
-         gameDayNumbers: gameDayNumbers,
-         gameDayTitles: gameDayTitles,
-         deadline: deadline,
-         beforeDeadline: beforeDeadline,
-         legacyLeague: legacyLeague,
-         fieldSize: fieldSize,
-         leagueModus: leagueModus,
-         hasPreround: hasPreround,
-         tableModus: tableModus,
-         periods: periods,
-         periodLength: periodLength,
-         overtimeLength: overtimeLength,
-       );
+    required super.id,
+    required super.gameOperationId,
+    required super.gameOperationName,
+    super.gameOperationShortName,
+    super.gameOperationSlug,
+    super.leagueCategoryId,
+    super.leagueClassId,
+    super.leagueSystemId,
+    super.leagueType,
+    required super.name,
+    super.female,
+    super.enableScorer,
+    super.shortName,
+    super.seasonId,
+    super.orderKey,
+    required super.gameDayNumbers,
+    required super.gameDayTitles,
+    super.deadline,
+    super.beforeDeadline,
+    super.legacyLeague,
+    super.fieldSize,
+    super.leagueModus,
+    super.hasPreround,
+    super.tableModus,
+    super.periods,
+    super.periodLength,
+    super.overtimeLength,
+  });
 
   factory GameOperationLeagueImpl.fromJson(
     RestClient client,
@@ -115,6 +86,7 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     );
   }
 
+  @override
   Stream<Future<List<Game>>> getGames(int gameDayNumber) {
     return client.streamApiData(
       '/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json',
@@ -130,10 +102,12 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     return fetchScorers(client, id);
   }
 
+  @override
   Stream<Future<List<LeagueTableRow>>> getLeagueTable() {
     return fetchLeagueTableFromServer(client, id);
   }
 
+  @override
   Stream<Future<List<ChampGroupTable>>> getChampTable() {
     return fetchChampTableFromServer(client, id);
   }

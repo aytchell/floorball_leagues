@@ -14,12 +14,12 @@ class ExpandableLeagueTableCard extends StatefulWidget {
   final VoidCallback onTap;
 
   const ExpandableLeagueTableCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.league,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<ExpandableLeagueTableCard> createState() =>
@@ -129,7 +129,7 @@ class _ExpandableLeagueTableCardState extends State<ExpandableLeagueTableCard> {
         child: Row(
           children: [
             // Position
-            Container(
+            SizedBox(
               width: 30.0,
               child: Text(
                 '${entry.position}.',

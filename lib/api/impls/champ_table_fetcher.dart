@@ -21,7 +21,7 @@ Stream<Future<List<ChampGroupTable>>> fetchChampTableFromServer(
   ) {
     final json = data as Map<String, dynamic>;
     return json
-        .map((key, value) => MapEntry.new(key, parseChampGroupTable(value)))
+        .map((key, value) => MapEntry(key, parseChampGroupTable(value)))
         .values
         .toList();
   });

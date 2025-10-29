@@ -20,18 +20,18 @@ enum SortColumn {
 
 class PlayerStatisticsTable extends StatefulWidget {
   final List<IndexedScorer> scorers;
-  final maxRank;
+  final int maxRank;
 
-  PlayerStatisticsTable({required this.scorers})
+  PlayerStatisticsTable({super.key, required this.scorers})
     : maxRank = (scorers.isEmpty
           ? 0
           : scorers.map((idx) => idx.index).reduce(math.max));
 
   @override
-  _PlayerStatisticsTableState createState() => _PlayerStatisticsTableState();
+  PlayerStatisticsTableState createState() => PlayerStatisticsTableState();
 }
 
-class _PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
+class PlayerStatisticsTableState extends State<PlayerStatisticsTable> {
   List<IndexedScorer> _sortedScorers = [];
   SortColumn? _currentSortColumn;
   bool _isAscending = true;

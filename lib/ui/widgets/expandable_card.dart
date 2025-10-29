@@ -28,7 +28,7 @@ class ExpandableCard extends StatelessWidget {
   final Color? expandedContentBackgroundColor;
 
   const ExpandableCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.isExpanded,
     required this.onTap,
@@ -36,7 +36,7 @@ class ExpandableCard extends StatelessWidget {
     this.customHeader,
     this.expandedBackgroundColor,
     this.expandedContentBackgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

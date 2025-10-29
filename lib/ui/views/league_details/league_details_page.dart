@@ -23,10 +23,10 @@ class LeagueDetailsPage extends StatefulWidget {
       gameDayTitles = league.gameDayTitles;
 
   @override
-  _LeagueDetailsPageState createState() => _LeagueDetailsPageState();
+  LeagueDetailsPageState createState() => LeagueDetailsPageState();
 }
 
-class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
+class LeagueDetailsPageState extends State<LeagueDetailsPage> {
   // Track which item is currently expanded (null means none expanded)
   int? expandedIndex;
 

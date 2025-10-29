@@ -15,6 +15,8 @@ final log = Logger('LandingPage');
 class LandingPage extends StatelessWidget {
   static const routePath = '/';
 
+  const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
@@ -65,17 +67,5 @@ class LandingPage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void _onGameOperationTap(GameOperation gameOp) {
-    /*
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            LeaguesListPage(gameOp: gameOp, selectedSeason: selectedSeason!),
-      ),
-    );
-     */
   }
 }

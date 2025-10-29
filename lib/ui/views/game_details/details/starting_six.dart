@@ -8,14 +8,19 @@ class StartingPlayerAdapter implements TableContentProvider {
 
   StartingPlayerAdapter({required this.player});
 
+  @override
   String get trikotNumber => '${player.trikotNumber}';
+
+  @override
   String get playerName => player.name;
 
+  @override
   String? get position {
     if (player.position == 'goal') return 'Tor';
     if (player.position == 'center') return 'Center';
     if (player.position.startsWith('defender')) return 'Verteidigung';
     if (player.position.startsWith('forward')) return 'Angriff';
+    return null;
   }
 }
 

@@ -1,8 +1,9 @@
 final String logoHost = 'saisonmanager.de';
 
 Uri? buildLogoUri(String? path) {
-  if (path == null)
+  if (path == null) {
     return null;
-  else
+  } else {
     return Uri(scheme: 'https', host: logoHost, path: path);
+  }
 }

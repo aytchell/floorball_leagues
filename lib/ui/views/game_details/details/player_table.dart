@@ -11,7 +11,7 @@ abstract interface class TableContentProvider {
 class PlayerTable extends StatelessWidget {
   final List<TableContentProvider> providers;
 
-  const PlayerTable({required this.providers});
+  const PlayerTable({super.key, required this.providers});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,6 @@ class PlayerTable extends StatelessWidget {
             ...providers.asMap().entries.map((entry) {
               final index = entry.key;
               final player = entry.value;
-              final isEven = index % 2 == 0;
 
               return StripedTableRow(
                 index: index,

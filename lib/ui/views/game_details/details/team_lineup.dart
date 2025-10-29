@@ -8,10 +8,15 @@ class PlayerAdapter extends Equatable
     implements TableContentProvider, Comparable<PlayerAdapter> {
   final Player player;
 
-  PlayerAdapter({required this.player});
+  const PlayerAdapter({required this.player});
 
+  @override
   String get trikotNumber => '${player.trikotNumber}';
+
+  @override
   String get playerName => player.name;
+
+  @override
   String? get position => player.position;
 
   @override

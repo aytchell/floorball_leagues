@@ -11,7 +11,7 @@ class CachedNetworkImage extends StatelessWidget {
   final bool showProgress;
 
   const CachedNetworkImage({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.fit,
     this.width,
@@ -19,12 +19,13 @@ class CachedNetworkImage extends StatelessWidget {
     this.placeholder,
     this.errorWidget,
     this.showProgress = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (imageUrl == null)
+    if (imageUrl == null) {
       return errorWidget?.call(width, height) ?? _defaultPlaceholder();
+    }
 
     return StreamBuilder<FileResponse>(
       stream: DefaultCacheManager().getImageFile(imageUrl!.toString()),
@@ -61,7 +62,7 @@ class CachedNetworkImage extends StatelessWidget {
   }
 
   Widget _buildProgressIndicator(DownloadProgress progress) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Center(

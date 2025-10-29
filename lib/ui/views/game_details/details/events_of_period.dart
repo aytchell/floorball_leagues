@@ -31,20 +31,22 @@ class EventsOfPeriod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (currentPeriodId == null || period.period > currentPeriodId!)
+    if (currentPeriodId == null || period.period > currentPeriodId!) {
       return const SizedBox.shrink(); // Renders nothing
+    }
 
     if (_isPause()) {
       if (period.period == currentPeriodId) {
         // if the game is currently in this pause then render
         // just the title
         return Text(
-          '${period.title}',
+          period.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         );
       }
-      if (events == null || events!.isEmpty)
+      if (events == null || events!.isEmpty) {
         return const SizedBox.shrink(); // Renders nothing
+      }
 
       // otherwise we render the events of this pause
       // with the below 'normal' code
@@ -54,7 +56,7 @@ class EventsOfPeriod extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${period.title}',
+          period.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),

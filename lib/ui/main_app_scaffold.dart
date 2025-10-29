@@ -45,8 +45,6 @@ class MainAppScaffold extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

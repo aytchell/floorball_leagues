@@ -13,6 +13,7 @@ class SingleGameEvent extends StatelessWidget {
   final Map<int, String> _playerNames;
 
   SingleGameEvent({
+    super.key,
     required this.event,
     required this.homePlayerNames,
     required this.guestPlayerNames,
@@ -82,7 +83,7 @@ class SingleGameEvent extends StatelessWidget {
         SizedBox(
           width: 40,
           child: Text(
-            '${event.time}',
+            event.time,
             style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.right,
           ),
@@ -103,7 +104,7 @@ class SingleGameEvent extends StatelessWidget {
 
     if (event.assist == 0) {
       return Text(
-        '$scorerName',
+        scorerName,
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       );
     } else {
@@ -112,11 +113,11 @@ class SingleGameEvent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '$scorerName',
+            scorerName,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           Text(
-            '$assistName',
+            assistName,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -152,7 +153,7 @@ class SingleGameEvent extends StatelessWidget {
         SizedBox(
           width: 40,
           child: Text(
-            '${event.time}',
+            event.time,
             style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.right,
           ),
@@ -175,7 +176,7 @@ class SingleGameEvent extends StatelessWidget {
 
         // Name of penalized player
         Text(
-          '$penalizedPlayer',
+          penalizedPlayer,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
         ),
 
@@ -193,7 +194,7 @@ class SingleGameEvent extends StatelessWidget {
         SizedBox(
           width: 40,
           child: Text(
-            '${event.time}',
+            event.time,
             style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.right,
           ),
@@ -234,7 +235,7 @@ class SingleGameEvent extends StatelessWidget {
         SizedBox(
           width: 30,
           child: Text(
-            '${event.eventType}',
+            event.eventType,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),

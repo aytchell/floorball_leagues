@@ -63,9 +63,9 @@ class TeamPenalties {
 
   String expiringPenaltiesAsString() {
     if (seasonId >= firstSeasonIdWithNewPenalties) {
-      return '${penalty2}, ${penalty2and2}, ${penalty10}';
+      return '$penalty2, $penalty2and2, $penalty10';
     } else {
-      return '${penalty2}, ${penalty5}, ${penalty10}';
+      return '$penalty2, $penalty5, $penalty10';
     }
   }
 
@@ -79,9 +79,9 @@ class TeamPenalties {
 
   String matchPenaltiesAsString() {
     if (seasonId >= firstSeasonIdWithNewPenalties) {
-      return '${penaltyMsTech}, ${penaltyMsFull}';
+      return '$penaltyMsTech, $penaltyMsFull';
     } else {
-      return '${penaltyMs1}, ${penaltyMs2}, ${penaltyMs3}';
+      return '$penaltyMs1, $penaltyMs2, $penaltyMs3';
     }
   }
 }

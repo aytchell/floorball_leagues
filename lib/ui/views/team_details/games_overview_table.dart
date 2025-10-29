@@ -26,7 +26,7 @@ class _GamesOverviewTableState extends State<GamesOverviewTable> {
     final loaders = widget.gameDayTitles.map(
       (gdt) => widget.league.getGames(gdt.gameDayNumber),
     );
-    loaders.forEach((stream) {
+    for (var stream in loaders) {
       stream.forEach((futureList) {
         futureList.then((list) {
           final involved = list.where(
@@ -38,7 +38,7 @@ class _GamesOverviewTableState extends State<GamesOverviewTable> {
           });
         });
       });
-    });
+    }
   }
 
   bool _isTeamInvolved(Game game, String teamName) {
