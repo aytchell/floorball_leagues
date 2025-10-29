@@ -67,4 +67,29 @@ class RestClient {
         });
     return stream;
   }
+
+  Stream<T> streamApiDataSync<T>(String path, T convert(dynamic data)) {
+    return getJsonStreamFromPathSync(path).map((data) => convert(data));
+  }
+
+  Stream<dynamic> getJsonStreamFromPathSync(String path) {
+    return getJsonStreamSync(Uri(scheme: scheme, host: host, path: path));
+  }
+
+  Stream<dynamic> getJsonStreamSync(Uri uri) {
+    log.info('Fetching "$uri" as sync stream');
+
+    Map<String, String> headers = {'Accept': 'application/json'};
+
+    final stream = cacheManager
+        .getFileStream(uri.toString(), headers: headers, withProgress: false)
+        .where((data) => data is FileInfo)
+        .map((data) {
+          final info = data as FileInfo;
+          log.info('Received data: ${info.file.path}');
+          return json.decode(info.file.readAsStringSync());
+        });
+
+    return stream;
+  }
 }
