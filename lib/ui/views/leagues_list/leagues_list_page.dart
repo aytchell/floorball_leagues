@@ -1,3 +1,6 @@
+import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
@@ -5,69 +8,66 @@ import 'package:floorball/api/models/game_operation.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/widgets/nothing_found.dart';
-import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LeaguesListPage extends StatefulWidget {
-  final GameOperation gameOp;
-  final SeasonInfo selectedSeason;
+class LeaguesListPage extends StatelessWidget {
+  final int gameOperationId;
 
-  const LeaguesListPage({
-    super.key,
-    required this.gameOp,
-    required this.selectedSeason,
-  });
+  static const parameterName = 'gameOperationId';
+  static const routePath = '/all_leagues/:$parameterName';
 
-  @override
-  _LeaguesListPageState createState() => _LeaguesListPageState();
-}
-
-class _LeaguesListPageState extends State<LeaguesListPage> {
-  List<GameOperationLeague> leagues = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  void _setStateFromList(List<GameOperationLeague> list) {
-    setState(() {
-      this.leagues = list;
-      isLoading = false;
-    });
-  }
-
-  Future<void> _loadData() async {
-    widget.gameOp.getLeagues(widget.selectedSeason.id).forEach((
-      futureLeagesList,
-    ) {
-      futureLeagesList.then((list) => _setStateFromList(list));
-    });
-  }
+  const LeaguesListPage({super.key, required this.gameOperationId});
 
   @override
   Widget build(BuildContext context) {
-    return MainAppScaffold(
-      title: widget.gameOp.name,
-      showBackButton: true,
-      body: _buildBody(context),
-      selectedSeason: widget.selectedSeason,
+    return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+      builder: (_, season) {
+        if (season != null) {
+          BlocProvider.of<LeaguesCubit>(
+            context,
+          ).updateLeaguesFor(season.id, gameOperationId);
+        }
+        return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
+          builder: (_, availableOps) => BlocBuilder<LeaguesCubit, LeaguesState>(
+            builder: (_, leagues) {
+              return _buildScaffold(
+                context,
+                season?.id,
+                availableOps.get(gameOperationId),
+                leagues.leaguesOf(gameOperationId),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    if (isLoading) {
-      return LoadingSpinner(title: 'Lade Liga-Daten ...');
-    } else if (leagues.length > 0) {
-      return _buildLeaguesList(context);
+  Widget _buildScaffold(
+    BuildContext context,
+    int? id,
+    GameOperation? operation,
+    List<GameOperationLeague> leagues,
+  ) {
+    return MainAppScaffold(
+      title: operation?.name ?? 'Ligen',
+      showBackButton: true,
+      body: _buildBody(context, leagues),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, List<GameOperationLeague> leagues) {
+    if (leagues.isNotEmpty) {
+      return _buildLeaguesList(context, leagues);
     } else {
       return _buildNothingFoundInfo(context);
     }
   }
 
-  Widget _buildLeaguesList(BuildContext context) {
+  Widget _buildLeaguesList(
+    BuildContext context,
+    List<GameOperationLeague> leagues,
+  ) {
     return ListView.builder(
       itemCount: leagues.length,
       itemBuilder: (context, index) {
@@ -94,12 +94,25 @@ class _LeaguesListPageState extends State<LeaguesListPage> {
   }
 
   Widget _buildNothingFoundInfo(BuildContext context) {
-    return NothingFoundInfoBox(
-      title: 'Keine Liga-Liste verfügbar',
-      message:
-          'Es wurden keine Daten zu Ligen innerhalb "${widget.gameOp.name}" gefunden. Mögliche Gründe sind:\n\n * Der Server ist gerade nicht verfügbar\n * Es wurden noch keine Spieldaten eingetragen\n * Es gibt ein Problem mit der Internetverbindung',
-      isLoading: isLoading,
-      onRetry: _loadData,
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.calendar_today, size: 64, color: Colors.grey[400]),
+            SizedBox(height: 16),
+            Text(
+              'Keine Ligen verfügbar',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

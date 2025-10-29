@@ -5,6 +5,9 @@ class AvailableOperations {
   AvailableOperations(this.operations);
 
   final List<GameOperation> operations;
+
+  GameOperation? get(int gameOperationId) =>
+      operations.where((op) => op.id == gameOperationId).firstOrNull;
 }
 
 class AvailableOperationsCubit extends Cubit<AvailableOperations> {

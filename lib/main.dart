@@ -1,15 +1,15 @@
+import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:floorball/ui/views/leagues_list/leagues_list_page.dart';
+import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:logging/logging.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:floorball/selected_season_cubit.dart';
-import 'package:floorball/api/saisonmanager.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
-import 'package:floorball/app_state.dart';
 
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';
@@ -32,18 +32,19 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: LandingPage.routePath,
-      builder: (context, state) => LandingPage(manager: SaisonManager.init()),
+      builder: (context, state) => LandingPage(),
     ),
     GoRoute(
       path: SeasonSelectorPage.routePath,
       builder: (context, state) => SeasonSelectorPage(),
     ),
+    ...$appRoutes,
   ],
 );
 
 void main() {
   setupLogging();
-  runApp(ChangeNotifierProvider(create: (_) => AppState(), child: MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
   final AvailableOperationsCubit availableOperationsCubit =
       AvailableOperationsCubit();
   final SelectedSeasonCubit selectedSeasonCubit = SelectedSeasonCubit();
+  late final LeaguesCubit leaguesCubit = LeaguesCubit(apiRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableSeasonsCubit),
           BlocProvider.value(value: availableOperationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
+          BlocProvider.value(value: leaguesCubit),
         ],
         child: MaterialApp.router(
           title: 'Game Operations Grid',
@@ -94,9 +97,6 @@ class MyApp extends StatelessWidget {
           entry.currentSeasonId,
         );
         if (selectedSeason != null) {
-          log.info(
-            'Setting current season "${selectedSeason.name}" with id "${selectedSeason.id}"',
-          );
           selectedSeasonCubit.seasonSelected(selectedSeason);
         }
       }),

@@ -1,11 +1,12 @@
+import 'package:floorball/api/blocs/available_seasons_cubit.dart';
+import 'package:floorball/selected_season_cubit.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/app_state.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 
 class SeasonSelectorPage extends StatelessWidget {
@@ -15,24 +16,33 @@ class SeasonSelectorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
       title: 'Saison auswählen',
       isSeasonPicker: true,
       showBackButton: true,
-      body: Consumer<AppState>(
-        builder: (context, appState, child) {
-          return _buildBody(appState);
-        },
-      ),
-      selectedSeason: appState.selectedSeason,
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildBody(AppState appState) {
-    final seasons = appState.allSeasons;
+  Widget _buildBody(BuildContext context) {
+    return BlocBuilder<AvailableSeasonsCubit, AvailableSeasons>(
+      builder: (_, availableSeasons) =>
+          BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+            builder: (_, selectedSeason) => _buildBodyWithState(
+              context,
+              availableSeasons.seasons,
+              selectedSeason,
+            ),
+          ),
+    );
+  }
 
-    if (seasons.isEmpty) {
+  Widget _buildBodyWithState(
+    BuildContext context,
+    List<SeasonInfo> availableSeasons,
+    SeasonInfo? selectedSeason,
+  ) {
+    if (availableSeasons.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -63,7 +73,7 @@ class SeasonSelectorPage extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           color: Colors.grey[50],
           child: Text(
-            '${seasons.length} Saison${seasons.length == 1 ? '' : 'en'} verfügbar',
+            '${availableSeasons.length} Saison${availableSeasons.length == 1 ? '' : 'en'} verfügbar',
             style: TextStyle(
               color: Colors.grey[600],
               fontSize: 14,
@@ -77,10 +87,14 @@ class SeasonSelectorPage extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.symmetric(vertical: 8.0),
-            itemCount: seasons.length,
+            itemCount: availableSeasons.length,
             itemBuilder: (context, index) {
-              final season = seasons[index];
-              return _buildSeasonTile(context, appState, season);
+              final season = availableSeasons[index];
+              return _buildSeasonTile(
+                context,
+                season,
+                season.id == selectedSeason?.id,
+              );
             },
           ),
         ),
@@ -90,10 +104,9 @@ class SeasonSelectorPage extends StatelessWidget {
 
   Widget _buildSeasonTile(
     BuildContext context,
-    AppState appState,
     SeasonInfo season,
+    bool isSelected,
   ) {
-    final isSelected = appState.selectedSeason?.id == season.id;
     final isCurrent = season.current;
 
     return Container(
@@ -119,18 +132,14 @@ class SeasonSelectorPage extends StatelessWidget {
         trailing: _buildTrailingWidget(isCurrent),
         onTap: () {
           // Update the global state
-          appState.setSelectedSeason(season);
-          _navigateToHome(context);
+          BlocProvider.of<SelectedSeasonCubit>(context).seasonSelected(season);
+          context.go(LandingPage.routePath);
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         selected: isSelected,
         selectedTileColor: Colors.transparent, // We handle this with Container
       ),
     );
-  }
-
-  void _navigateToHome(BuildContext context) {
-    context.go(LandingPage.routePath);
   }
 
   Widget _buildLeadingIcon(bool isSelected, bool isCurrent) {

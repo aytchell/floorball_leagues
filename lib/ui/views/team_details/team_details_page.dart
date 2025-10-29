@@ -1,12 +1,13 @@
 import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/app_state.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/ui/views/team_details/indexed_scorer.dart';
@@ -61,15 +62,12 @@ class _TeamDetailsState extends State<TeamDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context, listen: false);
-
-    return MainAppScaffold(
-      title: widget.league.name,
-      showBackButton: true,
-      body: _buildBody(
-        appState.selectedSeason?.id ?? someSeasonIdWithNewPenalties,
+    return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+      builder: (_, info) => MainAppScaffold(
+        title: widget.league.name,
+        showBackButton: true,
+        body: _buildBody(info?.id ?? someSeasonIdWithNewPenalties),
       ),
-      selectedSeason: appState.selectedSeason,
     );
   }
 

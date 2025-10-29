@@ -1,18 +1,9 @@
 import 'package:logging/logging.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/game_operation_league.dart';
-import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
-import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/api/models/champ_group_table.dart';
-import 'package:floorball/api/models/league_table_row.dart';
 
-import 'package:floorball/app_state.dart';
-import 'package:floorball/ui/widgets/nothing_found.dart';
-import 'package:floorball/ui/widgets/loading_spinner.dart';
-import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/views/league_details/league_table_card.dart';
 import 'package:floorball/ui/views/league_details/champ_table_card.dart';
@@ -46,12 +37,10 @@ class _LeagueDetailsPageState extends State<LeagueDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context, listen: false);
     return MainAppScaffold(
       title: widget.league.name,
       showBackButton: true,
       body: _buildBody(context),
-      selectedSeason: appState.selectedSeason,
     );
   }
 

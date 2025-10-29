@@ -1,116 +1,42 @@
+import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:floorball/ui/views/landing/game_operation_card.dart';
-import 'package:floorball/ui/views/leagues_list/leagues_list_page.dart';
-import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
-import 'package:floorball/api/saisonmanager.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/widgets/loading_spinner.dart';
-import 'package:floorball/app_state.dart';
 
 final log = Logger('LandingPage');
 
-class LandingPage extends StatefulWidget {
-  LandingPage({super.key, required this.manager});
-
+class LandingPage extends StatelessWidget {
   static const routePath = '/';
-
-  final Future<SaisonManager> manager;
-
-  @override
-  _LandingPageState createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-  List<GameOperation> gameOperations = [];
-  List<SeasonInfo> seasons = [];
-
-  SeasonInfo? selectedSeason;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  void _setStateFromEntryInfo(EntryInfo info) {
-    final appState = Provider.of<AppState>(context, listen: false);
-    final allSeasons = _findAllSeasons(appState, info);
-    final selectedSeason = _findSelectedSeason(appState, info);
-    log.info('Selected season is ${selectedSeason!.name}');
-
-    setState(() {
-      gameOperations = info.gameOperations;
-      seasons = allSeasons;
-      this.selectedSeason = selectedSeason;
-      isLoading = false;
-    });
-  }
-
-  Future<void> loadData() async {
-    final manager = await widget.manager;
-
-    manager.getStart().forEach((futureInfo) {
-      futureInfo.then((info) => _setStateFromEntryInfo(info));
-    });
-  }
-
-  List<SeasonInfo> _findAllSeasons(AppState appState, EntryInfo entryInfo) {
-    final allSeasons = appState.allSeasons;
-    if (allSeasons.isNotEmpty) {
-      return allSeasons;
-    } else {
-      appState.setSeasonList(entryInfo!.seasons);
-      return entryInfo!.seasons;
-    }
-  }
-
-  SeasonInfo? _findSelectedSeason(AppState appState, EntryInfo entryInfo) {
-    final selectedSeason = appState.selectedSeason;
-
-    if (selectedSeason != null) return selectedSeason;
-    SeasonInfo? info;
-    try {
-      info = entryInfo.seasons.firstWhere((season) => season.current);
-    } catch (e) {
-      // If no current season found, use the first one
-      info = entryInfo.seasons.isNotEmpty ? entryInfo.seasons.first : null;
-    }
-    if (info != null) {
-      appState.setSelectedSeason(info!);
-    }
-    return info;
-  }
 
   @override
   Widget build(BuildContext context) {
-    final subTitle = (selectedSeason == null)
-        ? ""
-        : '\nSaison ${selectedSeason!.name}';
+    return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
+      builder: (context, availableOperations) =>
+          BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+            builder: (context, selectedSeason) {
+              final subTitle = (selectedSeason == null)
+                  ? ""
+                  : '\nSaison ${selectedSeason.name}';
 
-    return MainAppScaffold(
-      title: 'Floorball Landesverbände$subTitle',
-      isHomePage: true,
-      body: Consumer<AppState>(
-        builder: (context, appState, child) {
-          return _buildBody();
-        },
-      ),
-      selectedSeason: selectedSeason,
+              return MainAppScaffold(
+                title: 'Floorball Verbände$subTitle',
+                isHomePage: true,
+                body: _buildBody(availableOperations.operations),
+              );
+            },
+          ),
     );
   }
 
-  Widget _buildBody() {
-    if (isLoading) {
-      return const LoadingSpinner(title: 'Lade Verbände ...');
-    }
-
-    if (gameOperations.isEmpty) {
+  Widget _buildBody(List<GameOperation> operations) {
+    if (operations.isEmpty) {
       return Center(
         child: Text(
           'No game operations found',
@@ -128,12 +54,13 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisSpacing: 10,
           childAspectRatio: 0.8, // Adjust based on your needs
         ),
-        itemCount: gameOperations.length,
+        itemCount: operations.length,
         itemBuilder: (context, index) {
-          final gameOp = gameOperations[index];
+          final gameOp = operations[index];
           return GameOperationCard(
             gameOperation: gameOp,
-            onTap: () => _onGameOperationTap(gameOp),
+            onTap: () =>
+                LeaguesListPageRoute(gameOperationId: gameOp.id).go(context),
           );
         },
       ),
@@ -141,6 +68,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _onGameOperationTap(GameOperation gameOp) {
+    /*
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -148,5 +76,6 @@ class _LandingPageState extends State<LandingPage> {
             LeaguesListPage(gameOp: gameOp, selectedSeason: selectedSeason!),
       ),
     );
+     */
   }
 }

@@ -1,6 +1,6 @@
+import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:floorball/app_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +10,6 @@ import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 class MainAppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
-  final SeasonInfo? selectedSeason;
   final List<Widget>? actions;
   final bool showBackButton;
   final bool showBottomNavigation;
@@ -21,7 +20,6 @@ class MainAppScaffold extends StatelessWidget {
     super.key,
     required this.title,
     required this.body,
-    required this.selectedSeason,
     this.actions,
     this.showBackButton = false,
     this.showBottomNavigation = true,
@@ -82,7 +80,9 @@ class MainAppScaffold extends StatelessWidget {
                     : () => context.go(SeasonSelectorPage.routePath),
               ),
               const Spacer(),
-              _buildSeasonIndicator(),
+              BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+                builder: (_, state) => _SeasonIndicator(state),
+              ),
             ],
           ),
         ),
@@ -109,36 +109,42 @@ class MainAppScaffold extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildSeasonIndicator() {
-    if (selectedSeason != null) {
-      return InkWell(
-        borderRadius: BorderRadius.circular(8),
-        child: SizedBox(
-          width: 60,
-          height: 60,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: selectedSeason!.name
-                .split('/')
-                .map(
-                  (year) => Text(
-                    year,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: (selectedSeason!.current)
-                          ? Colors.black
-                          : Colors.red,
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-      );
-    } else {
+class _SeasonIndicator extends StatelessWidget {
+  const _SeasonIndicator(this.selectedSeason);
+  final SeasonInfo? selectedSeason;
+
+  @override
+  Widget build(BuildContext context) {
+    if (selectedSeason == null) {
       return const SizedBox(width: 60, height: 60);
     }
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      child: SizedBox(
+        width: 60,
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: selectedSeason!.name
+              .split('/')
+              .map(
+                (year) => Text(
+                  year,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: (selectedSeason!.current)
+                        ? Colors.black
+                        : Colors.red,
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      ),
+    );
   }
 }
