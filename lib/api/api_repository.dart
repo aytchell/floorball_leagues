@@ -3,7 +3,6 @@ import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/impls/entry_info_impl.dart';
 
 import 'impls/game_operation_league_impl.dart';
-import 'models/game_operation.dart';
 import 'models/game_operation_league.dart';
 
 class ApiRepository {

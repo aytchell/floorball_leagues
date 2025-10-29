@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
-import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 

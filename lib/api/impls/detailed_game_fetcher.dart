@@ -1,6 +1,5 @@
 import 'package:floorball/net/rest_client.dart';
 
-import 'package:floorball/api/models/logo_host.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 
 import 'package:floorball/api/impls/int_parser.dart';

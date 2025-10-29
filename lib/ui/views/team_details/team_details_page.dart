@@ -7,7 +7,6 @@ import 'package:collection/collection.dart';
 
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/ui/views/team_details/indexed_scorer.dart';

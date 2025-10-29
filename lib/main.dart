@@ -1,5 +1,4 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
-import 'package:floorball/ui/views/leagues_list/leagues_list_page.dart';
 import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
