@@ -1,6 +1,7 @@
 import 'package:floorball/api/blocs/game_operations_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/views/league_details_2/league_details_page_2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
@@ -77,8 +78,16 @@ class LeaguesListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      LeagueDetailsPage(league: leagues[index]),
+                  builder: (context) {
+                    if (index % 2 == 0) {
+                      return LeagueDetailsPage(league: leagues[index]);
+                    } else {
+                      return LeagueDetailsPage2(
+                        leagueId: leagues[index].id,
+                        leagueName: leagues[index].name,
+                      );
+                    }
+                  },
                 ),
               );
             },

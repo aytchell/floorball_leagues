@@ -3,21 +3,29 @@ import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
 
 class LeaguesState {
-  LeaguesState() : _state = {};
+  LeaguesState() : _leaguesPerGameOp = {}, _leaguesById = {};
 
-  LeaguesState._(Map<int, List<GameOperationLeague>> state) : _state = state;
+  LeaguesState._(
+    Map<int, List<GameOperationLeague>> perGameOp,
+    Map<int, GameOperationLeague> byId,
+  ) : _leaguesPerGameOp = perGameOp,
+      _leaguesById = byId;
 
-  final Map<int, List<GameOperationLeague>> _state;
+  final Map<int, List<GameOperationLeague>> _leaguesPerGameOp;
+  final Map<int, GameOperationLeague> _leaguesById;
 
   List<GameOperationLeague> leaguesOf(int? seasonId, int gameOperationId) {
     if (seasonId == null) {
       return [];
     } else {
-      return _state[_stateKey(seasonId, gameOperationId)] ?? [];
+      return _leaguesPerGameOp[_seasonGameOpKey(seasonId, gameOperationId)] ??
+          [];
     }
   }
 
-  int _stateKey(int seasonId, int gameOperationId) =>
+  GameOperationLeague? byId(int leagueId) => _leaguesById[leagueId];
+
+  int _seasonGameOpKey(int seasonId, int gameOperationId) =>
       seasonId * 1000 + gameOperationId;
 
   LeaguesState copyWith({
@@ -25,15 +33,21 @@ class LeaguesState {
     required int gameOperationId,
     required List<GameOperationLeague> leagues,
   }) {
-    final newState = Map<int, List<GameOperationLeague>>.fromEntries(
-      _state.entries,
+    final newPerGameOpMap = Map<int, List<GameOperationLeague>>.fromEntries(
+      _leaguesPerGameOp.entries,
     );
-    newState[_stateKey(seasonId, gameOperationId)] = leagues;
-    return LeaguesState._(newState);
+    newPerGameOpMap[_seasonGameOpKey(seasonId, gameOperationId)] = leagues;
+
+    final newByIdMap = Map<int, GameOperationLeague>.fromEntries(
+      _leaguesById.entries,
+    );
+    newByIdMap.addEntries(leagues.map((league) => MapEntry(league.id, league)));
+
+    return LeaguesState._(newPerGameOpMap, newByIdMap);
   }
 
   bool hasLeagues(int seasonId, int gameOperationId) =>
-      _state[_stateKey(seasonId, gameOperationId)] != null;
+      _leaguesPerGameOp[_seasonGameOpKey(seasonId, gameOperationId)] != null;
 }
 
 class LeaguesCubit extends Cubit<LeaguesState> {
