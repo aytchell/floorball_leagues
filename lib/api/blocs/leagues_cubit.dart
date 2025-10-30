@@ -2,43 +2,38 @@ import 'package:bloc/bloc.dart';
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
 
-class _LeagueData {
-  _LeagueData(this.version, this.leagues);
-
-  final int version;
-  final List<GameOperationLeague> leagues;
-}
-
 class LeaguesState {
   LeaguesState() : _state = {};
 
-  LeaguesState._(Map<int, _LeagueData> state) : _state = state;
+  LeaguesState._(Map<int, List<GameOperationLeague>> state) : _state = state;
 
-  final Map<int, _LeagueData> _state;
+  final Map<int, List<GameOperationLeague>> _state;
 
-  List<GameOperationLeague> leaguesOf(int gameOperationId) {
-    final data = _state[gameOperationId];
-    return data?.leagues ?? [];
+  List<GameOperationLeague> leaguesOf(int? seasonId, int gameOperationId) {
+    if (seasonId == null) {
+      return [];
+    } else {
+      return _state[_stateKey(seasonId, gameOperationId)] ?? [];
+    }
   }
 
-  LeaguesState copyWith(
-    int gameOperationId,
-    List<GameOperationLeague> leagues,
-  ) {
-    final newState = Map<int, _LeagueData>.fromEntries(_state.entries);
-    newState.update(
-      gameOperationId,
-      (oldEntry) => _LeagueData(oldEntry.version + 1, leagues),
-      ifAbsent: () => _LeagueData(1, leagues),
+  int _stateKey(int seasonId, int gameOperationId) =>
+      seasonId * 1000 + gameOperationId;
+
+  LeaguesState copyWith({
+    required int seasonId,
+    required int gameOperationId,
+    required List<GameOperationLeague> leagues,
+  }) {
+    final newState = Map<int, List<GameOperationLeague>>.fromEntries(
+      _state.entries,
     );
+    newState[_stateKey(seasonId, gameOperationId)] = leagues;
     return LeaguesState._(newState);
   }
 
-  bool wasUpdated(int gameOperationId, LeaguesState newState) {
-    final oldVersion = _state[gameOperationId]?.version;
-    final newVersion = newState._state[gameOperationId]?.version;
-    return oldVersion != newVersion;
-  }
+  bool hasLeagues(int seasonId, int gameOperationId) =>
+      _state[_stateKey(seasonId, gameOperationId)] != null;
 }
 
 class LeaguesCubit extends Cubit<LeaguesState> {
@@ -48,11 +43,25 @@ class LeaguesCubit extends Cubit<LeaguesState> {
 
   final ApiRepository _repository;
 
-  void updateLeaguesFor(int seasonId, int gameOperationId) => _repository
-      .getLeagues(seasonId, gameOperationId)
-      .then(
-        (stream) => stream.forEach(
-          (list) => emit(state.copyWith(gameOperationId, list)),
-        ),
-      );
+  void ensureLeaguesFor(int seasonId, int gameOperationId) {
+    if (state.hasLeagues(seasonId, gameOperationId)) {
+      // list of leagues for an association doesn't change that often
+      // so we only fetch it once per app run
+      return;
+    }
+
+    _repository
+        .getLeagues(seasonId, gameOperationId)
+        .then(
+          (stream) => stream.forEach(
+            (list) => emit(
+              state.copyWith(
+                seasonId: seasonId,
+                gameOperationId: gameOperationId,
+                leagues: list,
+              ),
+            ),
+          ),
+        );
+  }
 }

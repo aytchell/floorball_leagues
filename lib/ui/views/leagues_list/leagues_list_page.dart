@@ -25,18 +25,16 @@ class LeaguesListPage extends StatelessWidget {
         if (season != null) {
           BlocProvider.of<LeaguesCubit>(
             context,
-          ).updateLeaguesFor(season.id, gameOperationId);
+          ).ensureLeaguesFor(season.id, gameOperationId);
         }
         return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
           builder: (_, availableOps) => BlocBuilder<LeaguesCubit, LeaguesState>(
-            buildWhen: (oldState, newState) =>
-                oldState.wasUpdated(gameOperationId, newState),
             builder: (_, leagues) {
               return _buildScaffold(
                 context,
                 season?.id,
                 availableOps.get(gameOperationId),
-                leagues.leaguesOf(gameOperationId),
+                leagues.leaguesOf(season?.id, gameOperationId),
               );
             },
           ),
