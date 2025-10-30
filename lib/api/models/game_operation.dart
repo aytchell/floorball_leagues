@@ -1,6 +1,4 @@
-import 'package:floorball/api/models/game_operation_league.dart';
-
-abstract class GameOperation {
+class GameOperation {
   int id;
   String name;
   String? shortName;
@@ -16,6 +14,4 @@ abstract class GameOperation {
     this.logoUrl,
     this.logoQuadUrl,
   });
-
-  Stream<Future<List<GameOperationLeague>>> getLeagues(int seasonId);
 }

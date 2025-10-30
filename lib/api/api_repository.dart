@@ -1,6 +1,6 @@
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
-import 'package:floorball/api/impls/entry_info_impl.dart';
+import 'package:floorball/api/impls/entry_info_parser.dart';
 
 import 'impls/game_operation_league_impl.dart';
 import 'models/game_operation_league.dart';
@@ -10,7 +10,7 @@ class ApiRepository {
     return RestClient.instance.then(
       (client) => client.streamApiDataSync(
         '/api/v2/init.json',
-        (data) => EntryInfoImpl.fromJson(client, data as Map<String, dynamic>),
+        (data) => parseEntryInfo(data as Map<String, dynamic>),
       ),
     );
   }
