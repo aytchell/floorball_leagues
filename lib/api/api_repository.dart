@@ -1,10 +1,12 @@
 import 'package:floorball/api/impls/scorer_parser.dart';
+import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
 
 import 'impls/game_operation_league_impl.dart';
+import 'impls/league_table_fetcher.dart';
 import 'models/game_operation_league.dart';
 
 class ApiRepository {
@@ -31,6 +33,17 @@ class ApiRepository {
       },
     ),
   );
+
+  Future<Stream<List<LeagueTableRow>>> getLeagueTable(int leagueId) =>
+      RestClient.instance.then(
+        (client) => client.streamApiDataSync(
+          '/api/v2/leagues/$leagueId/table.json',
+          (data) {
+            final json = data as List<dynamic>;
+            return json.map((row) => parseLeagueTableRow(row)).toList();
+          },
+        ),
+      );
 
   Future<Stream<List<Scorer>>> getLeagueScorers(int leagueId) =>
       RestClient.instance.then(
