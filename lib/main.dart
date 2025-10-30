@@ -1,4 +1,5 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
       AvailableOperationsCubit();
   final SelectedSeasonCubit selectedSeasonCubit = SelectedSeasonCubit();
   late final LeaguesCubit leaguesCubit = LeaguesCubit(apiRepository);
+  late final ScorerCubit scorerCubit = ScorerCubit(apiRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableOperationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: leaguesCubit),
+          BlocProvider.value(value: scorerCubit),
         ],
         child: MaterialApp.router(
           title: 'Game Operations Grid',

@@ -6,7 +6,7 @@ import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/impls/game_impl.dart';
 import 'package:floorball/api/impls/game_day_title_parser.dart';
-import 'package:floorball/api/impls/scorer_fetcher.dart';
+import 'package:floorball/api/impls/scorer_parser.dart';
 import 'package:floorball/api/impls/league_table_fetcher.dart';
 import 'package:floorball/api/impls/champ_table_fetcher.dart';
 

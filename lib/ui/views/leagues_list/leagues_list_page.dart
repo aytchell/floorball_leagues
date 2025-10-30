@@ -29,6 +29,8 @@ class LeaguesListPage extends StatelessWidget {
         }
         return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
           builder: (_, availableOps) => BlocBuilder<LeaguesCubit, LeaguesState>(
+            buildWhen: (oldState, newState) =>
+                oldState.wasUpdated(gameOperationId, newState),
             builder: (_, leagues) {
               return _buildScaffold(
                 context,
