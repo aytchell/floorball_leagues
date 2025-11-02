@@ -1,6 +1,7 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/ui/views/league_details_2/panel_title.dart';
+import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ ExpansionPanelRadio buildLeagueTablePanel(int identifier, int leagueId) {
 class _LeagueTableContent extends StatelessWidget {
   final int leagueId;
 
-  _LeagueTableContent({super.key, required this.leagueId});
+  const _LeagueTableContent({required this.leagueId});
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +41,8 @@ class _LeagueTableContent extends StatelessWidget {
   Widget _buildTable(List<LeagueTableRow> tableRows) => TableView.builder(
     columns: [
       TableColumn(width: 25), // position
-      TableColumn(width: 35), // logo
-      TableColumn(width: 215), // team name
+      TableColumn(width: 40), // logo
+      TableColumn(width: 180), // team name
       TableColumn(width: 35), // # games
       TableColumn(width: 35), // points
       TableColumn(width: 35), // wins
@@ -53,7 +54,7 @@ class _LeagueTableContent extends StatelessWidget {
       TableColumn(width: 45), // goal difference
     ],
     rowCount: tableRows.length,
-    rowHeight: 40.0,
+    rowHeight: 50.0,
     headerHeight: 85.0,
     headerBuilder: (context, contentBuilder) {
       return Container(
@@ -66,11 +67,14 @@ class _LeagueTableContent extends StatelessWidget {
         child: contentBuilder(context, (context, column) {
           switch (column) {
             case 0:
-              return _buildHeaderCell('#');
+              return _buildHeaderCell('#', align: Alignment.bottomRight);
             case 1:
               return SizedBox.shrink();
             case 2:
-              return _buildHeaderCell('Mannschaft');
+              return _buildHeaderCell(
+                'Mannschaft',
+                align: Alignment.bottomLeft,
+              );
             case 3:
               return _buildHeaderCell('Spiele', rotated: true);
             case 4:
@@ -97,81 +101,71 @@ class _LeagueTableContent extends StatelessWidget {
     },
     rowBuilder: (context, rowId, contentBuilder) {
       final row = tableRows[rowId];
-      return Material(
-        type: MaterialType.transparency,
+      return StripedTableRow(
+        index: rowId,
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         child: contentBuilder(context, (context, column) {
           if (column == 1) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32),
-            );
+            return TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32);
           } else {
-            final text = _cellText(column, row);
-            final align = (column == 2)
-                ? Alignment.centerLeft
-                : Alignment.centerRight;
-            final weight = (column == 4) ? FontWeight.bold : FontWeight.normal;
-            return Container(
-              alignment: align,
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                text,
-                style: TextStyle(fontWeight: weight, fontSize: 14),
-              ),
-            );
+            return _textCell(column, row);
           }
         }),
       );
     },
   );
 
-  String _cellText(int columnId, LeagueTableRow row) {
+  Widget _textCell(int columnId, LeagueTableRow row) {
     switch (columnId) {
       case 0:
-        return '${row.position}';
-      case 1:
-        return 'X';
+        return _buildTextCell('${row.position}');
+      // case 1: /* this column contains the team logo */
       case 2:
-        return row.teamName;
+        return _buildTextCell(row.teamName, align: Alignment.centerLeft);
       case 3:
-        return '${row.games}';
+        return _buildTextCell('${row.games}');
       case 4:
-        return '${row.points}';
+        return _buildTextCell('${row.points}', weight: FontWeight.bold);
       case 5:
-        return '${row.won}';
+        return _buildTextCell('${row.won}');
       case 6:
-        return '${row.draw}';
+        return _buildTextCell('${row.draw}');
       case 7:
-        return '${row.lost}';
+        return _buildTextCell('${row.lost}');
       case 8:
-        return '${row.wonOt}';
+        return _buildTextCell('${row.wonOt}');
       case 9:
-        return '${row.lostOt}';
+        return _buildTextCell('${row.lostOt}');
       case 10:
-        return '${row.goalsScored}:${row.goalsReceived}';
+        return _buildTextCell('${row.goalsScored}:${row.goalsReceived}');
       case 11:
-        return '${row.goalsDiff}';
+        return _buildTextCell('${row.goalsDiff}');
       default:
-        return '';
+        return const Text('');
     }
-    ;
   }
 
-  Widget _scorerData(String text) {
+  Widget _buildTextCell(
+    String text, {
+    Alignment align = Alignment.center,
+    FontWeight weight = FontWeight.normal,
+  }) {
     return Container(
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-      ),
+      alignment: align,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Text(text, style: TextStyle(fontWeight: weight, fontSize: 14)),
     );
   }
 
-  Widget _buildHeaderCell(String text, {bool rotated = false}) {
+  Widget _buildHeaderCell(
+    String text, {
+    bool rotated = false,
+    Alignment align = Alignment.bottomCenter,
+  }) {
     final textColor = Colors.grey[800];
 
     return Container(
-      alignment: Alignment.bottomCenter,
+      alignment: align,
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: rotated
           ? RotatedBox(
@@ -185,13 +179,7 @@ class _LeagueTableContent extends StatelessWidget {
                 ],
               ),
             )
-          : Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _tableHeaderText(text, textColor),
-                const SizedBox(width: 4),
-              ],
-            ),
+          : _tableHeaderText(text, textColor),
     );
   }
 
