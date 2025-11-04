@@ -1,7 +1,7 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
 import 'package:floorball/ui/views/league_details_2/panel_title.dart';
-import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ ExpansionPanelRadio buildLeagueTablePanel(int identifier, int leagueId) {
   );
 }
 
-class _LeagueTableContent extends StatelessWidget {
+class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
   final int leagueId;
 
   const _LeagueTableContent({required this.leagueId});
@@ -27,170 +27,164 @@ class _LeagueTableContent extends StatelessWidget {
     BlocProvider.of<LeagueTableCubit>(context).ensureLeagueTableFor(leagueId);
 
     return BlocBuilder<LeagueTableCubit, LeagueTableState>(
-      builder: (_, tableRows) => SizedBox(
+      builder: (_, tableState) => SizedBox(
         height: 300,
-        child: _buildTable(tableRows.leagueTableOf(leagueId)),
+        child: buildTable(tableState.leagueTableOf(leagueId)),
       ),
     );
   }
 
-  // column TableColumn
-  // heaader text, rotated, align
-  // row text, bold, align
+  @override
+  List<TableColumnDefinition<LeagueTableRow>> get tableDefinition =>
+      _tableDefinition;
 
-  Widget _buildTable(List<LeagueTableRow> tableRows) => TableView.builder(
-    columns: [
-      TableColumn(width: 25), // position
-      TableColumn(width: 40), // logo
-      TableColumn(width: 180), // team name
-      TableColumn(width: 35), // # games
-      TableColumn(width: 35), // points
-      TableColumn(width: 35), // wins
-      TableColumn(width: 35), // draws
-      TableColumn(width: 35), // losses
-      TableColumn(width: 35), // wins overtime
-      TableColumn(width: 35), // losses overtime
-      TableColumn(width: 60), // goals
-      TableColumn(width: 45), // goal difference
-    ],
-    rowCount: tableRows.length,
-    rowHeight: 50.0,
-    headerHeight: 85.0,
-    headerBuilder: (context, contentBuilder) {
-      return Container(
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          border: Border(
-            bottom: BorderSide(color: Colors.grey.shade300, width: 1),
-          ),
-        ),
-        child: contentBuilder(context, (context, column) {
-          switch (column) {
-            case 0:
-              return _buildHeaderCell('#', align: Alignment.bottomRight);
-            case 1:
-              return SizedBox.shrink();
-            case 2:
-              return _buildHeaderCell(
-                'Mannschaft',
-                align: Alignment.bottomLeft,
-              );
-            case 3:
-              return _buildHeaderCell('Spiele', rotated: true);
-            case 4:
-              return _buildHeaderCell('Punkte', rotated: true);
-            case 5:
-              return _buildHeaderCell('Siege', rotated: true);
-            case 6:
-              return _buildHeaderCell('Unentsch.', rotated: true);
-            case 7:
-              return _buildHeaderCell('Niederl.', rotated: true);
-            case 8:
-              return _buildHeaderCell('Siege nV', rotated: true);
-            case 9:
-              return _buildHeaderCell('Niederl. nV', rotated: true);
-            case 10:
-              return _buildHeaderCell('Tore');
-            case 11:
-              return _buildHeaderCell('Tordiff.', rotated: true);
-            default:
-              return const SizedBox.shrink();
-          }
-        }),
-      );
-    },
-    rowBuilder: (context, rowId, contentBuilder) {
-      final row = tableRows[rowId];
-      return StripedTableRow(
-        index: rowId,
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-        child: contentBuilder(context, (context, column) {
-          if (column == 1) {
-            return TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32);
-          } else {
-            return _textCell(column, row);
-          }
-        }),
-      );
-    },
-  );
+  static final List<TableColumnDefinition<LeagueTableRow>> _tableDefinition = [
+    TableColumnDefinition(
+      column: const TableColumn(width: 25), // position
+      headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
+      contentBuilder: (row) => buildTextCell('${row.position}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 40), // logo
+      headerBuilder: () => const SizedBox.shrink(),
+      contentBuilder: (row) =>
+          TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 180), // team name
+      headerBuilder: () =>
+          buildHeaderCell('Mannschaft', align: Alignment.bottomLeft),
+      contentBuilder: (row) =>
+          buildTextCell(row.teamName, align: Alignment.centerLeft),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // # games
+      headerBuilder: () => buildHeaderCell('Spiele', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.games}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // points
+      headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
+      contentBuilder: (row) =>
+          buildTextCell('${row.points}', weight: FontWeight.bold),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // wins
+      headerBuilder: () => buildHeaderCell('Siege', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.won}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // draws
+      headerBuilder: () => buildHeaderCell('Unentsch.', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.draw}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // losses
+      headerBuilder: () => buildHeaderCell('Niederl.', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.lost}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // wins overtime
+      headerBuilder: () => buildHeaderCell('Siege nV', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.wonOt}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 35), // losses overtime
+      headerBuilder: () => buildHeaderCell('Niederl. nV', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.lostOt}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 60), // goals
+      headerBuilder: () => buildHeaderCell('Tore'),
+      contentBuilder: (row) =>
+          buildTextCell('${row.goalsScored}:${row.goalsReceived}'),
+    ),
+    TableColumnDefinition(
+      column: const TableColumn(width: 45), // goal difference
+      headerBuilder: () => buildHeaderCell('Tordiff.', rotated: true),
+      contentBuilder: (row) => buildTextCell('${row.goalsDiff}'),
+    ),
+  ];
 
-  Widget _textCell(int columnId, LeagueTableRow row) {
+  /*
+  @override
+  List<TableColumn> defineColumns() => [
+    TableColumn(width: 25), // position
+    TableColumn(width: 40), // logo
+    TableColumn(width: 180), // team name
+    TableColumn(width: 35), // # games
+    TableColumn(width: 35), // points
+    TableColumn(width: 35), // wins
+    TableColumn(width: 35), // draws
+    TableColumn(width: 35), // losses
+    TableColumn(width: 35), // wins overtime
+    TableColumn(width: 35), // losses overtime
+    TableColumn(width: 60), // goals
+    TableColumn(width: 45), // goal difference
+  ];
+
+  @override
+  Widget buildHeaderForColumn(int columnId) {
     switch (columnId) {
       case 0:
-        return _buildTextCell('${row.position}');
-      // case 1: /* this column contains the team logo */
+        return buildHeaderCell('#', align: Alignment.bottomRight);
+      case 1:
+        return SizedBox.shrink();
       case 2:
-        return _buildTextCell(row.teamName, align: Alignment.centerLeft);
+        return buildHeaderCell('Mannschaft', align: Alignment.bottomLeft);
       case 3:
-        return _buildTextCell('${row.games}');
+        return buildHeaderCell('Spiele', rotated: true);
       case 4:
-        return _buildTextCell('${row.points}', weight: FontWeight.bold);
+        return buildHeaderCell('Punkte', rotated: true);
       case 5:
-        return _buildTextCell('${row.won}');
+        return buildHeaderCell('Siege', rotated: true);
       case 6:
-        return _buildTextCell('${row.draw}');
+        return buildHeaderCell('Unentsch.', rotated: true);
       case 7:
-        return _buildTextCell('${row.lost}');
+        return buildHeaderCell('Niederl.', rotated: true);
       case 8:
-        return _buildTextCell('${row.wonOt}');
+        return buildHeaderCell('Siege nV', rotated: true);
       case 9:
-        return _buildTextCell('${row.lostOt}');
+        return buildHeaderCell('Niederl. nV', rotated: true);
       case 10:
-        return _buildTextCell('${row.goalsScored}:${row.goalsReceived}');
+        return buildHeaderCell('Tore');
       case 11:
-        return _buildTextCell('${row.goalsDiff}');
+        return buildHeaderCell('Tordiff.', rotated: true);
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  @override
+  Widget buildContentForColumn(int columnId, LeagueTableRow row) {
+    switch (columnId) {
+      case 0:
+        return buildTextCell('${row.position}');
+      case 1:
+        return TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32);
+      case 2:
+        return buildTextCell(row.teamName, align: Alignment.centerLeft);
+      case 3:
+        return buildTextCell('${row.games}');
+      case 4:
+        return buildTextCell('${row.points}', weight: FontWeight.bold);
+      case 5:
+        return buildTextCell('${row.won}');
+      case 6:
+        return buildTextCell('${row.draw}');
+      case 7:
+        return buildTextCell('${row.lost}');
+      case 8:
+        return buildTextCell('${row.wonOt}');
+      case 9:
+        return buildTextCell('${row.lostOt}');
+      case 10:
+        return buildTextCell('${row.goalsScored}:${row.goalsReceived}');
+      case 11:
+        return buildTextCell('${row.goalsDiff}');
       default:
         return const Text('');
     }
   }
-
-  Widget _buildTextCell(
-    String text, {
-    Alignment align = Alignment.center,
-    FontWeight weight = FontWeight.normal,
-  }) {
-    return Container(
-      alignment: align,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Text(text, style: TextStyle(fontWeight: weight, fontSize: 14)),
-    );
-  }
-
-  Widget _buildHeaderCell(
-    String text, {
-    bool rotated = false,
-    Alignment align = Alignment.bottomCenter,
-  }) {
-    final textColor = Colors.grey[800];
-
-    return Container(
-      alignment: align,
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: rotated
-          ? RotatedBox(
-              quarterTurns: 3,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 4),
-                  _tableHeaderText(text, textColor),
-                  const SizedBox(width: 4),
-                ],
-              ),
-            )
-          : _tableHeaderText(text, textColor),
-    );
-  }
-
-  Widget _tableHeaderText(String text, Color? color) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 12,
-        color: color ?? Colors.grey[800],
-      ),
-    );
-  }
+   */
 }
