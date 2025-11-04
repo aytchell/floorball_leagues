@@ -56,7 +56,7 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
       final row = rows[rowId];
       return StripedTableRow(
         index: rowId,
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: contentBuilder(context, (context, column) {
           return _buildContentForColumn(column, row);
         }),

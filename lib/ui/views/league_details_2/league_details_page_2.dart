@@ -2,6 +2,7 @@ import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details_2/league_table_panel.dart';
+import 'package:floorball/ui/views/league_details_2/scorer_panel.dart';
 import 'package:floorball/ui/views/league_details_2/void_table_panel.dart';
 import 'package:flutter/material.dart';
 
@@ -56,18 +57,13 @@ class Item {
 }
 
 List<ExpansionPanelRadio> generateItems(int numberOfItems) {
-  final list = [
-    Item(id: 2, headerValue: 'Scorer', expandedValue: 'Here be Scorer-Liste'),
-  ];
-  list.addAll(
-    List<Item>.generate(numberOfItems - 3, (int index) {
-      return Item(
-        id: index + 3,
-        headerValue: 'Panel $index',
-        expandedValue: 'This is item number $index',
-      );
-    }),
-  );
+  final list = List<Item>.generate(numberOfItems - 3, (int index) {
+    return Item(
+      id: index + 3,
+      headerValue: 'Panel $index',
+      expandedValue: 'This is item number $index',
+    );
+  });
   return list
       .map(
         (item) => ExpansionPanelRadio(
@@ -100,7 +96,8 @@ class _LeagueDetailsBody extends StatelessWidget {
     return [
       buildLeagueInfoPanel(0, league),
       _buildTablePanel(1, league.id, league.leagueType),
-      ...generateItems(7),
+      buildScorerPanel(2, league.id),
+      ...generateItems(6),
     ];
   }
 
