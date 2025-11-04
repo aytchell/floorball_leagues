@@ -6,7 +6,7 @@ ExpansionPanelRadio buildVoidTablePanel(int identifier, String text) {
     value: identifier,
     canTapOnHeader: true,
     headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: text),
+        PanelTitle(text: text, color: Colors.black45, bold: false),
     body: ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
