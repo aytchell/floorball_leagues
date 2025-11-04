@@ -1,3 +1,5 @@
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/selected_season_cubit.dart';
 import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
@@ -26,26 +28,29 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
   Widget build(BuildContext context) {
     BlocProvider.of<ScorerCubit>(context).updateScorersFor(leagueId);
 
-    return BlocBuilder<ScorerCubit, ScorerState>(
-      builder: (_, scorerState) => SizedBox(
-        height: 300,
-        child: buildTable(
-          _tableDefinition,
-          scorerState.scorersOf(leagueId),
-          headerHeight: 80.0,
-          rowHeight: 60.0,
+    return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+      builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
+        builder: (_, scorerState) => SizedBox(
+          height: 300,
+          child: buildTable(
+            (season != null && season.id >= firstSeasonIdWithNewPenalties)
+                ? _tableDefinitionPenalty2and2
+                : _tableDefinitionPenalty5,
+            scorerState.scorersOf(leagueId),
+            headerHeight: 80.0,
+            rowHeight: 60.0,
+          ),
         ),
       ),
     );
   }
 
-  static final List<TableColumnDefinition<Scorer>> _tableDefinition = [
-    TableColumnDefinition(
-      column: const TableColumn(width: 25), // position
-      headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
-      contentBuilder: (row) => buildTextCell('${row.position}'),
-    ),
-    /*
+  static final _position = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 25),
+    headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
+    contentBuilder: (row) => buildTextCell('${row.position}'),
+  );
+  /*
     TableColumnDefinition(
       column: const TableColumn(width: 40), // logo
       headerBuilder: () => const SizedBox.shrink(),
@@ -53,60 +58,127 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
           TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32),
     ),
     */
-    TableColumnDefinition(
-      column: const TableColumn(width: 180), // player's name
-      headerBuilder: () =>
-          buildHeaderCell('Spieler:in', align: Alignment.bottomLeft),
-      contentBuilder: (row) => buildPlayerCell(row.fullName, row.teamName),
+
+  static final _playersName = TableColumnDefinition<Scorer>(
+    column: const TableColumn(
+      width: 180,
+      minResizeWidth: 180,
+      maxResizeWidth: 350,
+      freezePriority: 300,
     ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // # games
-      headerBuilder: () => buildHeaderCell('Spiele', rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.games}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // points
-      headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
-      contentBuilder: (row) =>
-          buildTextCell('${row.points}', weight: FontWeight.bold),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // goals
-      headerBuilder: () => buildHeaderCell('Tore', rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.goals}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // assists
-      headerBuilder: () =>
-          withBorderOnRight(buildHeaderCell('Vorlagen', rotated: true)),
-      contentBuilder: (row) =>
-          withBorderOnRight(buildTextCell('${row.assists}')),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // 2' penalties
-      headerBuilder: () => buildHeaderCell("2'", rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.penalty2}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // 2'+2' penalties
-      headerBuilder: () => buildHeaderCell("2'+2'", rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.penalty2and2}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // 10' penalties
-      headerBuilder: () => buildHeaderCell("10'", rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.penalty10}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // match penalty (technical)
-      headerBuilder: () => buildHeaderCell('MS (tech)', rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.penaltyMsTech}'),
-    ),
-    TableColumnDefinition(
-      column: const TableColumn(width: 35), // match penalty (full)
-      headerBuilder: () => buildHeaderCell('MS', rotated: true),
-      contentBuilder: (row) => buildTextCell('${row.penaltyMsFull}'),
-    ),
+    headerBuilder: () =>
+        buildHeaderCell('Spieler:in', align: Alignment.bottomLeft),
+    contentBuilder: (row) => buildPlayerCell(row.fullName, row.teamName),
+  );
+
+  static final _numGames = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('Spiele', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.games}'),
+  );
+
+  static final _points = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
+    contentBuilder: (row) =>
+        buildTextCell('${row.points}', weight: FontWeight.bold),
+  );
+
+  static final _numGoals = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('Tore', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.goals}'),
+  );
+
+  static final _numAssists = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () =>
+        withBorderOnRight(buildHeaderCell('Vorlagen', rotated: true)),
+    contentBuilder: (row) => withBorderOnRight(buildTextCell('${row.assists}')),
+  );
+
+  static final _penalty2 = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell("2'", rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penalty2}'),
+  );
+
+  static final _penalty5 = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell("5'", rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penalty5}'),
+  );
+
+  static final _penalty2and2 = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell("2'+2'", rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penalty2and2}'),
+  );
+
+  static final _penalty10 = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell("10'", rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penalty10}'),
+  );
+
+  static final _penaltyMatchOne = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('MS 1', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penaltyMs1}'),
+  );
+
+  static final _penaltyMatchTwo = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('MS 2', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penaltyMs2}'),
+  );
+
+  static final _penaltyMatchThree = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('MS 3', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penaltyMs3}'),
+  );
+
+  static final _penaltyMatchTechnical = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('MS (tech)', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penaltyMsTech}'),
+  );
+
+  static final _penaltyMatchFull = TableColumnDefinition<Scorer>(
+    column: const TableColumn(width: 35),
+    headerBuilder: () => buildHeaderCell('MS', rotated: true),
+    contentBuilder: (row) => buildTextCell('${row.penaltyMsFull}'),
+  );
+
+  static final List<TableColumnDefinition<Scorer>> _tableDefinitionPenalty5 = [
+    _position,
+    _playersName,
+    _numGames,
+    _points,
+    _numGoals,
+    _numAssists,
+    _penalty2,
+    _penalty5,
+    _penalty10,
+    _penaltyMatchOne,
+    _penaltyMatchTwo,
+    _penaltyMatchThree,
+  ];
+
+  static final List<TableColumnDefinition<Scorer>>
+  _tableDefinitionPenalty2and2 = [
+    _position,
+    _playersName,
+    _numGames,
+    _points,
+    _numGoals,
+    _numAssists,
+    _penalty2,
+    _penalty2and2,
+    _penalty10,
+    _penaltyMatchTechnical,
+    _penaltyMatchFull,
   ];
 }
 
