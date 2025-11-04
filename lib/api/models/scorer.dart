@@ -1,3 +1,7 @@
+// Up to season 13 (2021/2022) we had penalties 2', 5', 10' as well as match penalty 1, 2 and 3
+// This changed with season 14; now we have 2', 2+2', 10' and technical and "full" match penalty
+final int firstSeasonIdWithNewPenalties = 14;
+
 class Scorer {
   int games;
   int goals;
