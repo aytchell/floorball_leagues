@@ -1,3 +1,4 @@
+import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
   final availableOperationsCubit = AvailableOperationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
   late final leaguesCubit = LeaguesCubit(apiRepository);
+  late final leagueGameDayCubit = LeagueGameDayCubit(apiRepository);
   late final scorerCubit = ScorerCubit(apiRepository);
   late final leagueTableCubit = LeagueTableCubit(apiRepository);
 
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableOperationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: leaguesCubit),
+          BlocProvider.value(value: leagueGameDayCubit),
           BlocProvider.value(value: scorerCubit),
           BlocProvider.value(value: leagueTableCubit),
         ],

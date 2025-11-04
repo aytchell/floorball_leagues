@@ -1,9 +1,12 @@
+import 'package:floorball/api/impls/game_impl.dart';
 import 'package:floorball/api/impls/scorer_parser.dart';
+import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'impls/game_operation_league_impl.dart';
 import 'impls/league_table_fetcher.dart';
@@ -30,6 +33,19 @@ class ApiRepository {
         return json
             .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
             .toList();
+      },
+    ),
+  );
+
+  Future<Stream<List<Game>>> getGamesOfGameDay(
+    int leagueId,
+    int gameDayNumber,
+  ) => RestClient.instance.then(
+    (client) => client.streamApiDataSync(
+      '/api/v2/leagues/$leagueId/game_days/$gameDayNumber/schedule.json',
+      (data) {
+        final json = data as List<dynamic>;
+        return json.map((game) => GameImpl.fromJson(client, game)).toList();
       },
     ),
   );

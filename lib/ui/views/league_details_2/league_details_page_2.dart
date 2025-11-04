@@ -1,5 +1,7 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/ui/views/league_details_2/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details_2/league_table_panel.dart';
 import 'package:floorball/ui/views/league_details_2/scorer_panel.dart';
@@ -43,41 +45,6 @@ class LeagueDetailsPage2 extends StatelessWidget {
   }
 }
 
-// stores ExpansionPanel state information
-class Item {
-  Item({
-    required this.id,
-    required this.expandedValue,
-    required this.headerValue,
-  });
-
-  int id;
-  String expandedValue;
-  String headerValue;
-}
-
-List<ExpansionPanelRadio> generateItems(int numberOfItems) {
-  final list = List<Item>.generate(numberOfItems - 3, (int index) {
-    return Item(
-      id: index + 3,
-      headerValue: 'Panel $index',
-      expandedValue: 'This is item number $index',
-    );
-  });
-  return list
-      .map(
-        (item) => ExpansionPanelRadio(
-          value: item.id,
-          canTapOnHeader: true,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(title: Text(item.headerValue));
-          },
-          body: ListTile(title: Text(item.expandedValue)),
-        ),
-      )
-      .toList();
-}
-
 class _LeagueDetailsBody extends StatelessWidget {
   const _LeagueDetailsBody({required this.league});
   final GameOperationLeague league;
@@ -97,7 +64,7 @@ class _LeagueDetailsBody extends StatelessWidget {
       buildLeagueInfoPanel(0, league),
       _buildTablePanel(1, league.id, league.leagueType),
       buildScorerPanel(2, league.id),
-      ...generateItems(6),
+      ...buildGameDayPanels(3, league.id, league.gameDayTitles),
     ];
   }
 
