@@ -30,6 +30,7 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
       builder: (_, scorerState) => SizedBox(
         height: 300,
         child: buildTable(
+          _tableDefinition,
           scorerState.scorersOf(leagueId),
           headerHeight: 80.0,
           rowHeight: 60.0,
@@ -37,9 +38,6 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
       ),
     );
   }
-
-  @override
-  List<TableColumnDefinition<Scorer>> get tableDefinition => _tableDefinition;
 
   static final List<TableColumnDefinition<Scorer>> _tableDefinition = [
     TableColumnDefinition(

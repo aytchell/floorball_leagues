@@ -29,14 +29,10 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
     return BlocBuilder<LeagueTableCubit, LeagueTableState>(
       builder: (_, tableState) => SizedBox(
         height: 300,
-        child: buildTable(tableState.leagueTableOf(leagueId)),
+        child: buildTable(_tableDefinition, tableState.leagueTableOf(leagueId)),
       ),
     );
   }
-
-  @override
-  List<TableColumnDefinition<LeagueTableRow>> get tableDefinition =>
-      _tableDefinition;
 
   static final List<TableColumnDefinition<LeagueTableRow>> _tableDefinition = [
     TableColumnDefinition(

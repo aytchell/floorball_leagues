@@ -18,24 +18,13 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
   const GenericStripedTable({super.key});
 
   @protected
-  List<TableColumnDefinition<T>> get tableDefinition;
-
-  List<TableColumn> _defineColumns() =>
-      tableDefinition.map((def) => def.column).toList();
-
-  Widget _buildHeaderForColumn(int columnId) =>
-      tableDefinition[columnId].headerBuilder();
-
-  Widget _buildContentForColumn(int columnId, T row) =>
-      tableDefinition[columnId].contentBuilder(row);
-
-  @protected
   Widget buildTable(
+    List<TableColumnDefinition<T>> tableDefinition,
     List<T> rows, {
     double headerHeight = 85.0,
     double rowHeight = 50.0,
   }) => TableView.builder(
-    columns: _defineColumns(),
+    columns: tableDefinition.map((def) => def.column).toList(),
     rowCount: rows.length,
     rowHeight: rowHeight,
     headerHeight: headerHeight,
@@ -47,9 +36,10 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
             bottom: BorderSide(color: Colors.grey.shade300, width: 1),
           ),
         ),
-        child: contentBuilder(context, (context, columnId) {
-          return _buildHeaderForColumn(columnId);
-        }),
+        child: contentBuilder(
+          context,
+          (context, columnId) => tableDefinition[columnId].headerBuilder(),
+        ),
       );
     },
     rowBuilder: (context, rowId, contentBuilder) {
@@ -57,9 +47,10 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
       return StripedTableRow(
         index: rowId,
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-        child: contentBuilder(context, (context, column) {
-          return _buildContentForColumn(column, row);
-        }),
+        child: contentBuilder(
+          context,
+          (context, columnId) => tableDefinition[columnId].contentBuilder(row),
+        ),
       );
     },
   );
