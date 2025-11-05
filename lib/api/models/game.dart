@@ -6,7 +6,7 @@ import 'logo_host.dart';
 import 'date_formatter.dart';
 import 'package:floorball/utils/date_time_utils.dart';
 
-abstract class Game {
+class Game {
   int gameId;
   int gameNumber;
   int gameDay;
@@ -91,6 +91,4 @@ abstract class Game {
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
   String? get beautifiedDate => beautifyDate(date!);
-
-  Stream<Future<DetailedGame>> getDetailedVersion();
 }

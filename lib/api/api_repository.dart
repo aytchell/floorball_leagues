@@ -1,5 +1,5 @@
 import 'package:floorball/api/impls/detailed_game_fetcher.dart';
-import 'package:floorball/api/impls/game_impl.dart';
+import 'package:floorball/api/impls/game_parser.dart';
 import 'package:floorball/api/impls/scorer_parser.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
@@ -46,7 +46,7 @@ class ApiRepository {
       '/api/v2/leagues/$leagueId/game_days/$gameDayNumber/schedule.json',
       (data) {
         final json = data as List<dynamic>;
-        return json.map((game) => GameImpl.fromJson(client, game)).toList();
+        return json.map((game) => parseGame(game)).toList();
       },
     ),
   );
