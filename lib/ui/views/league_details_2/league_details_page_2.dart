@@ -20,6 +20,8 @@ class LeagueDetailsPage2 extends StatelessWidget {
   final int leagueId;
   final String leagueName;
 
+  static const String routePath = '/league_details';
+
   @override
   Widget build(BuildContext context) {
     return MainAppScaffold(

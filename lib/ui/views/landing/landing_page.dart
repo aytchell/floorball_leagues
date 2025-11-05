@@ -1,6 +1,6 @@
 import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/routes.dart';
 import 'package:floorball/selected_season_cubit.dart';
-import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';

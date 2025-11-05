@@ -3,16 +3,13 @@ import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
-import 'package:floorball/ui/views/leagues_list/leagues_list_page_route.dart';
+import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:logging/logging.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:floorball/selected_season_cubit.dart';
-import 'package:floorball/ui/views/landing/landing_page.dart';
-import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';
@@ -29,21 +26,6 @@ void setupLogging() {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 }
-
-final _router = GoRouter(
-  initialLocation: LandingPage.routePath,
-  routes: [
-    GoRoute(
-      path: LandingPage.routePath,
-      builder: (context, state) => LandingPage(),
-    ),
-    GoRoute(
-      path: SeasonSelectorPage.routePath,
-      builder: (context, state) => SeasonSelectorPage(),
-    ),
-    ...$appRoutes,
-  ],
-);
 
 void main() {
   setupLogging();
@@ -87,7 +69,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          routerConfig: _router,
+          routerConfig: buildRouter(),
         ),
       ),
     );
