@@ -17,8 +17,11 @@ class LeaguesListPageRoute extends GoRouteData with $LeaguesListPageRoute {
   const LeaguesListPageRoute({required this.gameOperationId});
 
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return LeaguesListPage(gameOperationId: gameOperationId);
+  NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      key: state.pageKey,
+      child: LeaguesListPage(gameOperationId: gameOperationId),
+    );
   }
 }
 
@@ -34,8 +37,11 @@ class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
   });
 
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return LeagueDetailsPage2(leagueId: leagueId, leagueName: leagueName);
+  NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      key: state.pageKey,
+      child: LeagueDetailsPage2(leagueId: leagueId, leagueName: leagueName),
+    );
   }
 }
 
@@ -44,11 +50,13 @@ GoRouter buildRouter() => GoRouter(
   routes: [
     GoRoute(
       path: LandingPage.routePath,
-      builder: (context, state) => LandingPage(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: LandingPage()),
     ),
     GoRoute(
       path: SeasonSelectorPage.routePath,
-      builder: (context, state) => SeasonSelectorPage(),
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: SeasonSelectorPage()),
     ),
     ...$appRoutes,
   ],
