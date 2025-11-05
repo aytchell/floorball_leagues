@@ -1,7 +1,7 @@
+import 'package:floorball/api/blocs/detailed_games_cubit.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
 
-import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
@@ -13,60 +13,34 @@ import 'package:floorball/ui/views/game_details/details/awarded_players.dart';
 import 'package:floorball/ui/views/game_details/details/events_of_period.dart';
 import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GameDetailPage extends StatefulWidget {
+class GameDetailPage extends StatelessWidget {
   final String leagueName;
-  final Game game;
+  final int gameId;
 
   const GameDetailPage({
     super.key,
     required this.leagueName,
-    required this.game,
+    required this.gameId,
   });
 
   @override
-  State<GameDetailPage> createState() => _GameDetailPageState();
-}
-
-class _GameDetailPageState extends State<GameDetailPage> {
-  DetailedGame? _detailedGame;
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  void _setStateFromDetailedGame(DetailedGame detailedGame) {
-    setState(() {
-      _detailedGame = detailedGame;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _loadData() async {
-    widget.game.getDetailedVersion().forEach((futureGame) {
-      futureGame.then((game) => _setStateFromDetailedGame(game));
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DetailedGamesCubit>(context).updateGame(gameId);
+
     return MainAppScaffold(
-      title: widget.leagueName,
+      title: leagueName,
       showBackButton: true,
-      body: _buildBody(),
+      body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
+        builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
+      ),
     );
   }
 
-  Widget _buildBody() {
-    if (_isLoading) {
+  Widget _buildBody(DetailedGame? detailedGame) {
+    if (detailedGame == null) {
       return const LoadingSpinner(title: 'Lade Spieldetails ...');
-    }
-
-    if (_detailedGame == null) {
-      return const Center(child: Text('Keine Spieldetails gefunden'));
     }
 
     return SingleChildScrollView(
@@ -74,18 +48,18 @@ class _GameDetailPageState extends State<GameDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildGameHeader(),
+          _buildGameHeader(detailedGame),
           const SizedBox(height: 24),
-          ..._buildGameDetails(),
+          ..._buildGameDetails(detailedGame),
           const SizedBox(height: 24),
-          GameMetaData(game: _detailedGame!),
+          GameMetaData(game: detailedGame),
         ],
       ),
     );
   }
 
-  List<Widget> _buildGameDetails() {
-    if (_detailedGame!.currentPeriodTitle == null) {
+  List<Widget> _buildGameDetails(DetailedGame detailedGame) {
+    if (detailedGame.currentPeriodTitle == null) {
       return [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -99,19 +73,17 @@ class _GameDetailPageState extends State<GameDetailPage> {
       ];
     }
     return [
-      _buildGameEvents(),
+      _buildGameEvents(detailedGame),
       const SizedBox(height: 24),
-      TeamLineup(game: _detailedGame!),
+      TeamLineup(game: detailedGame),
       const SizedBox(height: 24),
-      StartingSix(game: _detailedGame!),
+      StartingSix(game: detailedGame),
       const SizedBox(height: 24),
-      AwardedPlayers(game: _detailedGame!),
+      AwardedPlayers(game: detailedGame),
     ];
   }
 
-  Widget _buildGameHeader() {
-    final game = _detailedGame!;
-
+  Widget _buildGameHeader(DetailedGame detailedGame) {
     return Card(
       elevation: 2,
       child: Padding(
@@ -121,25 +93,25 @@ class _GameDetailPageState extends State<GameDetailPage> {
             Row(
               children: [
                 // Home team
-                _buildTeam(game.homeLogoUri, game.homeTeamName),
+                _buildTeam(detailedGame.homeLogoUri, detailedGame.homeTeamName),
 
                 // Score/Time
                 Expanded(
                   child: Column(
                     children: [
-                      if (game.ended || game.started)
+                      if (detailedGame.ended || detailedGame.started)
                         Text(
-                          game.resultString ?? '- : -',
+                          detailedGame.resultString ?? '- : -',
                           style: AppTextStyles.gameCardResultFont.copyWith(
                             fontSize: 24,
-                            color: game.started && !game.ended
+                            color: detailedGame.started && !detailedGame.ended
                                 ? Colors.pink
                                 : Colors.black,
                           ),
                         )
                       else
                         Text(
-                          '${game.startTime ?? '??:??'} Uhr',
+                          '${detailedGame.startTime ?? '??:??'} Uhr',
                           style: AppTextStyles.gameCardResultFont,
                         ),
 
@@ -151,11 +123,11 @@ class _GameDetailPageState extends State<GameDetailPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: _getGameStatusColor(),
+                          color: _getGameStatusColor(detailedGame),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          _getGameStatusText(),
+                          _getGameStatusText(detailedGame),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 12,
@@ -168,7 +140,10 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 ),
 
                 // Guest team
-                _buildTeam(game.guestLogoUri, game.guestTeamName),
+                _buildTeam(
+                  detailedGame.guestLogoUri,
+                  detailedGame.guestTeamName,
+                ),
               ],
             ),
           ],
@@ -193,15 +168,13 @@ class _GameDetailPageState extends State<GameDetailPage> {
     );
   }
 
-  Color _getGameStatusColor() {
-    final game = _detailedGame!;
+  Color _getGameStatusColor(DetailedGame game) {
     if (game.ended) return Colors.green;
     if (game.started) return Colors.orange;
     return Colors.blue;
   }
 
-  String _getGameStatusText() {
-    final game = _detailedGame!;
+  String _getGameStatusText(DetailedGame game) {
     if (game.ended) return 'Beendet';
     if (game.started) return 'Läuft';
     return 'Geplant';
@@ -214,8 +187,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
     ).map((k, v) => MapEntry(k, v[0].name));
   }
 
-  Widget _buildGameEvents() {
-    final game = _detailedGame!;
+  Widget _buildGameEvents(DetailedGame game) {
     final sortedPeriods = game.periodTitles;
     sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
     final groupedEvents = groupBy(game.events, (event) => event.period);

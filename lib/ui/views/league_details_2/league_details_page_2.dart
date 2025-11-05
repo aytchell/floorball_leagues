@@ -1,5 +1,4 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
-import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details_2/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';

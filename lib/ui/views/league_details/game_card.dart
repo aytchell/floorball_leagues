@@ -60,8 +60,10 @@ class GameCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>
-                GameDetailPage(leagueName: leagueName, game: game.game),
+            builder: (context) => GameDetailPage(
+              leagueName: leagueName,
+              gameId: game.game.gameId,
+            ),
           ),
         );
       },

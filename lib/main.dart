@@ -1,3 +1,4 @@
+import 'package:floorball/api/blocs/detailed_games_cubit.dart';
 import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
   late final leagueGameDayCubit = LeagueGameDayCubit(apiRepository);
   late final scorerCubit = ScorerCubit(apiRepository);
   late final leagueTableCubit = LeagueTableCubit(apiRepository);
+  late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +78,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: leagueGameDayCubit),
           BlocProvider.value(value: scorerCubit),
           BlocProvider.value(value: leagueTableCubit),
+          BlocProvider.value(value: detailedGamesCubit),
         ],
         child: MaterialApp.router(
           title: 'Game Operations Grid',

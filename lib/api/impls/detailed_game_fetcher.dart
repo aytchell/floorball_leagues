@@ -14,7 +14,7 @@ import 'package:floorball/api/impls/player_parser.dart';
 import 'package:floorball/api/impls/starting_player_parser.dart';
 import 'package:floorball/api/impls/award_parser.dart';
 
-DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
+DetailedGame parseDetailedGame(Map<String, dynamic> json) {
   var eventsJson = json['events'] as List;
   var periodTitlesJson = json['period_titles'] as List;
   var refereesJson = json['referees'] as List;
@@ -80,6 +80,6 @@ DetailedGame _parseDetailedGame(Map<String, dynamic> json) {
 Stream<Future<DetailedGame>> fetchDetailedGame(RestClient client, int gameId) {
   return client.streamApiData(
     '/api/v2/games/$gameId.json',
-    (data) => _parseDetailedGame(data as Map<String, dynamic>),
+    (data) => parseDetailedGame(data as Map<String, dynamic>),
   );
 }

@@ -1,7 +1,6 @@
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
 import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
-import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
