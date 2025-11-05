@@ -17,15 +17,19 @@ class TeamLogo extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: uri,
-      fit: BoxFit.contain,
+  Widget build(BuildContext context) => Center(
+    child: SizedBox(
       width: width,
       height: height,
-      errorWidget: (w, h) => _buildLogoReplacement(w, h),
-    );
-  }
+      child: CachedNetworkImage(
+        imageUrl: uri,
+        fit: BoxFit.contain,
+        width: width,
+        height: height,
+        errorWidget: (w, h) => _buildLogoReplacement(w, h),
+      ),
+    ),
+  );
 
   static Widget _buildLogoReplacement(double? width, double? height) {
     return SvgPicture.asset(
