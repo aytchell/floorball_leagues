@@ -63,7 +63,7 @@ class NothingFoundInfoBox extends StatelessWidget {
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
+                                Colors.grey[50]!,
                               ),
                             ),
                           )
@@ -71,7 +71,7 @@ class NothingFoundInfoBox extends StatelessWidget {
                     label: Text(isLoading ? 'Loading...' : 'Try Again'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[600],
-                      foregroundColor: Colors.white,
+                      foregroundColor: Colors.grey[50],
                       padding: const EdgeInsets.symmetric(
                         horizontal: 24,
                         vertical: 12,

@@ -26,7 +26,7 @@ class StripedTableRow extends StatelessWidget {
     final isEven = index % 2 == 0;
     final bg = isEven
         ? (evenColor ?? Colors.grey.shade50)
-        : (oddColor ?? Colors.white);
+        : (oddColor ?? Colors.grey[50]);
     final border = index > 0
         ? Border(
             top: BorderSide(

@@ -70,7 +70,7 @@ class _ScorerCardState extends State<ExpandableScorerCard> {
         width: double.infinity,
         padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey[50],
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
@@ -104,7 +104,7 @@ class _ScorerCardState extends State<ExpandableScorerCard> {
       margin: EdgeInsets.only(bottom: 8.0),
       padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[50],
         borderRadius: BorderRadius.circular(6.0),
         border: Border.all(color: Colors.grey.shade200),
       ),

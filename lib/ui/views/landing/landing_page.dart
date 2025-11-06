@@ -62,7 +62,7 @@ class LandingPage extends StatelessWidget {
           return GameOperationCard(
             gameOperation: gameOp,
             onTap: () =>
-                LeaguesListPageRoute(gameOperationId: gameOp.id).go(context),
+                LeaguesListPageRoute(gameOperationId: gameOp.id).push(context),
           );
         },
       ),

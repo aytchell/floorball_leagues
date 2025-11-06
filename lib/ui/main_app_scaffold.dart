@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 
+final Color backgroundColor = Color.fromARGB(255, 231, 231, 231);
+
 class MainAppScaffold extends StatelessWidget {
   final String title;
   final Widget body;
@@ -30,10 +32,11 @@ class MainAppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(title, maxLines: 2),
         backgroundColor: Colors.blue[600],
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.grey[50],
         automaticallyImplyLeading: showBackButton,
         actions: actions,
       ),
@@ -47,7 +50,7 @@ class MainAppScaffold extends StatelessWidget {
   Widget _buildBottomNavigationBar(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[50],
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -75,7 +78,7 @@ class MainAppScaffold extends StatelessWidget {
                 isEnabled: !isSeasonPicker,
                 onTap: isSeasonPicker
                     ? null
-                    : () => context.go(SeasonSelectorPage.routePath),
+                    : () => context.push(SeasonSelectorPage.routePath),
               ),
               const Spacer(),
               BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(

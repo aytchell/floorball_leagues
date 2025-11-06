@@ -10,6 +10,21 @@ import 'package:floorball/api/models/game_operation_league.dart';
 import 'package:floorball/ui/views/league_details/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('LeaguesListPage');
+
+final TextStyle blackTextStyle = TextStyle(
+  color: Color.fromARGB(255, 0, 0, 0),
+  fontSize: 16,
+  fontWeight: FontWeight.w700,
+);
+
+final TextStyle textStyle = TextStyle(
+  color: Color.fromARGB(255, 97, 97, 97),
+  fontSize: 16,
+  fontWeight: FontWeight.w600,
+);
 
 class LeaguesListPage extends StatelessWidget {
   final int gameOperationId;
@@ -70,6 +85,7 @@ class LeaguesListPage extends StatelessWidget {
     List<GameOperationLeague> leagues,
   ) {
     return ListView.builder(
+      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 24.0),
       itemCount: leagues.length,
       itemBuilder: (context, index) {
         return ListTile(
@@ -88,18 +104,38 @@ class LeaguesListPage extends StatelessWidget {
                 LeagueDetailsPageRoute(
                   leagueId: leagues[index].id,
                   leagueName: leagues[index].name,
-                ).go(context);
+                ).push(context);
               }
             },
             style: TextButton.styleFrom(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.zero,
             ),
-            child: Text(leagues[index].name),
+            child: _highlightYouthSelector(leagues[index].name),
           ),
         );
       },
     );
+  }
+
+  static final regEx = RegExp(r'^(.*)(U\d{1,2}|Herren|Damen)(.*)$');
+
+  Widget _highlightYouthSelector(String text) {
+    final match = regEx.firstMatch(text);
+
+    if (match == null) {
+      return Text(text, style: textStyle);
+    } else {
+      return Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(text: match.group(1), style: textStyle),
+            TextSpan(text: match.group(2), style: blackTextStyle),
+            TextSpan(text: match.group(3), style: textStyle),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildNothingFoundInfo(BuildContext context) {

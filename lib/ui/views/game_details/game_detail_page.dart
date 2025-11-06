@@ -128,8 +128,8 @@ class GameDetailPage extends StatelessWidget {
                         ),
                         child: Text(
                           _getGameStatusText(detailedGame),
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Colors.grey[50],
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),

@@ -17,6 +17,7 @@ class GameOperationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
+      color: Colors.grey[50],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
@@ -38,13 +39,13 @@ class GameOperationCard extends StatelessWidget {
                       )
                     : Container(
                         decoration: BoxDecoration(
-                          color: Colors.yellow, //Colors.grey[300],
+                          color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
                           Icons.image_not_supported,
                           size: 50,
-                          color: Colors.black, //Colors.grey[600],
+                          color: Colors.grey[600],
                         ),
                       ),
               ),

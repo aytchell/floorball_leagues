@@ -201,7 +201,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
         width: double.infinity,
         padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.grey[50],
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
@@ -244,7 +244,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
     return Container(
       margin: EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[50],
         borderRadius: BorderRadius.circular(8.0),
         border: Border.all(color: Colors.grey.shade200),
       ),

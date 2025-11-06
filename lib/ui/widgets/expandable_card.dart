@@ -56,7 +56,7 @@ class ExpandableCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: isExpanded
               ? (expandedBackgroundColor ?? Colors.blue[50])
-              : Colors.white,
+              : Colors.grey[50],
           borderRadius: isExpanded
               ? BorderRadius.only(
                   topLeft: Radius.circular(4),

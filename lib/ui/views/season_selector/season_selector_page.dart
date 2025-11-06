@@ -132,7 +132,7 @@ class SeasonSelectorPage extends StatelessWidget {
         onTap: () {
           // Update the global state
           BlocProvider.of<SelectedSeasonCubit>(context).seasonSelected(season);
-          context.go(LandingPage.routePath);
+          context.push(LandingPage.routePath);
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         selected: isSelected,
@@ -150,7 +150,7 @@ class SeasonSelectorPage extends StatelessWidget {
           color: Colors.blue[600],
           shape: BoxShape.circle,
         ),
-        child: Icon(Icons.check, color: Colors.white, size: 16),
+        child: Icon(Icons.check, color: Colors.grey[50], size: 16),
       );
     } else {
       return Icon(
@@ -172,7 +172,7 @@ class SeasonSelectorPage extends StatelessWidget {
         child: Text(
           'Aktuell',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.grey[50],
             fontSize: 11,
             fontWeight: FontWeight.w600,
           ),
