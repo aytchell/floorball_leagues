@@ -1,3 +1,4 @@
+import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -41,95 +42,102 @@ class GamesOverviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Zeit (Date & Time)
-          Row(
-            children: [
-              const Icon(Icons.schedule, size: 22, color: Colors.grey),
-              const SizedBox(width: 4),
-              Text(
-                _formatDateTime(),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-
-          // Ort
-          if (game.hostingClub != null) ...[
+    return InkWell(
+      onTap: () => GameDetailsPageRoute(gameId: game.gameId).push(context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Zeit (Date & Time)
             Row(
               children: [
-                const Icon(Icons.location_on, size: 22, color: Colors.grey),
+                const Icon(Icons.schedule, size: 22, color: Colors.grey),
                 const SizedBox(width: 4),
+                Text(
+                  _formatDateTime(),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            // Ort
+            if (game.hostingClub != null) ...[
+              Row(
+                children: [
+                  const Icon(Icons.location_on, size: 22, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      '${game.hostingClub}',
+                      style: const TextStyle(fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 8),
+
+            // Gegner
+            if (game.hostingClub != null) ...[
+              Row(
+                children: [
+                  // const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Expanded(child: _buildOpponentsName(game)),
+                ],
+              ),
+              const SizedBox(height: 12),
+            ],
+
+            // Teams and Result
+            Row(
+              children: [
+                // Home Team
                 Expanded(
-                  child: Text(
-                    '${game.hostingClub}',
-                    style: const TextStyle(fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(width: 8),
+                      TeamLogo(
+                        uri: game.homeLogoSmallUri,
+                        height: 25,
+                        width: 25,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // VS divider and result
+                _buildResult(game),
+
+                // Guest Team
+                Expanded(
+                  flex: 2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TeamLogo(
+                        uri: game.guestLogoSmallUri,
+                        height: 25,
+                        width: 25,
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                   ),
                 ),
               ],
             ),
           ],
-          const SizedBox(height: 8),
-
-          // Gegner
-          if (game.hostingClub != null) ...[
-            Row(
-              children: [
-                // const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
-                const SizedBox(width: 4),
-                Expanded(child: _buildOpponentsName(game)),
-              ],
-            ),
-            const SizedBox(height: 12),
-          ],
-
-          // Teams and Result
-          Row(
-            children: [
-              // Home Team
-              Expanded(
-                flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(width: 8),
-                    TeamLogo(uri: game.homeLogoSmallUri, height: 25, width: 25),
-                  ],
-                ),
-              ),
-
-              // VS divider and result
-              _buildResult(game),
-
-              // Guest Team
-              Expanded(
-                flex: 2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TeamLogo(
-                      uri: game.guestLogoSmallUri,
-                      height: 25,
-                      width: 25,
-                    ),
-                    const SizedBox(width: 8),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
