@@ -16,27 +16,40 @@ import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameDetailPage extends StatelessWidget {
-  final String leagueName;
   final int gameId;
+  final String? leagueName;
 
-  const GameDetailPage({
-    super.key,
-    required this.leagueName,
-    required this.gameId,
-  });
+  static const String routePath = '/game_details';
+
+  const GameDetailPage({super.key, required this.gameId, this.leagueName});
 
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<DetailedGamesCubit>(context).updateGame(gameId);
 
-    return MainAppScaffold(
-      title: leagueName,
-      showBackButton: true,
-      body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
-        builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
-      ),
-    );
+    return (leagueName != null)
+        ? _buildBodyWithLeagueName(leagueName!)
+        : _buildBodyWithoutName();
   }
+
+  Widget _buildBodyWithLeagueName(String leagueName) => MainAppScaffold(
+    title: leagueName,
+    showBackButton: true,
+    body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
+      builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
+    ),
+  );
+
+  Widget _buildBodyWithoutName() =>
+      BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
+        buildWhen: (previous, current) {
+          return previous.detailedVersionOf(gameId)?.leagueName !=
+              current.detailedVersionOf(gameId)?.leagueName;
+        },
+        builder: (_, outerState) => _buildBodyWithLeagueName(
+          outerState.detailedVersionOf(gameId)?.leagueName ?? '',
+        ),
+      );
 
   Widget _buildBody(DetailedGame? detailedGame) {
     if (detailedGame == null) {

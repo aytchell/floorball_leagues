@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'ui/views/game_details/game_detail_page.dart';
 import 'ui/views/landing/landing_page.dart';
 import 'ui/views/league_details_2/league_details_page_2.dart';
 import 'ui/views/leagues_list/leagues_list_page.dart';
@@ -41,6 +42,23 @@ class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
     return NoTransitionPage(
       key: state.pageKey,
       child: LeagueDetailsPage2(leagueId: leagueId, leagueName: leagueName),
+    );
+  }
+}
+
+@TypedGoRoute<GameDetailPageRoute>(path: GameDetailPage.routePath)
+@immutable
+class GameDetailPageRoute extends GoRouteData with $GameDetailPageRoute {
+  final int gameId;
+  final String? leagueName;
+
+  const GameDetailPageRoute({required this.gameId, this.leagueName});
+
+  @override
+  NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      key: state.pageKey,
+      child: GameDetailPage(gameId: gameId, leagueName: leagueName),
     );
   }
 }

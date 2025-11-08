@@ -1,3 +1,4 @@
+import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/app_text_styles.dart';
@@ -57,16 +58,10 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => GameDetailPage(
-              leagueName: leagueName,
-              gameId: game.game.gameId,
-            ),
-          ),
-        );
-      },
+      onTap: () => GameDetailPageRoute(
+        gameId: game.game.gameId,
+        leagueName: leagueName,
+      ).push(context),
       child: Card(
         margin: EdgeInsets.only(bottom: 12.0),
         elevation: 2,
