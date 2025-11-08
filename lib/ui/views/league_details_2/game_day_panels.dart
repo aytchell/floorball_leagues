@@ -78,7 +78,7 @@ class _SingleGameDayContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: InkWell(
-        onTap: () => GameDetailPageRoute(gameId: game.gameId).push(context),
+        onTap: () => GameDetailsPageRoute(gameId: game.gameId).push(context),
         child: Row(
           children: [
             // Left side: Both teams stacked vertically

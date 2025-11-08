@@ -15,13 +15,13 @@ import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GameDetailPage extends StatelessWidget {
+class GameDetailsPage extends StatelessWidget {
   final int gameId;
   final String? leagueName;
 
   static const String routePath = '/game_details';
 
-  const GameDetailPage({super.key, required this.gameId, this.leagueName});
+  const GameDetailsPage({super.key, required this.gameId, this.leagueName});
 
   @override
   Widget build(BuildContext context) {

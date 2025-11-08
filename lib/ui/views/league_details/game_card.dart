@@ -2,7 +2,7 @@ import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/app_text_styles.dart';
-import 'package:floorball/ui/views/game_details/game_detail_page.dart';
+import 'package:floorball/ui/views/game_details/game_details_page.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 
 class GameResultSlice {
@@ -58,7 +58,7 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => GameDetailPageRoute(
+      onTap: () => GameDetailsPageRoute(
         gameId: game.game.gameId,
         leagueName: leagueName,
       ).push(context),
