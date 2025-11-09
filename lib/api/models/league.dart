@@ -7,10 +7,10 @@ import 'date_formatter.dart';
 
 abstract class League {
   int id;
-  int gameOperationId;
-  String gameOperationName;
-  String? gameOperationShortName;
-  String? gameOperationSlug;
+  int federationId;
+  String federationName;
+  String? federationShortName;
+  String? federationSlug;
   String? leagueCategoryId;
   String? leagueClassId;
   String? leagueSystemId;
@@ -36,10 +36,10 @@ abstract class League {
 
   League({
     required this.id,
-    required this.gameOperationId,
-    required this.gameOperationName,
-    this.gameOperationShortName,
-    this.gameOperationSlug,
+    required this.federationId,
+    required this.federationName,
+    this.federationShortName,
+    this.federationSlug,
     this.leagueCategoryId,
     this.leagueClassId,
     this.leagueSystemId,

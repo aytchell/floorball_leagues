@@ -23,14 +23,14 @@ class ApiRepository {
     );
   }
 
-  Future<Stream<List<League>>> getLeagues(int seasonId, int gameOperationId) =>
+  Future<Stream<List<League>>> getLeagues(int seasonId, int federationId) =>
       RestClient.instance.then(
         (client) => client.streamApiDataSync(
-          '/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
+          '/api/v2/game_operations/$federationId/leagues/$seasonId.json',
           (data) {
             final json = data as List<dynamic>;
             return json
-                .map((gameOp) => LeagueImpl.fromJson(client, gameOp))
+                .map((federation) => LeagueImpl.fromJson(client, federation))
                 .toList();
           },
         ),

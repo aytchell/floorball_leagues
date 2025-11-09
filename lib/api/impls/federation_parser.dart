@@ -1,11 +1,11 @@
 import 'package:floorball/api/impls/int_parser.dart';
-import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/models/federation.dart';
 
-GameOperation parseGameOperation(Map<String, dynamic> json) {
+Federation parseFederation(Map<String, dynamic> json) {
   final logoUrlStr = json['logo_url'] as String?;
   final logoQuadUrlStr = json['logo_quad_url'] as String?;
 
-  return GameOperation(
+  return Federation(
     id: parseInt(json, 'id'),
     name: json['name'] as String,
     shortName: json['short_name'] as String?,

@@ -54,10 +54,10 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
     leagueId: parseInt(json, 'league_id'),
     leagueName: parseString(json, 'league_name'),
     leagueShortName: parseString(json, 'league_short_name'),
-    gameOperationId: parseInt(json, 'game_operation_id'),
-    gameOperationName: parseString(json, 'game_operation_name'),
-    gameOperationShortName: parseString(json, 'game_operation_short_name'),
-    gameOperationSlug: parseString(json, 'game_operation_slug'),
+    federationId: parseInt(json, 'game_operation_id'),
+    federationName: parseString(json, 'game_operation_name'),
+    federationShortName: parseString(json, 'game_operation_short_name'),
+    federationSlug: parseString(json, 'game_operation_slug'),
     periodTitles: periodTitlesJson
         .map((title) => parsePeriodTitle(title))
         .toList(),

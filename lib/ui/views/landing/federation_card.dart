@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/widgets/cached_network_image.dart';
 
-class GameOperationCard extends StatelessWidget {
-  final GameOperation gameOperation;
+class FederationCard extends StatelessWidget {
+  final Federation federation;
   final VoidCallback onTap;
 
-  const GameOperationCard({
+  const FederationCard({
     super.key,
-    required this.gameOperation,
+    required this.federation,
     required this.onTap,
   });
 
@@ -28,11 +28,11 @@ class GameOperationCard extends StatelessWidget {
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(8),
-                child: gameOperation.logoUrl != null
+                child: federation.logoUrl != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: CachedNetworkImage(
-                          imageUrl: gameOperation.logoUrl,
+                          imageUrl: federation.logoUrl,
                           fit: BoxFit.contain,
                           showProgress: true,
                         ),
@@ -56,8 +56,8 @@ class GameOperationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    gameOperation.name,
-                    style: AppTextStyles.gameOperationName,
+                    federation.name,
+                    style: AppTextStyles.federationName,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),

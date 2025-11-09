@@ -3,47 +3,53 @@ import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/models/league.dart';
 
 class LeaguesState {
-  LeaguesState() : _leaguesPerGameOp = {}, _leaguesById = {};
+  LeaguesState() : _leaguesOfFederation = {}, _leaguesById = {};
 
-  LeaguesState._(Map<int, List<League>> perGameOp, Map<int, League> byId)
-    : _leaguesPerGameOp = perGameOp,
-      _leaguesById = byId;
+  LeaguesState._(
+    Map<int, List<League>> leaguesOfFed,
+    Map<int, League> leaguesById,
+  ) : _leaguesOfFederation = leaguesOfFed,
+      _leaguesById = leaguesById;
 
-  final Map<int, List<League>> _leaguesPerGameOp;
+  final Map<int, List<League>> _leaguesOfFederation;
   final Map<int, League> _leaguesById;
 
-  List<League> leaguesOf(int? seasonId, int gameOperationId) {
+  List<League> leaguesOf(int? seasonId, int federationId) {
     if (seasonId == null) {
       return [];
     } else {
-      return _leaguesPerGameOp[_seasonGameOpKey(seasonId, gameOperationId)] ??
+      return _leaguesOfFederation[_seasonFederationKey(
+            seasonId,
+            federationId,
+          )] ??
           [];
     }
   }
 
   League? byId(int leagueId) => _leaguesById[leagueId];
 
-  int _seasonGameOpKey(int seasonId, int gameOperationId) =>
-      seasonId * 1000 + gameOperationId;
+  int _seasonFederationKey(int seasonId, int federationId) =>
+      seasonId * 1000 + federationId;
 
   LeaguesState copyWith({
     required int seasonId,
-    required int gameOperationId,
+    required int federationId,
     required List<League> leagues,
   }) {
-    final newPerGameOpMap = Map<int, List<League>>.fromEntries(
-      _leaguesPerGameOp.entries,
+    final newPerFedMap = Map<int, List<League>>.fromEntries(
+      _leaguesOfFederation.entries,
     );
-    newPerGameOpMap[_seasonGameOpKey(seasonId, gameOperationId)] = leagues;
+    newPerFedMap[_seasonFederationKey(seasonId, federationId)] = leagues;
 
     final newByIdMap = Map<int, League>.fromEntries(_leaguesById.entries);
     newByIdMap.addEntries(leagues.map((league) => MapEntry(league.id, league)));
 
-    return LeaguesState._(newPerGameOpMap, newByIdMap);
+    return LeaguesState._(newPerFedMap, newByIdMap);
   }
 
-  bool hasLeagues(int seasonId, int gameOperationId) =>
-      _leaguesPerGameOp[_seasonGameOpKey(seasonId, gameOperationId)] != null;
+  bool hasLeagues(int seasonId, int federationId) =>
+      _leaguesOfFederation[_seasonFederationKey(seasonId, federationId)] !=
+      null;
 }
 
 class LeaguesCubit extends Cubit<LeaguesState> {
@@ -53,21 +59,21 @@ class LeaguesCubit extends Cubit<LeaguesState> {
 
   final ApiRepository _repository;
 
-  void ensureLeaguesFor(int seasonId, int gameOperationId) {
-    if (state.hasLeagues(seasonId, gameOperationId)) {
+  void ensureLeaguesFor(int seasonId, int federationId) {
+    if (state.hasLeagues(seasonId, federationId)) {
       // list of leagues for an association doesn't change that often
       // so we only fetch it once per app run
       return;
     }
 
     _repository
-        .getLeagues(seasonId, gameOperationId)
+        .getLeagues(seasonId, federationId)
         .then(
           (stream) => stream.forEach(
             (list) => emit(
               state.copyWith(
                 seasonId: seasonId,
-                gameOperationId: gameOperationId,
+                federationId: federationId,
                 leagues: list,
               ),
             ),

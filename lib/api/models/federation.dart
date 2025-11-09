@@ -1,4 +1,4 @@
-class GameOperation {
+class Federation {
   int id;
   String name;
   String? shortName;
@@ -6,7 +6,7 @@ class GameOperation {
   Uri? logoUrl;
   Uri? logoQuadUrl;
 
-  GameOperation({
+  Federation({
     required this.id,
     required this.name,
     this.shortName,

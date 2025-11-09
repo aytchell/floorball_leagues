@@ -39,10 +39,10 @@ class DetailedGame {
   int leagueId;
   String leagueName;
   String leagueShortName;
-  int gameOperationId;
-  String gameOperationName;
-  String gameOperationShortName;
-  String gameOperationSlug;
+  int federationId;
+  String federationName;
+  String federationShortName;
+  String federationSlug;
   List<PeriodTitle> periodTitles;
   PeriodTitle? currentPeriodTitle;
   int arena;
@@ -86,10 +86,10 @@ class DetailedGame {
     required this.leagueId,
     required this.leagueName,
     required this.leagueShortName,
-    required this.gameOperationId,
-    required this.gameOperationName,
-    required this.gameOperationShortName,
-    required this.gameOperationSlug,
+    required this.federationId,
+    required this.federationName,
+    required this.federationShortName,
+    required this.federationSlug,
     required this.periodTitles,
     this.currentPeriodTitle,
     required this.arena,

@@ -1,11 +1,11 @@
-import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/api/blocs/federations_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
@@ -27,12 +27,11 @@ final TextStyle textStyle = TextStyle(
 );
 
 class LeaguesListPage extends StatelessWidget {
-  final int gameOperationId;
+  final int federationId;
 
-  static const parameterName = 'gameOperationId';
-  static const routePath = '/all_leagues/:$parameterName';
+  static const routePath = '/all_leagues';
 
-  const LeaguesListPage({super.key, required this.gameOperationId});
+  const LeaguesListPage({super.key, required this.federationId});
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +40,16 @@ class LeaguesListPage extends StatelessWidget {
         if (season != null) {
           BlocProvider.of<LeaguesCubit>(
             context,
-          ).ensureLeaguesFor(season.id, gameOperationId);
+          ).ensureLeaguesFor(season.id, federationId);
         }
-        return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
+        return BlocBuilder<AvailableFederationsCubit, AvailableFederations>(
           builder: (_, availableOps) => BlocBuilder<LeaguesCubit, LeaguesState>(
             builder: (_, leagues) {
               return _buildScaffold(
                 context,
                 season?.id,
-                availableOps.get(gameOperationId),
-                leagues.leaguesOf(season?.id, gameOperationId),
+                availableOps.get(federationId),
+                leagues.leaguesOf(season?.id, federationId),
               );
             },
           ),
@@ -62,11 +61,11 @@ class LeaguesListPage extends StatelessWidget {
   Widget _buildScaffold(
     BuildContext context,
     int? id,
-    GameOperation? operation,
+    Federation? federation,
     List<League> leagues,
   ) {
     return MainAppScaffold(
-      title: operation?.name ?? 'Ligen',
+      title: federation?.name ?? 'Ligen',
       showBackButton: true,
       body: _buildBody(context, leagues),
     );

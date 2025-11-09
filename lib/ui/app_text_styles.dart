@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  static TextStyle get gameOpLoadingError =>
+  static TextStyle get federationLoadingError =>
       TextStyle(fontSize: 18, color: Colors.grey);
 
-  static TextStyle get gameOperationName =>
+  static TextStyle get federationName =>
       TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black);
 
   static TextStyle get gameCardResultFont => TextStyle(

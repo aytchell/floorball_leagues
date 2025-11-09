@@ -13,15 +13,15 @@ part 'routes.g.dart';
 @TypedGoRoute<LeaguesListPageRoute>(path: LeaguesListPage.routePath)
 @immutable
 class LeaguesListPageRoute extends GoRouteData with $LeaguesListPageRoute {
-  final int gameOperationId;
+  final int federationId;
 
-  const LeaguesListPageRoute({required this.gameOperationId});
+  const LeaguesListPageRoute({required this.federationId});
 
   @override
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: LeaguesListPage(gameOperationId: gameOperationId),
+      child: LeaguesListPage(federationId: federationId),
     );
   }
 }

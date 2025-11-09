@@ -13,7 +13,7 @@ import 'package:floorball/selected_season_cubit.dart';
 
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';
-import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/api/blocs/federations_cubit.dart';
 
 import 'api/models/season_info.dart';
 
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
 
   final apiRepository = ApiRepository();
   final availableSeasonsCubit = AvailableSeasonsCubit();
-  final availableOperationsCubit = AvailableOperationsCubit();
+  final availableFederationsCubit = AvailableFederationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
   late final leaguesCubit = LeaguesCubit(apiRepository);
   late final leagueGameDayCubit = LeagueGameDayCubit(apiRepository);
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: availableSeasonsCubit),
-          BlocProvider.value(value: availableOperationsCubit),
+          BlocProvider.value(value: availableFederationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: leaguesCubit),
           BlocProvider.value(value: leagueGameDayCubit),
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: detailedGamesCubit),
         ],
         child: MaterialApp.router(
-          title: 'Game Operations Grid',
+          title: 'Federations Grid',
           theme: ThemeData(
             fontFamily: 'NimbusSans',
             primarySwatch: Colors.blue,
@@ -80,8 +80,8 @@ class MyApp extends StatelessWidget {
     apiRepository.getStart().then(
       (stream) => stream.listen((entry) {
         log.info("Received initial data");
-        log.info("Storing ${entry.gameOperations.length} game operations");
-        availableOperationsCubit.setOperations(entry.gameOperations);
+        log.info("Storing ${entry.frederations.length} federations");
+        availableFederationsCubit.setFederations(entry.frederations);
         log.info("Storing ${entry.seasons.length} available seasons");
         availableSeasonsCubit.setSeasons(entry.seasons);
         final selectedSeason = _findCurrentSeason(

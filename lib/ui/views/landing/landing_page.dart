@@ -1,12 +1,12 @@
-import 'package:floorball/api/blocs/game_operations_cubit.dart';
+import 'package:floorball/api/blocs/federations_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:floorball/ui/views/landing/game_operation_card.dart';
+import 'package:floorball/ui/views/landing/federation_card.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/api/models/game_operation.dart';
+import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 
@@ -19,8 +19,8 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AvailableOperationsCubit, AvailableOperations>(
-      builder: (context, availableOperations) =>
+    return BlocBuilder<AvailableFederationsCubit, AvailableFederations>(
+      builder: (context, availableFederations) =>
           BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
             builder: (context, selectedSeason) {
               final subTitle = (selectedSeason == null)
@@ -30,19 +30,19 @@ class LandingPage extends StatelessWidget {
               return MainAppScaffold(
                 title: 'Floorball Verbände$subTitle',
                 isHomePage: true,
-                body: _buildBody(availableOperations.operations),
+                body: _buildBody(availableFederations.federations),
               );
             },
           ),
     );
   }
 
-  Widget _buildBody(List<GameOperation> operations) {
-    if (operations.isEmpty) {
+  Widget _buildBody(List<Federation> federations) {
+    if (federations.isEmpty) {
       return Center(
         child: Text(
-          'No game operations found',
-          style: AppTextStyles.gameOpLoadingError,
+          'No federations found',
+          style: AppTextStyles.federationLoadingError,
         ),
       );
     }
@@ -56,13 +56,13 @@ class LandingPage extends StatelessWidget {
           mainAxisSpacing: 10,
           childAspectRatio: 0.8, // Adjust based on your needs
         ),
-        itemCount: operations.length,
+        itemCount: federations.length,
         itemBuilder: (context, index) {
-          final gameOp = operations[index];
-          return GameOperationCard(
-            gameOperation: gameOp,
+          final federation = federations[index];
+          return FederationCard(
+            federation: federation,
             onTap: () =>
-                LeaguesListPageRoute(gameOperationId: gameOp.id).push(context),
+                LeaguesListPageRoute(federationId: federation.id).push(context),
           );
         },
       ),
