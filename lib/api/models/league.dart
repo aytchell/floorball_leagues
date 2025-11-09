@@ -5,7 +5,7 @@ import 'league_table_row.dart';
 import 'champ_group_table.dart';
 import 'date_formatter.dart';
 
-abstract class GameOperationLeague {
+abstract class League {
   int id;
   int gameOperationId;
   String gameOperationName;
@@ -34,7 +34,7 @@ abstract class GameOperationLeague {
   int? periodLength;
   int? overtimeLength;
 
-  GameOperationLeague({
+  League({
     required this.id,
     required this.gameOperationId,
     required this.gameOperationName,

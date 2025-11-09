@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 
 class ExpandablLeagueInfoCard extends StatelessWidget {
   final String title;
-  final GameOperationLeague league;
+  final League league;
   final bool isExpanded;
   final VoidCallback onTap;
 

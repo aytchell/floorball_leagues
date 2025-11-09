@@ -1,11 +1,11 @@
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 
 class GamesOverviewTable extends StatefulWidget {
-  final GameOperationLeague league;
+  final League league;
   final String teamName;
   final List<GameDayTitle> gameDayTitles;
 

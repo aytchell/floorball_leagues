@@ -1,20 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:floorball/api/api_repository.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 
 class LeaguesState {
   LeaguesState() : _leaguesPerGameOp = {}, _leaguesById = {};
 
-  LeaguesState._(
-    Map<int, List<GameOperationLeague>> perGameOp,
-    Map<int, GameOperationLeague> byId,
-  ) : _leaguesPerGameOp = perGameOp,
+  LeaguesState._(Map<int, List<League>> perGameOp, Map<int, League> byId)
+    : _leaguesPerGameOp = perGameOp,
       _leaguesById = byId;
 
-  final Map<int, List<GameOperationLeague>> _leaguesPerGameOp;
-  final Map<int, GameOperationLeague> _leaguesById;
+  final Map<int, List<League>> _leaguesPerGameOp;
+  final Map<int, League> _leaguesById;
 
-  List<GameOperationLeague> leaguesOf(int? seasonId, int gameOperationId) {
+  List<League> leaguesOf(int? seasonId, int gameOperationId) {
     if (seasonId == null) {
       return [];
     } else {
@@ -23,7 +21,7 @@ class LeaguesState {
     }
   }
 
-  GameOperationLeague? byId(int leagueId) => _leaguesById[leagueId];
+  League? byId(int leagueId) => _leaguesById[leagueId];
 
   int _seasonGameOpKey(int seasonId, int gameOperationId) =>
       seasonId * 1000 + gameOperationId;
@@ -31,16 +29,14 @@ class LeaguesState {
   LeaguesState copyWith({
     required int seasonId,
     required int gameOperationId,
-    required List<GameOperationLeague> leagues,
+    required List<League> leagues,
   }) {
-    final newPerGameOpMap = Map<int, List<GameOperationLeague>>.fromEntries(
+    final newPerGameOpMap = Map<int, List<League>>.fromEntries(
       _leaguesPerGameOp.entries,
     );
     newPerGameOpMap[_seasonGameOpKey(seasonId, gameOperationId)] = leagues;
 
-    final newByIdMap = Map<int, GameOperationLeague>.fromEntries(
-      _leaguesById.entries,
-    );
+    final newByIdMap = Map<int, League>.fromEntries(_leaguesById.entries);
     newByIdMap.addEntries(leagues.map((league) => MapEntry(league.id, league)));
 
     return LeaguesState._(newPerGameOpMap, newByIdMap);

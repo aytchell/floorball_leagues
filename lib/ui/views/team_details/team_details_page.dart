@@ -1,4 +1,4 @@
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ import 'package:floorball/ui/views/team_details/games_overview_table.dart';
 final int someSeasonIdWithNewPenalties = 16;
 
 class TeamDetailsPage extends StatefulWidget {
-  final GameOperationLeague league;
+  final League league;
   final LeagueTableRow teamEntry;
 
   const TeamDetailsPage({

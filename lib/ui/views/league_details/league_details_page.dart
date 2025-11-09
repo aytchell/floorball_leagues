@@ -1,7 +1,7 @@
 import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
 
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 
 import 'package:floorball/ui/main_app_scaffold.dart';
@@ -14,7 +14,7 @@ import 'package:floorball/ui/views/league_details/game_day_card.dart';
 final log = Logger('LeagueDetailsPage');
 
 class LeagueDetailsPage extends StatefulWidget {
-  final GameOperationLeague league;
+  final League league;
   final String leagueType;
   final List<GameDayTitle> gameDayTitles;
 

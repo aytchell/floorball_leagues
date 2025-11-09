@@ -1,13 +1,10 @@
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details_2/panel_title.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/striped_table_row.dart';
 
-ExpansionPanelRadio buildLeagueInfoPanel(
-  int identifier,
-  GameOperationLeague league,
-) {
+ExpansionPanelRadio buildLeagueInfoPanel(int identifier, League league) {
   return ExpansionPanelRadio(
     value: identifier,
     canTapOnHeader: true,
@@ -18,7 +15,7 @@ ExpansionPanelRadio buildLeagueInfoPanel(
 }
 
 class _LeagueInfoContent extends StatelessWidget {
-  final GameOperationLeague league;
+  final League league;
 
   const _LeagueInfoContent({required this.league});
 

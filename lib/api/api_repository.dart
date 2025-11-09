@@ -9,9 +9,9 @@ import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
 
-import 'impls/game_operation_league_impl.dart';
+import 'impls/league_impl.dart';
 import 'impls/league_table_fetcher.dart';
-import 'models/game_operation_league.dart';
+import 'models/league.dart';
 
 class ApiRepository {
   Future<Stream<EntryInfo>> getStart() {
@@ -23,20 +23,18 @@ class ApiRepository {
     );
   }
 
-  Future<Stream<List<GameOperationLeague>>> getLeagues(
-    int seasonId,
-    int gameOperationId,
-  ) => RestClient.instance.then(
-    (client) => client.streamApiDataSync(
-      '/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
-      (data) {
-        final json = data as List<dynamic>;
-        return json
-            .map((gameOp) => GameOperationLeagueImpl.fromJson(client, gameOp))
-            .toList();
-      },
-    ),
-  );
+  Future<Stream<List<League>>> getLeagues(int seasonId, int gameOperationId) =>
+      RestClient.instance.then(
+        (client) => client.streamApiDataSync(
+          '/api/v2/game_operations/$gameOperationId/leagues/$seasonId.json',
+          (data) {
+            final json = data as List<dynamic>;
+            return json
+                .map((gameOp) => LeagueImpl.fromJson(client, gameOp))
+                .toList();
+          },
+        ),
+      );
 
   Future<Stream<List<Game>>> getGamesOfGameDay(
     int leagueId,

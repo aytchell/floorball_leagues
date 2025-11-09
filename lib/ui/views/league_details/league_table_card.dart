@@ -1,4 +1,4 @@
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/ui/app_text_styles.dart';
@@ -9,7 +9,7 @@ import 'package:floorball/ui/views/team_details/team_details_page.dart';
 
 class ExpandableLeagueTableCard extends StatefulWidget {
   final String title;
-  final GameOperationLeague league;
+  final League league;
   final bool isExpanded;
   final VoidCallback onTap;
 

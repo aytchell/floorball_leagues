@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/game_operation.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +63,7 @@ class LeaguesListPage extends StatelessWidget {
     BuildContext context,
     int? id,
     GameOperation? operation,
-    List<GameOperationLeague> leagues,
+    List<League> leagues,
   ) {
     return MainAppScaffold(
       title: operation?.name ?? 'Ligen',
@@ -72,7 +72,7 @@ class LeaguesListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, List<GameOperationLeague> leagues) {
+  Widget _buildBody(BuildContext context, List<League> leagues) {
     if (leagues.isNotEmpty) {
       return _buildLeaguesList(context, leagues);
     } else {
@@ -80,10 +80,7 @@ class LeaguesListPage extends StatelessWidget {
     }
   }
 
-  Widget _buildLeaguesList(
-    BuildContext context,
-    List<GameOperationLeague> leagues,
-  ) {
+  Widget _buildLeaguesList(BuildContext context, List<League> leagues) {
     return ListView.builder(
       padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 24.0),
       itemCount: leagues.length,

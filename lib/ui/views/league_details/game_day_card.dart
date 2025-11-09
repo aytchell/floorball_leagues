@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details/game_card.dart';
 import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/api/models/game.dart';
@@ -34,7 +34,7 @@ class ExpandableGameDayCard extends StatefulWidget {
     required this.onTap,
   }) : leagueType = league.leagueType ?? "league";
 
-  final GameOperationLeague league;
+  final League league;
   final GameDayTitle gameDayTitle;
   final bool isExpanded;
   final VoidCallback onTap;

@@ -1,5 +1,5 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details_2/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details_2/league_table_panel.dart';
@@ -48,7 +48,7 @@ class LeagueDetailsPage2 extends StatelessWidget {
 
 class _LeagueDetailsBody extends StatelessWidget {
   const _LeagueDetailsBody({required this.league});
-  final GameOperationLeague league;
+  final League league;
 
   @override
   Widget build(BuildContext context) {

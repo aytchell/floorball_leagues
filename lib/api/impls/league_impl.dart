@@ -1,5 +1,5 @@
 import 'package:floorball/net/rest_client.dart';
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -12,10 +12,10 @@ import 'package:floorball/api/impls/champ_table_fetcher.dart';
 
 import 'package:floorball/api/impls/int_parser.dart';
 
-class GameOperationLeagueImpl extends GameOperationLeague {
+class LeagueImpl extends League {
   final RestClient client;
 
-  GameOperationLeagueImpl({
+  LeagueImpl({
     required this.client,
     required super.id,
     required super.gameOperationId,
@@ -46,13 +46,10 @@ class GameOperationLeagueImpl extends GameOperationLeague {
     super.overtimeLength,
   });
 
-  factory GameOperationLeagueImpl.fromJson(
-    RestClient client,
-    Map<String, dynamic> json,
-  ) {
+  factory LeagueImpl.fromJson(RestClient client, Map<String, dynamic> json) {
     var gameDayTitlesJson = json['game_day_titles'] as List;
 
-    return GameOperationLeagueImpl(
+    return LeagueImpl(
       client: client,
       id: parseInt(json, 'id'),
       gameOperationId: parseInt(json, 'game_operation_id'),

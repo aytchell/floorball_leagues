@@ -1,4 +1,4 @@
-import 'package:floorball/api/models/game_operation_league.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
@@ -12,7 +12,7 @@ final log = Logger('ChampTableCard');
 
 class ExpandableChampTableCard extends StatefulWidget {
   final String title;
-  final GameOperationLeague league;
+  final League league;
   final bool isExpanded;
   final VoidCallback onTap;
 
