@@ -28,21 +28,22 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
     BlocProvider.of<LeagueTableCubit>(context).ensureLeagueTableFor(leagueId);
 
     return BlocBuilder<LeagueTableCubit, LeagueTableState>(
-      builder: (_, tableState) => SizedBox(
-        height: 300,
-        child: buildTable(
-          _tableDefinition,
-          tableState.leagueTableOf(leagueId),
-          /*
-          onTapBuilder: (ctxt, rowId) {
-            GameDetailsPageRoute(
-              gameId: game.game.gameId,
-              leagueName: leagueName,
-            ).push(context);
-          }
-               */
-        ),
-      ),
+      builder: (_, tableState) {
+        final table = tableState.leagueTableOf(leagueId);
+        return SizedBox(
+          height: 300,
+          child: buildTable(
+            _tableDefinition,
+            table,
+            onTapBuilder: (ctxt, rowId) {
+              return () => TeamDetailsPage2Route(
+                leagueId: leagueId,
+                teamId: table[rowId].teamId,
+              ).push(context);
+            },
+          ),
+        );
+      },
     );
   }
 

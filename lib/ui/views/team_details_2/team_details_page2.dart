@@ -41,12 +41,12 @@ class TeamDetailsPage2 extends StatelessWidget {
       builder: (_, state) => MainAppScaffold(
         title: state.byId(leagueId)?.name ?? '',
         showBackButton: true,
-        body: _buildBody(state.byId(leagueId)),
+        body: _buildBody(context, state.byId(leagueId)),
       ),
     );
   }
 
-  Widget _buildBody(League? league) {
+  Widget _buildBody(BuildContext context, League? league) {
     if (league == null) {
       return Center(
         child: Text(
@@ -55,6 +55,10 @@ class TeamDetailsPage2 extends StatelessWidget {
         ),
       );
     }
+
+    BlocProvider.of<TeamInfoCubit>(
+      context,
+    ).ensureInfoFor(league.id, league.leagueType, teamId);
 
     return BlocBuilder<TeamInfoCubit, TeamInfoState>(
       builder: (_, state) =>

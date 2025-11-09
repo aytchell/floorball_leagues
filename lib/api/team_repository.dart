@@ -3,6 +3,7 @@ import 'package:floorball/api/models/league.dart';
 
 class TeamInfo {
   final int leagueId;
+  final LeagueType leagueType;
   final int teamId;
   final String teamName;
   final Uri? teamLogoUri;
@@ -10,6 +11,7 @@ class TeamInfo {
 
   const TeamInfo({
     required this.leagueId,
+    required this.leagueType,
     required this.teamId,
     required this.teamName,
     this.teamLogoUri,
@@ -29,55 +31,67 @@ class TeamRepository {
   ) {
     switch (leagueType) {
       case LeagueType.league:
-        return _teamInfoForLeague(leagueId, teamId);
+        return _teamInfoForLeague(leagueId, leagueType, teamId);
       case LeagueType.cup:
-        return _teamInfoForCup(leagueId, teamId);
+        return _teamInfoForCup(leagueId, leagueType, teamId);
       case LeagueType.champ:
-        return _teamInfoForChamp(leagueId, teamId);
+        return _teamInfoForChamp(leagueId, leagueType, teamId);
     }
   }
 
-  Future<Stream<TeamInfo>> _teamInfoForLeague(int leagueId, int teamId) =>
-      apiRepository
-          .getLeagueTable(leagueId)
-          .then(
-            (stream) => stream.map((tableRowList) {
-              final teamRow = tableRowList
-                  .where((row) => row.teamId == teamId)
-                  .first;
-              return TeamInfo(
-                leagueId: leagueId,
-                teamId: teamId,
-                teamName: teamRow.teamName,
-                teamLogoUri: teamRow.teamLogoUri,
-                teamLogoSmallUri: teamRow.teamLogoSmallUri,
-              );
-            }),
+  Future<Stream<TeamInfo>> _teamInfoForLeague(
+    int leagueId,
+    LeagueType leagueType,
+    int teamId,
+  ) => apiRepository
+      .getLeagueTable(leagueId)
+      .then(
+        (stream) => stream.map((tableRowList) {
+          final teamRow = tableRowList
+              .where((row) => row.teamId == teamId)
+              .first;
+          return TeamInfo(
+            leagueId: leagueId,
+            leagueType: leagueType,
+            teamId: teamId,
+            teamName: teamRow.teamName,
+            teamLogoUri: teamRow.teamLogoUri,
+            teamLogoSmallUri: teamRow.teamLogoSmallUri,
           );
+        }),
+      );
 
-  Future<Stream<TeamInfo>> _teamInfoForCup(int leagueId, int teamId) {
+  Future<Stream<TeamInfo>> _teamInfoForCup(
+    int leagueId,
+    LeagueType leagueType,
+    int teamId,
+  ) {
     // TODO
     throw Exception("Not yet implemented");
   }
 
-  Future<Stream<TeamInfo>> _teamInfoForChamp(int leagueId, int teamId) =>
-      apiRepository
-          .getChampTable(leagueId)
-          .then(
-            (stream) => stream.map((champGroupList) {
-              final teamRow = champGroupList
-                  .map((group) => group.table)
-                  .expand((i) => i)
-                  .where((row) => row.teamId == teamId)
-                  .first;
+  Future<Stream<TeamInfo>> _teamInfoForChamp(
+    int leagueId,
+    LeagueType leagueType,
+    int teamId,
+  ) => apiRepository
+      .getChampTable(leagueId)
+      .then(
+        (stream) => stream.map((champGroupList) {
+          final teamRow = champGroupList
+              .map((group) => group.table)
+              .expand((i) => i)
+              .where((row) => row.teamId == teamId)
+              .first;
 
-              return TeamInfo(
-                leagueId: leagueId,
-                teamId: teamId,
-                teamName: teamRow.teamName,
-                teamLogoUri: teamRow.teamLogoUri,
-                teamLogoSmallUri: teamRow.teamLogoSmallUri,
-              );
-            }),
+          return TeamInfo(
+            leagueId: leagueId,
+            leagueType: leagueType,
+            teamId: teamId,
+            teamName: teamRow.teamName,
+            teamLogoUri: teamRow.teamLogoUri,
+            teamLogoSmallUri: teamRow.teamLogoSmallUri,
           );
+        }),
+      );
 }
