@@ -32,7 +32,7 @@ class ExpandableGameDayCard extends StatefulWidget {
     required this.gameDayTitle,
     required this.isExpanded,
     required this.onTap,
-  }) : leagueType = league.leagueType ?? "league";
+  }) : leagueType = league.leagueType ?? 'league';
 
   final League league;
   final GameDayTitle gameDayTitle;
@@ -157,12 +157,12 @@ class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   }
 
   String _computeTitle(final String title, final List<Game> games) {
-    if (widget.leagueType == "champ") {
+    if (widget.leagueType == 'champ') {
       final groups = games
           .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
           .expand((i) => i)
           .toSet();
-      var type = "";
+      var type = '';
       if (groups.length == 1) {
         type = '(${groups.first})';
       } else if (groups.length == 2) {
@@ -170,7 +170,7 @@ class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
       }
 
       return '$title $type';
-      // } else if (widget.leagueType == "cup") {
+      // } else if (widget.leagueType == 'cup') {
       // TODO
     } else {
       return title;
@@ -179,12 +179,12 @@ class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
 
   String? _groupIdentifier(Game game) {
     final ident = game.groupIdentifier;
-    return (ident != null) ? "Gruppenphase" : null;
+    return (ident != null) ? 'Gruppenphase' : null;
   }
 
   String? _seriesTitle(Game game) {
     final title = game.seriesTitle;
-    return (title != null) ? "Platzierungsphase" : null;
+    return (title != null) ? 'Platzierungsphase' : null;
   }
 
   Row _buildGameDayTitle(String title) {
@@ -300,7 +300,7 @@ class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   Map<String, GameSubDayInfo> _groupBySubday(List<Game> games) {
     // entries in map should be sorted by key
     final groups = SplayTreeMap.from(
-      groupBy(games, (game) => "${game.date}\n${game.hostingClub}"),
+      groupBy(games, (game) => '${game.date}\n${game.hostingClub}'),
     );
     return groups.map(
       (key, value) => MapEntry(

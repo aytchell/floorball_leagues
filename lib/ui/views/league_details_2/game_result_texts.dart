@@ -71,6 +71,6 @@ List<Widget> _buildNoRecordTexts(Game game) {
 }
 
 List<Widget> _buildNoticeTypeResult(String noticeType) {
-  final text = (noticeType == "Canceled") ? 'abgesagt' : noticeType;
+  final text = (noticeType == 'Canceled') ? 'abgesagt' : noticeType;
   return [Text(text, style: bold16.copyWith(color: noteColor))];
 }

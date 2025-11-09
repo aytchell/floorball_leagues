@@ -82,7 +82,7 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
   }
 
   ChampGroupTable _computeFinalTable(List<Game> allGames) {
-    log.info("cft: received ${allGames.length} games with seriesTitles ...");
+    log.info('cft: received ${allGames.length} games with seriesTitles ...');
     for (var game in allGames) {
       log.info(game.seriesTitle);
     }
@@ -97,13 +97,13 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
               game.seriesTitle!.startsWith('Spiel '),
         )
         .toList();
-    log.info("cft: found ${placements.length} placement games");
+    log.info('cft: found ${placements.length} placement games');
     placements.sort(
       (Game a, Game b) => a.seriesTitle!.compareTo(b.seriesTitle!),
     );
     var endRound = [finalGame];
     endRound.addAll(placements);
-    log.info("cft: endRound has ${endRound.length} games");
+    log.info('cft: endRound has ${endRound.length} games');
 
     final finalTable = endRound
         .asMap()
@@ -127,8 +127,8 @@ class _ChampTableState extends State<ExpandableChampTableCard> {
   List<LeagueTableRow> _buildMicroTable(Game game, int position) {
     if (!game.ended) {
       return [
-        _buildTeamTableEntry(position, "Noch unbekannt", null, null),
-        _buildTeamTableEntry(position + 1, "Noch unbekannt", null, null),
+        _buildTeamTableEntry(position, 'Noch unbekannt', null, null),
+        _buildTeamTableEntry(position + 1, 'Noch unbekannt', null, null),
       ];
     }
 

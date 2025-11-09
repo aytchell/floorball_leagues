@@ -34,7 +34,7 @@ class GameResultSlice {
 
     var groupId = groupIdentifier.substring(groupIdentifier.length - 1);
 
-    return "Gruppe ${groupId.toUpperCase()}";
+    return 'Gruppe ${groupId.toUpperCase()}';
   }
 
   String? _translateSeriesTitle(String? seriesTitle) {

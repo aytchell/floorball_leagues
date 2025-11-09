@@ -19,7 +19,7 @@ class LeagueDetailsPage extends StatefulWidget {
   final List<GameDayTitle> gameDayTitles;
 
   LeagueDetailsPage({super.key, required this.league})
-    : leagueType = league.leagueType ?? "league",
+    : leagueType = league.leagueType ?? 'league',
       gameDayTitles = league.gameDayTitles;
 
   @override

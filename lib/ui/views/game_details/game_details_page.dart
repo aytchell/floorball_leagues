@@ -1,6 +1,6 @@
 import 'package:floorball/api/blocs/detailed_games_cubit.dart';
 import 'package:flutter/material.dart';
-import "package:collection/collection.dart";
+import 'package:collection/collection.dart';
 
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';

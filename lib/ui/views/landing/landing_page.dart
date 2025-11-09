@@ -24,7 +24,7 @@ class LandingPage extends StatelessWidget {
           BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
             builder: (context, selectedSeason) {
               final subTitle = (selectedSeason == null)
-                  ? ""
+                  ? ''
                   : '\nSaison ${selectedSeason.name}';
 
               return MainAppScaffold(
