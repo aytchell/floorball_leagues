@@ -5,6 +5,8 @@ import 'league_table_row.dart';
 import 'champ_group_table.dart';
 import 'date_formatter.dart';
 
+enum LeagueType { league, champ, cup }
+
 abstract class League {
   int id;
   int federationId;
@@ -14,7 +16,7 @@ abstract class League {
   String? leagueCategoryId;
   String? leagueClassId;
   String? leagueSystemId;
-  String? leagueType;
+  LeagueType leagueType;
   String name;
   bool? female;
   bool? enableScorer;
@@ -43,7 +45,7 @@ abstract class League {
     this.leagueCategoryId,
     this.leagueClassId,
     this.leagueSystemId,
-    this.leagueType,
+    required this.leagueType,
     required this.name,
     this.female,
     this.enableScorer,

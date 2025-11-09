@@ -76,11 +76,14 @@ class ExpandablLeagueInfoCard extends StatelessWidget {
   }
 
   String _leagueType() {
-    if (league.leagueType == null) return 'Nicht angegeben';
-    if (league.leagueType! == 'league') return 'Liga';
-    if (league.leagueType! == 'champ') return 'Turnier';
-    if (league.leagueType! == 'cup') return 'Pokal';
-    return league.leagueType!;
+    switch (league.leagueType) {
+      case LeagueType.league:
+        return 'Liga';
+      case LeagueType.champ:
+        return 'Turnier';
+      case LeagueType.cup:
+        return 'Pokal';
+    }
   }
 
   String _fieldSize() {

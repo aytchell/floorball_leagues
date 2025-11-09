@@ -15,11 +15,11 @@ final log = Logger('LeagueDetailsPage');
 
 class LeagueDetailsPage extends StatefulWidget {
   final League league;
-  final String leagueType;
+  final LeagueType leagueType;
   final List<GameDayTitle> gameDayTitles;
 
   LeagueDetailsPage({super.key, required this.league})
-    : leagueType = league.leagueType ?? 'league',
+    : leagueType = league.leagueType,
       gameDayTitles = league.gameDayTitles;
 
   @override
@@ -52,7 +52,7 @@ class LeagueDetailsPageState extends State<LeagueDetailsPage> {
         if (index == 0) {
           return _buildLeagueInfoCard(context, index);
         } else if (index == 1) {
-          if (widget.leagueType == 'champ') {
+          if (widget.leagueType == LeagueType.champ) {
             return _buildChampTableCard(context, index);
           } else {
             return _buildLeagueTableCard(context, index);

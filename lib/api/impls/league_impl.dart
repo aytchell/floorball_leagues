@@ -11,6 +11,9 @@ import 'package:floorball/api/impls/league_table_fetcher.dart';
 import 'package:floorball/api/impls/champ_table_fetcher.dart';
 
 import 'package:floorball/api/impls/int_parser.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('LeagueParser');
 
 class LeagueImpl extends League {
   final RestClient client;
@@ -25,7 +28,7 @@ class LeagueImpl extends League {
     super.leagueCategoryId,
     super.leagueClassId,
     super.leagueSystemId,
-    super.leagueType,
+    required super.leagueType,
     required super.name,
     super.female,
     super.enableScorer,
@@ -46,6 +49,22 @@ class LeagueImpl extends League {
     super.overtimeLength,
   });
 
+  static LeagueType _parseLeagueType(String leagueTypeString) {
+    switch (leagueTypeString) {
+      case "league":
+        return LeagueType.league;
+      case "champ":
+        return LeagueType.champ;
+      case "cup":
+        return LeagueType.cup;
+      default:
+        {
+          log.warning('Unknown league_type: "$leagueTypeString"');
+          return LeagueType.league;
+        }
+    }
+  }
+
   factory LeagueImpl.fromJson(RestClient client, Map<String, dynamic> json) {
     var gameDayTitlesJson = json['game_day_titles'] as List;
 
@@ -59,7 +78,7 @@ class LeagueImpl extends League {
       leagueCategoryId: json['league_category_id'] as String?,
       leagueClassId: json['league_class_id'] as String?,
       leagueSystemId: json['league_system_id'] as String?,
-      leagueType: json['league_type'] as String?,
+      leagueType: _parseLeagueType(json['league_type'] as String),
       name: json['name'] as String,
       female: json['female'] as bool?,
       enableScorer: json['enable_scorer'] as bool?,

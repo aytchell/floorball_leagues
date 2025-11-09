@@ -32,13 +32,13 @@ class ExpandableGameDayCard extends StatefulWidget {
     required this.gameDayTitle,
     required this.isExpanded,
     required this.onTap,
-  }) : leagueType = league.leagueType ?? 'league';
+  }) : leagueType = league.leagueType;
 
   final League league;
   final GameDayTitle gameDayTitle;
   final bool isExpanded;
   final VoidCallback onTap;
-  final String leagueType;
+  final LeagueType leagueType;
 
   @override
   ExpandableGameDayCardState createState() => ExpandableGameDayCardState();
@@ -157,7 +157,7 @@ class ExpandableGameDayCardState extends State<ExpandableGameDayCard> {
   }
 
   String _computeTitle(final String title, final List<Game> games) {
-    if (widget.leagueType == 'champ') {
+    if (widget.leagueType == LeagueType.champ) {
       final groups = games
           .map((game) => [_groupIdentifier(game), _seriesTitle(game)].nonNulls)
           .expand((i) => i)

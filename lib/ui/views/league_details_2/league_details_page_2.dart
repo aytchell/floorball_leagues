@@ -72,22 +72,19 @@ class _LeagueDetailsBody extends StatelessWidget {
   ExpansionPanelRadio _buildTablePanel(
     int identifier,
     int leagueID,
-    String? leagueType,
+    LeagueType leagueType,
   ) {
-    if (leagueType == 'league') {
-      return buildLeagueTablePanel(identifier, leagueID);
+    switch (leagueType) {
+      case LeagueType.league:
+        return buildLeagueTablePanel(identifier, leagueID);
+      case LeagueType.champ:
+      // TODO
+      // return buildChampTablePanel(identifier, leagueID);
+      case LeagueType.cup:
+        return buildVoidTablePanel(
+          identifier,
+          'Keine Tabelle für Pokal-Wettbewerbe',
+        );
     }
-    /*
-    if (leagueType == 'champ') {
-      return buildChampTablePanel(identifier, leagueID);
-    }
-*/
-    if (leagueType == 'cup') {
-      return buildVoidTablePanel(
-        identifier,
-        'Keine Tabelle für Pokal-Wettbewerbe',
-      );
-    }
-    return buildVoidTablePanel(identifier, 'Keine Tabelle verfügbar');
   }
 }
