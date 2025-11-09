@@ -47,9 +47,18 @@ class LeaguesState {
     return LeaguesState._(newPerFedMap, newByIdMap);
   }
 
+  LeaguesState copyAndAdd({required League league}) {
+    final newByIdMap = Map<int, League>.fromEntries(_leaguesById.entries);
+    newByIdMap[league.id] = league;
+
+    return LeaguesState._(_leaguesOfFederation, newByIdMap);
+  }
+
   bool hasLeagues(int seasonId, int federationId) =>
       _leaguesOfFederation[_seasonFederationKey(seasonId, federationId)] !=
       null;
+
+  bool hasLeague(int leagueId) => _leaguesById[leagueId] != null;
 }
 
 class LeaguesCubit extends Cubit<LeaguesState> {
@@ -77,6 +86,22 @@ class LeaguesCubit extends Cubit<LeaguesState> {
                 leagues: list,
               ),
             ),
+          ),
+        );
+  }
+
+  void ensureLeague(int leagueId) {
+    if (state.hasLeague(leagueId)) {
+      // information of leagues don't change that often
+      // so we only fetch it once per app run
+      return;
+    }
+
+    _repository
+        .getLeagueById(leagueId)
+        .then(
+          (stream) => stream.forEach(
+            (league) => emit(state.copyAndAdd(league: league)),
           ),
         );
   }

@@ -3,6 +3,8 @@ import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
+import 'package:floorball/api/blocs/team_info_cubit.dart';
+import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final apiRepository = ApiRepository();
+  late final teamRepository = TeamRepository(apiRepository);
+
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
@@ -44,6 +48,7 @@ class MyApp extends StatelessWidget {
   late final scorerCubit = ScorerCubit(apiRepository);
   late final leagueTableCubit = LeagueTableCubit(apiRepository);
   late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
+  late final teamInfoCubit = TeamInfoCubit(teamRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +66,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: scorerCubit),
           BlocProvider.value(value: leagueTableCubit),
           BlocProvider.value(value: detailedGamesCubit),
+          BlocProvider.value(value: teamInfoCubit),
         ],
         child: MaterialApp.router(
           title: 'Federations Grid',

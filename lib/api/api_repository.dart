@@ -1,6 +1,8 @@
+import 'package:floorball/api/impls/champ_table_fetcher.dart';
 import 'package:floorball/api/impls/detailed_game_fetcher.dart';
 import 'package:floorball/api/impls/game_parser.dart';
 import 'package:floorball/api/impls/scorer_parser.dart';
+import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -36,6 +38,15 @@ class ApiRepository {
         ),
       );
 
+  Future<Stream<League>> getLeagueById(int leagueId) =>
+      RestClient.instance.then(
+        (client) =>
+            client.streamApiDataSync('/api/v2/leagues/$leagueId.json', (data) {
+              final json = data as Map<String, dynamic>;
+              return LeagueImpl.fromJson(client, json);
+            }),
+      );
+
   Future<Stream<List<Game>>> getGamesOfGameDay(
     int leagueId,
     int gameDayNumber,
@@ -56,6 +67,20 @@ class ApiRepository {
           (data) {
             final json = data as List<dynamic>;
             return json.map((row) => parseLeagueTableRow(row)).toList();
+          },
+        ),
+      );
+
+  Future<Stream<List<ChampGroupTable>>> getChampTable(int leagueId) =>
+      RestClient.instance.then(
+        (client) => client.streamApiDataSync(
+          '/api/v2/leagues/$leagueId/grouped_table.json',
+          (data) {
+            final json = data as Map<String, dynamic>;
+            return json
+                .map((key, value) => MapEntry(key, parseChampGroupTable(value)))
+                .values
+                .toList();
           },
         ),
       );

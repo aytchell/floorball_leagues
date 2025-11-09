@@ -7,6 +7,7 @@ import 'ui/views/landing/landing_page.dart';
 import 'ui/views/league_details_2/league_details_page_2.dart';
 import 'ui/views/leagues_list/leagues_list_page.dart';
 import 'ui/views/season_selector/season_selector_page.dart';
+import 'ui/views/team_details_2/team_details_page2.dart';
 
 part 'routes.g.dart';
 
@@ -59,6 +60,23 @@ class GameDetailsPageRoute extends GoRouteData with $GameDetailsPageRoute {
     return NoTransitionPage(
       key: state.pageKey,
       child: GameDetailsPage(gameId: gameId, leagueName: leagueName),
+    );
+  }
+}
+
+@TypedGoRoute<TeamDetailsPage2Route>(path: TeamDetailsPage2.routePath)
+@immutable
+class TeamDetailsPage2Route extends GoRouteData with $TeamDetailsPage2Route {
+  final int leagueId;
+  final int teamId;
+
+  const TeamDetailsPage2Route({required this.leagueId, required this.teamId});
+
+  @override
+  NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      key: state.pageKey,
+      child: TeamDetailsPage2(leagueId: leagueId, teamId: teamId),
     );
   }
 }
