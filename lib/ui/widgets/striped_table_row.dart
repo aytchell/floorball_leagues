@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class StripedTableRow extends StatelessWidget {
   final int index; // zero-based row index
   final Widget child;
+  final void Function()? onTap;
   final EdgeInsetsGeometry padding;
   final Color? evenColor;
   final Color? oddColor;
@@ -15,6 +16,7 @@ class StripedTableRow extends StatelessWidget {
     super.key,
     required this.index,
     required this.child,
+    this.onTap,
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     this.evenColor,
     this.oddColor,
@@ -36,10 +38,14 @@ class StripedTableRow extends StatelessWidget {
           )
         : null;
 
-    return Container(
+    final container = Container(
       decoration: BoxDecoration(color: bg, border: border),
       padding: padding,
       child: child,
     );
+
+    return (onTap == null)
+        ? container
+        : InkWell(onTap: onTap, child: container);
   }
 }

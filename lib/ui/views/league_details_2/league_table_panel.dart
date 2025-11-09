@@ -1,5 +1,6 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/routes.dart';
 import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
 import 'package:floorball/ui/views/league_details_2/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -29,7 +30,18 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
     return BlocBuilder<LeagueTableCubit, LeagueTableState>(
       builder: (_, tableState) => SizedBox(
         height: 300,
-        child: buildTable(_tableDefinition, tableState.leagueTableOf(leagueId)),
+        child: buildTable(
+          _tableDefinition,
+          tableState.leagueTableOf(leagueId),
+          /*
+          onTapBuilder: (ctxt, rowId) {
+            GameDetailsPageRoute(
+              gameId: game.game.gameId,
+              leagueName: leagueName,
+            ).push(context);
+          }
+               */
+        ),
       ),
     );
   }

@@ -21,6 +21,7 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
   Widget buildTable(
     List<TableColumnDefinition<T>> tableDefinition,
     List<T> rows, {
+    Function(BuildContext context, int rowId)? onTapBuilder,
     double headerHeight = 85.0,
     double rowHeight = 50.0,
   }) => TableView.builder(
@@ -47,6 +48,7 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
       return StripedTableRow(
         index: rowId,
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        onTap: onTapBuilder?.call(context, rowId),
         child: contentBuilder(
           context,
           (context, columnId) => tableDefinition[columnId].contentBuilder(row),
