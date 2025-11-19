@@ -8,20 +8,43 @@ import 'package:floorball/ui/views/league_details_2/panel_title.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:material_table_view/material_table_view.dart';
 
-ExpansionPanelRadio buildScorerPanel(int identifier, int leagueId) {
+ExpansionPanelRadio buildScorerPanel(
+  int identifier,
+  int leagueId, {
+  double tableHeight = 300.0,
+  double headerHeight = 80.0,
+  double rowHeight = 60.0,
+  bool Function(Scorer)? filter,
+}) {
   return ExpansionPanelRadio(
     value: identifier,
     canTapOnHeader: true,
     headerBuilder: (BuildContext context, bool isExpanded) =>
         PanelTitle(text: 'Scorer'),
-    body: _ScorerTableContent(leagueId: leagueId),
+    body: _ScorerTableContent(
+      leagueId: leagueId,
+      tableHeight: tableHeight,
+      headerHeight: headerHeight,
+      rowHeight: rowHeight,
+      filter: filter,
+    ),
   );
 }
 
 class _ScorerTableContent extends GenericStripedTable<Scorer> {
   final int leagueId;
+  final double tableHeight;
+  final double headerHeight;
+  final double rowHeight;
+  final bool Function(Scorer)? filter;
 
-  const _ScorerTableContent({required this.leagueId});
+  const _ScorerTableContent({
+    required this.leagueId,
+    required this.tableHeight,
+    required this.headerHeight,
+    required this.rowHeight,
+    required this.filter,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +53,16 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
     return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
       builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
         builder: (_, scorerState) => SizedBox(
-          height: 300,
+          height: tableHeight,
           child: buildTable(
             (season != null && season.id >= firstSeasonIdWithNewPenalties)
                 ? _tableDefinitionPenalty2and2
                 : _tableDefinitionPenalty5,
-            scorerState.scorersOf(leagueId),
-            headerHeight: 80.0,
-            rowHeight: 60.0,
+            (filter == null)
+                ? scorerState.scorersOf(leagueId)
+                : scorerState.scorersOf(leagueId).where(filter!).toList(),
+            headerHeight: headerHeight,
+            rowHeight: rowHeight,
           ),
         ),
       ),

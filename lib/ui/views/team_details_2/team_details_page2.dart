@@ -5,6 +5,7 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,11 +63,11 @@ class TeamDetailsPage2 extends StatelessWidget {
 
     return BlocBuilder<TeamInfoCubit, TeamInfoState>(
       builder: (_, state) =>
-          _buildTeamInfoBody(state.infoOf(league.id, teamId)),
+          _buildTeamInfoBody(context, state.infoOf(league.id, teamId)),
     );
   }
 
-  Widget _buildTeamInfoBody(TeamInfo? teamInfo) {
+  Widget _buildTeamInfoBody(BuildContext context, TeamInfo? teamInfo) {
     if (teamInfo == null) {
       return Center(
         child: Text(
@@ -100,8 +101,26 @@ class TeamDetailsPage2 extends StatelessWidget {
           ),
 
           const SizedBox(height: 40),
+
+          ExpansionPanelList.radio(
+            initialOpenPanelValue: null,
+            children: _buildPanelItems(context),
+          ),
         ],
       ),
     );
+  }
+
+  List<ExpansionPanelRadio> _buildPanelItems(BuildContext context) {
+    return [
+      // buildLeagueInfoPanel(0, league),
+      // _buildTablePanel(1, league.id, league.leagueType),
+      buildScorerPanel(
+        2,
+        leagueId,
+        filter: (scorer) => scorer.teamId == teamId,
+      ),
+      // ...buildGameDayPanels(3, league.id, league.gameDayTitles),
+    ];
   }
 }

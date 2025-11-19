@@ -3,7 +3,7 @@ import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details_2/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details_2/league_table_panel.dart';
-import 'package:floorball/ui/views/league_details_2/scorer_panel.dart';
+import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/views/league_details_2/void_table_panel.dart';
 import 'package:flutter/material.dart';
 
