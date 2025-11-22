@@ -31,6 +31,10 @@ List<Widget> buildResultTexts(Game game) {
     return _buildNoRecordTexts(game);
   }
 
+  if (game.state == 'record_created') {
+    return _buildRecordCreatedTextx(game);
+  }
+
   return _buildUnknownResultText(game);
 }
 
@@ -63,6 +67,14 @@ List<Widget> _buildNoRecordTexts(Game game) {
     return _buildNoticeTypeResult(game.noticeType!);
   }
 
+  if (game.time != null) {
+    return [Text('${game.time!} Uhr', style: bold16)];
+  } else {
+    return [Text('Zeit unbekannt', style: bold12)];
+  }
+}
+
+List<Widget> _buildRecordCreatedTextx(Game game) {
   if (game.time != null) {
     return [Text('${game.time!} Uhr', style: bold16)];
   } else {

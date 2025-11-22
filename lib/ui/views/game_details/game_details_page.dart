@@ -78,7 +78,7 @@ class GameDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Noch keine Spieldaten vorhanden',
+              'Keine Spieldaten vorhanden',
               style: TextStyle(fontSize: 16, color: Colors.black54),
             ),
           ],
