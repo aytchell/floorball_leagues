@@ -1,5 +1,4 @@
 import 'period_title.dart';
-import 'detailed_game.dart';
 import 'game_result.dart';
 import 'referee.dart';
 import 'logo_host.dart';

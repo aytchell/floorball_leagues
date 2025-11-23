@@ -2,7 +2,6 @@ import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/app_text_styles.dart';
-import 'package:floorball/ui/views/game_details/game_details_page.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 
 class GameResultSlice {
