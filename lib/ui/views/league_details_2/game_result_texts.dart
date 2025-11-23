@@ -10,15 +10,9 @@ final TextStyle bold12 = const TextStyle(
   fontWeight: FontWeight.w700,
 );
 
-final TextStyle bold16 = const TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-);
+const TextStyle bold16 = TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
 
-final TextStyle bold24 = const TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.w700,
-);
+const TextStyle bold24 = TextStyle(fontSize: 24, fontWeight: FontWeight.w700);
 
 List<Widget> buildResultTexts(Game game) {
   // this method might grow in the future as I don't have a spec on
@@ -32,7 +26,11 @@ List<Widget> buildResultTexts(Game game) {
   }
 
   if (game.state == 'record_created') {
-    return _buildRecordCreatedTextx(game);
+    return _buildRecordCreatedTexts(game);
+  }
+
+  if (game.state == 'running') {
+    return _buildRunningTexts(game);
   }
 
   return _buildUnknownResultText(game);
@@ -46,7 +44,7 @@ List<Widget> _buildEndResultTexts(game) {
   final list = _buildResultText('${result.homeGoals}:${result.guestGoals}');
   final postfix = game.result?.postfix?.short;
   if (postfix != null) {
-    list.add(SizedBox(height: 2));
+    // list.add(SizedBox(height: 2));
     list.add(Text(postfix, style: bold12));
   }
 
@@ -58,8 +56,8 @@ List<Widget> _buildUnknownResultText(Game game) {
   return _buildResultText('-:-');
 }
 
-List<Widget> _buildResultText(String text) {
-  return [Text(text, style: bold24)];
+List<Widget> _buildResultText(String text, {TextStyle style = bold24}) {
+  return [Text(text, style: style)];
 }
 
 List<Widget> _buildNoRecordTexts(Game game) {
@@ -74,12 +72,31 @@ List<Widget> _buildNoRecordTexts(Game game) {
   }
 }
 
-List<Widget> _buildRecordCreatedTextx(Game game) {
+List<Widget> _buildRecordCreatedTexts(Game game) {
   if (game.time != null) {
     return [Text('${game.time!} Uhr', style: bold16)];
   } else {
     return [Text('Zeit unbekannt', style: bold12)];
   }
+}
+
+final runningText = Color.fromARGB(255, 236, 72, 153);
+List<Widget> _buildRunningTexts(Game game) {
+  final list = _buildResultText(
+    '${game.result!.homeGoals}:${game.result!.guestGoals}',
+    style: bold24.copyWith(color: runningText),
+  );
+  list.add(
+    Text(
+      game.currentPeriodTitle!.title,
+      style: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w700,
+        color: runningText,
+      ),
+    ),
+  );
+  return list;
 }
 
 List<Widget> _buildNoticeTypeResult(String noticeType) {

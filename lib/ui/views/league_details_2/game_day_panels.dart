@@ -76,84 +76,69 @@ class _SingleGameDayContent extends StatelessWidget {
 
   Widget _buildRowWithGame(BuildContext context, Game game) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       child: InkWell(
         onTap: () => GameDetailsPageRoute(gameId: game.gameId).push(context),
         child: Row(
           children: [
             // Left side: Both teams stacked vertically
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Home Team
-                  Row(
-                    children: [
-                      TeamLogo(
-                        uri: game.homeLogoSmallUri,
-                        height: 30,
-                        width: 30,
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          game.homeTeamName ?? 'N.N.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  // Guest Team
-                  Row(
-                    children: [
-                      TeamLogo(
-                        uri: game.guestLogoSmallUri,
-                        height: 30,
-                        width: 30,
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          game.guestTeamName ?? 'N.N.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 16),
-            // Right side: Date above score
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Date
-                Text(
-                  game.beautifiedDate ?? 'Datum unbekannt',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black54,
-                  ),
-                ),
-                SizedBox(height: 2),
-                // Score
-                ...buildResultTexts(game),
-              ],
-            ),
+            _buildBothTeams(game),
+            SizedBox(width: 12),
+            _buildDateAndResultOrTime(game),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildBothTeams(Game game) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Home Team
+          _buildTeamRow(game.homeLogoSmallUri, game.homeTeamName),
+          SizedBox(height: 8),
+          // Guest Team
+          _buildTeamRow(game.guestLogoSmallUri, game.guestTeamName),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTeamRow(Uri? teamLogo, String? teamName) {
+    return Row(
+      children: [
+        TeamLogo(uri: teamLogo, height: 30, width: 30),
+        SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            teamName ?? 'N.N.',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDateAndResultOrTime(Game game) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Date
+        Text(
+          game.beautifiedDate ?? 'Datum unbekannt',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Colors.black54,
+          ),
+        ),
+        SizedBox(height: 2),
+        // Score
+        ...buildResultTexts(game),
+      ],
     );
   }
 }
