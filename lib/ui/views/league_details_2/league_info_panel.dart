@@ -1,5 +1,5 @@
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/ui/views/league_details_2/panel_title.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/striped_table_row.dart';

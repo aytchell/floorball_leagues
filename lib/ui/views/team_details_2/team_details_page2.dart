@@ -5,6 +5,7 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/views/team_details_2/team_statistics_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
@@ -21,20 +22,6 @@ class TeamDetailsPage2 extends StatelessWidget {
     required this.leagueId,
     required this.teamId,
   });
-
-  /*
-  List<IndexedScorer> _extractTeamScorers(List<Scorer> scorers, int teamId) {
-    return scorers
-        .mapIndexed(
-          (index, scorer) => IndexedScorer(
-        index: index + 1, // Start ranking from 1
-        scorer: scorer,
-      ),
-    )
-        .where((entry) => entry.scorer.teamId == teamId)
-        .toList();
-  }
- */
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +100,7 @@ class TeamDetailsPage2 extends StatelessWidget {
 
   List<ExpansionPanelRadio> _buildPanelItems(BuildContext context) {
     return [
-      // buildLeagueInfoPanel(0, league),
+      buildTeamStatisticsPanel(0, leagueId, teamId),
       // _buildTablePanel(1, league.id, league.leagueType),
       buildScorerPanel(
         2,

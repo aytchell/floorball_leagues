@@ -1,4 +1,4 @@
-import 'package:floorball/ui/views/league_details_2/panel_title.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
 
 ExpansionPanelRadio buildVoidTablePanel(int identifier, String text) {

@@ -2,7 +2,7 @@ import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
-import 'package:floorball/ui/views/league_details_2/panel_title.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

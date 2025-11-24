@@ -4,7 +4,7 @@ import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
-import 'package:floorball/ui/views/league_details_2/panel_title.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:material_table_view/material_table_view.dart';
 
