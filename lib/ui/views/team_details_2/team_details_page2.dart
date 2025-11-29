@@ -5,6 +5,7 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/views/team_details_2/team_games_panel.dart';
 import 'package:floorball/ui/views/team_details_2/team_statistics_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -101,13 +102,12 @@ class TeamDetailsPage2 extends StatelessWidget {
   List<ExpansionPanelRadio> _buildPanelItems(BuildContext context) {
     return [
       buildTeamStatisticsPanel(0, leagueId, teamId),
-      // _buildTablePanel(1, league.id, league.leagueType),
+      buildTeamGamesPanel(1, leagueId, teamId),
       buildScorerPanel(
         2,
         leagueId,
         filter: (scorer) => scorer.teamId == teamId,
       ),
-      // ...buildGameDayPanels(3, league.id, league.gameDayTitles),
     ];
   }
 }
