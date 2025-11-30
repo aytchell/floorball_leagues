@@ -4,6 +4,7 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/views/league_details_2/game_result_texts.dart';
+import 'package:floorball/ui/views/league_details_2/striped_rows_list.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
@@ -58,36 +59,29 @@ class _SingleGameDayContent extends StatelessWidget {
     return BlocBuilder<LeagueGameDayCubit, GameDaysState>(
       builder: (_, gameDaysState) {
         final games = gameDaysState.gamesOf(leagueId, gameDayNumber);
-        return Column(
-          children: games
-              .asMap()
-              .entries
-              .map(
-                (entry) => StripedTableRow(
-                  index: entry.key,
-                  child: _buildRowWithGame(context, entry.value),
-                ),
-              )
-              .toList(),
-        );
+        return StripedGamesRowsList(games);
       },
     );
   }
+}
 
-  Widget _buildRowWithGame(BuildContext context, Game game) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      child: InkWell(
-        onTap: () => GameDetailsPageRoute(gameId: game.gameId).push(context),
-        child: Row(
-          children: [
-            // Left side: Both teams stacked vertically
-            _buildBothTeams(game),
-            SizedBox(width: 12),
-            _buildDateAndResultOrTime(game),
-          ],
-        ),
-      ),
+class StripedGamesRowsList extends StripedRowsList<Game> {
+  const StripedGamesRowsList(super.entries, {super.key})
+    : super(onTap: _goToGame);
+
+  static void _goToGame(BuildContext context, Game game) {
+    GameDetailsPageRoute(gameId: game.gameId).push(context);
+  }
+
+  @override
+  Widget buildRow(BuildContext context, Game game) {
+    return Row(
+      children: [
+        // Left side: Both teams stacked vertically
+        _buildBothTeams(game),
+        SizedBox(width: 12),
+        _buildDateAndResultOrTime(game),
+      ],
     );
   }
 

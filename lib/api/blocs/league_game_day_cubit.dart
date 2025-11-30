@@ -12,6 +12,12 @@ class GameDaysState {
   List<Game> gamesOf(int leagueId, int gameDayId) =>
       _state[_leagueAndGameDayKey(leagueId, gameDayId)] ?? [];
 
+  List<Game> gamesOfDays(int leagueId, List<int> gameDayIds) {
+    final List<Game> result = [];
+    gameDayIds.forEach((id) => result.addAll(gamesOf(leagueId, id)));
+    return result;
+  }
+
   int _leagueAndGameDayKey(int leagueId, int gameDayId) =>
       leagueId * 1000 + gameDayId;
 

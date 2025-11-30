@@ -92,17 +92,20 @@ class TeamDetailsPage2 extends StatelessWidget {
 
           ExpansionPanelList.radio(
             initialOpenPanelValue: null,
-            children: _buildPanelItems(context),
+            children: _buildPanelItems(context, teamInfo.teamName),
           ),
         ],
       ),
     );
   }
 
-  List<ExpansionPanelRadio> _buildPanelItems(BuildContext context) {
+  List<ExpansionPanelRadio> _buildPanelItems(
+    BuildContext context,
+    String teamName,
+  ) {
     return [
       buildTeamStatisticsPanel(0, leagueId, teamId),
-      buildTeamGamesPanel(1, leagueId, teamId),
+      buildTeamGamesPanel(1, leagueId, teamName),
       buildScorerPanel(
         2,
         leagueId,
