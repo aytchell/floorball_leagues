@@ -100,7 +100,7 @@ class _LeagueInfoContent extends StatelessWidget {
 
   String _playerAges() {
     if (league.deadline == null || league.beforeDeadline == null) {
-      return 'Nicht angegeben';
+      return 'unbeschränkt';
     }
 
     final youngerOrOlder = (league.beforeDeadline!)
@@ -115,16 +115,31 @@ class _LeagueInfoContent extends StatelessWidget {
       _LeagueInfoItem(label: 'Spielfeld', value: _fieldSize()),
       _LeagueInfoItem(label: 'Spielabschnitte', value: _periodNumber()),
       _LeagueInfoItem(
-        label: 'Dauer der Abschnitte (Minuten)',
-        value: league.periodLength?.toString() ?? 'Nicht angegeben',
+        label: _periodDuraionLabel(),
+        value: _minutes(league.periodLength),
       ),
       _LeagueInfoItem(
-        label: 'Dauer der Verlängerung (Minuten)',
-        value: league.overtimeLength?.toString() ?? 'Nicht angegeben',
+        label: 'Dauer der Verlängerung',
+        value: _minutes(league.overtimeLength),
       ),
       _LeagueInfoItem(label: 'Damen / Mixed', value: _femaleOrMixed()),
       _LeagueInfoItem(label: 'Jahrgänge', value: _playerAges()),
     ];
+  }
+
+  String _minutes(int? value) {
+    if (value != null) {
+      return '$value min';
+    }
+    return 'Nicht angegeben';
+  }
+
+  String _periodDuraionLabel() {
+    if (league.periods != null) {
+      if (league.periods == 2) return 'Dauer jeder Halbzeit';
+      if (league.periods == 3) return 'Dauer jedes Drittels';
+    }
+    return 'Dauer jedes Abschnitts';
   }
 }
 
