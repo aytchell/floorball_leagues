@@ -66,9 +66,9 @@ class _GameDaysProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = BlocProvider.of<LeagueGameDayCubit>(context);
-    gameDayNumbers.forEach(
-      (gameDayId) => provider.ensureGamesFor(leagueId, gameDayId),
-    );
+    for (var gameDayId in gameDayNumbers) {
+      provider.ensureGamesFor(leagueId, gameDayId);
+    }
 
     return BlocBuilder<LeagueGameDayCubit, GameDaysState>(
       builder: (_, state) {

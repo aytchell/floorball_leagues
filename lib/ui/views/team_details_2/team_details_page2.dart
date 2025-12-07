@@ -1,7 +1,6 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/team_info_cubit.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';

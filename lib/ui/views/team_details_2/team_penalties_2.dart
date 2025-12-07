@@ -1,5 +1,4 @@
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/ui/views/team_details/indexed_scorer.dart';
 
 class TeamPenalties2 {
   int seasonId;

@@ -6,7 +6,7 @@ import 'package:floorball/ui/views/league_details/game_card.dart';
 import 'package:floorball/ui/views/league_details/game_day_table.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
-import 'package:floorball/ui/views/league_details/date_and_club.dart';
+import 'package:floorball/ui/views/league_details_2/date_and_club.dart';
 import 'package:floorball/ui/widgets/expandable_card.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/ui/app_text_styles.dart';

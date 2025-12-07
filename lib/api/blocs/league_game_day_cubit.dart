@@ -14,7 +14,9 @@ class GameDaysState {
 
   List<Game> gamesOfDays(int leagueId, List<int> gameDayIds) {
     final List<Game> result = [];
-    gameDayIds.forEach((id) => result.addAll(gamesOf(leagueId, id)));
+    for (var id in gameDayIds) {
+      result.addAll(gamesOf(leagueId, id));
+    }
     return result;
   }
 
