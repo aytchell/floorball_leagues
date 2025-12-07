@@ -1,13 +1,9 @@
 import 'game_day_title.dart';
-import 'scorer.dart';
-import 'game.dart';
-import 'league_table_row.dart';
-import 'champ_group_table.dart';
 import 'date_formatter.dart';
 
 enum LeagueType { league, champ, cup }
 
-abstract class League {
+class League {
   int id;
   int federationId;
   String federationName;
@@ -67,10 +63,4 @@ abstract class League {
   });
 
   String? get beautifiedDeadline => beautifyDate(deadline!);
-
-  Stream<Future<List<Game>>> getGames(int gameDayNumber);
-
-  Stream<Future<List<Scorer>>> getScorers();
-  Stream<Future<List<LeagueTableRow>>> getLeagueTable();
-  Stream<Future<List<ChampGroupTable>>> getChampTable();
 }

@@ -1,7 +1,7 @@
 import 'package:floorball/api/impls/champ_table_fetcher.dart';
 import 'package:floorball/api/impls/detailed_game_fetcher.dart';
 import 'package:floorball/api/impls/game_parser.dart';
-import 'package:floorball/api/impls/scorer_parser.dart';
+import 'package:floorball/api/impls/scorer_fetcher.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
@@ -11,7 +11,7 @@ import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
 
-import 'impls/league_impl.dart';
+import 'impls/league_parser.dart';
 import 'impls/league_table_fetcher.dart';
 import 'models/league.dart';
 
@@ -32,7 +32,7 @@ class ApiRepository {
           (data) {
             final json = data as List<dynamic>;
             return json
-                .map((federation) => LeagueImpl.fromJson(client, federation))
+                .map((league) => parseLeague(league))
                 .toList();
           },
         ),
@@ -43,7 +43,7 @@ class ApiRepository {
         (client) =>
             client.streamApiDataSync('/api/v2/leagues/$leagueId.json', (data) {
               final json = data as Map<String, dynamic>;
-              return LeagueImpl.fromJson(client, json);
+              return parseLeague(json);
             }),
       );
 

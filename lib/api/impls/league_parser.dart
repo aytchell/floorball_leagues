@@ -1,55 +1,12 @@
-import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/league_table_row.dart';
-import 'package:floorball/api/models/champ_group_table.dart';
-import 'package:floorball/api/impls/game_parser.dart';
 import 'package:floorball/api/impls/game_day_title_parser.dart';
-import 'package:floorball/api/impls/scorer_parser.dart';
-import 'package:floorball/api/impls/league_table_fetcher.dart';
-import 'package:floorball/api/impls/champ_table_fetcher.dart';
 
 import 'package:floorball/api/impls/int_parser.dart';
 import 'package:logging/logging.dart';
 
 final log = Logger('LeagueParser');
 
-class LeagueImpl extends League {
-  final RestClient client;
-
-  LeagueImpl({
-    required this.client,
-    required super.id,
-    required super.federationId,
-    required super.federationName,
-    super.federationShortName,
-    super.federationSlug,
-    super.leagueCategoryId,
-    super.leagueClassId,
-    super.leagueSystemId,
-    required super.leagueType,
-    required super.name,
-    super.female,
-    super.enableScorer,
-    super.shortName,
-    super.seasonId,
-    super.orderKey,
-    required super.gameDayNumbers,
-    required super.gameDayTitles,
-    super.deadline,
-    super.beforeDeadline,
-    super.legacyLeague,
-    super.fieldSize,
-    super.leagueModus,
-    super.hasPreround,
-    super.tableModus,
-    super.periods,
-    super.periodLength,
-    super.overtimeLength,
-  });
-
-  static LeagueType _parseLeagueType(String leagueTypeString) {
+  LeagueType _parseLeagueType(String leagueTypeString) {
     switch (leagueTypeString) {
       case "league":
         return LeagueType.league;
@@ -65,11 +22,10 @@ class LeagueImpl extends League {
     }
   }
 
-  factory LeagueImpl.fromJson(RestClient client, Map<String, dynamic> json) {
+  League parseLeague(Map<String, dynamic> json) {
     var gameDayTitlesJson = json['game_day_titles'] as List;
 
-    return LeagueImpl(
-      client: client,
+    return League(
       id: parseInt(json, 'id'),
       federationId: parseInt(json, 'game_operation_id'),
       federationName: json['game_operation_name'] as String,
@@ -101,30 +57,3 @@ class LeagueImpl extends League {
       overtimeLength: parseNullableInt(json, 'overtime_length'),
     );
   }
-
-  @override
-  Stream<Future<List<Game>>> getGames(int gameDayNumber) {
-    return client.streamApiData(
-      '/api/v2/leagues/$id/game_days/$gameDayNumber/schedule.json',
-      (data) {
-        final json = data as List<dynamic>;
-        return json.map((game) => parseGame(game)).toList();
-      },
-    );
-  }
-
-  @override
-  Stream<Future<List<Scorer>>> getScorers() {
-    return fetchScorers(client, id);
-  }
-
-  @override
-  Stream<Future<List<LeagueTableRow>>> getLeagueTable() {
-    return fetchLeagueTableFromServer(client, id);
-  }
-
-  @override
-  Stream<Future<List<ChampGroupTable>>> getChampTable() {
-    return fetchChampTableFromServer(client, id);
-  }
-}
