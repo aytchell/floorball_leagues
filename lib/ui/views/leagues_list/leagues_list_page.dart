@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/ui/views/league_details/league_details_page.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -86,23 +85,10 @@ class LeaguesListPage extends StatelessWidget {
       itemBuilder: (context, index) {
         return ListTile(
           title: TextButton(
-            onPressed: () {
-              if (index % 2 == 0) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LeagueDetailsPage(league: leagues[index]);
-                    },
-                  ),
-                );
-              } else {
-                LeagueDetailsPageRoute(
-                  leagueId: leagues[index].id,
-                  leagueName: leagues[index].name,
-                ).push(context);
-              }
-            },
+            onPressed: () => LeagueDetailsPageRoute(
+              leagueId: leagues[index].id,
+              leagueName: leagues[index].name,
+            ).push(context),
             style: TextButton.styleFrom(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.zero,
