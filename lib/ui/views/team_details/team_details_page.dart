@@ -4,20 +4,20 @@ import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/views/team_details_2/team_games_panel.dart';
-import 'package:floorball/ui/views/team_details_2/team_statistics_panel.dart';
+import 'package:floorball/ui/views/team_details/team_games_panel.dart';
+import 'package:floorball/ui/views/team_details/team_statistics_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TeamDetailsPage2 extends StatelessWidget {
+class TeamDetailsPage extends StatelessWidget {
   final int leagueId;
   final int teamId;
 
-  static const String routePath = '/team_details_2';
+  static const String routePath = '/team_details';
 
-  const TeamDetailsPage2({
+  const TeamDetailsPage({
     super.key,
     required this.leagueId,
     required this.teamId,

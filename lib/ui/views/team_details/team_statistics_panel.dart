@@ -3,7 +3,7 @@ import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/ui/views/team_details_2/team_statistics_table_2.dart';
+import 'package:floorball/ui/views/team_details/team_statistics_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,7 +68,7 @@ class _TeamStatisticsContent extends StatelessWidget {
             if (teamRows.isEmpty) {
               return fallbackText;
             } else {
-              return TeamStatisticsTable2(
+              return TeamStatisticsTable(
                 team: teamRows.first,
                 scorers: scorers
                     .where((scorer) => scorer.teamId == teamId)

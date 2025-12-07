@@ -1,17 +1,17 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/ui/views/league_details_2/game_day_panels.dart';
-import 'package:floorball/ui/views/league_details_2/league_info_panel.dart';
-import 'package:floorball/ui/views/league_details_2/league_table_panel.dart';
-import 'package:floorball/ui/views/league_details_2/void_table_panel.dart';
+import 'package:floorball/ui/views/league_details/game_day_panels.dart';
+import 'package:floorball/ui/views/league_details/league_info_panel.dart';
+import 'package:floorball/ui/views/league_details/league_table_panel.dart';
+import 'package:floorball/ui/views/league_details/void_table_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LeagueDetailsPage2 extends StatelessWidget {
-  const LeagueDetailsPage2({
+class LeagueDetailsPage extends StatelessWidget {
+  const LeagueDetailsPage({
     super.key,
     required this.leagueId,
     required this.leagueName,

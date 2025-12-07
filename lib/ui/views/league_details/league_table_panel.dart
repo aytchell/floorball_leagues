@@ -1,7 +1,7 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/routes.dart';
-import 'package:floorball/ui/views/league_details_2/generic_striped_table.dart';
+import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
             _tableDefinition,
             table,
             onTapBuilder: (ctxt, rowId) {
-              return () => TeamDetailsPage2Route(
+              return () => TeamDetailsPageRoute(
                 leagueId: leagueId,
                 teamId: table[rowId].teamId,
               ).push(context);

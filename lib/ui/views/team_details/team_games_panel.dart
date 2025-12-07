@@ -1,8 +1,8 @@
 import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/ui/views/league_details_2/striped_rows_list.dart';
-import 'package:floorball/ui/views/team_details_2/games_overview_item.dart';
+import 'package:floorball/ui/views/league_details/striped_rows_list.dart';
+import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

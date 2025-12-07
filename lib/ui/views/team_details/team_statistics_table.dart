@@ -1,5 +1,5 @@
 import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/ui/views/team_details_2/team_penalties_2.dart';
+import 'package:floorball/ui/views/team_details/team_penalties.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
@@ -11,12 +11,12 @@ class _StatisticItem {
   _StatisticItem({required this.label, required this.value});
 }
 
-class TeamStatisticsTable2 extends StatelessWidget {
+class TeamStatisticsTable extends StatelessWidget {
   final LeagueTableRow team;
   final List<Scorer> scorers;
   final int seasonId;
 
-  const TeamStatisticsTable2({
+  const TeamStatisticsTable({
     super.key,
     required this.team,
     required this.scorers,
@@ -25,7 +25,7 @@ class TeamStatisticsTable2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TeamPenalties2 penalties = TeamPenalties2.extract(scorers, seasonId);
+    final TeamPenalties penalties = TeamPenalties.extract(scorers, seasonId);
 
     final statistics = [
       _StatisticItem(label: 'Position', value: '${team.position}.'),

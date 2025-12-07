@@ -31,9 +31,7 @@ class ApiRepository {
           '/api/v2/game_operations/$federationId/leagues/$seasonId.json',
           (data) {
             final json = data as List<dynamic>;
-            return json
-                .map((league) => parseLeague(league))
-                .toList();
+            return json.map((league) => parseLeague(league)).toList();
           },
         ),
       );

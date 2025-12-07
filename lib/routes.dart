@@ -3,10 +3,10 @@ import 'package:go_router/go_router.dart';
 
 import 'ui/views/game_details/game_details_page.dart';
 import 'ui/views/landing/landing_page.dart';
-import 'ui/views/league_details_2/league_details_page_2.dart';
+import 'ui/views/league_details/league_details_page.dart';
 import 'ui/views/leagues_list/leagues_list_page.dart';
 import 'ui/views/season_selector/season_selector_page.dart';
-import 'ui/views/team_details_2/team_details_page2.dart';
+import 'ui/views/team_details/team_details_page.dart';
 
 part 'routes.g.dart';
 
@@ -26,7 +26,7 @@ class LeaguesListPageRoute extends GoRouteData with $LeaguesListPageRoute {
   }
 }
 
-@TypedGoRoute<LeagueDetailsPageRoute>(path: LeagueDetailsPage2.routePath)
+@TypedGoRoute<LeagueDetailsPageRoute>(path: LeagueDetailsPage.routePath)
 @immutable
 class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
   final int leagueId;
@@ -41,7 +41,7 @@ class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: LeagueDetailsPage2(leagueId: leagueId, leagueName: leagueName),
+      child: LeagueDetailsPage(leagueId: leagueId, leagueName: leagueName),
     );
   }
 }
@@ -63,19 +63,19 @@ class GameDetailsPageRoute extends GoRouteData with $GameDetailsPageRoute {
   }
 }
 
-@TypedGoRoute<TeamDetailsPage2Route>(path: TeamDetailsPage2.routePath)
+@TypedGoRoute<TeamDetailsPageRoute>(path: TeamDetailsPage.routePath)
 @immutable
-class TeamDetailsPage2Route extends GoRouteData with $TeamDetailsPage2Route {
+class TeamDetailsPageRoute extends GoRouteData with $TeamDetailsPageRoute {
   final int leagueId;
   final int teamId;
 
-  const TeamDetailsPage2Route({required this.leagueId, required this.teamId});
+  const TeamDetailsPageRoute({required this.leagueId, required this.teamId});
 
   @override
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: TeamDetailsPage2(leagueId: leagueId, teamId: teamId),
+      child: TeamDetailsPage(leagueId: leagueId, teamId: teamId),
     );
   }
 }

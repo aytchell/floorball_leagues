@@ -1,6 +1,6 @@
 import 'package:floorball/api/models/scorer.dart';
 
-class TeamPenalties2 {
+class TeamPenalties {
   int seasonId;
   int penalty2;
   int penalty2and2;
@@ -12,7 +12,7 @@ class TeamPenalties2 {
   int penaltyMs2;
   int penaltyMs3;
 
-  TeamPenalties2({
+  TeamPenalties({
     required this.seasonId,
     this.penalty2 = 0,
     this.penalty2and2 = 0,
@@ -25,14 +25,14 @@ class TeamPenalties2 {
     this.penaltyMs3 = 0,
   });
 
-  factory TeamPenalties2.extract(List<Scorer> scorers, int seasonId) {
+  factory TeamPenalties.extract(List<Scorer> scorers, int seasonId) {
     return scorers.fold(
-      TeamPenalties2(seasonId: seasonId),
+      TeamPenalties(seasonId: seasonId),
       (penalties, scorer) => penalties.plus(scorer),
     );
   }
 
-  TeamPenalties2 plus(Scorer scorer) {
+  TeamPenalties plus(Scorer scorer) {
     penalty2 = penalty2 + scorer.penalty2;
     penalty2and2 = penalty2and2 + scorer.penalty2and2;
     penalty5 = penalty5 + scorer.penalty5;
