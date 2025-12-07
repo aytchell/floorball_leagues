@@ -32,7 +32,7 @@ class TeamStatisticsTable2 extends StatelessWidget {
       _StatisticItem(label: 'Spiele', value: '${team.games}'),
       _StatisticItem(label: 'Punkte', value: _buildPoints()),
       _StatisticItem(
-        label: 'S | S(OT) | U | N(OT) | N',
+        label: 'S | S(nV) | U | N(nV) | N',
         value: _buildGameOutcomes(),
       ),
       _StatisticItem(label: 'Tore', value: _buildGoals()),
