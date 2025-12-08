@@ -11,7 +11,7 @@ class PlayerAdapter extends Equatable
   const PlayerAdapter({required this.player});
 
   @override
-  String get trikotNumber => '${player.trikotNumber}';
+  String get jerseyNumber => '${player.jerseyNumber}';
 
   @override
   String get playerName => player.name;
@@ -24,7 +24,7 @@ class PlayerAdapter extends Equatable
 
   @override
   int compareTo(PlayerAdapter other) {
-    return player.trikotNumber.compareTo(other.player.trikotNumber);
+    return player.jerseyNumber.compareTo(other.player.jerseyNumber);
   }
 }
 

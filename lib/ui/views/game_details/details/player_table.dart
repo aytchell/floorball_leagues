@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 
 abstract interface class TableContentProvider {
-  String get trikotNumber;
+  String get jerseyNumber;
   String get playerName;
   String? get position;
 }
@@ -36,7 +36,7 @@ class PlayerTable extends StatelessWidget {
                     SizedBox(
                       width: 30,
                       child: SvgPicture.asset(
-                        'assets/images/trikot_small.svg',
+                        'assets/images/jersey_small.svg',
                         width: 20,
                         height: 20,
                         colorFilter: ColorFilter.mode(
@@ -52,7 +52,7 @@ class PlayerTable extends StatelessWidget {
                     SizedBox(
                       width: 30,
                       child: Text(
-                        player.trikotNumber,
+                        player.jerseyNumber,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

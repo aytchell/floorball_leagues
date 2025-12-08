@@ -1,7 +1,7 @@
 class Player {
   int playerId;
   String playerName;
-  int trikotNumber;
+  int jerseyNumber;
   String playerFirstname;
   String position;
   bool? goalkeeper;
@@ -10,7 +10,7 @@ class Player {
   Player({
     required this.playerId,
     required this.playerName,
-    required this.trikotNumber,
+    required this.jerseyNumber,
     required this.playerFirstname,
     required this.position,
     this.goalkeeper,

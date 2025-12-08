@@ -9,7 +9,7 @@ StartingPlayer parseStartingPlayer(Map<String, dynamic> json) {
     playerId: parseNullableInt(json, 'player_id'),
     playerFirstname: parseNullableString(json, 'player_firstname'),
     playerName: parseNullableString(json, 'player_name'),
-    trikotNumber: parseNullableInt(json, 'trikot_number'),
+    jerseyNumber: parseNullableInt(json, 'trikot_number'),
   );
 }
 

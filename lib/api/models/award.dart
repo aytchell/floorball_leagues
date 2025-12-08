@@ -4,7 +4,7 @@ class Award {
   int? playerId;
   String? playerFirstname;
   String? playerName;
-  int? trikotNumber;
+  int? jerseyNumber;
 
   Award({
     required this.award,
@@ -12,11 +12,11 @@ class Award {
     this.playerId,
     this.playerFirstname,
     this.playerName,
-    this.trikotNumber,
+    this.jerseyNumber,
   });
 
   String get name => '$playerFirstname $playerName';
-  bool get notGiven => (trikotNumber == null);
+  bool get notGiven => (jerseyNumber == null);
 }
 
 class Awards {

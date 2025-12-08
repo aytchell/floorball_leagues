@@ -9,7 +9,7 @@ class AwardAdapter implements TableContentProvider {
   AwardAdapter({required this.player});
 
   @override
-  String get trikotNumber => '${player.trikotNumber}';
+  String get jerseyNumber => '${player.jerseyNumber}';
 
   @override
   String get playerName => player.name;
