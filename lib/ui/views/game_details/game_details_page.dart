@@ -57,7 +57,7 @@ class GameDetailsPage extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -97,71 +97,62 @@ class GameDetailsPage extends StatelessWidget {
   }
 
   Widget _buildGameHeader(DetailedGame detailedGame) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return Column(
+      children: [
+        Row(
           children: [
-            Row(
-              children: [
-                // Home team
-                _buildTeam(detailedGame.homeLogoUri, detailedGame.homeTeamName),
+            // Home team
+            _buildTeam(detailedGame.homeLogoUri, detailedGame.homeTeamName),
 
-                // Score/Time
-                Expanded(
-                  child: Column(
-                    children: [
-                      if (detailedGame.ended || detailedGame.started)
-                        Text(
-                          detailedGame.resultString ?? '- : -',
-                          style: AppTextStyles.gameCardResultFont.copyWith(
-                            fontSize: 24,
-                            color: detailedGame.started && !detailedGame.ended
-                                ? Colors.pink
-                                : Colors.black,
-                          ),
-                        )
-                      else
-                        Text(
-                          '${detailedGame.startTime ?? '??:??'} Uhr',
-                          style: AppTextStyles.gameCardResultFont,
-                        ),
-
-                      const SizedBox(height: 4),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getGameStatusColor(detailedGame),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          _getGameStatusText(detailedGame),
-                          style: TextStyle(
-                            color: Colors.grey[50],
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+            // Score/Time
+            Expanded(
+              child: Column(
+                children: [
+                  if (detailedGame.ended || detailedGame.started)
+                    Text(
+                      detailedGame.resultString ?? '- : -',
+                      style: AppTextStyles.gameCardResultFont.copyWith(
+                        fontSize: 24,
+                        color: detailedGame.started && !detailedGame.ended
+                            ? Colors.pink
+                            : Colors.black,
                       ),
-                    ],
-                  ),
-                ),
+                    )
+                  else
+                    Text(
+                      '${detailedGame.startTime ?? '??:??'} Uhr',
+                      style: AppTextStyles.gameCardResultFont,
+                    ),
 
-                // Guest team
-                _buildTeam(
-                  detailedGame.guestLogoUri,
-                  detailedGame.guestTeamName,
-                ),
-              ],
+                  const SizedBox(height: 4),
+
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: _getGameStatusColor(detailedGame),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      _getGameStatusText(detailedGame),
+                      style: TextStyle(
+                        color: Colors.grey[50],
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+
+            // Guest team
+            _buildTeam(detailedGame.guestLogoUri, detailedGame.guestTeamName),
           ],
         ),
-      ),
+      ],
     );
   }
 

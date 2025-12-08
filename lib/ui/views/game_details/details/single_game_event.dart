@@ -26,6 +26,15 @@ class SingleGameEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(minHeight: 45),
+      padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 0),
+      alignment: AlignmentGeometry.center,
+      child: _buildEvent(),
+    );
+  }
+
+  Widget _buildEvent() {
     if (event.eventType == 'goal') {
       return _buildGoalEvent();
     }

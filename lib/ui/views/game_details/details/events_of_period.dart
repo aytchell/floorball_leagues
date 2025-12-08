@@ -62,45 +62,40 @@ class EventsOfPeriod extends StatelessWidget {
         const SizedBox(height: 8),
 
         // Table
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Column(
-            children: [
-              // If no events to report
-              if (events == null || events!.isEmpty)
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  child: const Text(
-                    'Keine Ereignisse',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontStyle: FontStyle.italic,
-                    ),
+        Column(
+          children: [
+            // If no events to report
+            if (events == null || events!.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: const Text(
+                  'Keine Ereignisse',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
+              ),
 
-              // Table rows
-              if (events != null && events!.isNotEmpty)
-                ...events!.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final event = entry.value;
+            // Table rows
+            if (events != null && events!.isNotEmpty)
+              ...events!.asMap().entries.map((entry) {
+                final index = entry.key;
+                final event = entry.value;
 
-                  return StripedTableRow(
-                    index: index,
-                    child: SingleGameEvent(
-                      event: event,
-                      homePlayerNames: homePlayerNames,
-                      guestPlayerNames: guestPlayerNames,
-                      homeLogo: homeLogo,
-                      guestLogo: guestLogo,
-                    ),
-                  );
-                }),
-            ],
-          ),
+                return StripedTableRow(
+                  index: index,
+                  padding: null,
+                  child: SingleGameEvent(
+                    event: event,
+                    homePlayerNames: homePlayerNames,
+                    guestPlayerNames: guestPlayerNames,
+                    homeLogo: homeLogo,
+                    guestLogo: guestLogo,
+                  ),
+                );
+              }),
+          ],
         ),
       ],
     );

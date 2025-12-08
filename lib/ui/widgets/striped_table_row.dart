@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const greyedLineColor = Color.fromARGB(255, 251, 251, 251);
+
 /// StripedTableRow wraps a child and applies alternating background colors
 /// and an optional top border for rows after the first. Useful for table-like
 /// lists to improve readability.
@@ -7,7 +9,7 @@ class StripedTableRow extends StatelessWidget {
   final int index; // zero-based row index
   final Widget child;
   final void Function()? onTap;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final Color? evenColor;
   final Color? oddColor;
   final Color? borderColor;
@@ -27,8 +29,8 @@ class StripedTableRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final isEven = index % 2 == 0;
     final bg = isEven
-        ? (evenColor ?? Colors.grey.shade50)
-        : (oddColor ?? Colors.grey[50]);
+        ? (evenColor ?? Colors.white)
+        : (oddColor ?? greyedLineColor);
     final border = index > 0
         ? Border(
             top: BorderSide(

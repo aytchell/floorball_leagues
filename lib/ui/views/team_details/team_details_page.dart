@@ -65,14 +65,13 @@ class TeamDetailsPage extends StatelessWidget {
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 32),
 
           // Team Logo
-          TeamLogo(uri: teamInfo.teamLogoUri, height: 120, width: 120),
+          TeamLogo(uri: teamInfo.teamLogoUri, height: 160, width: 160),
 
           const SizedBox(height: 24),
 

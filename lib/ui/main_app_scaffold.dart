@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 
-final Color backgroundColor = Color.fromARGB(255, 231, 231, 231);
+final Color backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
 class MainAppScaffold extends StatelessWidget {
   final String title;

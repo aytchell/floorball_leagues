@@ -11,9 +11,9 @@ import 'package:material_table_view/material_table_view.dart';
 ExpansionPanelRadio buildScorerPanel(
   int identifier,
   int leagueId, {
-  double tableHeight = 300.0,
-  double headerHeight = 80.0,
-  double rowHeight = 60.0,
+  double tableHeight = 450.0,
+  double headerHeight = 70.0,
+  double rowHeight = 50.0,
   bool Function(Scorer)? filter,
 }) {
   return ExpansionPanelRadio(
@@ -74,14 +74,6 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
     headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
     contentBuilder: (row) => buildTextCell('${row.position}'),
   );
-  /*
-    TableColumnDefinition(
-      column: const TableColumn(width: 40), // logo
-      headerBuilder: () => const SizedBox.shrink(),
-      contentBuilder: (row) =>
-          TeamLogo(uri: row.teamLogoSmallUri, height: 32, width: 32),
-    ),
-    */
 
   static final _playersName = TableColumnDefinition<Scorer>(
     column: const TableColumn(
