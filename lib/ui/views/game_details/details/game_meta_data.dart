@@ -31,7 +31,7 @@ class GameMetaData extends StatelessWidget {
             _buildTableRow('Austragungsort', game.arenaAddress),
             _buildTableRow('Spielbeginn', game.startTime ?? '-'),
             _buildTableRow('Zuschauerzahl', game.audience?.toString() ?? '-'),
-            _buildTableRow('Schiedsrichter', game.nominatedReferees ?? '-'),
+            _buildTableRow('Schiedsrichter', _printReferees(game)),
           ],
         ),
       ],
@@ -59,5 +59,15 @@ class GameMetaData extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _printReferees(DetailedGame game) {
+    if (game.referees.isNotEmpty) {
+      return game.referees
+          .map((ref) => '${ref.firstName} ${ref.lastName}')
+          .reduce((acc, element) => '$acc / $element');
+    } else {
+      return game.nominatedReferees ?? '-';
+    }
   }
 }
