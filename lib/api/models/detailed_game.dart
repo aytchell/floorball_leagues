@@ -1,3 +1,5 @@
+import 'package:floorball/api/models/game_status.dart';
+
 import 'logo_host.dart';
 import 'game_result.dart';
 import 'period_title.dart';
@@ -15,7 +17,7 @@ class DetailedGame {
   String? actualStartTime;
   String date;
   GameDay gameDay;
-  String? gameStatus;
+  GameStatus? gameStatus;
   String? ingameStatus;
   int? audience;
   String homeTeamName;

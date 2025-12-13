@@ -1,3 +1,4 @@
+import 'package:floorball/api/impls/game_status_parser.dart';
 import 'package:floorball/api/models/game.dart';
 
 import 'package:floorball/api/impls/game_result_parser.dart';
@@ -34,7 +35,7 @@ Game parseGame(Map<String, dynamic> json) {
     referees: refereesJson.map((referee) => parseReferee(referee)).toList(),
     noticeType: json['notice_type'] as String?,
     noticeString: json['notice_string'] as String?,
-    state: json['state'] as String,
+    state: parseGameStatus(json, 'state'),
     currentPeriodTitle: rawTitle != null ? parsePeriodTitle(rawTitle) : null,
     groupIdentifier: json['group_identifier'] as String?,
     seriesTitle: json['series_title'] as String?,

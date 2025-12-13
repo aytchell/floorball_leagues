@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/game_status.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -15,25 +16,17 @@ const TextStyle bold16 = TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
 const TextStyle bold24 = TextStyle(fontSize: 24, fontWeight: FontWeight.w700);
 
 List<Widget> buildResultTexts(Game game) {
-  // this method might grow in the future as I don't have a spec on
-  // how to interpret the various result types
-  if (game.state == 'ended') {
-    return _buildEndResultTexts(game);
+  switch (game.state) {
+    case GameStatus.ended:
+    case GameStatus.matchRecordClosed:
+      return _buildEndResultTexts(game);
+    case GameStatus.noRecord:
+      return _buildNoRecordTexts(game);
+    case GameStatus.recordCreated:
+      return _buildRecordCreatedTexts(game);
+    case GameStatus.running:
+      return _buildRunningTexts(game);
   }
-
-  if (game.state == 'no_record') {
-    return _buildNoRecordTexts(game);
-  }
-
-  if (game.state == 'record_created') {
-    return _buildRecordCreatedTexts(game);
-  }
-
-  if (game.state == 'running') {
-    return _buildRunningTexts(game);
-  }
-
-  return _buildUnknownResultText(game);
 }
 
 List<Widget> _buildEndResultTexts(game) {

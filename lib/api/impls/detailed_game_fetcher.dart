@@ -1,3 +1,5 @@
+import 'package:floorball/api/impls/game_parser.dart';
+import 'package:floorball/api/impls/game_status_parser.dart';
 import 'package:floorball/net/rest_client.dart';
 
 import 'package:floorball/api/models/detailed_game.dart';
@@ -30,7 +32,7 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
     actualStartTime: parseNullableString(json, 'actual_start_time'),
     date: parseString(json, 'date'),
     gameDay: parseGameDay(json['game_day']),
-    gameStatus: parseNullableString(json, 'game_status'),
+    gameStatus: parseNullableGameStatus(json, 'game_status'),
     ingameStatus: parseNullableString(json, 'ingame_status'),
     audience: parseNullableInt(json, 'audience'),
     homeTeamName: parseString(json, 'home_team_name'),
