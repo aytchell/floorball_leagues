@@ -4,6 +4,7 @@ import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/blocs/team_info_cubit.dart';
+import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +50,12 @@ class MyApp extends StatelessWidget {
   late final leagueTableCubit = LeagueTableCubit(apiRepository);
   late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
   late final teamInfoCubit = TeamInfoCubit(teamRepository);
+  late final tickCubit = TickCubit();
 
   @override
   Widget build(BuildContext context) {
     _fetchInitialData();
+    tickCubit.startTicking();
 
     return MultiRepositoryProvider(
       providers: [RepositoryProvider.value(value: apiRepository)],
@@ -67,6 +70,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: leagueTableCubit),
           BlocProvider.value(value: detailedGamesCubit),
           BlocProvider.value(value: teamInfoCubit),
+          BlocProvider.value(value: tickCubit),
         ],
         child: MaterialApp.router(
           title: 'Federations Grid',
