@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/blocs/league_game_day_cubit.dart';
+import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/routes.dart';
@@ -204,10 +205,22 @@ class _SingleGameDayContent extends StatelessWidget {
     return BlocBuilder<LeagueGameDayCubit, GameDaysState>(
       builder: (_, gameDaysState) {
         final games = gameDaysState.gamesOf(leagueId, gameDayNumber);
-        return StripedGamesRowsList(games);
+        return BlocListener<TickCubit, TickState>(
+          listener: (context, tickState) {
+            if (_isAnyGameRunning(games, tickState.timestamp)) {
+              BlocProvider.of<LeagueGameDayCubit>(
+                context,
+              ).refreshGamesOf(leagueId, gameDayNumber);
+            }
+          },
+          child: StripedGamesRowsList(games),
+        );
       },
     );
   }
+
+  bool _isAnyGameRunning(List<Game> games, DateTime timestamp) =>
+      games.any((game) => game.isGameRunning(timestamp));
 }
 
 class StripedGamesRowsList extends StripedRowsList<Game> {
