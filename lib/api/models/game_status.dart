@@ -2,8 +2,9 @@ enum GameStatus {
   noRecord,
   recordCreated,
   running,
-  ended,
+  pregame,
   ingame,
   aftergame,
+  ended,
   matchRecordClosed,
 }

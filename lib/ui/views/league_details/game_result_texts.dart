@@ -24,6 +24,7 @@ List<Widget> buildResultTexts(Game game) {
     case GameStatus.noRecord:
       return _buildNoRecordTexts(game);
     case GameStatus.recordCreated:
+    case GameStatus.pregame:
       return _buildRecordCreatedTexts(game);
     case GameStatus.ingame:
     case GameStatus.running:

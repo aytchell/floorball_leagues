@@ -8,18 +8,20 @@ GameStatus _parseGameStatus(String state) {
   // this method might grow in the future as I don't have a spec on
   // how to interpret the various result types
   switch (state) {
-    case 'ended':
-      return GameStatus.ended;
     case 'no_record':
       return GameStatus.noRecord;
     case 'record_created':
       return GameStatus.recordCreated;
     case 'running':
       return GameStatus.running;
+    case 'pregame':
+      return GameStatus.pregame;
     case 'ingame':
       return GameStatus.ingame;
     case 'aftergame':
       return GameStatus.aftergame;
+    case 'ended':
+      return GameStatus.ended;
     case 'match_record_closed':
       return GameStatus.matchRecordClosed;
     default:

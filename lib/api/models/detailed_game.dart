@@ -126,6 +126,7 @@ class DetailedGame {
       case GameStatus.noRecord:
         return false;
       case GameStatus.recordCreated:
+      case GameStatus.pregame:
       case null:
         return (startDateTime?.isBefore(timestamp) ?? false);
     }
