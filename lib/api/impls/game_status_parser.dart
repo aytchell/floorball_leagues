@@ -16,6 +16,8 @@ GameStatus _parseGameStatus(String state) {
       return GameStatus.recordCreated;
     case 'running':
       return GameStatus.running;
+    case 'ingame':
+      return GameStatus.ingame;
     case 'match_record_closed':
       return GameStatus.matchRecordClosed;
     default:

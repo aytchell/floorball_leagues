@@ -1,1 +1,8 @@
-enum GameStatus { noRecord, recordCreated, running, ended, matchRecordClosed }
+enum GameStatus {
+  noRecord,
+  recordCreated,
+  running,
+  ended,
+  ingame,
+  matchRecordClosed,
+}

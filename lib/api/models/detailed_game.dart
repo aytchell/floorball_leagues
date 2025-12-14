@@ -116,6 +116,7 @@ class DetailedGame {
   bool isGameRunning(DateTime timestamp) {
     switch (gameStatus) {
       case GameStatus.running:
+      case GameStatus.ingame:
         return true;
       case GameStatus.ended:
         return false;
