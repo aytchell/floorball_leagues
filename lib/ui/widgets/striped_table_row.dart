@@ -1,3 +1,4 @@
+import 'package:floorball/ui/widgets/blinking_striped_row_container.dart';
 import 'package:flutter/material.dart';
 
 const greyedLineColor = Color.fromARGB(255, 251, 251, 251);
@@ -13,6 +14,7 @@ class StripedTableRow extends StatelessWidget {
   final Color? evenColor;
   final Color? oddColor;
   final Color? borderColor;
+  final bool blink; // whether to animate the background color
 
   const StripedTableRow({
     super.key,
@@ -23,6 +25,7 @@ class StripedTableRow extends StatelessWidget {
     this.evenColor,
     this.oddColor,
     this.borderColor,
+    this.blink = false,
   });
 
   @override
@@ -40,14 +43,28 @@ class StripedTableRow extends StatelessWidget {
           )
         : null;
 
-    final container = Container(
-      decoration: BoxDecoration(color: bg, border: border),
-      padding: padding,
-      child: child,
-    );
+    final container = _buildContainer(bg, border, padding, child);
 
     return (onTap == null)
         ? container
         : InkWell(onTap: onTap, child: container);
   }
+
+  Widget _buildContainer(
+    Color bg,
+    Border? border,
+    EdgeInsetsGeometry? padding,
+    Widget child,
+  ) => (blink)
+      ? BlinkingStripedRowContainer(
+          bg: bg,
+          border: border,
+          padding: padding,
+          child: child,
+        )
+      : Container(
+          decoration: BoxDecoration(color: bg, border: border),
+          padding: padding,
+          child: child,
+        );
 }

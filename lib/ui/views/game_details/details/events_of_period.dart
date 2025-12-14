@@ -5,6 +5,7 @@ import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:floorball/ui/views/game_details/details/single_game_event.dart';
 
 class EventsOfPeriod extends StatelessWidget {
+  final bool isRunning;
   final PeriodTitle period;
   final double? currentPeriodId;
   final Map<int, String> homePlayerNames;
@@ -15,6 +16,7 @@ class EventsOfPeriod extends StatelessWidget {
 
   const EventsOfPeriod({
     super.key,
+    required this.isRunning,
     required this.period,
     required this.currentPeriodId,
     required this.homePlayerNames,
@@ -29,6 +31,8 @@ class EventsOfPeriod extends StatelessWidget {
     return period.period.round().toDouble() != period.period;
   }
 
+  bool _isCurrentPeriod() => period.period == currentPeriodId;
+
   @override
   Widget build(BuildContext context) {
     if (currentPeriodId == null || period.period > currentPeriodId!) {
@@ -36,7 +40,7 @@ class EventsOfPeriod extends StatelessWidget {
     }
 
     if (_isPause()) {
-      if (period.period == currentPeriodId) {
+      if (_isCurrentPeriod()) {
         // if the game is currently in this pause then render
         // just the title
         return Text(
@@ -82,10 +86,12 @@ class EventsOfPeriod extends StatelessWidget {
               ...events!.asMap().entries.map((entry) {
                 final index = entry.key;
                 final event = entry.value;
+                final isLastEvent = index == events!.length - 1;
 
                 return StripedTableRow(
                   index: index,
                   padding: null,
+                  blink: isRunning && isLastEvent && _isCurrentPeriod(),
                   child: SingleGameEvent(
                     event: event,
                     homePlayerNames: homePlayerNames,

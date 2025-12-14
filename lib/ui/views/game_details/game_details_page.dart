@@ -224,6 +224,7 @@ class GameDetailsPage extends StatelessWidget {
               return [
                 const SizedBox(height: 16),
                 EventsOfPeriod(
+                  isRunning: game.isGameRunning(DateTime(2000)),
                   period: period,
                   currentPeriodId: currentPeriodId,
                   homePlayerNames: homePlayerNames,
