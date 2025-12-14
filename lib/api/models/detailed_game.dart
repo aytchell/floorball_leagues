@@ -117,6 +117,7 @@ class DetailedGame {
     switch (gameStatus) {
       case GameStatus.running:
       case GameStatus.ingame:
+      case GameStatus.aftergame:
         return true;
       case GameStatus.ended:
         return false;

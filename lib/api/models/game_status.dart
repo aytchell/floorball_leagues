@@ -4,5 +4,6 @@ enum GameStatus {
   running,
   ended,
   ingame,
+  aftergame,
   matchRecordClosed,
 }

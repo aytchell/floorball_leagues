@@ -18,6 +18,7 @@ const TextStyle bold24 = TextStyle(fontSize: 24, fontWeight: FontWeight.w700);
 List<Widget> buildResultTexts(Game game) {
   switch (game.state) {
     case GameStatus.ended:
+    case GameStatus.aftergame:
     case GameStatus.matchRecordClosed:
       return _buildEndResultTexts(game);
     case GameStatus.noRecord:

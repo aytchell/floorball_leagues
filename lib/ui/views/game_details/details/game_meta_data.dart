@@ -28,7 +28,10 @@ class GameMetaData extends StatelessWidget {
             _buildTableRow('Liga', game.leagueName),
             _buildTableRow('Spielnummer', game.gameNumber),
             _buildTableRow('Datum', beautifyDate(game.date) ?? game.date),
-            _buildTableRow('Spielbeginn', game.actualStartTime ?? game.startTime ?? '-'),
+            _buildTableRow(
+              'Spielbeginn',
+              game.actualStartTime ?? game.startTime ?? '-',
+            ),
             _buildTableRow('Austragungshalle', game.arenaName),
             _buildTableRow('Austragungsort', game.arenaAddress),
             _buildTableRow('Zuschauerzahl', game.audience?.toString() ?? '-'),
