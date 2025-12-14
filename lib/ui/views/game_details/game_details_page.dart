@@ -1,4 +1,5 @@
 import 'package:floorball/api/blocs/detailed_games_cubit.dart';
+import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
@@ -51,11 +52,22 @@ class GameDetailsPage extends StatelessWidget {
         ),
       );
 
-  Widget _buildBody(DetailedGame? detailedGame) {
-    if (detailedGame == null) {
+  Widget _buildBody(DetailedGame? game) {
+    if (game == null) {
       return const LoadingSpinner(title: 'Lade Spieldetails ...');
     }
 
+    return BlocListener<TickCubit, TickState>(
+      listener: (context, tickState) {
+        if (game.isGameRunning(tickState.timestamp)) {
+          BlocProvider.of<DetailedGamesCubit>(context).updateGame(gameId);
+        }
+      },
+      child: _buildUpdatableBody(game),
+    );
+  }
+
+  Widget _buildUpdatableBody(DetailedGame detailedGame) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(12),
       child: Column(
