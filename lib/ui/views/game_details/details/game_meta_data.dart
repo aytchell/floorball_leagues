@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 
@@ -26,10 +27,10 @@ class GameMetaData extends StatelessWidget {
           children: [
             _buildTableRow('Liga', game.leagueName),
             _buildTableRow('Spielnummer', game.gameNumber),
-            _buildTableRow('Datum', game.date),
+            _buildTableRow('Datum', beautifyDate(game.date) ?? game.date),
+            _buildTableRow('Spielbeginn', game.actualStartTime ?? game.startTime ?? '-'),
             _buildTableRow('Austragungshalle', game.arenaName),
             _buildTableRow('Austragungsort', game.arenaAddress),
-            _buildTableRow('Spielbeginn', game.startTime ?? '-'),
             _buildTableRow('Zuschauerzahl', game.audience?.toString() ?? '-'),
             _buildTableRow('Schiedsrichter', _printReferees(game)),
           ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game_event.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 
+const eventTypeStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w700);
+
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
   final Map<int, String> homePlayerNames;
@@ -81,7 +83,7 @@ class SingleGameEvent extends StatelessWidget {
           width: 30,
           child: Text(
             'Tor',
-            style: const TextStyle(fontSize: 14),
+            style: eventTypeStyle,
             textAlign: TextAlign.right,
           ),
         ),
@@ -107,7 +109,7 @@ class SingleGameEvent extends StatelessWidget {
     if (event.goalTypeString == 'Eigentor') {
       return Text(
         'Eigentor',
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        style: eventTypeStyle,
       );
     }
 
@@ -152,7 +154,7 @@ class SingleGameEvent extends StatelessWidget {
 
         const Text(
           'Auszeit',
-          style: TextStyle(fontSize: 14),
+          style: eventTypeStyle,
           textAlign: TextAlign.right,
         ),
 
@@ -218,7 +220,7 @@ class SingleGameEvent extends StatelessWidget {
       children: [
         Text(
           'Strafe ${event.penaltyTypeString}',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          style: eventTypeStyle,
           textAlign: TextAlign.right,
         ),
         if (event.penaltyReasonString != null &&
