@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game_status.dart';
+import 'package:floorball/utils/date_time_utils.dart';
 
 import 'logo_host.dart';
 import 'game_result.dart';
@@ -57,6 +58,8 @@ class DetailedGame {
   String? noticeString;
   List<Referee> referees;
 
+  DateTime? startDateTime;
+
   DetailedGame({
     required this.id,
     required this.gameNumber,
@@ -103,10 +106,26 @@ class DetailedGame {
     this.noticeType,
     this.noticeString,
     required this.referees,
-  });
+  }) : startDateTime = parseDateTimeFromStrings(date, startTime);
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  bool isGameRunning(DateTime timestamp) {
+    switch (gameStatus) {
+      case GameStatus.running:
+        return true;
+      case GameStatus.ended:
+        return false;
+      case GameStatus.matchRecordClosed:
+        return false;
+      case GameStatus.noRecord:
+        return false;
+      case GameStatus.recordCreated:
+      case null:
+        return (startDateTime?.isBefore(timestamp) ?? false);
+    }
+  }
 }

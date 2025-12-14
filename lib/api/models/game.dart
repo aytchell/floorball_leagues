@@ -92,4 +92,19 @@ class Game {
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
   String? get beautifiedDate => beautifyDate(date!);
+
+  bool isGameRunning(DateTime timestamp) {
+    switch (state) {
+      case GameStatus.running:
+        return true;
+      case GameStatus.ended:
+        return false;
+      case GameStatus.matchRecordClosed:
+        return false;
+      case GameStatus.noRecord:
+        return false;
+      case GameStatus.recordCreated:
+        return (dateTime?.isBefore(timestamp) ?? false);
+    }
+  }
 }
