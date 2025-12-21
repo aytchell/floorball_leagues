@@ -24,11 +24,12 @@ class LandingPage extends StatelessWidget {
           BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
             builder: (context, selectedSeason) {
               final subTitle = (selectedSeason == null)
-                  ? ''
+                  ? null
                   : '\nSaison ${selectedSeason.name}';
 
               return MainAppScaffold(
-                title: 'Floorball Verbände$subTitle',
+                title: 'Floorball Spielbetriebe',
+                subtitle: subTitle,
                 isHomePage: true,
                 body: _buildBody(availableFederations.federations),
               );

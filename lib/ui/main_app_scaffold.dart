@@ -7,10 +7,12 @@ import 'package:go_router/go_router.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 
+final Color headerGrey = Color.fromARGB(255, 231, 231, 231);
 final Color backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
 class MainAppScaffold extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final Widget body;
   final List<Widget>? actions;
   final bool showBackButton;
@@ -18,9 +20,22 @@ class MainAppScaffold extends StatelessWidget {
   final bool isHomePage;
   final bool isSeasonPicker;
 
+  static const _titleTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+  );
+
+  static const _subTitleTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.normal,
+    fontSize: 14,
+  );
+
   const MainAppScaffold({
     super.key,
     required this.title,
+    this.subtitle,
     required this.body,
     this.actions,
     this.showBackButton = false,
@@ -34,9 +49,9 @@ class MainAppScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
-        title: Text(title, maxLines: 2),
-        backgroundColor: Colors.blue[600],
-        foregroundColor: Colors.grey[50],
+        title: _createTitle(title, subtitle),
+        backgroundColor: headerGrey,
+        foregroundColor: Colors.black,
         automaticallyImplyLeading: showBackButton,
         actions: actions,
       ),
@@ -109,6 +124,22 @@ class MainAppScaffold extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget? _createTitle(String title, String? subtitle) {
+    if (subtitle == null) {
+      return Text(title, style: _titleTextStyle, maxLines: 2);
+    } else {
+      return RichText(
+        text: TextSpan(
+          text: title,
+          style: _titleTextStyle,
+          children: <TextSpan>[
+            TextSpan(text: subtitle, style: _subTitleTextStyle),
+          ],
+        ),
+      );
+    }
   }
 }
 
