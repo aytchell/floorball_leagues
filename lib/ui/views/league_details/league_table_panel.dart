@@ -30,18 +30,15 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
     return BlocBuilder<LeagueTableCubit, LeagueTableState>(
       builder: (_, tableState) {
         final table = tableState.leagueTableOf(leagueId);
-        return SizedBox(
-          height: 300,
-          child: buildTable(
-            _tableDefinition,
-            table,
-            onTapBuilder: (ctxt, rowId) {
-              return () => TeamDetailsPageRoute(
-                leagueId: leagueId,
-                teamId: table[rowId].teamId,
-              ).push(context);
-            },
-          ),
+        return buildTable(
+          _tableDefinition,
+          table,
+          onTapBuilder: (ctxt, rowId) {
+            return () => TeamDetailsPageRoute(
+              leagueId: leagueId,
+              teamId: table[rowId].teamId,
+            ).push(context);
+          },
         );
       },
     );

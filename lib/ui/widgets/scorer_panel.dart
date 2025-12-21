@@ -11,9 +11,8 @@ import 'package:material_table_view/material_table_view.dart';
 ExpansionPanelRadio buildScorerPanel(
   int identifier,
   int leagueId, {
-  double tableHeight = 450.0,
   double headerHeight = 70.0,
-  double rowHeight = 50.0,
+  double? rowHeight,
   bool Function(Scorer)? filter,
 }) {
   return ExpansionPanelRadio(
@@ -23,7 +22,6 @@ ExpansionPanelRadio buildScorerPanel(
         PanelTitle(text: 'Scorer'),
     body: _ScorerTableContent(
       leagueId: leagueId,
-      tableHeight: tableHeight,
       headerHeight: headerHeight,
       rowHeight: rowHeight,
       filter: filter,
@@ -33,14 +31,12 @@ ExpansionPanelRadio buildScorerPanel(
 
 class _ScorerTableContent extends GenericStripedTable<Scorer> {
   final int leagueId;
-  final double tableHeight;
   final double headerHeight;
-  final double rowHeight;
+  final double? rowHeight;
   final bool Function(Scorer)? filter;
 
   const _ScorerTableContent({
     required this.leagueId,
-    required this.tableHeight,
     required this.headerHeight,
     required this.rowHeight,
     required this.filter,
@@ -52,18 +48,15 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
 
     return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
       builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
-        builder: (_, scorerState) => SizedBox(
-          height: tableHeight,
-          child: buildTable(
-            (season != null && season.id >= firstSeasonIdWithNewPenalties)
-                ? _tableDefinitionPenalty2and2
-                : _tableDefinitionPenalty5,
-            (filter == null)
-                ? scorerState.scorersOf(leagueId)
-                : scorerState.scorersOf(leagueId).where(filter!).toList(),
-            headerHeight: headerHeight,
-            rowHeight: rowHeight,
-          ),
+        builder: (_, scorerState) => buildTable(
+          (season != null && season.id >= firstSeasonIdWithNewPenalties)
+              ? _tableDefinitionPenalty2and2
+              : _tableDefinitionPenalty5,
+          (filter == null)
+              ? scorerState.scorersOf(leagueId)
+              : scorerState.scorersOf(leagueId).where(filter!).toList(),
+          headerHeight: headerHeight,
+          rowHeight: rowHeight,
         ),
       ),
     );
