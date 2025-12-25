@@ -8,33 +8,11 @@ import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SingleDefaultGameDayContent extends _SingleGameDayContent {
-  const SingleDefaultGameDayContent({
-    super.key,
-    required super.leagueId,
-    required super.gameDayNumber,
-  });
-
-  @override
-  Widget buildGameDays(List<Game> games) => StripedGamesRowsList(games);
-}
-
-class SingleChampGameDayContent extends _SingleGameDayContent {
-  const SingleChampGameDayContent({
-    super.key,
-    required super.leagueId,
-    required super.gameDayNumber,
-  });
-
-  @override
-  Widget buildGameDays(List<Game> games) => StripedGamesRowsList(games);
-}
-
-abstract class _SingleGameDayContent extends StatelessWidget {
+abstract class SingleGameDayContent extends StatelessWidget {
   final int leagueId;
   final int gameDayNumber;
 
-  const _SingleGameDayContent({
+  const SingleGameDayContent({
     super.key,
     required this.leagueId,
     required this.gameDayNumber,
@@ -70,6 +48,14 @@ abstract class _SingleGameDayContent extends StatelessWidget {
 }
 
 class StripedGamesRowsList extends StripedRowsList<Game> {
+  static const double _teamLogoSize = 30.0;
+  static const double _interTeamSpacing = 8.0;
+
+  static const double heightPerRow =
+      2 * _teamLogoSize +
+      _interTeamSpacing +
+      StripedRowsList.defaultPaddingPerRow;
+
   const StripedGamesRowsList(super.entries, {super.key})
     : super(onTap: _goToGame);
 
@@ -96,7 +82,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
         children: [
           // Home Team
           _buildTeamRow(game.homeLogoSmallUri, game.homeTeamName),
-          SizedBox(height: 8),
+          SizedBox(height: _interTeamSpacing),
           // Guest Team
           _buildTeamRow(game.guestLogoSmallUri, game.guestTeamName),
         ],
@@ -107,7 +93,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
   Widget _buildTeamRow(Uri? teamLogo, String? teamName) {
     return Row(
       children: [
-        TeamLogo(uri: teamLogo, height: 30, width: 30),
+        TeamLogo(uri: teamLogo, height: _teamLogoSize, width: _teamLogoSize),
         SizedBox(width: 8),
         Expanded(
           child: Text(

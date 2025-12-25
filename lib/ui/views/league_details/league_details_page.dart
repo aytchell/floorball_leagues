@@ -1,6 +1,6 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/ui/views/league_details/game_day_panels.dart';
+import 'package:floorball/ui/views/league_details/game_day/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details/league_table_panel.dart';
 import 'package:floorball/ui/views/league_details/void_table_panel.dart';

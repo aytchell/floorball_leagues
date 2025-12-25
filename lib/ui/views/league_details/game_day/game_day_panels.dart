@@ -4,7 +4,8 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
-import 'package:floorball/ui/views/league_details/single_game_day_content.dart';
+import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
+import 'package:floorball/ui/views/league_details/game_day/single_default_game_day_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
