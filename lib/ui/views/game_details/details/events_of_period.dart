@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/api/models/game_event.dart';
@@ -83,9 +84,7 @@ class EventsOfPeriod extends StatelessWidget {
 
             // Table rows
             if (events != null && events!.isNotEmpty)
-              ...events!.asMap().entries.map((entry) {
-                final index = entry.key;
-                final event = entry.value;
+              ...events!.mapIndexed((index, event) {
                 final isLastEvent = index == events!.length - 1;
 
                 return StripedTableRow(

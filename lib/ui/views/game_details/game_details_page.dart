@@ -1,5 +1,6 @@
 import 'package:floorball/api/blocs/detailed_games_cubit.dart';
 import 'package:floorball/api/blocs/tick_cubit.dart';
+import 'package:floorball/utils/map_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
@@ -200,7 +201,7 @@ class GameDetailsPage extends StatelessWidget {
     return groupBy(
       players,
       (player) => player.jerseyNumber,
-    ).map((k, v) => MapEntry(k, v[0].name));
+    ).mapValues((players) => players[0].name);
   }
 
   Widget _buildGameEvents(DetailedGame game) {

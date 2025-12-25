@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/views/team_details/team_penalties.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +53,7 @@ class TeamStatisticsTable extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
-        children: statistics.asMap().entries.map((entry) {
-          final index = entry.key;
-          final statistic = entry.value;
-
+        children: statistics.mapIndexed((index, statistic) {
           return StripedTableRow(
             index: index,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

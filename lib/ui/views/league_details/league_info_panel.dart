@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +31,7 @@ class _LeagueInfoContent extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
-        children: infoItems.asMap().entries.map((entry) {
-          final index = entry.key;
-          final item = entry.value;
-
+        children: infoItems.mapIndexed((index, item) {
           return StripedTableRow(
             index: index,
             child: Row(

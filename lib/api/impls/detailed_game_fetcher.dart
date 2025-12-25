@@ -1,4 +1,3 @@
-import 'package:floorball/api/impls/game_parser.dart';
 import 'package:floorball/api/impls/game_status_parser.dart';
 import 'package:floorball/net/rest_client.dart';
 

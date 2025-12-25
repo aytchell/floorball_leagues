@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:flutter/material.dart';
 
@@ -19,12 +20,10 @@ abstract class StripedRowsList<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: entries
-          .asMap()
-          .entries
-          .map(
-            (entry) => StripedTableRow(
-              index: entry.key,
-              child: _buildFramedRow(context, entry.value),
+          .mapIndexed(
+            (index, value) => StripedTableRow(
+              index: index,
+              child: _buildFramedRow(context, value),
             ),
           )
           .toList(),
