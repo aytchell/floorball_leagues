@@ -65,7 +65,12 @@ class _LeagueDetailsBody extends StatelessWidget {
       buildLeagueInfoPanel(0, league),
       _buildTablePanel(1, league.id, league.leagueType),
       buildScorerPanel(2, league.id),
-      ...buildGameDayPanels(3, league.id, league.gameDayTitles),
+      ...buildGameDayPanels(
+        3,
+        league.id,
+        league.leagueType,
+        league.gameDayTitles,
+      ),
     ];
   }
 
