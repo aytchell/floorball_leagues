@@ -6,7 +6,7 @@ import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_result_texts.dart';
-import 'package:floorball/ui/views/league_details/striped_rows_list.dart';
+import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
