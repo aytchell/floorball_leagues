@@ -1,4 +1,5 @@
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:floorball/api/models/season_info.dart';
@@ -6,9 +7,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
-
-final Color headerGrey = Color.fromARGB(255, 231, 231, 231);
-final Color backgroundColor = Color.fromARGB(255, 255, 255, 255);
 
 class MainAppScaffold extends StatelessWidget {
   final String title;
@@ -47,10 +45,10 @@ class MainAppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: FloorballColors.mainBackgroundColor,
       appBar: AppBar(
         title: _createTitle(title, subtitle),
-        backgroundColor: headerGrey,
+        backgroundColor: FloorballColors.mainHeaderGrey,
         foregroundColor: Colors.black,
         automaticallyImplyLeading: showBackButton,
         actions: actions,

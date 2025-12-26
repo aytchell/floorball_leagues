@@ -1,6 +1,11 @@
+import 'package:collection/collection.dart';
+import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
-import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/utils/global_colors.dart';
+import 'package:floorball/utils/list_extensions.dart';
+import 'package:floorball/utils/rem.dart';
 import 'package:flutter/material.dart';
 
 class DetailedGameHeader extends StatelessWidget {
@@ -10,90 +15,253 @@ class DetailedGameHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            // Home team
-            _buildTeam(game.homeLogoUri, game.homeTeamName),
+    if (!game.started) {
+      if (game.noticeType != null) {
+        return _NoticeGameHeader(game: game);
+      } else {
+        return _FutureGameHeader(game: game);
+      }
+    } else {
+      return _PastGameHeader(game: game);
+    }
+  }
+}
 
-            // Score/Time
-            Expanded(
-              child: Column(
-                children: [
-                  if (game.ended || game.started)
-                    Text(
-                      game.resultString ?? '- : -',
-                      style: AppTextStyles.gameCardResultFont.copyWith(
-                        fontSize: 24,
-                        color: game.started && !game.ended
-                            ? Colors.pink
-                            : Colors.black,
-                      ),
-                    )
-                  else
-                    Text(
-                      '${game.startTime ?? '??:??'} Uhr',
-                      style: AppTextStyles.gameCardResultFont,
-                    ),
+const grey153 = Color.fromARGB(255, 153, 153, 153);
+const vsGrey = Color.fromARGB(255, 156, 163, 175);
+const datePastFont = TextStyle(
+  color: grey153,
+  fontWeight: FontWeight.w700,
+  fontSize: rem_1,
+);
+const dateFutureFont = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w700,
+  fontSize: rem_1,
+);
+const arenaInfoTextStyle = TextStyle(fontSize: 16, color: grey153);
+const periodTextStyle = TextStyle(
+  fontSize: rem_1,
+  fontWeight: FontWeight.w700,
+  color: Colors.black,
+);
+const dash = '–';
 
-                  const SizedBox(height: 4),
+class _NoticeGameHeader extends _GameHeaderScaffold {
+  const _NoticeGameHeader({required super.game});
 
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getGameStatusColor(game),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      _getGameStatusText(game),
-                      style: TextStyle(
-                        color: Colors.grey[50],
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+  @override
+  List<Widget> _buildHeaderEntries() => [
+    _buildTeamRow(),
+    const SizedBox(height: 16),
+    _printNotice(),
+  ];
 
-            // Guest team
-            _buildTeam(game.guestLogoUri, game.guestTeamName),
-          ],
-        ),
-      ],
+  Widget _printNotice() {
+    final text = (game.noticeType == 'Canceled')
+        ? 'abgesagt'
+        : game.noticeType!;
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: rem_2_625,
+        fontWeight: FontWeight.w700,
+        color: FloorballColors.resultNoticeColor,
+      ),
     );
   }
+}
 
-  Expanded _buildTeam(Uri? logoUri, String teamName) {
-    return Expanded(
+class _FutureGameHeader extends _GameHeaderScaffold {
+  const _FutureGameHeader({required super.game});
+
+  @override
+  List<Widget> _buildHeaderEntries() => [
+    _buildTeamRow(),
+    const SizedBox(height: 16),
+    _buildDateTime(dateFutureFont),
+    const SizedBox(height: 8),
+    _buildArenaInfo(),
+  ];
+}
+
+class _PastGameHeader extends _GameHeaderScaffold {
+  const _PastGameHeader({required super.game});
+
+  @override
+  List<Widget> _buildHeaderEntries() => [
+    _buildTeamRow(),
+    const SizedBox(height: 16),
+    _buildDateTime(datePastFont),
+    const SizedBox(height: 4),
+    _buildScore(),
+    const SizedBox(height: 4),
+    _buildPeriodResults(),
+  ];
+}
+
+abstract class _GameHeaderScaffold extends StatelessWidget {
+  final DetailedGame game;
+
+  const _GameHeaderScaffold({required this.game});
+
+  List<Widget> _buildHeaderEntries();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(16.0),
       child: Column(
-        children: [
-          TeamLogo(uri: logoUri, height: 48, width: 48),
-          const SizedBox(height: 8),
-          Text(
-            teamName,
-            style: AppTextStyles.gameCardTeamFont,
-            textAlign: TextAlign.center,
-          ),
-        ],
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _buildHeaderEntries(),
       ),
     );
   }
 
-  Color _getGameStatusColor(DetailedGame game) {
-    if (game.ended) return Colors.green;
-    if (game.started) return Colors.orange;
-    return Colors.blue;
+  Widget _buildDateTime(TextStyle style) {
+    final dateStr = beautifyDate(game.date);
+    final timeStr = '${game.startTime} Uhr';
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(dateStr, style: style),
+        SizedBox(width: 6),
+        Text(dash, style: style),
+        SizedBox(width: 6),
+        Text(timeStr, style: style),
+      ],
+    );
   }
 
-  String _getGameStatusText(DetailedGame game) {
-    if (game.ended) return 'Beendet';
-    if (game.started) return 'Läuft';
-    return 'Geplant';
+  Widget _buildArenaInfo() => Column(
+    children: [
+      Text(
+        game.arenaName,
+        style: arenaInfoTextStyle,
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(height: 2),
+      Text(
+        game.arenaAddress,
+        style: arenaInfoTextStyle,
+        textAlign: TextAlign.center,
+      ),
+    ],
+  );
+
+  Widget _buildTeamRow() => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      // Home team
+      Expanded(
+        child: _buildTeamSection(
+          teamName: game.homeTeamName,
+          logoUri: game.homeLogoUri,
+        ),
+      ),
+      // -- vs --
+      Text(
+        'vs',
+        style: TextStyle(
+          color: vsGrey,
+          fontWeight: FontWeight.w700,
+          fontSize: rem_1_125,
+        ),
+      ),
+      // Guest team
+      Expanded(
+        child: _buildTeamSection(
+          teamName: game.guestTeamName,
+          logoUri: game.guestLogoUri,
+        ),
+      ),
+    ],
+  );
+
+  Widget _buildTeamSection({required String teamName, required Uri? logoUri}) =>
+      Column(
+        children: [
+          TeamLogo(uri: logoUri, width: 90, height: 90),
+          const SizedBox(height: 8),
+          // Team name
+          Text(
+            teamName,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: rem_1,
+              fontWeight: FontWeight.w700,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      );
+
+  Widget _buildScore() {
+    return Column(children: buildDetailedResultTexts(game));
+  }
+
+  Widget _buildPeriodResults() {
+    final result = game.result;
+    if (result == null || result.forfait) {
+      return SizedBox(height: 0);
+    }
+    final double? currentPeriod = game.currentPeriodTitle?.period;
+    final periods = [1, 2, 3, 4].take(_findNumberOfPeriods(game));
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:
+          IterableZip([
+                result.homeGoalsPeriod,
+                result.guestGoalsPeriod,
+                periods,
+              ])
+              .map((triple) => _computePeriodScore(triple, currentPeriod))
+              .joinWidgets(SizedBox(width: 18))
+              .toList(),
+    );
+  }
+
+  Widget _computePeriodScore(List<int> triple, double? currentPeriod) {
+    if (game.ended) {
+      // the easy case - just draw the complete result
+      return _periodScore(triple);
+    }
+    if ((currentPeriod ?? 5.0) > triple[2]) {
+      // if this is a past period or we're not sure - print the result
+      return _periodScore(triple);
+    }
+    if ((currentPeriod ?? 0.0) == triple[2]) {
+      // if we're sure that this is the current period - print the result in pink
+      return _periodScore(triple, color: FloorballColors.resultRunningColor);
+    }
+    // we end up here if this is a future period
+    return Text('$dash : $dash', style: periodTextStyle);
+  }
+
+  Text _periodScore(List<int> pair, {Color? color}) {
+    return Text(
+      '${pair[0]} : ${pair[1]}',
+      style: (color == null)
+          ? periodTextStyle
+          : periodTextStyle.copyWith(color: color),
+    );
+  }
+
+  int _findNumberOfPeriods(DetailedGame game) =>
+      _hasOvertime(game) +
+      game.periodTitles
+          .where((title) => (!title.optional))
+          .where((title) => title.period.floor() == title.period)
+          .length;
+
+  int _hasOvertime(DetailedGame game) {
+    if (game.result?.overtime ?? false) return 1;
+    if (game.currentPeriodTitle?.optional ?? false) return 1;
+    return 0;
   }
 }

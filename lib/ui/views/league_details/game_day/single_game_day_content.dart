@@ -2,7 +2,7 @@ import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
-import 'package:floorball/ui/views/league_details/game_result_texts.dart';
+import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';

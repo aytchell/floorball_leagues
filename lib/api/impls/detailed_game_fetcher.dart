@@ -26,7 +26,7 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
 
   return DetailedGame(
     id: parseInt(json, 'id'),
-    gameNumber: parseString(json, 'game_number'),
+    gameNumber: parseInt(json, 'game_number'),
     startTime: parseNullableString(json, 'start_time'),
     actualStartTime: parseNullableString(json, 'actual_start_time'),
     date: parseString(json, 'date'),

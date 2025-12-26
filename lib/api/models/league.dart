@@ -62,5 +62,5 @@ class League {
     this.overtimeLength,
   });
 
-  String? get beautifiedDeadline => beautifyDate(deadline!);
+  String? get beautifiedDeadline => beautifyNullableDate(deadline!);
 }

@@ -11,6 +11,7 @@ import 'package:floorball/ui/views/game_details/details/starting_six.dart';
 import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
 import 'package:floorball/ui/views/game_details/game_header.dart';
 import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:floorball/ui/widgets/separator.dart';
 import 'package:floorball/utils/map_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +74,9 @@ class GameDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DetailedGameHeader(game: detailedGame),
-          const SizedBox(height: 24),
+          const SizedBox(height: 12),
+          Separator(height: 8),
+          const SizedBox(height: 12),
           ..._buildGameDetails(detailedGame),
           const SizedBox(height: 24),
           GameMetaData(game: detailedGame),

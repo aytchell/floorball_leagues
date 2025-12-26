@@ -91,7 +91,7 @@ class Game {
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
-  String? get beautifiedDate => beautifyDate(date!);
+  String? get beautifiedDate => beautifyNullableDate(date!);
 
   bool isGameRunning(DateTime timestamp) {
     switch (state) {

@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/utils/date_time_utils.dart';
 
@@ -13,7 +14,7 @@ import 'award.dart';
 
 class DetailedGame {
   int id;
-  String gameNumber;
+  int gameNumber;
   String? startTime;
   String? actualStartTime;
   String date;
@@ -112,6 +113,8 @@ class DetailedGame {
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  String get beautifiedDate => beautifyDate(date);
 
   bool isGameRunning(DateTime timestamp) {
     switch (gameStatus) {
