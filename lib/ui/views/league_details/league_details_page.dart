@@ -1,13 +1,13 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/views/league_details/champ_table_panel.dart';
 import 'package:floorball/ui/views/league_details/game_day/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details/league_info_panel.dart';
 import 'package:floorball/ui/views/league_details/league_table_panel.dart';
 import 'package:floorball/ui/views/league_details/void_table_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:flutter/material.dart';
-
-import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LeagueDetailsPage extends StatelessWidget {
@@ -83,8 +83,7 @@ class _LeagueDetailsBody extends StatelessWidget {
       case LeagueType.league:
         return buildLeagueTablePanel(identifier, leagueID);
       case LeagueType.champ:
-      // TODO
-      // return buildChampTablePanel(identifier, leagueID);
+        return buildChampTablePanel(identifier, leagueID);
       case LeagueType.cup:
         return buildVoidTablePanel(
           identifier,
