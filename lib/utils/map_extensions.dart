@@ -3,3 +3,11 @@ extension MapValuesExtension<K, V1> on Map<K, V1> {
     return map((k, v) => MapEntry(k, mapper(v)));
   }
 }
+
+extension ToListExtension<K, V> on Map<K, V> {
+  List<MapEntry<K, V>> toList() {
+    final List<MapEntry<K, V>> result = [];
+    forEach((key, value) => result.add(MapEntry(key, value)));
+    return result;
+  }
+}

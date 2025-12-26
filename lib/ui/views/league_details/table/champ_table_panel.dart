@@ -1,6 +1,7 @@
 import 'package:floorball/api/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
@@ -45,7 +46,12 @@ class _ChampTableContent extends StatelessWidget {
       return _emptyPlaceholder();
     }
 
-    return Column(children: _buildGroupTables(champTables));
+    return Column(
+      children: [
+        ..._buildGroupTables(champTables),
+        ChampResultTable(leagueId: leagueId),
+      ],
+    );
   }
 
   Widget _emptyPlaceholder() => Container(

@@ -1,11 +1,11 @@
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/views/league_details/champ_table_panel.dart';
+import 'package:floorball/ui/views/league_details/table/champ_table_panel.dart';
 import 'package:floorball/ui/views/league_details/game_day/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details/league_info_panel.dart';
-import 'package:floorball/ui/views/league_details/league_table_panel.dart';
-import 'package:floorball/ui/views/league_details/void_table_panel.dart';
+import 'package:floorball/ui/views/league_details/table/league_table_panel.dart';
+import 'package:floorball/ui/views/league_details/table/void_table_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
