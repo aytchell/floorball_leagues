@@ -1,20 +1,18 @@
+import 'package:collection/collection.dart';
 import 'package:floorball/api/blocs/detailed_games_cubit.dart';
 import 'package:floorball/api/blocs/tick_cubit.dart';
-import 'package:floorball/utils/map_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
-
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/app_text_styles.dart';
-import 'package:floorball/ui/widgets/loading_spinner.dart';
-import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
-import 'package:floorball/ui/views/game_details/details/starting_six.dart';
 import 'package:floorball/ui/views/game_details/details/awarded_players.dart';
 import 'package:floorball/ui/views/game_details/details/events_of_period.dart';
 import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
-import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/ui/views/game_details/details/starting_six.dart';
+import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
+import 'package:floorball/ui/views/game_details/game_header.dart';
+import 'package:floorball/ui/widgets/loading_spinner.dart';
+import 'package:floorball/utils/map_extensions.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameDetailsPage extends StatelessWidget {
@@ -74,7 +72,7 @@ class GameDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildGameHeader(detailedGame),
+          DetailedGameHeader(game: detailedGame),
           const SizedBox(height: 24),
           ..._buildGameDetails(detailedGame),
           const SizedBox(height: 24),
@@ -107,94 +105,6 @@ class GameDetailsPage extends StatelessWidget {
       const SizedBox(height: 24),
       AwardedPlayers(game: detailedGame),
     ];
-  }
-
-  Widget _buildGameHeader(DetailedGame detailedGame) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            // Home team
-            _buildTeam(detailedGame.homeLogoUri, detailedGame.homeTeamName),
-
-            // Score/Time
-            Expanded(
-              child: Column(
-                children: [
-                  if (detailedGame.ended || detailedGame.started)
-                    Text(
-                      detailedGame.resultString ?? '- : -',
-                      style: AppTextStyles.gameCardResultFont.copyWith(
-                        fontSize: 24,
-                        color: detailedGame.started && !detailedGame.ended
-                            ? Colors.pink
-                            : Colors.black,
-                      ),
-                    )
-                  else
-                    Text(
-                      '${detailedGame.startTime ?? '??:??'} Uhr',
-                      style: AppTextStyles.gameCardResultFont,
-                    ),
-
-                  const SizedBox(height: 4),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _getGameStatusColor(detailedGame),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      _getGameStatusText(detailedGame),
-                      style: TextStyle(
-                        color: Colors.grey[50],
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Guest team
-            _buildTeam(detailedGame.guestLogoUri, detailedGame.guestTeamName),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Expanded _buildTeam(Uri? logoUri, String teamName) {
-    return Expanded(
-      child: Column(
-        children: [
-          TeamLogo(uri: logoUri, height: 48, width: 48),
-          const SizedBox(height: 8),
-          Text(
-            teamName,
-            style: AppTextStyles.gameCardTeamFont,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Color _getGameStatusColor(DetailedGame game) {
-    if (game.ended) return Colors.green;
-    if (game.started) return Colors.orange;
-    return Colors.blue;
-  }
-
-  String _getGameStatusText(DetailedGame game) {
-    if (game.ended) return 'Beendet';
-    if (game.started) return 'Läuft';
-    return 'Geplant';
   }
 
   Map<int, String> _buildPlayerNamesMap(List<Player> players) {
