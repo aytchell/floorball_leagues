@@ -25,18 +25,23 @@ class SingleChampGameDayContent extends SingleGameDayContent {
             .toList()
             .sorted();
     return Column(
-      children: groups.map((group) => _buildGameGroup(group)).toList(),
+      children: groups
+          .map((group) => _buildGameGroup(group))
+          .expand((i) => i)
+          .toList(),
     );
   }
 
-  Widget _buildGameGroup(GameGroup group) {
+  List<Widget> _buildGameGroup(GameGroup group) {
     if (group.groupIdentifier == seriesIdentifier) {
-      return StripedGamesRowsList(group.games);
+      return group.games.map((game) => _LabeledSeriesGameRow(game)).toList();
     }
-    return LabeledStripedGamesRowsList(
-      labelText: _translateGroupIdentifier(group.groupIdentifier),
-      games: group.games,
-    );
+    return [
+      _LabeledStripedGamesRowsList(
+        labelText: _translateGroupIdentifier(group.groupIdentifier),
+        games: group.games,
+      ),
+    ];
   }
 
   String _translateGroupIdentifier(String groupIdentifier) {
@@ -62,11 +67,10 @@ class GameGroup implements Comparable<GameGroup> {
   }
 }
 
-class LabeledStripedGamesRowsList extends LeftLabeledContent {
+class _LabeledStripedGamesRowsList extends LeftLabeledContent {
   final List<Game> games;
 
-  const LabeledStripedGamesRowsList({
-    super.key,
+  const _LabeledStripedGamesRowsList({
     required super.labelText,
     required this.games,
   }) : super(labelHeight: games.length * StripedGamesRowsList.heightPerRow);
@@ -74,5 +78,36 @@ class LabeledStripedGamesRowsList extends LeftLabeledContent {
   @override
   Widget buildContent() {
     return StripedGamesRowsList(games);
+  }
+}
+
+class _LabeledSeriesGameRow extends LeftLabeledContent {
+  final Game game;
+
+  _LabeledSeriesGameRow(this.game)
+    : super(
+        labelText: _findSeriesName(game),
+        labelHeight: StripedGamesRowsList.heightPerRow,
+      );
+
+  static String _findSeriesName(Game game) {
+    switch (game.seriesTitle) {
+      case 'Spiel um Platz 3':
+      case 'Spiel im Platz 3': // sic!
+        return 'Platz 3';
+      case 'Spiel um Platz 5':
+        return 'Platz 5';
+      case 'Spiel um Platz 7':
+        return 'Platz 7';
+      case 'Halbfinale':
+        return 'Halbfinale ${game.seriesNumber}';
+      default:
+        return game.seriesTitle ?? ' ';
+    }
+  }
+
+  @override
+  Widget buildContent() {
+    return StripedGamesRowsList([game]);
   }
 }
