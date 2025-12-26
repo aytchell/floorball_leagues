@@ -3,8 +3,9 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_result.dart';
 import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/api/models/period_title.dart';
-import 'package:floorball/utils/global_colors.dart';
-import 'package:floorball/utils/rem.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/rem.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -178,10 +179,7 @@ class DetailedGameAdapter extends _Adapter {
   PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
 
   @override
-  TextStyle get resultStyle => rawResultStyle.copyWith(fontSize: rem_2_625);
+  TextStyle get resultStyle => TextStyles.gameHeaderScore;
   @override
-  TextStyle get postfixStyle => rawPostfixStyle.copyWith(
-    fontSize: rem_1_125,
-    fontWeight: FontWeight.normal,
-  );
+  TextStyle get postfixStyle => TextStyles.gameHeaderResultPostfix;
 }

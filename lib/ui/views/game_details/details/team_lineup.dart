@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/api/models/detailed_game.dart';
@@ -26,6 +27,9 @@ class PlayerAdapter extends Equatable
   int compareTo(PlayerAdapter other) {
     return player.jerseyNumber.compareTo(other.player.jerseyNumber);
   }
+
+  @override
+  bool? get captain => player.captain;
 }
 
 class TeamLineup extends StatelessWidget {
@@ -38,10 +42,7 @@ class TeamLineup extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Aufstellung',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        const Text('Aufstellung', style: TextStyles.gameDetailsSection),
         const SizedBox(height: 16),
 
         // Home team table
@@ -63,10 +64,7 @@ class TeamLineup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Team name header
-        Text(
-          teamName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(teamName, style: TextStyles.gameDetailsSubSection),
         const SizedBox(height: 8),
 
         PlayerTable(providers: playersList),

@@ -1,8 +1,7 @@
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game_event.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
-
-const eventTypeStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w700);
 
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
@@ -72,7 +71,7 @@ class SingleGameEvent extends StatelessWidget {
         Expanded(
           child: Text(
             '${event.homeGoals}:${event.guestGoals}',
-            style: const TextStyle(fontSize: 14),
+            style: TextStyles.gameEventNewScore,
             textAlign: TextAlign.right,
           ),
         ),
@@ -81,7 +80,7 @@ class SingleGameEvent extends StatelessWidget {
         // event type - 'Tor' or 'Eigentor'
         SizedBox(
           width: 30,
-          child: Text('Tor', style: eventTypeStyle, textAlign: TextAlign.right),
+          child: Text('Tor', style: TextStyles.gameEventType),
         ),
 
         const SizedBox(width: 8),
@@ -91,7 +90,7 @@ class SingleGameEvent extends StatelessWidget {
           width: 40,
           child: Text(
             event.time,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyles.gameEventTime,
             textAlign: TextAlign.right,
           ),
         ),
@@ -103,31 +102,18 @@ class SingleGameEvent extends StatelessWidget {
     final scorerName = _playerNames[event.number] ?? '??';
 
     if (event.goalTypeString == 'Eigentor') {
-      return Text('Eigentor', style: eventTypeStyle);
+      return Text('Eigentor', style: TextStyles.gameEventType);
     }
 
     if (event.assist == 0) {
-      return Text(
-        scorerName,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      );
+      return Text(scorerName, style: TextStyles.gameEventScorer);
     } else {
       final assistName = _playerNames[event.assist] ?? '??';
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            scorerName,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-          Text(
-            assistName,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
-          ),
+          Text(scorerName, style: TextStyles.gameEventScorer),
+          Text(assistName, style: TextStyles.gameEventAssist),
         ],
       );
     }
@@ -145,11 +131,7 @@ class SingleGameEvent extends StatelessWidget {
         // Spacer to push content to the right
         const Expanded(child: SizedBox()),
 
-        const Text(
-          'Auszeit',
-          style: eventTypeStyle,
-          textAlign: TextAlign.right,
-        ),
+        const Text('Auszeit', style: TextStyles.gameEventType),
 
         const SizedBox(width: 8),
 
@@ -158,7 +140,7 @@ class SingleGameEvent extends StatelessWidget {
           width: 40,
           child: Text(
             event.time,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyles.gameEventTime,
             textAlign: TextAlign.right,
           ),
         ),
@@ -179,10 +161,7 @@ class SingleGameEvent extends StatelessWidget {
         const SizedBox(width: 24),
 
         // Name of penalized player
-        Text(
-          penalizedPlayer,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        ),
+        Text(penalizedPlayer, style: TextStyles.gameEventPenalizedPlayer),
 
         // Spacer to push content to the right
         const Expanded(child: SizedBox()),
@@ -199,7 +178,7 @@ class SingleGameEvent extends StatelessWidget {
           width: 40,
           child: Text(
             event.time,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyles.gameEventTime,
             textAlign: TextAlign.right,
           ),
         ),
@@ -213,18 +192,14 @@ class SingleGameEvent extends StatelessWidget {
       children: [
         Text(
           'Strafe ${event.penaltyTypeString}',
-          style: eventTypeStyle,
+          style: TextStyles.gameEventType,
           textAlign: TextAlign.right,
         ),
         if (event.penaltyReasonString != null &&
             event.penaltyReasonString!.isNotEmpty)
           Text(
             '${event.penaltyReasonString}',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
+            style: TextStyles.gameEventPenaltyReason,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
@@ -238,10 +213,7 @@ class SingleGameEvent extends StatelessWidget {
       children: [
         SizedBox(
           width: 30,
-          child: Text(
-            event.eventType,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-          ),
+          child: Text(event.eventType, style: TextStyles.gameEventType),
         ),
       ],
     );

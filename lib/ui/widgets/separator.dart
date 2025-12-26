@@ -1,4 +1,4 @@
-import 'package:floorball/utils/global_colors.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class Separator extends StatelessWidget {

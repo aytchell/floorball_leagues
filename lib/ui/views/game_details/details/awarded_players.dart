@@ -1,3 +1,4 @@
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/award.dart';
@@ -16,6 +17,9 @@ class AwardAdapter implements TableContentProvider {
 
   @override
   String? get position => null;
+
+  @override
+  bool? get captain => null;
 }
 
 class AwardedPlayers extends StatelessWidget {
@@ -34,7 +38,7 @@ class AwardedPlayers extends StatelessWidget {
       children: [
         const Text(
           'Most valuable players',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyles.gameDetailsSection,
         ),
         const SizedBox(height: 16),
 
@@ -54,10 +58,7 @@ class AwardedPlayers extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Team name header
-        Text(
-          teamName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(teamName, style: TextStyles.gameDetailsSubSection),
         const SizedBox(height: 8),
 
         PlayerTable(

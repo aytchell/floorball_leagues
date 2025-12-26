@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/date_formatter.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 
@@ -15,10 +16,7 @@ class GameMetaData extends StatelessWidget {
         // Caption
         const Padding(
           padding: EdgeInsets.only(bottom: 16.0),
-          child: Text(
-            'Spielinfo',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          child: Text('Spielinfo', style: TextStyles.gameDetailsSection),
         ),
 
         // Metadata table
@@ -51,8 +49,8 @@ class GameMetaData extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 16.0, bottom: 8.0),
           child: Text(
-            '$label:',
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            label,
+            style: TextStyles.gameMetadataKey,
             textAlign: TextAlign.left,
           ),
         ),
@@ -60,7 +58,7 @@ class GameMetaData extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Text(
             value,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyles.gameMetadataValue,
             textAlign: TextAlign.right,
           ),
         ),

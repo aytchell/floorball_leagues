@@ -1,5 +1,5 @@
 import 'package:floorball/selected_season_cubit.dart';
-import 'package:floorball/utils/global_colors.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:floorball/api/models/season_info.dart';

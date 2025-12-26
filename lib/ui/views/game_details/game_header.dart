@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
-import 'package:floorball/utils/global_colors.dart';
 import 'package:floorball/utils/list_extensions.dart';
-import 'package:floorball/utils/rem.dart';
 import 'package:flutter/material.dart';
 
 class DetailedGameHeader extends StatelessWidget {
@@ -27,24 +27,6 @@ class DetailedGameHeader extends StatelessWidget {
   }
 }
 
-const grey153 = Color.fromARGB(255, 153, 153, 153);
-const vsGrey = Color.fromARGB(255, 156, 163, 175);
-const datePastFont = TextStyle(
-  color: grey153,
-  fontWeight: FontWeight.w700,
-  fontSize: rem_1,
-);
-const dateFutureFont = TextStyle(
-  color: Colors.black,
-  fontWeight: FontWeight.w700,
-  fontSize: rem_1,
-);
-const arenaInfoTextStyle = TextStyle(fontSize: 16, color: grey153);
-const periodTextStyle = TextStyle(
-  fontSize: rem_1,
-  fontWeight: FontWeight.w700,
-  color: Colors.black,
-);
 const dash = '–';
 
 class _NoticeGameHeader extends _GameHeaderScaffold {
@@ -63,9 +45,7 @@ class _NoticeGameHeader extends _GameHeaderScaffold {
         : game.noticeType!;
     return Text(
       text,
-      style: const TextStyle(
-        fontSize: rem_2_625,
-        fontWeight: FontWeight.w700,
+      style: TextStyles.gameHeaderScore.copyWith(
         color: FloorballColors.resultNoticeColor,
       ),
     );
@@ -79,7 +59,7 @@ class _FutureGameHeader extends _GameHeaderScaffold {
   List<Widget> _buildHeaderEntries() => [
     _buildTeamRow(),
     const SizedBox(height: 16),
-    _buildDateTime(dateFutureFont),
+    _buildDateTime(TextStyles.gameHeaderDateFuture),
     const SizedBox(height: 8),
     _buildArenaInfo(),
   ];
@@ -92,7 +72,7 @@ class _PastGameHeader extends _GameHeaderScaffold {
   List<Widget> _buildHeaderEntries() => [
     _buildTeamRow(),
     const SizedBox(height: 16),
-    _buildDateTime(datePastFont),
+    _buildDateTime(TextStyles.gameHeaderDatePast),
     const SizedBox(height: 4),
     _buildScore(),
     const SizedBox(height: 4),
@@ -139,13 +119,13 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
     children: [
       Text(
         game.arenaName,
-        style: arenaInfoTextStyle,
+        style: TextStyles.gameHeaderArenaInfo,
         textAlign: TextAlign.center,
       ),
       const SizedBox(height: 2),
       Text(
         game.arenaAddress,
-        style: arenaInfoTextStyle,
+        style: TextStyles.gameHeaderArenaInfo,
         textAlign: TextAlign.center,
       ),
     ],
@@ -163,14 +143,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
         ),
       ),
       // -- vs --
-      Text(
-        'vs',
-        style: TextStyle(
-          color: vsGrey,
-          fontWeight: FontWeight.w700,
-          fontSize: rem_1_125,
-        ),
-      ),
+      Text('vs', style: TextStyles.gameHeaderVersus),
       // Guest team
       Expanded(
         child: _buildTeamSection(
@@ -190,10 +163,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
           Text(
             teamName,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: rem_1,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyles.gameHeaderTeamName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -240,15 +210,15 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
       return _periodScore(triple, color: FloorballColors.resultRunningColor);
     }
     // we end up here if this is a future period
-    return Text('$dash : $dash', style: periodTextStyle);
+    return Text('$dash : $dash', style: TextStyles.gameHeaderPeriods);
   }
 
   Text _periodScore(List<int> pair, {Color? color}) {
     return Text(
       '${pair[0]} : ${pair[1]}',
       style: (color == null)
-          ? periodTextStyle
-          : periodTextStyle.copyWith(color: color),
+          ? TextStyles.gameHeaderPeriods
+          : TextStyles.gameHeaderPeriods.copyWith(color: color),
     );
   }
 

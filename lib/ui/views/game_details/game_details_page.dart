@@ -4,6 +4,7 @@ import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/details/awarded_players.dart';
 import 'package:floorball/ui/views/game_details/details/events_of_period.dart';
 import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
@@ -129,10 +130,7 @@ class GameDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
-        const Text(
-          'Spielverlauf',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        const Text('Spielverlauf', style: TextStyles.gameDetailsSection),
         ...sortedPeriods
             .map((period) {
               return [

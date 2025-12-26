@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
@@ -7,6 +8,7 @@ abstract interface class TableContentProvider {
   String get jerseyNumber;
   String get playerName;
   String? get position;
+  bool? get captain;
 }
 
 class PlayerTable extends StatelessWidget {
@@ -32,11 +34,11 @@ class PlayerTable extends StatelessWidget {
                   children: [
                     // Jersey icon
                     SizedBox(
-                      width: 30,
+                      width: 22,
                       child: SvgPicture.asset(
                         'assets/images/jersey_small.svg',
-                        width: 20,
-                        height: 20,
+                        width: 18,
+                        height: 18,
                         colorFilter: ColorFilter.mode(
                           Colors.grey.shade600,
                           BlendMode.srcIn,
@@ -51,10 +53,7 @@ class PlayerTable extends StatelessWidget {
                       width: 30,
                       child: Text(
                         player.jerseyNumber,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyles.teamLineupJersey,
                       ),
                     ),
 
@@ -64,7 +63,7 @@ class PlayerTable extends StatelessWidget {
                     Expanded(
                       child: Text(
                         player.playerName,
-                        style: const TextStyle(fontSize: 14),
+                        style: TextStyles.teamLineupName,
                       ),
                     ),
 
@@ -90,8 +89,8 @@ class PlayerTable extends StatelessWidget {
       SizedBox(
         width: 90,
         child: Text(
-          player.position!,
-          style: const TextStyle(fontSize: 14),
+          ((player.captain ?? false) ? 'Kapitän, ' : '') + player.position!,
+          style: TextStyles.teamLineupType,
           textAlign: TextAlign.right,
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/api/models/game_event.dart';
@@ -44,10 +45,7 @@ class EventsOfPeriod extends StatelessWidget {
       if (_isCurrentPeriod()) {
         // if the game is currently in this pause then render
         // just the title
-        return Text(
-          period.title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        );
+        return Text(period.title, style: TextStyles.gameDetailsSubSection);
       }
       if (events == null || events!.isEmpty) {
         return const SizedBox.shrink(); // Renders nothing
@@ -60,10 +58,7 @@ class EventsOfPeriod extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          period.title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(period.title, style: TextStyles.gameDetailsSubSection),
         const SizedBox(height: 8),
 
         // Table

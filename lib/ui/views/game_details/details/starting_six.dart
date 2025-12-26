@@ -1,3 +1,4 @@
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/starting_player.dart';
@@ -22,6 +23,9 @@ class StartingPlayerAdapter implements TableContentProvider {
     if (player.position.startsWith('forward')) return 'Angriff';
     return null;
   }
+
+  @override
+  bool? get captain => null;
 }
 
 class StartingSix extends StatelessWidget {
@@ -38,10 +42,7 @@ class StartingSix extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Starting six',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        const Text('Starting six', style: TextStyles.gameDetailsSection),
         const SizedBox(height: 16),
 
         // Home team table
@@ -60,10 +61,7 @@ class StartingSix extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Team name header
-        Text(
-          teamName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(teamName, style: TextStyles.gameDetailsSubSection),
         const SizedBox(height: 8),
 
         PlayerTable(
