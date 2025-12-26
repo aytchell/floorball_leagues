@@ -126,11 +126,26 @@ List<Widget> _buildRunningTexts(_Adapter game) {
   return list;
 }
 
+String translateNoticeType(String noticeType) {
+  // I peeked these values from the js code
+  // I already stumbled upon 'Canceled' and know, how to handle it.
+  // For the other two I only know the "translation".
+  switch (noticeType) {
+    case 'Canceled':
+      return 'abgesagt';
+    case 'Postponed':
+      return 'verschoben';
+    case 'NoDateAndTime':
+      return 'noch nicht terminiert';
+    default:
+      return noticeType;
+  }
+}
+
 List<Widget> _buildNoticeTypeResult(String noticeType) {
-  final text = (noticeType == 'Canceled') ? 'abgesagt' : noticeType;
   return [
     Text(
-      text,
+      translateNoticeType(noticeType),
       style: bold16.copyWith(color: FloorballColors.resultNoticeColor),
     ),
   ];

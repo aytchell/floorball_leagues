@@ -39,17 +39,12 @@ class _NoticeGameHeader extends _GameHeaderScaffold {
     _printNotice(),
   ];
 
-  Widget _printNotice() {
-    final text = (game.noticeType == 'Canceled')
-        ? 'abgesagt'
-        : game.noticeType!;
-    return Text(
-      text,
-      style: TextStyles.gameHeaderScore.copyWith(
-        color: FloorballColors.resultNoticeColor,
-      ),
-    );
-  }
+  Widget _printNotice() => Text(
+    translateNoticeType(game.noticeType!),
+    style: TextStyles.gameHeaderScore.copyWith(
+      color: FloorballColors.resultNoticeColor,
+    ),
+  );
 }
 
 class _FutureGameHeader extends _GameHeaderScaffold {
