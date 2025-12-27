@@ -1,7 +1,7 @@
-import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:flutter/material.dart';
 import 'package:floorball/api/models/game_event.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:flutter/material.dart';
 
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
@@ -26,47 +26,54 @@ class SingleGameEvent extends StatelessWidget {
            : guestPlayerNames;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(minHeight: 45),
-      padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 0),
-      alignment: AlignmentGeometry.center,
-      child: _buildEvent(),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+    constraints: BoxConstraints(minHeight: 45),
+    padding: EdgeInsetsGeometry.symmetric(vertical: 5, horizontal: 0),
+    alignment: AlignmentGeometry.center,
+    child: _buildEvent(),
+  );
 
   Widget _buildEvent() {
-    if (event.eventType == 'goal') {
-      return _buildGoalEvent();
+    switch (event.eventType) {
+      case 'goal':
+        return _GoalEvent(
+          event: event,
+          playerNames: _playerNames,
+          logoUri: _logoUri,
+        );
+      case 'timeout':
+        return _TimeoutEvent(event: event, logoUri: _logoUri);
+      case 'penalty':
+        return _PenaltyEvent(
+          event: event,
+          playerNames: _playerNames,
+          logoUri: _logoUri,
+        );
+      default:
+        return _Fallback(event: event);
     }
-
-    if (event.eventType == 'timeout') {
-      return _buildTimeoutEvent();
-    }
-
-    if (event.eventType == 'penalty') {
-      return _buildPenaltyEvent();
-    }
-
-    return _fallback();
   }
+}
 
-  Widget _buildGoalEvent() {
+class _GoalEvent extends StatelessWidget {
+  final GameEvent event;
+  final Map<int, String> playerNames;
+  final Uri? logoUri;
+
+  const _GoalEvent({
+    required this.event,
+    required this.playerNames,
+    this.logoUri,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
-        // logo of team that scored
-        SizedBox(
-          width: 30,
-          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
-        ),
-
+        _TeamLogoForEvent(logoUri: logoUri),
         const SizedBox(width: 24),
-
-        // Names of scorer and assist
         SizedBox(width: 120, child: _buildScorerAndAssist()),
-
         const SizedBox(width: 12),
-
         // New game score
         Expanded(
           child: Text(
@@ -76,39 +83,29 @@ class SingleGameEvent extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-
-        // event type - 'Tor' or 'Eigentor'
-        SizedBox(
+        // event type - 'Tor'
+        // (in case of an 'Eigentor' this is written to the player's column)
+        const SizedBox(
           width: 30,
           child: Text('Tor', style: TextStyles.gameEventType),
         ),
-
         const SizedBox(width: 8),
-
-        // time of event (game clock)
-        SizedBox(
-          width: 40,
-          child: Text(
-            event.time,
-            style: TextStyles.gameEventTime,
-            textAlign: TextAlign.right,
-          ),
-        ),
+        _TimeOfEvent(event: event),
       ],
     );
   }
 
   Widget _buildScorerAndAssist() {
-    final scorerName = _playerNames[event.number] ?? '??';
-
     if (event.goalTypeString == 'Eigentor') {
-      return Text('Eigentor', style: TextStyles.gameEventType);
+      return const Text('Eigentor', style: TextStyles.gameEventType);
     }
+
+    final scorerName = playerNames[event.number] ?? '${event.number}';
 
     if (event.assist == 0) {
       return Text(scorerName, style: TextStyles.gameEventScorer);
     } else {
-      final assistName = _playerNames[event.assist] ?? '??';
+      final assistName = playerNames[event.assist] ?? '${event.number}';
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -118,104 +115,120 @@ class SingleGameEvent extends StatelessWidget {
       );
     }
   }
+}
 
-  Widget _buildTimeoutEvent() {
+class _TimeoutEvent extends StatelessWidget {
+  final GameEvent event;
+  final Uri? logoUri;
+
+  const _TimeoutEvent({required this.event, this.logoUri});
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      _TeamLogoForEvent(logoUri: logoUri),
+      // Spacer to push content to the right
+      const Expanded(child: SizedBox()),
+      const Text('Auszeit', style: TextStyles.gameEventType),
+      const SizedBox(width: 8),
+      _TimeOfEvent(event: event),
+    ],
+  );
+}
+
+class _PenaltyEvent extends StatelessWidget {
+  final GameEvent event;
+  final Map<int, String> playerNames;
+  final Uri? logoUri;
+
+  const _PenaltyEvent({
+    required this.event,
+    required this.playerNames,
+    this.logoUri,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final penalizedPlayer = playerNames[event.number] ?? '${event.number}';
     return Row(
       children: [
-        // logo of team that scored
-        SizedBox(
-          width: 30,
-          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
-        ),
-
-        // Spacer to push content to the right
-        const Expanded(child: SizedBox()),
-
-        const Text('Auszeit', style: TextStyles.gameEventType),
-
-        const SizedBox(width: 8),
-
-        // time of event (game clock)
-        SizedBox(
-          width: 40,
-          child: Text(
-            event.time,
-            style: TextStyles.gameEventTime,
-            textAlign: TextAlign.right,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPenaltyEvent() {
-    final penalizedPlayer = _playerNames[event.number] ?? '??';
-    return Row(
-      children: [
-        // logo of team that got penalized
-        SizedBox(
-          width: 30,
-          child: TeamLogo(uri: _logoUri, height: 25, width: 25),
-        ),
-
+        _TeamLogoForEvent(logoUri: logoUri),
         const SizedBox(width: 24),
-
-        // Name of penalized player
         Text(penalizedPlayer, style: TextStyles.gameEventPenalizedPlayer),
-
-        // Spacer to push content to the right
         const Expanded(child: SizedBox()),
-
         SizedBox(
           width: 120, // Give it a fixed width for proper text wrapping
           child: _buildPenaltyReason(),
         ),
-
         const SizedBox(width: 8),
-
-        // time of event (game clock)
-        SizedBox(
-          width: 40,
-          child: Text(
-            event.time,
-            style: TextStyles.gameEventTime,
-            textAlign: TextAlign.right,
-          ),
-        ),
+        _TimeOfEvent(event: event),
       ],
     );
   }
 
-  Widget _buildPenaltyReason() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
+  Widget _buildPenaltyReason() => Column(
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+      Text(
+        'Strafe ${event.penaltyTypeString}',
+        style: TextStyles.gameEventType,
+        textAlign: TextAlign.right,
+      ),
+      if (event.penaltyReasonString != null &&
+          event.penaltyReasonString!.isNotEmpty)
         Text(
-          'Strafe ${event.penaltyTypeString}',
-          style: TextStyles.gameEventType,
+          '${event.penaltyReasonString}',
+          style: TextStyles.gameEventPenaltyReason,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.right,
         ),
-        if (event.penaltyReasonString != null &&
-            event.penaltyReasonString!.isNotEmpty)
-          Text(
-            '${event.penaltyReasonString}',
-            style: TextStyles.gameEventPenaltyReason,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.right,
-          ),
-      ],
-    );
-  }
+    ],
+  );
+}
 
-  Widget _fallback() {
-    return Row(
-      children: [
-        SizedBox(
-          width: 30,
-          child: Text(event.eventType, style: TextStyles.gameEventType),
-        ),
-      ],
-    );
-  }
+class _Fallback extends StatelessWidget {
+  final GameEvent event;
+
+  const _Fallback({required this.event});
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      // Spacer to push content to the right
+      const Expanded(child: SizedBox()),
+      SizedBox(
+        width: 40,
+        child: Text(event.eventType, style: TextStyles.gameEventType),
+      ),
+      const SizedBox(width: 8),
+      _TimeOfEvent(event: event),
+    ],
+  );
+}
+
+class _TeamLogoForEvent extends StatelessWidget {
+  final Uri? logoUri;
+
+  const _TeamLogoForEvent({this.logoUri});
+
+  @override
+  Widget build(BuildContext context) =>
+      SizedBox(width: 30, child: TeamLogo(uri: logoUri, height: 25, width: 25));
+}
+
+class _TimeOfEvent extends StatelessWidget {
+  final GameEvent event;
+
+  const _TimeOfEvent({required this.event});
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: 40,
+    child: Text(
+      event.time,
+      style: TextStyles.gameEventTime,
+      textAlign: TextAlign.right,
+    ),
+  );
 }

@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class FloorballColors {
   static const gray153 = Color.fromARGB(255, 153, 153, 153);
@@ -9,4 +9,6 @@ class FloorballColors {
 
   static const resultRunningColor = Color.fromARGB(255, 236, 72, 153);
   static const resultNoticeColor = Color.fromARGB(255, 239, 68, 68);
+
+  static const mainScaffoldPastSeason = Colors.red;
 }

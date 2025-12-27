@@ -3,7 +3,10 @@ import 'package:floorball/ui/theme/rem.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {
-  static const _normal0875 = TextStyle(fontSize: rem_0_875);
+  static const _normal0875 = TextStyle(
+    fontSize: rem_0_875,
+    color: Colors.black,
+  );
   static const _normal0875grey153 = TextStyle(
     fontSize: rem_0_875,
     color: FloorballColors.gray153,
@@ -28,7 +31,17 @@ class TextStyles {
   static const _bold1125 = TextStyle(
     fontSize: rem_1_125,
     fontWeight: FontWeight.w700,
+    color: Colors.black,
   );
+  static const _bold1125grey153 = TextStyle(
+    fontSize: rem_1_125,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.gray153,
+  );
+
+  static const mainScaffoldTitle = _bold1125;
+  static const mainScaffoldSubTitle = _normal0875;
+  static const mainScaffoldSeason = _normal0875;
 
   static const gameHeaderTeamName = _bold1;
   static const gameHeaderVersus = TextStyle(
@@ -65,4 +78,8 @@ class TextStyles {
 
   static const gameEventNewScore = _normal0875;
   static const gameEventTime = _normal0875;
+
+  static const federationName = _bold1;
+
+  static const genericLoadingData = _bold1125grey153;
 }

@@ -2,8 +2,8 @@ import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/team_info_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/team_repository.dart';
-import 'package:floorball/ui/app_text_styles.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/team_details/team_games_panel.dart';
 import 'package:floorball/ui/views/team_details/team_statistics_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
@@ -39,7 +39,7 @@ class TeamDetailsPage extends StatelessWidget {
       return Center(
         child: Text(
           'Lade Team-Informationen ...',
-          style: AppTextStyles.federationLoadingError,
+          style: TextStyles.genericLoadingData,
         ),
       );
     }
@@ -59,7 +59,7 @@ class TeamDetailsPage extends StatelessWidget {
       return Center(
         child: Text(
           'Keine Team-Informationen verfügbar',
-          style: AppTextStyles.federationLoadingError,
+          style: TextStyles.genericLoadingData,
         ),
       );
     }

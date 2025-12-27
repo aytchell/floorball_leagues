@@ -1,12 +1,12 @@
+import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:floorball/api/models/season_info.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MainAppScaffold extends StatelessWidget {
   final String title;
@@ -17,18 +17,6 @@ class MainAppScaffold extends StatelessWidget {
   final bool showBottomNavigation;
   final bool isHomePage;
   final bool isSeasonPicker;
-
-  static const _titleTextStyle = TextStyle(
-    color: Colors.black,
-    fontWeight: FontWeight.w700,
-    fontSize: 18,
-  );
-
-  static const _subTitleTextStyle = TextStyle(
-    color: Colors.black,
-    fontWeight: FontWeight.normal,
-    fontSize: 14,
-  );
 
   const MainAppScaffold({
     super.key,
@@ -126,14 +114,14 @@ class MainAppScaffold extends StatelessWidget {
 
   Widget? _createTitle(String title, String? subtitle) {
     if (subtitle == null) {
-      return Text(title, style: _titleTextStyle, maxLines: 2);
+      return Text(title, style: TextStyles.mainScaffoldTitle, maxLines: 2);
     } else {
       return RichText(
         text: TextSpan(
           text: title,
-          style: _titleTextStyle,
+          style: TextStyles.mainScaffoldTitle,
           children: <TextSpan>[
-            TextSpan(text: subtitle, style: _subTitleTextStyle),
+            TextSpan(text: subtitle, style: TextStyles.mainScaffoldSubTitle),
           ],
         ),
       );
@@ -163,13 +151,11 @@ class _SeasonIndicator extends StatelessWidget {
               .map(
                 (year) => Text(
                   year,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: (selectedSeason!.current)
-                        ? Colors.black
-                        : Colors.red,
-                  ),
+                  style: (selectedSeason!.current)
+                      ? TextStyles.mainScaffoldSeason
+                      : TextStyles.mainScaffoldSeason.copyWith(
+                          color: FloorballColors.mainScaffoldPastSeason,
+                        ),
                 ),
               )
               .toList(),

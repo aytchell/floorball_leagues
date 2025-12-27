@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:floorball/api/models/federation.dart';
-import 'package:floorball/ui/app_text_styles.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class FederationCard extends StatelessWidget {
   final Federation federation;
@@ -57,7 +57,7 @@ class FederationCard extends StatelessWidget {
                 children: [
                   Text(
                     federation.name,
-                    style: AppTextStyles.federationName,
+                    style: TextStyles.federationName,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
