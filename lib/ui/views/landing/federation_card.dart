@@ -57,7 +57,7 @@ class FederationCard extends StatelessWidget {
                 children: [
                   Text(
                     federation.name,
-                    style: TextStyles.federationName,
+                    style: TextStyles.landingFederationName,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),

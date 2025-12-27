@@ -94,7 +94,7 @@ class GameDetailsPage extends StatelessWidget {
           children: [
             const Text(
               'Keine Spieldaten vorhanden',
-              style: TextStyles.gameNoDetails,
+              style: TextStyles.gameDetailNoDetails,
             ),
           ],
         ),

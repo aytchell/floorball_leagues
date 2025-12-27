@@ -75,7 +75,7 @@ class LeaguesListPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('LIGEN', style: TextStyles.leagueHeader),
+          Text('LIGEN', style: TextStyles.leaguesListHeader),
           SizedBox(height: 12),
           Expanded(
             child: ListView.builder(
@@ -108,14 +108,14 @@ class LeaguesListPage extends StatelessWidget {
     final match = regEx.firstMatch(text);
 
     if (match == null) {
-      return Text(text, style: TextStyles.leagueListLight);
+      return Text(text, style: TextStyles.leaguesListLight);
     } else {
       return Text.rich(
         TextSpan(
           children: [
-            TextSpan(text: match.group(1), style: TextStyles.leagueListLight),
-            TextSpan(text: match.group(2), style: TextStyles.leagueListDark),
-            TextSpan(text: match.group(3), style: TextStyles.leagueListLight),
+            TextSpan(text: match.group(1), style: TextStyles.leaguesListLight),
+            TextSpan(text: match.group(2), style: TextStyles.leaguesListDark),
+            TextSpan(text: match.group(3), style: TextStyles.leaguesListLight),
           ],
         ),
       );

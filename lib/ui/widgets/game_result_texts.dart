@@ -4,22 +4,11 @@ import 'package:floorball/api/models/game_result.dart';
 import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
-import 'package:floorball/ui/theme/rem.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 final log = Logger('GameResultTexts');
-
-const TextStyle rawResultStyle = TextStyle(
-  color: Colors.black,
-  fontWeight: FontWeight.w700,
-);
-
-const TextStyle rawPostfixStyle = TextStyle(
-  color: Colors.black,
-  fontWeight: FontWeight.w700,
-);
 
 const TextStyle bold12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w700);
 
@@ -177,9 +166,9 @@ class GameAdapter extends _Adapter {
   PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
 
   @override
-  TextStyle get resultStyle => rawResultStyle.copyWith(fontSize: rem_1_5);
+  TextStyle get resultStyle => TextStyles.gameDayResult;
   @override
-  TextStyle get postfixStyle => rawPostfixStyle.copyWith(fontSize: rem_0_75);
+  TextStyle get postfixStyle => TextStyles.gameDayResultPostfix;
 }
 
 class DetailedGameAdapter extends _Adapter {
@@ -203,7 +192,7 @@ class DetailedGameAdapter extends _Adapter {
   PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
 
   @override
-  TextStyle get resultStyle => TextStyles.gameHeaderScore;
+  TextStyle get resultStyle => TextStyles.gameDetailHeaderScore;
   @override
-  TextStyle get postfixStyle => TextStyles.gameHeaderResultPostfix;
+  TextStyle get postfixStyle => TextStyles.gameDetailHeaderResultPostfix;
 }

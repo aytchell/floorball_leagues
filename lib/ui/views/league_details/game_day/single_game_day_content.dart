@@ -2,6 +2,7 @@ import 'package:floorball/api/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -69,7 +70,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
       children: [
         // Left side: Both teams stacked vertically
         _buildBothTeams(game),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         _buildDateAndResultOrTime(game),
       ],
     );
@@ -82,7 +83,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
         children: [
           // Home Team
           _buildTeamRow(game.homeLogoSmallUri, game.homeTeamName),
-          SizedBox(height: _interTeamSpacing),
+          const SizedBox(height: _interTeamSpacing),
           // Guest Team
           _buildTeamRow(game.guestLogoSmallUri, game.guestTeamName),
         ],
@@ -94,11 +95,11 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
     return Row(
       children: [
         TeamLogo(uri: teamLogo, height: _teamLogoSize, width: _teamLogoSize),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Expanded(
           child: Text(
             teamName ?? 'N.N.',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            style: TextStyles.gameDayTeamName,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -113,13 +114,9 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
         // Date
         Text(
           game.beautifiedDate ?? 'Datum unbekannt',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Colors.black54,
-          ),
+          style: TextStyles.gameDayDate,
         ),
-        SizedBox(height: 2),
+        const SizedBox(height: 2),
         // Score
         ...buildResultTexts(game),
       ],

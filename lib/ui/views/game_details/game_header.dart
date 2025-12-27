@@ -41,7 +41,7 @@ class _NoticeGameHeader extends _GameHeaderScaffold {
 
   Widget _printNotice() => Text(
     translateNoticeType(game.noticeType!),
-    style: TextStyles.gameHeaderScore.copyWith(
+    style: TextStyles.gameDetailHeaderScore.copyWith(
       color: FloorballColors.resultNoticeColor,
     ),
   );
@@ -54,7 +54,7 @@ class _FutureGameHeader extends _GameHeaderScaffold {
   List<Widget> _buildHeaderEntries() => [
     _buildTeamRow(),
     const SizedBox(height: 16),
-    _buildDateTime(TextStyles.gameHeaderDateFuture),
+    _buildDateTime(TextStyles.gameDetailHeaderDateFuture),
     const SizedBox(height: 8),
     _buildArenaInfo(),
   ];
@@ -67,7 +67,7 @@ class _PastGameHeader extends _GameHeaderScaffold {
   List<Widget> _buildHeaderEntries() => [
     _buildTeamRow(),
     const SizedBox(height: 16),
-    _buildDateTime(TextStyles.gameHeaderDatePast),
+    _buildDateTime(TextStyles.gameDetailHeaderDatePast),
     const SizedBox(height: 4),
     _buildScore(),
     const SizedBox(height: 4),
@@ -114,13 +114,13 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
     children: [
       Text(
         game.arenaName,
-        style: TextStyles.gameHeaderArenaInfo,
+        style: TextStyles.gameDetailHeaderArenaInfo,
         textAlign: TextAlign.center,
       ),
       const SizedBox(height: 2),
       Text(
         game.arenaAddress,
-        style: TextStyles.gameHeaderArenaInfo,
+        style: TextStyles.gameDetailHeaderArenaInfo,
         textAlign: TextAlign.center,
       ),
     ],
@@ -138,7 +138,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
         ),
       ),
       // -- vs --
-      Text('vs', style: TextStyles.gameHeaderVersus),
+      Text('vs', style: TextStyles.gameDetailHeaderVersus),
       // Guest team
       Expanded(
         child: _buildTeamSection(
@@ -158,7 +158,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
           Text(
             teamName,
             textAlign: TextAlign.center,
-            style: TextStyles.gameHeaderTeamName,
+            style: TextStyles.gameDetailHeaderTeamName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -205,15 +205,15 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
       return _periodScore(triple, color: FloorballColors.resultRunningColor);
     }
     // we end up here if this is a future period
-    return Text('$dash : $dash', style: TextStyles.gameHeaderPeriods);
+    return Text('$dash : $dash', style: TextStyles.gameDetailHeaderPeriods);
   }
 
   Text _periodScore(List<int> pair, {Color? color}) {
     return Text(
       '${pair[0]} : ${pair[1]}',
       style: (color == null)
-          ? TextStyles.gameHeaderPeriods
-          : TextStyles.gameHeaderPeriods.copyWith(color: color),
+          ? TextStyles.gameDetailHeaderPeriods
+          : TextStyles.gameDetailHeaderPeriods.copyWith(color: color),
     );
   }
 

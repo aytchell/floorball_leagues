@@ -70,7 +70,7 @@ class EventsOfPeriod extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: const Text(
                   'Keine Ereignisse',
-                  style: TextStyles.gameEventNoEvent,
+                  style: TextStyles.gameEventNoEvents,
                 ),
               ),
 

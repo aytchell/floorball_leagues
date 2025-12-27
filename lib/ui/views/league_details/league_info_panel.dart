@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
 
@@ -38,13 +39,7 @@ class _LeagueInfoContent extends StatelessWidget {
               children: [
                 // Label
                 Expanded(
-                  child: Text(
-                    item.label,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  child: Text(item.label, style: TextStyles.leagueInfoKey),
                 ),
 
                 const SizedBox(width: 12),
@@ -54,7 +49,7 @@ class _LeagueInfoContent extends StatelessWidget {
                   width: 120,
                   child: Text(
                     item.value,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    style: TextStyles.leagueInfoValue,
                     textAlign: TextAlign.right,
                   ),
                 ),
