@@ -1,3 +1,4 @@
+import 'package:floorball/api/impls/string_parser.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/impls/int_parser.dart';
@@ -14,10 +15,10 @@ LeagueTableRow parseLeagueTableRow(Map<String, dynamic> json) {
     goalsReceived: parseInt(json, 'goals_received'),
     goalsDiff: parseInt(json, 'goals_diff'),
     points: parseInt(json, 'points'),
-    teamName: json['team_name'] as String,
+    teamName: parseString(json, 'team_name'),
     teamId: parseInt(json, 'team_id'),
-    teamLogo: json['team_logo'] as String?,
-    teamLogoSmall: json['team_logo_small'] as String?,
+    teamLogo: parseNullableString(json, 'team_logo'),
+    teamLogoSmall: parseNullableString(json, 'team_logo_small'),
     pointCorrections: parseNullableInt(json, 'point_corrections'),
     sort: parseInt(json, 'sort'),
     position: parseInt(json, 'position'),

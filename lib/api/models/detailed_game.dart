@@ -14,7 +14,7 @@ import 'award.dart';
 
 class DetailedGame {
   int id;
-  int gameNumber;
+  String gameNumber;
   String? startTime;
   String? actualStartTime;
   String date;

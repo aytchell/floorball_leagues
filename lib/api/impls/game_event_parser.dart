@@ -1,3 +1,4 @@
+import 'package:floorball/api/impls/double_parser.dart';
 import 'package:floorball/api/models/game_event.dart';
 import 'package:floorball/api/impls/int_parser.dart';
 import 'package:floorball/api/impls/string_parser.dart';
@@ -7,7 +8,7 @@ GameEvent parseGameEvent(Map<String, dynamic> json) {
     eventId: parseNullableInt(json, 'event_id'),
     eventType: parseString(json, 'event_type'),
     eventTeam: parseString(json, 'event_team'),
-    period: (json['period'] as num).toDouble(),
+    period: parseDouble(json, 'period'),
     homeGoals: parseNullableInt(json, 'home_goals'),
     guestGoals: parseNullableInt(json, 'guest_goals'),
     time: parseString(json, 'time'),

@@ -24,7 +24,7 @@ class GameMetaData extends StatelessWidget {
           columnWidths: const {0: IntrinsicColumnWidth(), 1: FlexColumnWidth()},
           children: [
             _buildTableRow('Liga', game.leagueName),
-            _buildTableRow('Spielnummer', '${game.gameNumber}'),
+            _buildTableRow('Spielnummer', game.gameNumber),
             _buildTableRow(
               'Datum',
               beautifyNullableDate(game.date) ?? game.date,

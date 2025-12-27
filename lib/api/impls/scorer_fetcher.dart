@@ -1,3 +1,4 @@
+import 'package:floorball/api/impls/string_parser.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/impls/int_parser.dart';
 import 'package:floorball/api/models/scorer.dart';
@@ -17,11 +18,11 @@ Scorer parseScorer(Map<String, dynamic> json) => Scorer(
   penaltyMs3: parseInt(json, 'penalty_ms3'),
   playerId: parseInt(json, 'player_id'),
   teamId: parseInt(json, 'team_id'),
-  teamName: json['team_name'] as String,
-  firstName: json['first_name'] as String,
-  lastName: json['last_name'] as String,
-  image: json['image'] as String?,
-  imageSmall: json['image_small'] as String?,
+  teamName: parseString(json, 'team_name'),
+  firstName: parseString(json, 'first_name'),
+  lastName: parseString(json, 'last_name'),
+  image: parseNullableString(json, 'image'),
+  imageSmall: parseNullableString(json, 'image_small'),
   sort: parseInt(json, 'sort'),
   position: parseInt(json, 'position'),
 );
