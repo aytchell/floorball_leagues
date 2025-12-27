@@ -15,14 +15,14 @@ class DetailedGameHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!game.started) {
+    if (game.started) {
+      return _PastGameHeader(game: game);
+    } else {
       if (game.noticeType != null) {
         return _NoticeGameHeader(game: game);
       } else {
         return _FutureGameHeader(game: game);
       }
-    } else {
-      return _PastGameHeader(game: game);
     }
   }
 }

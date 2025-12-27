@@ -117,6 +117,9 @@ class DetailedGame {
   String get beautifiedDate => beautifyDate(date);
 
   bool isGameRunning(DateTime timestamp) {
+    if (ended == true) {
+      return false;
+    }
     switch (gameStatus) {
       case GameStatus.running:
       case GameStatus.ingame:

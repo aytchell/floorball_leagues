@@ -94,6 +94,9 @@ class Game {
   String? get beautifiedDate => beautifyNullableDate(date!);
 
   bool isGameRunning(DateTime timestamp) {
+    if (ended == true) {
+      return false;
+    }
     switch (state) {
       case GameStatus.running:
       case GameStatus.ingame:

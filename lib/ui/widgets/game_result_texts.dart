@@ -35,6 +35,7 @@ List<Widget> buildDetailedResultTexts(DetailedGame game) {
 
 abstract class _Adapter {
   int get gameId;
+  bool get ended;
   GameStatus get state;
   GameResult? get result;
   String? get noticeType;
@@ -46,6 +47,9 @@ abstract class _Adapter {
 }
 
 List<Widget> _buildResultTexts(_Adapter game) {
+  if (game.ended) {
+    return _buildEndResultTexts(game);
+  }
   switch (game.state) {
     case GameStatus.ended:
     case GameStatus.aftergame:
@@ -127,6 +131,7 @@ List<Widget> _buildRunningTexts(_Adapter game) {
 }
 
 String translateNoticeType(String noticeType) {
+  log.info('Found noticeType: $noticeType');
   // I peeked these values from the js code
   // I already stumbled upon 'Canceled' and know, how to handle it.
   // For the other two I only know the "translation".
@@ -159,6 +164,8 @@ class GameAdapter extends _Adapter {
   @override
   int get gameId => game.gameId;
   @override
+  bool get ended => game.ended;
+  @override
   String? get noticeType => game.noticeType;
   @override
   GameResult? get result => game.result;
@@ -182,6 +189,8 @@ class DetailedGameAdapter extends _Adapter {
 
   @override
   int get gameId => game.id;
+  @override
+  bool get ended => game.ended;
   @override
   String? get noticeType => game.noticeType;
   @override
