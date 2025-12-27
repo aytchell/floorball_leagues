@@ -2,6 +2,8 @@ import 'package:floorball/api/blocs/federations_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
@@ -12,18 +14,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
 final log = Logger('LeaguesListPage');
-
-final TextStyle blackTextStyle = TextStyle(
-  color: Color.fromARGB(255, 0, 0, 0),
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-);
-
-final TextStyle textStyle = TextStyle(
-  color: Color.fromARGB(255, 97, 97, 97),
-  fontSize: 16,
-  fontWeight: FontWeight.w600,
-);
 
 class LeaguesListPage extends StatelessWidget {
   final int federationId;
@@ -79,24 +69,36 @@ class LeaguesListPage extends StatelessWidget {
   }
 
   Widget _buildLeaguesList(BuildContext context, List<League> leagues) {
-    return ListView.builder(
-      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 24.0),
-      itemCount: leagues.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: TextButton(
-            onPressed: () => LeagueDetailsPageRoute(
-              leagueId: leagues[index].id,
-              leagueName: leagues[index].name,
-            ).push(context),
-            style: TextButton.styleFrom(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.zero,
+    return Container(
+      color: FloorballColors.gray231,
+      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('LIGEN', style: TextStyles.leagueHeader),
+          SizedBox(height: 12),
+          Expanded(
+            child: ListView.builder(
+              itemCount: leagues.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: TextButton(
+                    onPressed: () => LeagueDetailsPageRoute(
+                      leagueId: leagues[index].id,
+                      leagueName: leagues[index].name,
+                    ).push(context),
+                    style: TextButton.styleFrom(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: _highlightYouthSelector(leagues[index].name),
+                  ),
+                );
+              },
             ),
-            child: _highlightYouthSelector(leagues[index].name),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -106,14 +108,14 @@ class LeaguesListPage extends StatelessWidget {
     final match = regEx.firstMatch(text);
 
     if (match == null) {
-      return Text(text, style: textStyle);
+      return Text(text, style: TextStyles.leagueListLight);
     } else {
       return Text.rich(
         TextSpan(
           children: [
-            TextSpan(text: match.group(1), style: textStyle),
-            TextSpan(text: match.group(2), style: blackTextStyle),
-            TextSpan(text: match.group(3), style: textStyle),
+            TextSpan(text: match.group(1), style: TextStyles.leagueListLight),
+            TextSpan(text: match.group(2), style: TextStyles.leagueListDark),
+            TextSpan(text: match.group(3), style: TextStyles.leagueListLight),
           ],
         ),
       );
@@ -121,22 +123,15 @@ class LeaguesListPage extends StatelessWidget {
   }
 
   Widget _buildNothingFoundInfo(BuildContext context) {
-    return Center(
+    return const Center(
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.calendar_today, size: 64, color: Colors.grey[400]),
+            Icon(Icons.calendar_today, size: 64, color: Colors.black38),
             SizedBox(height: 16),
-            Text(
-              'Keine Ligen verfügbar',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey[600],
-              ),
-            ),
+            Text('Keine Ligen verfügbar', style: TextStyles.genericLoadingData),
           ],
         ),
       ),

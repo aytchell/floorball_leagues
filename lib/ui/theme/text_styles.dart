@@ -25,7 +25,16 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: FloorballColors.gray153,
   );
-  static const _bold1 = TextStyle(fontSize: rem_1, fontWeight: FontWeight.w700);
+  static const _bold1grey169 = TextStyle(
+    fontSize: rem_1,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.gray169,
+  );
+  static const _bold1 = TextStyle(
+    fontSize: rem_1,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
 
   static const _normal1125 = TextStyle(fontSize: rem_1_125);
   static const _bold1125 = TextStyle(
@@ -58,6 +67,7 @@ class TextStyles {
   static const gameHeaderDateFuture = _bold1;
   static const gameHeaderArenaInfo = _normal1grey153;
   static const gameHeaderPeriods = _bold1;
+  static const gameNoDetails = _normal1grey153;
 
   static const gameDetailsSection = _bold1125;
   static const gameDetailsSubSection = _bold1;
@@ -69,6 +79,7 @@ class TextStyles {
   static const teamLineupName = _normal0875;
   static const teamLineupType = _normal0875;
 
+  static const gameEventNoEvent = _normal1grey153;
   static const gameEventType = _bold0875;
   static const gameEventScorer = _normal0875;
   static const gameEventAssist = _normal0875grey153;
@@ -80,6 +91,14 @@ class TextStyles {
   static const gameEventTime = _normal0875;
 
   static const federationName = _bold1;
+
+  static const leagueHeader = _bold1grey169;
+  static const leagueListDark = _bold1;
+  static const leagueListLight = TextStyle(
+    color: FloorballColors.gray97,
+    fontSize: rem_1,
+    fontWeight: FontWeight.w600,
+  );
 
   static const genericLoadingData = _bold1125grey153;
 }
