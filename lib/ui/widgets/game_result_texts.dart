@@ -10,10 +10,6 @@ import 'package:logging/logging.dart';
 
 final log = Logger('GameResultTexts');
 
-const TextStyle bold12 = TextStyle(fontSize: 12, fontWeight: FontWeight.w700);
-
-const TextStyle bold16 = TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
-
 List<Widget> buildResultTexts(Game game) {
   return _buildResultTexts(GameAdapter(game));
 }
@@ -87,17 +83,17 @@ List<Widget> _buildNoRecordTexts(_Adapter game) {
   }
 
   if (game.time != null) {
-    return [Text('${game.time!} Uhr', style: bold16)];
+    return [Text('${game.time!} Uhr', style: TextStyles.gameDayTime)];
   } else {
-    return [Text('Zeit unbekannt', style: bold12)];
+    return [Text('Zeit unbekannt', style: TextStyles.gameDayTimeUnknown)];
   }
 }
 
 List<Widget> _buildRecordCreatedTexts(_Adapter game) {
   if (game.time != null) {
-    return [Text('${game.time!} Uhr', style: bold16)];
+    return [Text('${game.time!} Uhr', style: TextStyles.gameDayTime)];
   } else {
-    return [Text('Zeit unbekannt', style: bold12)];
+    return [Text('Zeit unbekannt', style: TextStyles.gameDayTimeUnknown)];
   }
 }
 
@@ -109,11 +105,7 @@ List<Widget> _buildRunningTexts(_Adapter game) {
   list.add(
     Text(
       game.currentPeriodTitle!.title,
-      style: TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.w700,
-        color: FloorballColors.resultRunningColor,
-      ),
+      style: TextStyles.gameDayResultCurrentPeriod,
     ),
   );
   return list;
@@ -140,7 +132,7 @@ List<Widget> _buildNoticeTypeResult(String noticeType) {
   return [
     Text(
       translateNoticeType(noticeType),
-      style: bold16.copyWith(color: FloorballColors.resultNoticeColor),
+      style: TextStyles.gameDayResultNotice,
     ),
   ];
 }

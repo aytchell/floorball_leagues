@@ -3,10 +3,17 @@ import 'package:floorball/ui/theme/rem.dart';
 import 'package:flutter/material.dart';
 
 class TextStyles {
+  static const _bold0625running = TextStyle(
+    fontSize: rem_0_625,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.resultRunningColor,
+  );
+
   static const _normal075gray153 = TextStyle(
     fontSize: rem_0_75,
     color: FloorballColors.gray153,
   );
+  static const _normal075 = TextStyle(fontSize: rem_0_75, color: Colors.black);
   static const _bold075 = TextStyle(
     fontSize: rem_0_75,
     fontWeight: FontWeight.w700,
@@ -50,6 +57,11 @@ class TextStyles {
     fontSize: rem_1,
     fontWeight: FontWeight.w700,
     color: FloorballColors.gray169,
+  );
+  static const _bold1notice = TextStyle(
+    fontSize: rem_1,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.resultNoticeColor,
   );
   static const _bold1 = TextStyle(
     fontSize: rem_1,
@@ -107,8 +119,13 @@ class TextStyles {
 
   static const gameDayTeamName = _bold0875;
   static const gameDayDate = _normal075gray153;
+  static const gameDayTime = _bold1;
+  static const gameDayTimeUnknown = _normal075;
+
   static const gameDayResult = _bold15;
+  static const gameDayResultCurrentPeriod = _bold0625running;
   static const gameDayResultPostfix = _bold075;
+  static const gameDayResultNotice = _bold1notice;
 
   static const gameDayHeaderFuture = _normal0875;
   static const gameDayHeaderFutureBold = _bold0875;
