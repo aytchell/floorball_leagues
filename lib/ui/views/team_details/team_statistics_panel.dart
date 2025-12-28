@@ -3,6 +3,7 @@ import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/team_details/team_statistics_table.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 const fallbackText = Text(
   'Keine Informationen verfügbar',
-  style: TextStyle(fontSize: 16, color: Colors.black54),
+  style: TextStyles.genericNoData,
 );
 
 ExpansionPanelRadio buildTeamStatisticsPanel(

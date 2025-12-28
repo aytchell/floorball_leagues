@@ -36,6 +36,11 @@ class TextStyles {
     fontSize: rem_1,
     color: FloorballColors.gray153,
   );
+  static const _bold1gray45 = TextStyle(
+    fontSize: rem_1,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.gray45,
+  );
   static const _bold1gray153 = TextStyle(
     fontSize: rem_1,
     fontWeight: FontWeight.w700,
@@ -146,4 +151,6 @@ class TextStyles {
 
   // generic styles
   static const genericLoadingData = _bold1125gray153;
+  static const genericNoData = _bold1125gray153;
+  static const genericPanelTitle = _bold1gray45;
 }

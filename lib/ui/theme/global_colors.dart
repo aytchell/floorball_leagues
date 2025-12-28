@@ -6,6 +6,7 @@ class FloorballColors {
   static const gray153 = Color.fromARGB(255, 153, 153, 153);
   static const gray169 = Color.fromARGB(255, 169, 169, 169);
   static const gray97 = Color.fromARGB(255, 97, 97, 97);
+  static const gray45 = Color.fromARGB(255, 45, 45, 45);
 
   static const mainHeaderGray = gray231;
   static const mainBackgroundColor = Colors.white;

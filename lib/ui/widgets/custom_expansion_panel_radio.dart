@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 const _fallbackStyle = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w700,
-  color: Colors.black87,
+  color: FloorballColors.gray45,
 );
 
 ExpansionPanelRadio buildExpansionPanelRadio({

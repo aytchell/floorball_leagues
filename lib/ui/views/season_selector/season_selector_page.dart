@@ -84,14 +84,7 @@ class _SeasonList extends StatelessWidget {
         children: [
           Icon(Icons.calendar_today, size: 64, color: FloorballColors.gray153),
           SizedBox(height: 16),
-          Text(
-            'Keine Saisons verfügbar',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: FloorballColors.gray153,
-            ),
-          ),
+          Text('Keine Saisons verfügbar', style: TextStyles.genericNoData),
         ],
       ),
     ),

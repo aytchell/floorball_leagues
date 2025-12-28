@@ -1,6 +1,7 @@
 import 'package:floorball/api/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
@@ -55,10 +56,7 @@ class _ChampTableContent extends StatelessWidget {
   Widget _emptyPlaceholder() => Container(
     padding: EdgeInsets.all(16.0),
     child: Center(
-      child: Text(
-        'Keine Tabelle verfügbar',
-        style: TextStyle(color: Colors.grey[600], fontSize: 14.0),
-      ),
+      child: Text('Keine Tabelle verfügbar', style: TextStyles.genericNoData),
     ),
   );
 
