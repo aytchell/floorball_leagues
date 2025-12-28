@@ -1,8 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
-import 'package:floorball/ui/widgets/striped_table_row.dart';
+import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
 
 ExpansionPanelRadio buildLeagueInfoPanel(int identifier, League league) {
@@ -20,22 +18,28 @@ class _LeagueInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final infoItems = _getLeagueInfoItems();
+    final entries = [
+      LabeledValue(label: 'Modus', value: _leagueType()),
+      LabeledValue(label: 'Spielfeld', value: _fieldSize()),
+      LabeledValue(label: 'Spielabschnitte', value: _periodNumber()),
+      LabeledValue(
+        label: _periodDurationLabel(),
+        value: _minutes(league.periodLength),
+      ),
+      LabeledValue(
+        label: 'Dauer der Verlängerung',
+        value: _minutes(league.overtimeLength),
+      ),
+      LabeledValue(label: 'Damen / Mixed', value: _femaleOrMixed()),
+      LabeledValue(label: 'Jahrgänge', value: _playerAges()),
+    ];
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[50],
         border: Border.all(color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Column(
-        children: infoItems.mapIndexed((index, item) {
-          return StripedTableRow(
-            index: index,
-            child: _LeagueInfoRow(label: item.label, value: item.value),
-          );
-        }).toList(),
-      ),
+      child: StripedLabeledValueTable(entries),
     );
   }
 
@@ -64,6 +68,21 @@ class _LeagueInfoContent extends StatelessWidget {
     return league.periods!.toString();
   }
 
+  String _periodDurationLabel() {
+    if (league.periods != null) {
+      if (league.periods == 2) return 'Dauer jeder Halbzeit';
+      if (league.periods == 3) return 'Dauer jedes Drittels';
+    }
+    return 'Dauer jedes Abschnitts';
+  }
+
+  String _minutes(int? value) {
+    if (value != null) {
+      return '$value min';
+    }
+    return 'Nicht angegeben';
+  }
+
   String _femaleOrMixed() {
     if (league.female == null) return 'Nicht angegeben';
     return (league.female!) ? 'Damen' : 'Mixed';
@@ -79,67 +98,4 @@ class _LeagueInfoContent extends StatelessWidget {
         : 'und jünger';
     return '${league.beautifiedDeadline!}\n$youngerOrOlder';
   }
-
-  List<_LeagueInfoItem> _getLeagueInfoItems() {
-    return [
-      _LeagueInfoItem(label: 'Modus', value: _leagueType()),
-      _LeagueInfoItem(label: 'Spielfeld', value: _fieldSize()),
-      _LeagueInfoItem(label: 'Spielabschnitte', value: _periodNumber()),
-      _LeagueInfoItem(
-        label: _periodDuraionLabel(),
-        value: _minutes(league.periodLength),
-      ),
-      _LeagueInfoItem(
-        label: 'Dauer der Verlängerung',
-        value: _minutes(league.overtimeLength),
-      ),
-      _LeagueInfoItem(label: 'Damen / Mixed', value: _femaleOrMixed()),
-      _LeagueInfoItem(label: 'Jahrgänge', value: _playerAges()),
-    ];
-  }
-
-  String _minutes(int? value) {
-    if (value != null) {
-      return '$value min';
-    }
-    return 'Nicht angegeben';
-  }
-
-  String _periodDuraionLabel() {
-    if (league.periods != null) {
-      if (league.periods == 2) return 'Dauer jeder Halbzeit';
-      if (league.periods == 3) return 'Dauer jedes Drittels';
-    }
-    return 'Dauer jedes Abschnitts';
-  }
-}
-
-class _LeagueInfoItem {
-  final String label;
-  final String value;
-
-  _LeagueInfoItem({required this.label, required this.value});
-}
-
-class _LeagueInfoRow extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const _LeagueInfoRow({super.key, required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Expanded(child: Text(label, style: TextStyles.leagueInfoKey)),
-      const SizedBox(width: 12),
-      SizedBox(
-        width: 120,
-        child: Text(
-          value,
-          style: TextStyles.leagueInfoValue,
-          textAlign: TextAlign.right,
-        ),
-      ),
-    ],
-  );
 }
