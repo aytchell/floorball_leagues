@@ -10,7 +10,8 @@ class LabeledValue {
 }
 
 class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {
-  const StripedLabeledValueTable(super.entries, {super.key});
+  const StripedLabeledValueTable(super.entries, {super.key})
+    : super(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8));
 
   @override
   Widget buildRow(BuildContext context, LabeledValue entry) =>
