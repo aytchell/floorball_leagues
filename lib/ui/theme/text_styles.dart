@@ -8,6 +8,11 @@ class TextStyles {
     fontWeight: FontWeight.w700,
     color: FloorballColors.resultRunningColor,
   );
+  static const _bold0625 = TextStyle(
+    fontSize: rem_0_625,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
 
   static const _normal075gray153 = TextStyle(
     fontSize: rem_0_75,
@@ -18,6 +23,11 @@ class TextStyles {
     fontSize: rem_0_75,
     fontWeight: FontWeight.w700,
     color: Colors.black,
+  );
+  static const _bold075gray45 = TextStyle(
+    fontSize: rem_0_75,
+    fontWeight: FontWeight.w700,
+    color: FloorballColors.gray45,
   );
 
   static const _normal0875 = TextStyle(
@@ -117,6 +127,14 @@ class TextStyles {
   static const leagueInfoKey = _normal0875;
   static const leagueInfoValue = _bold0875;
 
+  static const scorerListDefault = _normal0875;
+  static const scorerListPlayerName = _bold0875;
+  static const scorerListTeamName = _normal0875gray153;
+  static const scorerListPoints = _bold0875;
+
+  static const leagueNoTableInCup = _normal1gray153;
+  static const leagueTablePointsCell = _bold0875;
+
   static const gameDayTeamName = _bold0875;
   static const gameDayDate = _normal075gray153;
   static const gameDayTime = _bold1;
@@ -170,4 +188,7 @@ class TextStyles {
   static const genericLoadingData = _bold1125gray153;
   static const genericNoData = _bold1125gray153;
   static const genericPanelTitle = _bold1gray45;
+  static const genericStripedTableHeader = _bold075gray45;
+  static const genericStripedTableCell = _normal0875;
+  static const genericLeftLabeledContent = _bold0625;
 }

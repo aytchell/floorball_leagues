@@ -1,6 +1,7 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -69,8 +70,10 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
     TableColumnDefinition(
       column: const TableColumn(width: 35), // points
       headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
-      contentBuilder: (row) =>
-          buildTextCell('${row.points}', weight: FontWeight.bold),
+      contentBuilder: (row) => buildTextCell(
+        '${row.points}',
+        textStyle: TextStyles.leagueTablePointsCell,
+      ),
     ),
     TableColumnDefinition(
       column: const TableColumn(width: 35), // wins

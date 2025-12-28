@@ -11,7 +11,6 @@ import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
 import 'package:floorball/ui/views/game_details/details/starting_six.dart';
 import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
 import 'package:floorball/ui/views/game_details/game_header.dart';
-import 'package:floorball/ui/widgets/loading_spinner.dart';
 import 'package:floorball/ui/widgets/separator.dart';
 import 'package:floorball/utils/map_extensions.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +54,10 @@ class GameDetailsPage extends StatelessWidget {
 
   Widget _buildBody(DetailedGame? game) {
     if (game == null) {
-      return const LoadingSpinner(title: 'Lade Spieldetails ...');
+      return const Text(
+        'Lade Spieldetails ...',
+        style: TextStyles.genericLoadingData,
+      );
     }
 
     return BlocListener<TickCubit, TickState>(

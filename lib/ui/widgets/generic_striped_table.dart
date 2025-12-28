@@ -1,3 +1,4 @@
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:flutter/material.dart';
 import 'package:material_table_view/material_table_view.dart';
@@ -62,12 +63,12 @@ abstract class GenericStripedTable<T> extends StatelessWidget {
 Widget buildTextCell(
   String text, {
   Alignment align = Alignment.center,
-  FontWeight weight = FontWeight.normal,
+  TextStyle textStyle = TextStyles.genericStripedTableCell,
 }) {
   return Container(
     alignment: align,
     padding: const EdgeInsets.symmetric(horizontal: 4),
-    child: Text(text, style: TextStyle(fontWeight: weight, fontSize: 14)),
+    child: Text(text, style: textStyle),
   );
 }
 
@@ -75,35 +76,20 @@ Widget buildHeaderCell(
   String text, {
   bool rotated = false,
   Alignment align = Alignment.bottomCenter,
-}) {
-  final textColor = Colors.grey[800];
-
-  return Container(
-    alignment: align,
-    padding: const EdgeInsets.symmetric(horizontal: 4),
-    child: rotated
-        ? RotatedBox(
-            quarterTurns: 3,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(width: 4),
-                _tableHeaderText(text, textColor),
-                const SizedBox(width: 4),
-              ],
-            ),
-          )
-        : _tableHeaderText(text, textColor),
-  );
-}
-
-Widget _tableHeaderText(String text, Color? color) {
-  return Text(
-    text,
-    style: TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 12,
-      color: color ?? Colors.grey[800],
-    ),
-  );
-}
+}) => Container(
+  alignment: align,
+  padding: const EdgeInsets.symmetric(horizontal: 4),
+  child: rotated
+      ? RotatedBox(
+          quarterTurns: 3,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(width: 4),
+              Text(text, style: TextStyles.genericStripedTableHeader),
+              const SizedBox(width: 4),
+            ],
+          ),
+        )
+      : Text(text, style: TextStyles.genericStripedTableHeader),
+);

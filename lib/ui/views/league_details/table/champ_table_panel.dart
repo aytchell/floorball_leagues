@@ -120,8 +120,10 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
     TableColumnDefinition(
       column: const TableColumn(width: 35), // points
       headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
-      contentBuilder: (row) =>
-          buildTextCell('${row.points}', weight: FontWeight.bold),
+      contentBuilder: (row) => buildTextCell(
+        '${row.points}',
+        textStyle: TextStyles.leagueTablePointsCell,
+      ),
     ),
     TableColumnDefinition(
       column: const TableColumn(width: 60), // goals

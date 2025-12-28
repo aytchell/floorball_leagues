@@ -1,3 +1,4 @@
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
 abstract class LeftLabeledContent extends StatelessWidget {
@@ -50,11 +51,7 @@ abstract class LeftLabeledContent extends StatelessWidget {
           quarterTurns: 3, // 270 degrees (90 degrees counterclockwise)
           child: Text(
             name,
-            style: TextStyle(
-              fontSize: 11.0,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
+            style: TextStyles.genericLeftLabeledContent,
             textAlign: TextAlign.center,
           ),
         ),

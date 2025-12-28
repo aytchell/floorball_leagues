@@ -1,17 +1,12 @@
 import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
-
-const _fallbackStyle = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w700,
-  color: FloorballColors.gray45,
-);
 
 ExpansionPanelRadio buildExpansionPanelRadio({
   required int value,
   required String panelText,
-  TextStyle panelStyle = _fallbackStyle,
+  TextStyle panelStyle = TextStyles.genericPanelTitle,
   required Widget body,
 }) {
   return buildExpansionHeaderPanelRadio(

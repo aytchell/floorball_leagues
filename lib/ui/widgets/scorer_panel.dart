@@ -2,6 +2,7 @@ import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
     column: const TableColumn(width: 35),
     headerBuilder: () => buildHeaderCell('Punkte', rotated: true),
     contentBuilder: (row) =>
-        buildTextCell('${row.points}', weight: FontWeight.bold),
+        buildTextCell('${row.points}', textStyle: TextStyles.scorerListPoints),
   );
 
   static final _numGoals = TableColumnDefinition<Scorer>(
@@ -197,17 +198,10 @@ Widget buildPlayerCell(String playerName, String teamName) {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          playerName,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-        ),
+        Text(playerName, style: TextStyles.scorerListPlayerName),
         Text(
           teamName,
-          style: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.normal,
-            fontSize: 13,
-          ),
+          style: TextStyles.scorerListTeamName,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
@@ -219,12 +213,12 @@ Widget buildPlayerCell(String playerName, String teamName) {
 Widget buildTextCell(
   String text, {
   Alignment align = Alignment.center,
-  FontWeight weight = FontWeight.normal,
+  TextStyle textStyle = TextStyles.scorerListDefault,
 }) {
   return Container(
     alignment: align,
     padding: const EdgeInsets.symmetric(horizontal: 4),
-    child: Text(text, style: TextStyle(fontWeight: weight, fontSize: 14)),
+    child: Text(text, style: textStyle),
   );
 }
 
