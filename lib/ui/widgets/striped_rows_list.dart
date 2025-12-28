@@ -7,7 +7,7 @@ abstract class StripedRowsList<T> extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final void Function(BuildContext context, T entry)? onTap;
 
-  static const double _verticalPadding = 6.0;
+  static const double _verticalPadding = 4.0;
   static const double defaultPaddingPerRow =
       2 * _verticalPadding + StripedTableRow.verticalDefaultPadding;
 
