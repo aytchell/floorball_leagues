@@ -84,7 +84,7 @@ class TextStyles {
   static const seasonListLight = TextStyle(
     color: FloorballColors.gray97,
     fontSize: rem_1_125,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
   );
 
   // leagues list
@@ -93,7 +93,7 @@ class TextStyles {
   static const leaguesListLight = TextStyle(
     color: FloorballColors.gray97,
     fontSize: rem_1,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
   );
 
   // league detail
@@ -112,11 +112,7 @@ class TextStyles {
 
   // game detail page
   static const gameDetailHeaderTeamName = _bold1;
-  static const gameDetailHeaderVersus = TextStyle(
-    fontSize: rem_1_125,
-    fontWeight: FontWeight.w700,
-    color: FloorballColors.gray156,
-  );
+  static const gameDetailHeaderVersus = _bold1125gray153;
   static const gameDetailHeaderScore = TextStyle(
     fontSize: rem_2_625,
     fontWeight: FontWeight.w700,
