@@ -198,4 +198,6 @@ class TextStyles {
   static const genericStripedTableHeader = _bold075gray45;
   static const genericStripedTableCell = _normal0875;
   static const genericLeftLabeledContent = _bold0625;
+  static const genericLabeledValueLabel = _normal0875;
+  static const genericLabeledValueValue = _bold0875;
 }

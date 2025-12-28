@@ -32,26 +32,7 @@ class _LeagueInfoContent extends StatelessWidget {
         children: infoItems.mapIndexed((index, item) {
           return StripedTableRow(
             index: index,
-            child: Row(
-              children: [
-                // Label
-                Expanded(
-                  child: Text(item.label, style: TextStyles.leagueInfoKey),
-                ),
-
-                const SizedBox(width: 12),
-
-                // Value
-                SizedBox(
-                  width: 120,
-                  child: Text(
-                    item.value,
-                    style: TextStyles.leagueInfoValue,
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-              ],
-            ),
+            child: _LeagueInfoRow(label: item.label, value: item.value),
           );
         }).toList(),
       ),
@@ -138,4 +119,27 @@ class _LeagueInfoItem {
   final String value;
 
   _LeagueInfoItem({required this.label, required this.value});
+}
+
+class _LeagueInfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _LeagueInfoRow({super.key, required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      Expanded(child: Text(label, style: TextStyles.leagueInfoKey)),
+      const SizedBox(width: 12),
+      SizedBox(
+        width: 120,
+        child: Text(
+          value,
+          style: TextStyles.leagueInfoValue,
+          textAlign: TextAlign.right,
+        ),
+      ),
+    ],
+  );
 }

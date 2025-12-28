@@ -1,16 +1,8 @@
-import 'package:collection/collection.dart';
+import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/views/team_details/team_penalties.dart';
+import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/league_table_row.dart';
-import 'package:floorball/ui/widgets/striped_table_row.dart';
-
-class _StatisticItem {
-  final String label;
-  final String value;
-
-  _StatisticItem({required this.label, required this.value});
-}
 
 class TeamStatisticsTable extends StatelessWidget {
   final LeagueTableRow team;
@@ -29,19 +21,19 @@ class TeamStatisticsTable extends StatelessWidget {
     final TeamPenalties penalties = TeamPenalties.extract(scorers, seasonId);
 
     final statistics = [
-      _StatisticItem(label: 'Position', value: '${team.position}.'),
-      _StatisticItem(label: 'Spiele', value: '${team.games}'),
-      _StatisticItem(label: 'Punkte', value: _buildPoints()),
-      _StatisticItem(
+      LabeledValue(label: 'Position', value: '${team.position}.'),
+      LabeledValue(label: 'Spiele', value: '${team.games}'),
+      LabeledValue(label: 'Punkte', value: _buildPoints()),
+      LabeledValue(
         label: 'S | S(nV) | U | N(nV) | N',
         value: _buildGameOutcomes(),
       ),
-      _StatisticItem(label: 'Tore', value: _buildGoals()),
-      _StatisticItem(
+      LabeledValue(label: 'Tore', value: _buildGoals()),
+      LabeledValue(
         label: penalties.expiringTitle(),
         value: penalties.expiringPenaltiesAsString(),
       ),
-      _StatisticItem(
+      LabeledValue(
         label: penalties.matchTitle(),
         value: penalties.matchPenaltiesAsString(),
       ),
@@ -52,35 +44,7 @@ class TeamStatisticsTable extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Column(
-        children: statistics.mapIndexed((index, statistic) {
-          return StripedTableRow(
-            index: index,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    statistic.label,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Text(
-                  statistic.value,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
+      child: StripedLabeledValueTable(statistics),
     );
   }
 
