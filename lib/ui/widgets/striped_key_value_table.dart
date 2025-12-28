@@ -26,8 +26,21 @@ class _LabeledValueRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      Expanded(child: Text(label, style: TextStyles.genericLabeledValueLabel)),
-      Text(value, style: TextStyles.genericLabeledValueValue),
+      Text(
+        label,
+        style: TextStyles.genericLabeledValueLabel,
+        textAlign: TextAlign.left,
+      ),
+      SizedBox(width: 16),
+      Expanded(
+        child: Text(
+          value,
+          style: TextStyles.genericLabeledValueValue,
+          textAlign: TextAlign.right,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
     ],
   );
 }
