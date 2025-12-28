@@ -118,7 +118,7 @@ class MainAppScaffold extends StatelessWidget {
     } else {
       return RichText(
         text: TextSpan(
-          text: title,
+          text: '$title\n',
           style: TextStyles.mainScaffoldTitle,
           children: <TextSpan>[
             TextSpan(text: subtitle, style: TextStyles.mainScaffoldSubTitle),

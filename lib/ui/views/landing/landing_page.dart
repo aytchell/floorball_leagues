@@ -23,13 +23,9 @@ class LandingPage extends StatelessWidget {
       builder: (context, availableFederations) =>
           BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
             builder: (context, selectedSeason) {
-              final subTitle = (selectedSeason == null)
-                  ? null
-                  : '\nSaison ${selectedSeason.name}';
-
               return MainAppScaffold(
                 title: 'Floorball Spielbetriebe',
-                subtitle: subTitle,
+                subtitle: _createSeasonSubtitle(selectedSeason),
                 isHomePage: true,
                 body: _buildBody(availableFederations.federations),
               );
@@ -68,5 +64,15 @@ class LandingPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String? _createSeasonSubtitle(SeasonInfo? selectedSeason) {
+    if (selectedSeason == null) {
+      return null;
+    }
+    if (selectedSeason.current) {
+      return 'laufende Saison (${selectedSeason.name})';
+    }
+    return 'Saison ${selectedSeason.name}';
   }
 }

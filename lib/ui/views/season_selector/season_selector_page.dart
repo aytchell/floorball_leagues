@@ -1,12 +1,13 @@
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';
+import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/api/models/season_info.dart';
 
 class SeasonSelectorPage extends StatelessWidget {
   const SeasonSelectorPage({super.key});
@@ -27,158 +28,127 @@ class SeasonSelectorPage extends StatelessWidget {
     return BlocBuilder<AvailableSeasonsCubit, AvailableSeasons>(
       builder: (_, availableSeasons) =>
           BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
-            builder: (_, selectedSeason) => _buildBodyWithState(
-              context,
-              availableSeasons.seasons,
-              selectedSeason,
+            builder: (_, selectedSeason) => _SeasonList(
+              availableSeasons: availableSeasons.seasons,
+              selectedSeason: selectedSeason,
             ),
           ),
     );
   }
+}
 
-  Widget _buildBodyWithState(
-    BuildContext context,
-    List<SeasonInfo> availableSeasons,
-    SeasonInfo? selectedSeason,
-  ) {
-    if (availableSeasons.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.calendar_today, size: 64, color: Colors.grey[400]),
-              SizedBox(height: 16),
-              Text(
-                'Keine Saisons verfügbar',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+class _SeasonList extends StatelessWidget {
+  final List<SeasonInfo> availableSeasons;
+  final SeasonInfo? selectedSeason;
+
+  const _SeasonList({required this.availableSeasons, this.selectedSeason});
+
+  @override
+  Widget build(BuildContext context) {
+    if (availableSeasons.isNotEmpty) {
+      return _buildSeasonList();
+    } else {
+      return _buildNothingFoundInfo();
     }
+  }
 
-    return Column(
-      children: [
-        // Header with count
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16.0),
-          color: Colors.grey[50],
-          child: Text(
-            '${availableSeasons.length} Saison${availableSeasons.length == 1 ? '' : 'en'} verfügbar',
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
+  Widget _buildSeasonList() {
+    return Container(
+      color: FloorballColors.gray231,
+      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('SAISONS', style: TextStyles.seasonListHeader),
+          const SizedBox(height: 12),
+          Expanded(
+            child: ListView.builder(
+              itemCount: availableSeasons.length,
+              itemBuilder: (context, index) {
+                final season = availableSeasons[index];
+                bool isSelected = (season.id == selectedSeason?.id);
+                return _printSeasonEntry(context, season, isSelected);
+              },
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-
-        // Seasons list
-        Expanded(
-          child: ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            itemCount: availableSeasons.length,
-            itemBuilder: (context, index) {
-              final season = availableSeasons[index];
-              return _buildSeasonTile(
-                context,
-                season,
-                season.id == selectedSeason?.id,
-              );
-            },
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildSeasonTile(
+  Widget _buildNothingFoundInfo() => const Center(
+    child: Padding(
+      padding: EdgeInsets.all(24.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.calendar_today, size: 64, color: FloorballColors.gray153),
+          SizedBox(height: 16),
+          Text(
+            'Keine Saisons verfügbar',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: FloorballColors.gray153,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+
+  static final _regEx = RegExp(r'^20(\d{2})/20(\d{2})$');
+
+  Widget _printSeasonEntry(
     BuildContext context,
     SeasonInfo season,
     bool isSelected,
   ) {
-    final isCurrent = season.current;
-
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: isSelected ? Colors.blue[50] : Colors.transparent,
-        border: isSelected
-            ? Border.all(color: Colors.blue[300]!, width: 1.5)
-            : null,
-      ),
+      decoration: isSelected ? _seasonEntryHighlightingBox() : null,
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-        leading: _buildLeadingIcon(isSelected, isCurrent),
-        title: Text(
-          season.name,
-          style: TextStyle(
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? Colors.blue[700] : Colors.black87,
-            fontSize: 16,
-          ),
-        ),
-        trailing: _buildTrailingWidget(isCurrent),
-        onTap: () {
-          // Update the global state
-          BlocProvider.of<SelectedSeasonCubit>(context).seasonSelected(season);
-          context.push(LandingPage.routePath);
-        },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        selected: isSelected,
-        selectedTileColor: Colors.transparent, // We handle this with Container
+        leading: const SizedBox(width: 6),
+        title: _printSeasonTextButton(context, season),
       ),
     );
   }
 
-  Widget _buildLeadingIcon(bool isSelected, bool isCurrent) {
-    if (isSelected) {
-      return Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: Colors.blue[600],
-          shape: BoxShape.circle,
-        ),
-        child: Icon(Icons.check, color: Colors.grey[50], size: 16),
-      );
-    } else {
-      return Icon(
-        Icons.calendar_today,
-        color: isCurrent ? Colors.green[600] : Colors.grey[500],
-        size: 22,
-      );
-    }
-  }
+  Decoration _seasonEntryHighlightingBox() => BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    color: FloorballColors.gray250,
+    border: Border.all(color: FloorballColors.gray153, width: 1.5),
+  );
 
-  Widget _buildTrailingWidget(bool isCurrent) {
-    if (isCurrent) {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        decoration: BoxDecoration(
-          color: Colors.green[600],
-          borderRadius: BorderRadius.circular(12.0),
+  Widget _printSeasonTextButton(BuildContext context, SeasonInfo season) =>
+      TextButton(
+        onPressed: () {
+          BlocProvider.of<SelectedSeasonCubit>(context).seasonSelected(season);
+          context.push(LandingPage.routePath);
+        },
+        style: TextButton.styleFrom(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.zero,
         ),
-        child: Text(
-          'Aktuell',
-          style: TextStyle(
-            color: Colors.grey[50],
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-          ),
+        child: _printSeasonName(season),
+      );
+
+  Widget _printSeasonName(SeasonInfo season) {
+    final match = _regEx.firstMatch(season.name);
+
+    if (match == null) {
+      return Text(season.name, style: TextStyles.seasonListLight);
+    } else {
+      return Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(text: 'Saison 20', style: TextStyles.leaguesListLight),
+            TextSpan(text: match.group(1), style: TextStyles.leaguesListDark),
+            TextSpan(text: ' / 20', style: TextStyles.leaguesListLight),
+            TextSpan(text: match.group(2), style: TextStyles.leaguesListDark),
+          ],
         ),
       );
     }
-    return SizedBox.shrink();
   }
 }

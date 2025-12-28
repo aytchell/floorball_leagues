@@ -78,6 +78,15 @@ class TextStyles {
   // landing page
   static const landingFederationName = _bold1;
 
+  // seasons list
+  static const seasonListHeader = _bold1gray169;
+  static const seasonListDark = _bold1125;
+  static const seasonListLight = TextStyle(
+    color: FloorballColors.gray97,
+    fontSize: rem_1_125,
+    fontWeight: FontWeight.w600,
+  );
+
   // leagues list
   static const leaguesListHeader = _bold1gray169;
   static const leaguesListDark = _bold1;
