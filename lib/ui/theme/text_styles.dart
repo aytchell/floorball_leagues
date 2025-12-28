@@ -184,6 +184,13 @@ class TextStyles {
   static const gameMetadataKey = _normal0875;
   static const gameMetadataValue = _bold0875;
 
+  // team details view
+  static const teamDetailsTeamName = TextStyle(
+    fontSize: rem_1_75,
+    fontWeight: FontWeight.bold,
+    color: FloorballColors.gray45,
+  );
+
   // generic styles
   static const genericLoadingData = _bold1125gray153;
   static const genericNoData = _bold1125gray153;

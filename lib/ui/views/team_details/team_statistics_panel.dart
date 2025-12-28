@@ -2,6 +2,7 @@ import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/blocs/leagues_cubit.dart';
 import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/team_details/team_statistics_table.dart';
@@ -9,7 +10,7 @@ import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-const fallbackText = Text(
+const _fallbackText = Text(
   'Keine Informationen verfügbar',
   style: TextStyles.genericNoData,
 );
@@ -38,19 +39,25 @@ class _TeamStatisticsContent extends StatelessWidget {
     return BlocBuilder<LeaguesCubit, LeaguesState>(
       builder: (_, leagueState) {
         final league = leagueState.byId(leagueId);
-        if (league == null) {
-          return fallbackText;
+        switch (league?.leagueType) {
+          case LeagueType.league:
+            return _LeagueTeamDetails(leagueId: leagueId, teamId: teamId);
+          default:
+            return _fallbackText;
         }
-        if (league.leagueType == LeagueType.league) {
-          return _buildLeagueTeamDetails(context);
-        }
-
-        return fallbackText;
       },
     );
   }
+}
 
-  Widget _buildLeagueTeamDetails(BuildContext context) {
+class _LeagueTeamDetails extends StatelessWidget {
+  final int leagueId;
+  final int teamId;
+
+  const _LeagueTeamDetails({required this.leagueId, required this.teamId});
+
+  @override
+  Widget build(BuildContext context) {
     BlocProvider.of<ScorerCubit>(context).updateScorersFor(leagueId);
     BlocProvider.of<LeagueTableCubit>(context).ensureLeagueTableFor(leagueId);
 
@@ -60,23 +67,22 @@ class _TeamStatisticsContent extends StatelessWidget {
         return BlocBuilder<LeagueTableCubit, LeagueTableState>(
           builder: (_, tableState) {
             final table = tableState.leagueTableOf(leagueId);
-            final teamRows = table
-                .where((row) => row.teamId == teamId)
-                .toList();
-            if (teamRows.isEmpty) {
-              return fallbackText;
-            } else {
-              return TeamStatisticsTable(
-                team: teamRows.first,
-                scorers: scorers
-                    .where((scorer) => scorer.teamId == teamId)
-                    .toList(),
-                seasonId: firstSeasonIdWithNewPenalties,
-              );
-            }
+            return _buildTable(scorers, table);
           },
         );
       },
+    );
+  }
+
+  Widget _buildTable(List<Scorer> scorers, List<LeagueTableRow> table) {
+    final teamRows = table.where((row) => row.teamId == teamId).toList();
+    if (teamRows.isEmpty) {
+      return _fallbackText;
+    }
+    return TeamStatisticsTable(
+      team: teamRows.first,
+      scorers: scorers.where((scorer) => scorer.teamId == teamId).toList(),
+      seasonId: firstSeasonIdWithNewPenalties,
     );
   }
 }

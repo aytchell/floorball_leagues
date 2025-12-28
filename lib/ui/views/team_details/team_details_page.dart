@@ -70,20 +70,9 @@ class TeamDetailsPage extends StatelessWidget {
         children: [
           const SizedBox(height: 32),
 
-          // Team Logo
-          TeamLogo(uri: teamInfo.teamLogoUri, height: 160, width: 160),
-
-          const SizedBox(height: 24),
-
-          // Team Name
-          Text(
-            teamInfo.teamName,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-            textAlign: TextAlign.center,
+          _TeamLogoAndName(
+            teamLogoUri: teamInfo.teamLogoUri,
+            teamName: teamInfo.teamName,
           ),
 
           const SizedBox(height: 40),
@@ -111,4 +100,24 @@ class TeamDetailsPage extends StatelessWidget {
       ),
     ];
   }
+}
+
+class _TeamLogoAndName extends StatelessWidget {
+  final Uri? teamLogoUri;
+  final String teamName;
+
+  const _TeamLogoAndName({this.teamLogoUri, required this.teamName});
+
+  @override
+  Widget build(BuildContext context) => Column(
+    children: [
+      TeamLogo(uri: teamLogoUri, height: 160, width: 160),
+      const SizedBox(height: 24),
+      Text(
+        teamName,
+        style: TextStyles.teamDetailsTeamName,
+        textAlign: TextAlign.center,
+      ),
+    ],
+  );
 }
