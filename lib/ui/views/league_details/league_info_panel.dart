@@ -19,19 +19,13 @@ class _LeagueInfoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final entries = [
-      LabeledValue(label: 'Modus', value: _leagueType()),
-      LabeledValue(label: 'Spielfeld', value: _fieldSize()),
-      LabeledValue(label: 'Spielabschnitte', value: _periodNumber()),
-      LabeledValue(
-        label: _periodDurationLabel(),
-        value: _minutes(league.periodLength),
-      ),
-      LabeledValue(
-        label: 'Dauer der Verlängerung',
-        value: _minutes(league.overtimeLength),
-      ),
-      LabeledValue(label: 'Damen / Mixed', value: _femaleOrMixed()),
-      LabeledValue(label: 'Jahrgänge', value: _playerAges()),
+      LabeledValue('Modus', _leagueType()),
+      LabeledValue('Spielfeld', _fieldSize()),
+      LabeledValue('Spielabschnitte', _periodNumber()),
+      LabeledValue(_periodDurationLabel(), _minutes(league.periodLength)),
+      LabeledValue('Dauer der Verlängerung', _minutes(league.overtimeLength)),
+      LabeledValue('Damen / Mixed', _femaleOrMixed()),
+      LabeledValue('Jahrgänge', _playerAges()),
     ];
 
     return Container(

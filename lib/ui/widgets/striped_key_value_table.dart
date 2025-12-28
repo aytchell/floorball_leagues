@@ -6,7 +6,7 @@ class LabeledValue {
   final String label;
   final String value;
 
-  const LabeledValue({required this.label, required this.value});
+  const LabeledValue(this.label, this.value);
 }
 
 class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {

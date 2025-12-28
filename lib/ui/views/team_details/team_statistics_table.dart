@@ -21,22 +21,16 @@ class TeamStatisticsTable extends StatelessWidget {
     final TeamPenalties penalties = TeamPenalties.extract(scorers, seasonId);
 
     final statistics = [
-      LabeledValue(label: 'Position', value: '${team.position}.'),
-      LabeledValue(label: 'Spiele', value: '${team.games}'),
-      LabeledValue(label: 'Punkte', value: _buildPoints()),
+      LabeledValue('Position', '${team.position}.'),
+      LabeledValue('Spiele', '${team.games}'),
+      LabeledValue('Punkte', _buildPoints()),
+      LabeledValue('S | S(nV) | U | N(nV) | N', _buildGameOutcomes()),
+      LabeledValue('Tore', _buildGoals()),
       LabeledValue(
-        label: 'S | S(nV) | U | N(nV) | N',
-        value: _buildGameOutcomes(),
+        penalties.expiringTitle(),
+        penalties.expiringPenaltiesAsString(),
       ),
-      LabeledValue(label: 'Tore', value: _buildGoals()),
-      LabeledValue(
-        label: penalties.expiringTitle(),
-        value: penalties.expiringPenaltiesAsString(),
-      ),
-      LabeledValue(
-        label: penalties.matchTitle(),
-        value: penalties.matchPenaltiesAsString(),
-      ),
+      LabeledValue(penalties.matchTitle(), penalties.matchPenaltiesAsString()),
     ];
 
     return Container(
