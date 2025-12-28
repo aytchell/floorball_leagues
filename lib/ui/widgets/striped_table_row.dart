@@ -17,18 +17,12 @@ class StripedTableRow extends StatelessWidget {
   final Color? borderColor;
   final bool blink; // whether to animate the background color
 
-  static const double _verticalPadding = 8.0;
-  static const double verticalDefaultPadding = (2 * _verticalPadding);
-
   const StripedTableRow({
     super.key,
     required this.index,
     required this.child,
     this.onTap,
-    this.padding = const EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: _verticalPadding,
-    ),
+    this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
     this.evenColor,
     this.oddColor,
     this.borderColor,

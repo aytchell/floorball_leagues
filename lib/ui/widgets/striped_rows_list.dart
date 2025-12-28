@@ -4,18 +4,17 @@ import 'package:flutter/material.dart';
 
 abstract class StripedRowsList<T> extends StatelessWidget {
   final List<T> entries;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
   final void Function(BuildContext context, T entry)? onTap;
 
-  static const double _verticalPadding = 4.0;
-  static const double defaultPaddingPerRow =
-      2 * _verticalPadding + StripedTableRow.verticalDefaultPadding;
+  static const double _verticalPadding = 12.0;
+  static const double defaultPaddingPerRow = 2 * _verticalPadding;
 
   const StripedRowsList(
     this.entries, {
     super.key,
     this.padding = const EdgeInsets.symmetric(
-      horizontal: 8,
+      horizontal: 20,
       vertical: _verticalPadding,
     ),
     this.onTap,
@@ -30,6 +29,7 @@ abstract class StripedRowsList<T> extends StatelessWidget {
           .mapIndexed(
             (index, value) => StripedTableRow(
               index: index,
+              padding: padding,
               child: _buildFramedRow(context, value),
             ),
           )
@@ -41,9 +41,6 @@ abstract class StripedRowsList<T> extends StatelessWidget {
     var response = buildRow(context, entry);
     if (onTap != null) {
       response = InkWell(onTap: () => onTap!(context, entry), child: response);
-    }
-    if (padding != null) {
-      response = Padding(padding: padding!, child: response);
     }
     return response;
   }
