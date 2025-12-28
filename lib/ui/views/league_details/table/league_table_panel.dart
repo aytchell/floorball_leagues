@@ -1,19 +1,17 @@
 import 'package:floorball/api/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
-import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_table_view/material_table_view.dart';
 
 ExpansionPanelRadio buildLeagueTablePanel(int identifier, int leagueId) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: 'Tabelle'),
+    panelText: 'Tabelle',
     body: _LeagueTableContent(leagueId: leagueId),
   );
 }

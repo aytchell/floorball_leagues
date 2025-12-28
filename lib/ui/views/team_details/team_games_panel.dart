@@ -1,8 +1,8 @@
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
-import 'package:floorball/ui/widgets/panel_title.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
+import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:flutter/material.dart';
 
 ExpansionPanelRadio buildTeamGamesPanel(
@@ -10,11 +10,9 @@ ExpansionPanelRadio buildTeamGamesPanel(
   int leagueId,
   String teamName,
 ) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: 'Spiele'),
+    panelText: 'Spiele',
     body: _TeamGamesListing(leagueId: leagueId, teamName: teamName),
   );
 }

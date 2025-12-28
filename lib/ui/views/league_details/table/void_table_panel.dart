@@ -1,12 +1,11 @@
-import 'package:floorball/ui/widgets/panel_title.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
 
 ExpansionPanelRadio buildVoidTablePanel(int identifier, String text) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: text, color: Colors.black45, bold: false),
+    panelText: text,
+    panelStyle: TextStyle(color: Colors.black45),
     body: ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,

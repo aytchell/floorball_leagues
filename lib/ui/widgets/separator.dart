@@ -11,7 +11,7 @@ class Separator extends StatelessWidget {
     return Container(
       height: height,
       width: double.infinity,
-      color: FloorballColors.mainHeaderGrey,
+      color: FloorballColors.mainHeaderGray,
     );
   }
 }

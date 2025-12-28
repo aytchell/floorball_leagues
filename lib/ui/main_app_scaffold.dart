@@ -36,7 +36,7 @@ class MainAppScaffold extends StatelessWidget {
       backgroundColor: FloorballColors.mainBackgroundColor,
       appBar: AppBar(
         title: _createTitle(title, subtitle),
-        backgroundColor: FloorballColors.mainHeaderGrey,
+        backgroundColor: FloorballColors.mainHeaderGray,
         foregroundColor: Colors.black,
         automaticallyImplyLeading: showBackButton,
         actions: actions,

@@ -1,28 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PanelTitle extends StatelessWidget {
-  const PanelTitle({
-    super.key,
-    required this.text,
-    this.bold = true,
-    this.color = Colors.black87,
-  });
+  const PanelTitle({super.key, required this.text, required this.style});
 
   final String text;
-  final Color color;
-  final bool bold;
+  final TextStyle style;
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: bold ? FontWeight.w600 : FontWeight.normal,
-          color: color,
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      ListTile(title: Text(text, style: style));
 }

@@ -1,11 +1,11 @@
+import 'package:floorball/api/blocs/scorer_cubit.dart';
+import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:floorball/api/blocs/scorer_cubit.dart';
-import 'package:floorball/ui/widgets/panel_title.dart';
-import 'package:floorball/api/models/scorer.dart';
 import 'package:material_table_view/material_table_view.dart';
 
 ExpansionPanelRadio buildScorerPanel(
@@ -15,11 +15,9 @@ ExpansionPanelRadio buildScorerPanel(
   double? rowHeight,
   bool Function(Scorer)? filter,
 }) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: 'Scorer'),
+    panelText: 'Scorer',
     body: _ScorerTableContent(
       leagueId: leagueId,
       headerHeight: headerHeight,

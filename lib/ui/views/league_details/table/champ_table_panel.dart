@@ -2,9 +2,9 @@ import 'package:floorball/api/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
-import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,11 +14,9 @@ import 'package:material_table_view/material_table_view.dart';
 final log = Logger('ChampTableCard');
 
 ExpansionPanelRadio buildChampTablePanel(int identifier, int leagueId) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: 'Tabelle'),
+    panelText: 'Tabelle',
     body: _ChampTableContent(leagueId: leagueId, onTap: () {}),
   );
 }

@@ -4,10 +4,9 @@ import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/views/team_details/team_statistics_table.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../widgets/panel_title.dart';
 
 const fallbackText = Text(
   'Keine Informationen verfügbar',
@@ -19,11 +18,9 @@ ExpansionPanelRadio buildTeamStatisticsPanel(
   int leagueId,
   int teamId,
 ) {
-  return ExpansionPanelRadio(
+  return buildExpansionPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (BuildContext context, bool isExpanded) =>
-        PanelTitle(text: 'Team-Überblick'),
+    panelText: 'Team-Überblick',
     body: _TeamStatisticsContent(leagueId: leagueId, teamId: teamId),
   );
 }

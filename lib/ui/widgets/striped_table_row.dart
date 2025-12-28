@@ -1,7 +1,8 @@
+import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/widgets/blinking_striped_row_container.dart';
 import 'package:flutter/material.dart';
 
-const greyedLineColor = Color.fromARGB(255, 251, 251, 251);
+const greyedLineColor = FloorballColors.gray250;
 
 /// StripedTableRow wraps a child and applies alternating background colors
 /// and an optional top border for rows after the first. Useful for table-like

@@ -7,6 +7,7 @@ import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_default_game_day_content.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,11 +40,9 @@ ExpansionPanelRadio _buildSingleGameDayPanel(
   LeagueType leagueType,
   GameDayTitle gdt,
 ) {
-  return ExpansionPanelRadio(
+  return buildExpansionHeaderPanelRadio(
     value: identifier,
-    canTapOnHeader: true,
-    headerBuilder: (context, isExpanded) =>
-        _GameDayHeader(leagueId: leagueId, gdt: gdt),
+    header: _GameDayHeader(leagueId: leagueId, gdt: gdt),
     body: (leagueType == LeagueType.champ)
         ? SingleChampGameDayContent(
             leagueId: leagueId,
