@@ -1,8 +1,9 @@
+import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:floorball/api/models/game.dart';
+import 'package:floorball/ui/widgets/icon_text_button.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:flutter/material.dart';
 
 class GamesOverviewItem extends StatelessWidget {
   final String teamName;
@@ -22,10 +23,7 @@ class GamesOverviewItem extends StatelessWidget {
         child: _PastGame(teamName: teamName, game: game),
       );
     } else {
-      return InkWell(
-        onTap: () => GameDetailsPageRoute(gameId: game.gameId).push(context),
-        child: _FutureGame(teamName: teamName, game: game),
-      );
+      return _FutureGame(teamName: teamName, game: game);
     }
   }
 
@@ -254,6 +252,13 @@ class _FutureGame extends StatelessWidget {
       const Icon(Icons.schedule, size: 22, color: Colors.grey),
       _iconSpacer,
       _printDateTime(),
+      SizedBox(width: 12),
+      IconTextButton(
+        icon: Icons.read_more,
+        onContextPressed: (BuildContext ctxt) {
+          return () => GameDetailsPageRoute(gameId: game.gameId).push(ctxt);
+        },
+      ),
     ],
   );
 
@@ -280,15 +285,14 @@ class _FutureGame extends StatelessWidget {
     );
   }
 
-  Widget _renderHostingTeam() {
-    return Row(
-      children: [
-        const Icon(Icons.location_on, size: 22, color: Colors.grey),
-        _iconSpacer,
-        Text(_printHostingClub(), style: _gray),
-      ],
-    );
-  }
+  Widget _renderHostingTeam() => Row(
+    children: [
+      const Icon(Icons.location_on, size: 22, color: Colors.grey),
+      _iconSpacer,
+      Text(_printHostingClub(), style: _gray),
+      ...maybeRenderNavigationArrow(game.arenaAddress, SizedBox(width: 12)),
+    ],
+  );
 
   String _printHostingClub() {
     if (game.hostingClub == null) {
