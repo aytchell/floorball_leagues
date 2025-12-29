@@ -40,7 +40,7 @@ class StripedTeamGamesRowsList extends StripedRowsList<Game> {
   final String teamName;
   const StripedTeamGamesRowsList(this.teamName, super.entries, {super.key})
     : super(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20.0),
         cellBorderColor: FloorballColors.gray97,
       );
 

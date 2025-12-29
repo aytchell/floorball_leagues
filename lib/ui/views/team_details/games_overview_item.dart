@@ -217,7 +217,7 @@ class _FutureGame extends StatelessWidget {
   final String teamName;
   final Game game;
 
-  static const _iconSpacer = SizedBox(width: 12);
+  static const _iconSpacer = SizedBox(width: 8);
   static const _normal = TextStyles.teamDetailsFutureGames;
   static const _bold = TextStyles.teamDetailsFutureGamesBold;
   static const _gray = TextStyles.teamDetailsFutureGamesGray;
@@ -226,24 +226,19 @@ class _FutureGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _renderDateTime(),
-              const SizedBox(height: 8),
-              _renderHostingTeam(),
-              const SizedBox(height: 8),
-              _renderOpponent(),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        _renderOpponentLogo(),
-        const SizedBox(width: 8),
-      ],
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _renderOpponentLogo(),
+          const SizedBox(height: 12),
+          _renderDateTime(),
+          const SizedBox(height: 8),
+          _renderHostingTeam(),
+          const SizedBox(height: 8),
+          _renderOpponent(),
+        ],
+      ),
     );
   }
 
