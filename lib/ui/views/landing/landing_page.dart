@@ -2,7 +2,7 @@ import 'package:floorball/api/blocs/federations_cubit.dart';
 import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/routes.dart';
-import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/api/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/federation_card.dart';

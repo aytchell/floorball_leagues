@@ -1,7 +1,7 @@
 import 'package:floorball/api/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/api/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';

@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:logging/logging.dart';
 
-import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/api/blocs/selected_season_cubit.dart';
 
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';

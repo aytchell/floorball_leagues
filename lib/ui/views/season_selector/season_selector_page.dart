@@ -1,6 +1,6 @@
 import 'package:floorball/api/blocs/available_seasons_cubit.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/selected_season_cubit.dart';
+import 'package:floorball/api/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
