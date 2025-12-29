@@ -4,6 +4,7 @@ import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
+import 'package:floorball/ui/widgets/icon_text_button.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
@@ -112,10 +113,16 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
 
   Widget _buildArenaInfo() => Column(
     children: [
-      Text(
-        game.arenaName,
-        style: TextStyles.gameDetailHeaderArenaInfo,
-        textAlign: TextAlign.center,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            game.arenaName,
+            style: TextStyles.gameDetailHeaderArenaInfo,
+            textAlign: TextAlign.center,
+          ),
+          ...maybeRenderNavigationArrow(game.arenaAddress, SizedBox(width: 12)),
+        ],
       ),
       const SizedBox(height: 2),
       Text(
