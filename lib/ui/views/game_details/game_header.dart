@@ -121,7 +121,11 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
             style: TextStyles.gameDetailHeaderArenaInfo,
             textAlign: TextAlign.center,
           ),
-          ...maybeRenderNavigationArrow(game.arenaAddress, SizedBox(width: 12)),
+          ...maybeRenderNavigationArrow(
+            address: game.arenaAddress,
+            locationName: game.arenaName,
+            prepend: SizedBox(width: 12),
+          ),
         ],
       ),
       const SizedBox(height: 2),

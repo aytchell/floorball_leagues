@@ -9,32 +9,35 @@ import 'package:url_launcher/url_launcher.dart';
 ///
 /// On desktop platforms (Linux/Windows/macOS), this will open Google Maps
 /// in the default web browser.
-Future<void> openNavigation(String address) async {
+Future<void> openNavigation(String address, String? locationName) async {
   if (Platform.isAndroid || Platform.isIOS) {
     // Mobile: Use map_launcher to show available map apps
     final availableMaps = await MapLauncher.installedMaps;
 
     if (availableMaps.isEmpty) {
       // Fallback to browser if no map apps are installed
-      await _openInBrowser(address);
+      await _openInBrowser(address, locationName);
       return;
     }
 
     // Show map picker or use first available map
-    await MapLauncher.showMarker(
+    await MapLauncher.showMarkerByAddress(
       mapType: availableMaps.first.mapType,
-      coords: Coords(0, 0), // Will be ignored when using address
-      title: address,
+      address: address,
+      title: locationName ?? address,
       description: address,
     );
   } else {
     // Desktop: Open in browser
-    await _openInBrowser(address);
+    await _openInBrowser(address, locationName);
   }
 }
 
-Future<void> _openInBrowser(String address) async {
-  final encodedAddress = Uri.encodeComponent(address);
+Future<void> _openInBrowser(String address, String? locationName) async {
+  final encodedAddress = (locationName == null)
+      ? Uri.encodeComponent(address)
+      : Uri.encodeComponent('($locationName)$address');
+
   final url = Uri.parse(
     'https://www.google.com/maps/search/?api=1&query=$encodedAddress',
   );

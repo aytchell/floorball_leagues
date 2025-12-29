@@ -51,7 +51,10 @@ dependencies:
   bloc: ^9.1.0
   flutter_bloc: ^9.1.1
   collection: ^1.19.1
-  map_launcher: ^3.5.0
+  map_launcher:
+    git:
+      url: https://github.com/aytchell/map_launcher.git
+      ref: feature/by_address
   url_launcher: ^6.3.1
 dev_dependencies:
   flutter_test:

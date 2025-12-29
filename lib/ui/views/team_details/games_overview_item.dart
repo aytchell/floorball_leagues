@@ -285,7 +285,11 @@ class _FutureGame extends StatelessWidget {
       const Icon(Icons.location_on, size: 22, color: Colors.grey),
       _iconSpacer,
       Text(_printHostingClub(), style: _gray),
-      ...maybeRenderNavigationArrow(game.arenaAddress, SizedBox(width: 12)),
+      ...maybeRenderNavigationArrow(
+        address: game.arenaAddress,
+        locationName: game.arenaName,
+        prepend: SizedBox(width: 12),
+      ),
     ],
   );
 

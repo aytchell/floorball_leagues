@@ -37,8 +37,12 @@ class IconTextButton extends StatelessWidget {
   );
 }
 
-List<Widget> maybeRenderNavigationArrow(String? arenaAddress, Widget? prepend) {
-  if (arenaAddress == null) {
+List<Widget> maybeRenderNavigationArrow({
+  String? address,
+  String? locationName,
+  Widget? prepend,
+}) {
+  if (address == null) {
     return [];
   }
 
@@ -46,7 +50,7 @@ List<Widget> maybeRenderNavigationArrow(String? arenaAddress, Widget? prepend) {
   result.add(
     IconTextButton(
       icon: Icons.keyboard_double_arrow_right,
-      onPressed: () => openNavigation(arenaAddress),
+      onPressed: () => openNavigation(address, locationName),
     ),
   );
 
