@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
@@ -37,7 +38,11 @@ class _TeamGamesListing extends AllLeagueGamesProvider {
 
 class StripedTeamGamesRowsList extends StripedRowsList<Game> {
   final String teamName;
-  const StripedTeamGamesRowsList(this.teamName, super.entries, {super.key});
+  const StripedTeamGamesRowsList(this.teamName, super.entries, {super.key})
+    : super(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20.0),
+        cellBorderColor: FloorballColors.gray97,
+      );
 
   @override
   Widget buildRow(BuildContext context, Game entry) {

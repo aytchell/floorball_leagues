@@ -6,6 +6,7 @@ abstract class StripedRowsList<T> extends StatelessWidget {
   final List<T> entries;
   final EdgeInsetsGeometry padding;
   final void Function(BuildContext context, T entry)? onTap;
+  final Color? cellBorderColor;
 
   static const double _verticalPadding = 12.0;
   static const double defaultPaddingPerRow = 2 * _verticalPadding;
@@ -18,6 +19,7 @@ abstract class StripedRowsList<T> extends StatelessWidget {
       vertical: _verticalPadding,
     ),
     this.onTap,
+    this.cellBorderColor,
   });
 
   Widget buildRow(BuildContext context, T entry);
@@ -30,6 +32,7 @@ abstract class StripedRowsList<T> extends StatelessWidget {
             (index, value) => StripedTableRow(
               index: index,
               padding: padding,
+              borderColor: cellBorderColor,
               child: _buildFramedRow(context, value),
             ),
           )

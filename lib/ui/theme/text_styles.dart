@@ -49,6 +49,7 @@ class TextStyles {
     color: FloorballColors.gray153,
   );
 
+  static const _normal1 = TextStyle(fontSize: rem_1, color: Colors.black);
   static const _normal1gray153 = TextStyle(
     fontSize: rem_1,
     color: FloorballColors.gray153,
@@ -190,6 +191,9 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: FloorballColors.gray45,
   );
+  static const teamDetailsFutureGames = _normal1;
+  static const teamDetailsFutureGamesBold = _bold1;
+  static const teamDetailsFutureGamesGray = _normal0875gray153;
 
   // generic styles
   static const genericLoadingData = _bold1125gray153;
