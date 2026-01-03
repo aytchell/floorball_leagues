@@ -82,23 +82,18 @@ class _GoalEvent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(width: 120, child: _buildScorerAndAssist()),
+        Expanded(child: _buildScorerAndAssist()),
         const SizedBox(width: 12),
         // New game score
-        Expanded(
-          child: Text(
-            '${event.homeGoals}:${event.guestGoals}',
-            style: TextStyles.gameEventNewScore,
-            textAlign: TextAlign.right,
-          ),
+        Text(
+          '${event.homeGoals}:${event.guestGoals}',
+          style: TextStyles.gameEventNewScore,
+          textAlign: TextAlign.right,
         ),
         const SizedBox(width: 8),
         // event type - 'Tor'
         // (in case of an 'Eigentor' this is written to the player's column)
-        const SizedBox(
-          width: 30,
-          child: Text('Tor', style: TextStyles.gameEventType),
-        ),
+        Text('Tor', style: TextStyles.gameEventType),
       ],
     );
   }
@@ -155,37 +150,47 @@ class _PenaltyEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final penalizedPlayer = playerNames[event.number] ?? '${event.number}';
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(penalizedPlayer, style: TextStyles.gameEventPenalizedPlayer),
-        const Expanded(child: SizedBox()),
-        SizedBox(
-          width: 120, // Give it a fixed width for proper text wrapping
-          child: _buildPenaltyReason(),
-        ),
+        _playerNameAndPenaltyType(penalizedPlayer),
+        _buildPenaltyReason(),
       ],
     );
   }
 
-  Widget _buildPenaltyReason() => Column(
-    crossAxisAlignment: CrossAxisAlignment.end,
+  Widget _playerNameAndPenaltyType(String penalizedPlayer) => Row(
     children: [
-      Text(
-        'Strafe ${event.penaltyTypeString}',
-        style: TextStyles.gameEventType,
-        textAlign: TextAlign.right,
-      ),
-      if (event.penaltyReasonString != null &&
-          event.penaltyReasonString!.isNotEmpty)
-        Text(
-          '${event.penaltyReasonString}',
-          style: TextStyles.gameEventPenaltyReason,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.right,
+      Expanded(
+        child: Text(
+          penalizedPlayer,
+          textAlign: TextAlign.left,
+          style: TextStyles.gameEventPenalizedPlayer,
         ),
+      ),
+      _buildPenaltyType(),
     ],
   );
+
+  Widget _buildPenaltyType() => Text(
+    'Strafe ${event.penaltyTypeString}',
+    style: TextStyles.gameEventType,
+    textAlign: TextAlign.right,
+  );
+
+  Widget _buildPenaltyReason() {
+    if (event.penaltyReasonString != null &&
+        event.penaltyReasonString!.isNotEmpty) {
+      return Text(
+        '${event.penaltyReasonString}',
+        style: TextStyles.gameEventPenaltyReason,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.right,
+      );
+    } else {
+      return SizedBox(width: 0);
+    }
+  }
 }
 
 class _Fallback extends StatelessWidget {
