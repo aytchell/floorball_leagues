@@ -34,6 +34,18 @@ class SingleGameEvent extends StatelessWidget {
   );
 
   Widget _buildEvent() {
+    return Row(
+      children: [
+        _TeamLogoForEvent(logoUri: _logoUri),
+        const SizedBox(width: 24),
+        Expanded(child: _buildEventBody()),
+        const SizedBox(width: 8),
+        _TimeOfEvent(event: event),
+      ],
+    );
+  }
+
+  Widget _buildEventBody() {
     switch (event.eventType) {
       case 'goal':
         return _GoalEvent(
@@ -70,8 +82,6 @@ class _GoalEvent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _TeamLogoForEvent(logoUri: logoUri),
-        const SizedBox(width: 24),
         SizedBox(width: 120, child: _buildScorerAndAssist()),
         const SizedBox(width: 12),
         // New game score
@@ -89,8 +99,6 @@ class _GoalEvent extends StatelessWidget {
           width: 30,
           child: Text('Tor', style: TextStyles.gameEventType),
         ),
-        const SizedBox(width: 8),
-        _TimeOfEvent(event: event),
       ],
     );
   }
@@ -126,12 +134,9 @@ class _TimeoutEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      _TeamLogoForEvent(logoUri: logoUri),
       // Spacer to push content to the right
       const Expanded(child: SizedBox()),
       const Text('Auszeit', style: TextStyles.gameEventType),
-      const SizedBox(width: 8),
-      _TimeOfEvent(event: event),
     ],
   );
 }
@@ -152,16 +157,12 @@ class _PenaltyEvent extends StatelessWidget {
     final penalizedPlayer = playerNames[event.number] ?? '${event.number}';
     return Row(
       children: [
-        _TeamLogoForEvent(logoUri: logoUri),
-        const SizedBox(width: 24),
         Text(penalizedPlayer, style: TextStyles.gameEventPenalizedPlayer),
         const Expanded(child: SizedBox()),
         SizedBox(
           width: 120, // Give it a fixed width for proper text wrapping
           child: _buildPenaltyReason(),
         ),
-        const SizedBox(width: 8),
-        _TimeOfEvent(event: event),
       ],
     );
   }
@@ -201,8 +202,6 @@ class _Fallback extends StatelessWidget {
         width: 40,
         child: Text(event.eventType, style: TextStyles.gameEventType),
       ),
-      const SizedBox(width: 8),
-      _TimeOfEvent(event: event),
     ],
   );
 }
