@@ -102,6 +102,14 @@ class TextStyles {
   static const mainScaffoldTitle = _bold1125;
   static const mainScaffoldSubTitle = _normal0875;
   static const mainScaffoldSeason = _normal0875;
+  static const mainScaffoldPastSeason = TextStyle(
+    fontSize: rem_0_875,
+    color: FloorballColors.mainScaffoldPastSeason,
+  );
+  static const mainScaffoldDisabledSeason = TextStyle(
+    fontSize: rem_0_875,
+    color: FloorballColors.mainScaffoldDisabledSeason,
+  );
 
   // landing page
   static const landingFederationName = _bold1;

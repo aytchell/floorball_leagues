@@ -15,4 +15,8 @@ class FloorballColors {
   static const resultNoticeColor = Color.fromARGB(255, 239, 68, 68);
 
   static const mainScaffoldPastSeason = Colors.red;
+  static const mainScaffoldDisabledSeason = gray153;
+
+  static const mainNavIconEnabled = Colors.black;
+  static const mainNavIconDisabled = gray153;
 }

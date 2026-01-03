@@ -49,44 +49,27 @@ class MainAppScaffold extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: 60,
-          child: Row(
-            children: [
-              _buildBottomNavItem(
-                icon: Icons.home,
-                isEnabled: !isHomePage,
-                onTap: isHomePage
-                    ? null
-                    : () => context.go(LandingPage.routePath),
-              ),
-              _buildBottomNavItem(
-                icon: Icons.date_range,
+    return SafeArea(
+      top: false,
+      child: SizedBox(
+        height: 60,
+        child: Row(
+          children: [
+            _buildBottomNavItem(
+              icon: Icons.home,
+              isEnabled: !isHomePage,
+              onTap: isHomePage
+                  ? null
+                  : () => context.go(LandingPage.routePath),
+            ),
+            const Spacer(),
+            BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+              builder: (_, state) => _SeasonIndicator(
+                selectedSeason: state,
                 isEnabled: !isSeasonPicker,
-                onTap: isSeasonPicker
-                    ? null
-                    : () => context.push(SeasonSelectorPage.routePath),
               ),
-              const Spacer(),
-              BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
-                builder: (_, state) => _SeasonIndicator(state),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -105,8 +88,10 @@ class MainAppScaffold extends StatelessWidget {
         height: 60,
         child: Icon(
           icon,
-          color: isEnabled ? Colors.blue[600] : Colors.grey[400],
-          size: 24,
+          color: isEnabled
+              ? FloorballColors.mainNavIconEnabled
+              : FloorballColors.mainNavIconDisabled,
+          size: 30,
         ),
       ),
     );
@@ -130,8 +115,10 @@ class MainAppScaffold extends StatelessWidget {
 }
 
 class _SeasonIndicator extends StatelessWidget {
-  const _SeasonIndicator(this.selectedSeason);
   final SeasonInfo? selectedSeason;
+  final bool isEnabled;
+
+  const _SeasonIndicator({this.selectedSeason, required this.isEnabled});
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +126,15 @@ class _SeasonIndicator extends StatelessWidget {
       return const SizedBox(width: 60, height: 60);
     }
 
+    final textStyle = isEnabled
+        ? (selectedSeason!.current)
+              ? TextStyles.mainScaffoldSeason
+              : TextStyles.mainScaffoldPastSeason
+        : TextStyles.mainScaffoldDisabledSeason;
+
     return InkWell(
       borderRadius: BorderRadius.circular(8),
+      onTap: isEnabled ? _gotoSeasonSelector(context) : null,
       child: SizedBox(
         width: 60,
         height: 60,
@@ -148,19 +142,13 @@ class _SeasonIndicator extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: selectedSeason!.name
               .split('/')
-              .map(
-                (year) => Text(
-                  year,
-                  style: (selectedSeason!.current)
-                      ? TextStyles.mainScaffoldSeason
-                      : TextStyles.mainScaffoldSeason.copyWith(
-                          color: FloorballColors.mainScaffoldPastSeason,
-                        ),
-                ),
-              )
+              .map((year) => Text(year, style: textStyle))
               .toList(),
         ),
       ),
     );
   }
+
+  static void Function() _gotoSeasonSelector(BuildContext context) =>
+      () => context.push(SeasonSelectorPage.routePath);
 }
