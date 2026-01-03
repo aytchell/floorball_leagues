@@ -86,13 +86,10 @@ class PlayerTable extends StatelessWidget {
       const SizedBox(width: 12),
 
       // Position
-      SizedBox(
-        width: 90,
-        child: Text(
-          ((player.captain ?? false) ? 'Kapitän, ' : '') + player.position!,
-          style: TextStyles.teamLineupType,
-          textAlign: TextAlign.right,
-        ),
+      Text(
+        ((player.captain ?? false) ? 'Kapitän, ' : '') + player.position!,
+        style: TextStyles.teamLineupType,
+        textAlign: TextAlign.right,
       ),
     ];
   }
