@@ -1,4 +1,4 @@
-import 'package:floorball/api/blocs/league_table_cubit.dart';
+import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';

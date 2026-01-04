@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:floorball/api/blocs/detailed_games_cubit.dart';
-import 'package:floorball/api/blocs/tick_cubit.dart';
+import 'package:floorball/blocs/detailed_games_cubit.dart';
+import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';

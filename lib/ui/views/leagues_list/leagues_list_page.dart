@@ -1,10 +1,11 @@
-import 'package:floorball/api/blocs/federations_cubit.dart';
-import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:flutter/material.dart';
+
+import 'package:floorball/blocs/federations_cubit.dart';
+import 'package:floorball/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/routes.dart';
-import 'package:floorball/api/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:flutter/material.dart';
 
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/models/federation.dart';

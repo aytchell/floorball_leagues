@@ -1,5 +1,5 @@
-import 'package:floorball/api/blocs/league_game_day_cubit.dart';
-import 'package:floorball/api/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/league_game_day_cubit.dart';
+import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:flutter/material.dart';

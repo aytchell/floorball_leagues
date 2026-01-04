@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:floorball/api/models/season_info.dart';
 import 'package:logging/logging.dart';
-import '../models/season_info.dart';
 
 final log = Logger('SelectedSeasonCubit');
 

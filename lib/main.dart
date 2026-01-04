@@ -1,25 +1,21 @@
-import 'package:floorball/api/blocs/detailed_games_cubit.dart';
-import 'package:floorball/api/blocs/league_game_day_cubit.dart';
-import 'package:floorball/api/blocs/league_table_cubit.dart';
-import 'package:floorball/api/blocs/leagues_cubit.dart';
-import 'package:floorball/api/blocs/scorer_cubit.dart';
-import 'package:floorball/api/blocs/team_info_cubit.dart';
-import 'package:floorball/api/blocs/tick_cubit.dart';
+import 'package:floorball/api/api_repository.dart';
+import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/api/team_repository.dart';
+import 'package:floorball/blocs/available_seasons_cubit.dart';
+import 'package:floorball/blocs/champ_table_cubit.dart';
+import 'package:floorball/blocs/detailed_games_cubit.dart';
+import 'package:floorball/blocs/federations_cubit.dart';
+import 'package:floorball/blocs/league_game_day_cubit.dart';
+import 'package:floorball/blocs/league_table_cubit.dart';
+import 'package:floorball/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/scorer_cubit.dart';
+import 'package:floorball/blocs/selected_season_cubit.dart';
+import 'package:floorball/blocs/team_info_cubit.dart';
+import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:logging/logging.dart';
-
-import 'package:floorball/api/blocs/selected_season_cubit.dart';
-
-import 'package:floorball/api/api_repository.dart';
-import 'package:floorball/api/blocs/available_seasons_cubit.dart';
-import 'package:floorball/api/blocs/federations_cubit.dart';
-
-import 'api/blocs/champ_table_cubit.dart';
-import 'api/models/season_info.dart';
 
 final log = Logger('Main');
 

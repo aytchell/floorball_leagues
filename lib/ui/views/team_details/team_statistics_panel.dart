@@ -1,6 +1,6 @@
-import 'package:floorball/api/blocs/league_table_cubit.dart';
-import 'package:floorball/api/blocs/leagues_cubit.dart';
-import 'package:floorball/api/blocs/scorer_cubit.dart';
+import 'package:floorball/blocs/league_table_cubit.dart';
+import 'package:floorball/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';

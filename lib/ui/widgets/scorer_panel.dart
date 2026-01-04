@@ -1,13 +1,14 @@
-import 'package:floorball/api/blocs/scorer_cubit.dart';
-import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/api/blocs/selected_season_cubit.dart';
-import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
-import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_table_view/material_table_view.dart';
+
+import 'package:floorball/blocs/scorer_cubit.dart';
+import 'package:floorball/blocs/selected_season_cubit.dart';
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
+import 'package:floorball/ui/widgets/generic_striped_table.dart';
 
 ExpansionPanelRadio buildScorerPanel(
   int identifier,
