@@ -1,3 +1,6 @@
+import 'package:collection/collection.dart';
+import 'package:floorball/blocs/pinned_federations_cubit.dart';
+import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -28,14 +31,53 @@ class LandingPage extends StatelessWidget {
                 title: 'Floorball Spielbetriebe',
                 subtitle: _createSeasonSubtitle(selectedSeason),
                 isHomePage: true,
-                body: _buildBody(availableFederations.federations),
+                body: _buildBody(
+                  availableFederations.federations,
+                  selectedSeason,
+                ),
               );
             },
           ),
     );
   }
 
-  Widget _buildBody(List<Federation> federations) {
+  Widget _buildBody(List<Federation> federations, SeasonInfo? selectedSeason) {
+    return BlocBuilder<PinnedFederationsCubit, PinnedFederations>(
+      builder: (_, state) => (selectedSeason == null)
+          ? Text(
+              'Lade Liste der Spielbetriebe',
+              style: TextStyles.genericLoadingData,
+            )
+          : _buildSortedBody(
+              _tagAndReorder(
+                federations,
+                state.getPinnedFederations(selectedSeason.id),
+              ),
+              selectedSeason,
+            ),
+    );
+  }
+
+  List<FederationWithPin> _tagAndReorder(
+    List<Federation> federations,
+    List<int> pinnedFedIds,
+  ) {
+    final List<FederationWithPin> pinned = pinnedFedIds
+        .mapNotNull((id) => federations.firstWhereOrNull((fed) => fed.id == id))
+        .map((fed) => FederationWithPin(fed, true))
+        .toList();
+    final List<FederationWithPin> unPinned = federations
+        .where((fed) => !pinnedFedIds.contains(fed.id))
+        .map((fed) => FederationWithPin(fed, false))
+        .toList();
+    pinned.addAll(unPinned);
+    return pinned;
+  }
+
+  Widget _buildSortedBody(
+    List<FederationWithPin> federations,
+    SeasonInfo? selectedSeason,
+  ) {
     if (federations.isEmpty) {
       return Center(
         child: Text(
@@ -56,11 +98,14 @@ class LandingPage extends StatelessWidget {
         ),
         itemCount: federations.length,
         itemBuilder: (context, index) {
-          final federation = federations[index];
+          final fwp = federations[index];
           return FederationCard(
-            federation: federation,
-            onTap: () =>
-                LeaguesListPageRoute(federationId: federation.id).push(context),
+            seasonId: selectedSeason!.id,
+            federation: fwp.federation,
+            isPinned: fwp.isPinned,
+            onTap: () => LeaguesListPageRoute(
+              federationId: fwp.federation.id,
+            ).push(context),
           );
         },
       ),
@@ -76,4 +121,11 @@ class LandingPage extends StatelessWidget {
     }
     return 'Saison ${selectedSeason.name}';
   }
+}
+
+class FederationWithPin {
+  final Federation federation;
+  final bool isPinned;
+
+  FederationWithPin(this.federation, this.isPinned);
 }

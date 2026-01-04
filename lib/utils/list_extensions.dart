@@ -24,3 +24,14 @@ extension JoinWidgetsExtension on Iterable<Widget> {
     return result;
   }
 }
+
+extension ToggleExtension on List<int> {
+  List<int> toggle(int element) {
+    final List<int> result = where((elem) => elem != element).toList();
+    if (result.length == length) {
+      // the above line didn't remove any element so we have to add it
+      result.add(element);
+    }
+    return result;
+  }
+}

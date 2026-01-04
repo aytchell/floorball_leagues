@@ -8,6 +8,7 @@ import 'package:floorball/blocs/federations_cubit.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/pinned_federations_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/blocs/team_info_cubit.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
   late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
   late final teamInfoCubit = TeamInfoCubit(teamRepository);
   late final tickCubit = TickCubit();
+  final pinnedFederationsCubit = PinnedFederationsCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: detailedGamesCubit),
           BlocProvider.value(value: teamInfoCubit),
           BlocProvider.value(value: tickCubit),
+          BlocProvider.value(value: pinnedFederationsCubit),
         ],
         child: MaterialApp.router(
           title: 'Federations Grid',
