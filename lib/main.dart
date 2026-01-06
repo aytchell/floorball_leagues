@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/api/persistence_repository.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
@@ -19,9 +18,6 @@ import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final log = Logger('Main');
 
@@ -43,6 +39,7 @@ class MyApp extends StatelessWidget {
 
   final apiRepository = ApiRepository();
   late final teamRepository = TeamRepository(apiRepository);
+  final persistenceRepository = PersistenceRepository();
 
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
@@ -55,7 +52,9 @@ class MyApp extends StatelessWidget {
   late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
   late final teamInfoCubit = TeamInfoCubit(teamRepository);
   late final tickCubit = TickCubit();
-  final pinnedFederationsCubit = PinnedFederationsCubit();
+  late final pinnedFederationsCubit = PinnedFederationsCubit(
+    persistenceRepository,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -93,19 +92,7 @@ class MyApp extends StatelessWidget {
   }
 
   void _fetchInitialData() {
-    log.info("Trigger loading shared preferences");
-    SharedPreferences.getInstance().then((prefs) {
-      if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-        getApplicationSupportDirectory().then(
-          (dir) => log.info(
-            'SharedPreferences path: ${dir.path}/shared_preferences.json',
-          ),
-        );
-      }
-      pinnedFederationsCubit.init(
-        prefs.getString(PinnedFederationsCubit.sharedPrefsKey),
-      );
-    });
+    pinnedFederationsCubit.init();
     log.info("Triggering download of initial data");
     apiRepository.getStart().then(
       (stream) => stream.listen((entry) {

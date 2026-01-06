@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:floorball/api/persistence_repository.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final log = Logger('PinnedFederationsCubit');
 
@@ -43,21 +43,24 @@ class PinnedFederations {
 }
 
 class PinnedFederationsCubit extends Cubit<PinnedFederations> {
-  PinnedFederationsCubit() : super(PinnedFederations());
+  final PersistenceRepository persistenceRepository;
+  static const _persistenceKey = PersistenceRepository.pinnedFederationsKey;
 
-  static const sharedPrefsKey = 'pinnedFederations';
+  PinnedFederationsCubit(this.persistenceRepository)
+    : super(PinnedFederations());
 
   void toggle(int seasonId, int federationId) {
     final newState = state.toggle(seasonId, federationId);
-    SharedPreferences.getInstance().then(
-      (prefs) => prefs.setString(sharedPrefsKey, newState.asJson()),
-    );
+    persistenceRepository.persistString(_persistenceKey, newState.asJson());
     emit(newState);
   }
 
-  void init(String? jsonString) {
-    if (jsonString != null) {
-      emit(PinnedFederations.fromJson(jsonString));
-    }
+  void init() {
+    persistenceRepository.loadString(_persistenceKey).then((jsonString) {
+      if (jsonString != null) {
+        log.info("Loading persisted pinned federations list");
+        emit(PinnedFederations.fromJson(jsonString));
+      }
+    });
   }
 }
