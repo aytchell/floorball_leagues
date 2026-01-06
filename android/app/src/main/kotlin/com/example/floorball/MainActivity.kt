@@ -1,4 +1,4 @@
-package com.example.floorball
+package de.aytchell.floorball.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "floorball" "\0"
+            VALUE "CompanyName", "Hannes Lerchl" "\0"
+            VALUE "FileDescription", "floorball app" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "floorball" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 Hannes Lerchl. All rights reserved." "\0"
             VALUE "OriginalFilename", "floorball.exe" "\0"
             VALUE "ProductName", "floorball" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
