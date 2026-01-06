@@ -4,6 +4,7 @@ import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
+import 'package:floorball/ui/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,7 @@ class MainAppScaffold extends StatelessWidget {
   final bool showBottomNavigation;
   final bool isHomePage;
   final bool isSeasonPicker;
+  final bool isSettings;
 
   const MainAppScaffold({
     super.key,
@@ -28,6 +30,7 @@ class MainAppScaffold extends StatelessWidget {
     this.showBottomNavigation = true,
     this.isHomePage = false,
     this.isSeasonPicker = false,
+    this.isSettings = false,
   });
 
   @override
@@ -63,6 +66,14 @@ class MainAppScaffold extends StatelessWidget {
                   : () => context.go(LandingPage.routePath),
             ),
             const Spacer(),
+            _buildBottomNavItem(
+              icon: Icons.settings,
+              isEnabled: !isSettings,
+              onTap: isSettings
+                  ? null
+                  : () => context.go(SettingsPage.routePath),
+            ),
+            SizedBox(width: 12),
             BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
               builder: (_, state) => _SeasonIndicator(
                 selectedSeason: state,

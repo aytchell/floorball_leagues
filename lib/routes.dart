@@ -1,3 +1,4 @@
+import 'package:floorball/ui/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -87,6 +88,11 @@ GoRouter buildRouter() => GoRouter(
       path: LandingPage.routePath,
       pageBuilder: (context, state) =>
           NoTransitionPage(key: state.pageKey, child: LandingPage()),
+    ),
+    GoRoute(
+      path: SettingsPage.routePath,
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: SettingsPage()),
     ),
     GoRoute(
       path: SeasonSelectorPage.routePath,
