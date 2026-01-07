@@ -16,13 +16,20 @@ class NavigationAppCubit extends Cubit<NavigationAppState> {
   void changeAvailableApps(List<NavigationApp> availableApps) =>
       emit(NavigationAppState(state.selectedApp, availableApps));
 
-  void changeSelectedApp(NavigationApp? app) =>
+  void changeSelectedApp(NavigationApp? app) {
+    if (app != null) {
+      _repository.persistSelection(app);
+    }
+    _emitSelectedApp(app);
+  }
+
+  void _emitSelectedApp(NavigationApp? app) =>
       emit(NavigationAppState(app, state.availableApps));
 
   void init() {
     _repository
         .loadSelection()
-        .then((selection) => changeSelectedApp(selection))
+        .then((selection) => _emitSelectedApp(selection))
         .ignore();
     _repository
         .getAvailableNavigationApps()

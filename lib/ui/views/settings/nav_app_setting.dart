@@ -28,11 +28,12 @@ class NavAppSetting extends StatelessWidget {
       leading: (selected == null) ? null : selected.svg(32),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
-        showNavigationAppPicker(context, selected, available).then(
-          (app) => BlocProvider.of<NavigationAppCubit>(
-            context,
-          ).changeSelectedApp(app),
-        );
+        final cubit = BlocProvider.of<NavigationAppCubit>(context);
+        showNavigationAppPicker(
+          context,
+          selected,
+          available,
+        ).then((app) => cubit.changeSelectedApp(app));
       },
     );
   }
