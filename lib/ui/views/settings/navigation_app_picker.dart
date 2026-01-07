@@ -1,7 +1,6 @@
+import 'package:floorball/api/navigation_repository.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 const _bottomSheetTitle = Padding(
   padding: EdgeInsets.all(16.0),
@@ -11,12 +10,12 @@ const _bottomSheetTitle = Padding(
   ),
 );
 
-Future<AvailableMap?> showNavigationAppPicker(
+Future<NavigationApp?> showNavigationAppPicker(
   BuildContext context,
-  AvailableMap? selected,
-  List<AvailableMap> available,
+  NavigationApp? selected,
+  List<NavigationApp> available,
 ) {
-  return showModalBottomSheet<AvailableMap>(
+  return showModalBottomSheet<NavigationApp>(
     context: context,
     builder: (BuildContext context) {
       return Column(
@@ -33,25 +32,23 @@ Future<AvailableMap?> showNavigationAppPicker(
 
 Widget _bottomSheetSelector(
   BuildContext context,
-  AvailableMap? selected,
-  List<AvailableMap> available,
+  NavigationApp? selected,
+  List<NavigationApp> available,
 ) => Flexible(
   child: ListView.builder(
     shrinkWrap: true,
     itemCount: available.length,
     itemBuilder: (context, index) {
       final app = available[index];
-      final isSelected = app.mapType == selected?.mapType;
+      final isSelected = app == selected;
       return ListTile(
-        leading: SvgPicture.asset(app.icon, width: 32, height: 32),
-        title: Text(app.mapName),
+        leading: app.svg(32),
+        title: Text(app.name),
         trailing: isSelected
             ? const Icon(Icons.check, color: Colors.blue)
             : null,
         selected: isSelected,
-        onTap: () {
-          Navigator.of(context).pop(app);
-        },
+        onTap: () => Navigator.of(context).pop(app),
       );
     },
   ),

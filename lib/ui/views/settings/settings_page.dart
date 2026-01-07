@@ -1,8 +1,7 @@
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/views/settings/navigation_app_picker.dart';
+import 'package:floorball/ui/views/settings/nav_app_setting.dart';
 import 'package:floorball/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -67,31 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
-        ListTile(
-          title: const Text('Navigations-App'),
-          subtitle: selectedNavigationApp != null
-              ? Text(_getSelectedAppName())
-              : const Text('Keine App ausgewählt'),
-          leading: (selectedNavigationApp == null)
-              ? null
-              : SvgPicture.asset(
-                  selectedNavigationApp!.icon,
-                  width: 32,
-                  height: 32,
-                ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-          onTap: () {
-            showNavigationAppPicker(
-              context,
-              selectedNavigationApp,
-              _availableNavigationApps,
-            ).then(
-              (app) => setState(() {
-                selectedNavigationApp = app;
-              }),
-            );
-          },
-        ),
+        NavAppSetting(),
         const Divider(height: 1),
       ],
     );

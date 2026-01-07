@@ -1,5 +1,6 @@
 import 'package:floorball/api/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/api/navigation_repository.dart';
 import 'package:floorball/api/persistence_repository.dart';
 import 'package:floorball/api/team_repository.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:floorball/blocs/federations_cubit.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/blocs/leagues_cubit.dart';
+import 'package:floorball/blocs/navigation_app_cubit.dart';
 import 'package:floorball/blocs/pinned_federations_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
   final apiRepository = ApiRepository();
   late final teamRepository = TeamRepository(apiRepository);
   final persistenceRepository = PersistenceRepository();
+  late final navigationRepository = NavigationRepository(persistenceRepository);
 
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
   late final pinnedFederationsCubit = PinnedFederationsCubit(
     persistenceRepository,
   );
+  late final navigationAppCubit = NavigationAppCubit(navigationRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,10 @@ class MyApp extends StatelessWidget {
     tickCubit.startTicking();
 
     return MultiRepositoryProvider(
-      providers: [RepositoryProvider.value(value: apiRepository)],
+      providers: [
+        RepositoryProvider.value(value: apiRepository),
+        RepositoryProvider.value(value: navigationRepository),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: availableSeasonsCubit),
@@ -77,6 +84,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: teamInfoCubit),
           BlocProvider.value(value: tickCubit),
           BlocProvider.value(value: pinnedFederationsCubit),
+          BlocProvider.value(value: navigationAppCubit),
         ],
         child: MaterialApp.router(
           title: 'Federations Grid',
@@ -93,6 +101,7 @@ class MyApp extends StatelessWidget {
 
   void _fetchInitialData() {
     pinnedFederationsCubit.init();
+    navigationAppCubit.init();
     log.info("Triggering download of initial data");
     apiRepository.getStart().then(
       (stream) => stream.listen((entry) {
