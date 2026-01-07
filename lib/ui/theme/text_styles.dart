@@ -203,6 +203,9 @@ class TextStyles {
   static const teamDetailsFutureGamesBold = _bold1;
   static const teamDetailsFutureGamesGray = _normal0875gray153;
 
+  // settings
+  static const navBottomSheetTitle = _normal1;
+
   // generic styles
   static const genericLoadingData = _bold1125gray153;
   static const genericNoData = _bold1125gray153;

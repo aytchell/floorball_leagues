@@ -1,22 +1,107 @@
 import 'package:floorball/ui/main_app_scaffold.dart';
-import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:floorball/ui/views/settings/navigation_app_picker.dart';
+import 'package:floorball/utils/navigation_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:map_launcher/map_launcher.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   static const String routePath = '/settings';
 
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  List<AvailableMap> _availableNavigationApps = [];
+  AvailableMap? selectedNavigationApp;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAvailableNavigationApps();
+  }
+
+  Future<void> _loadAvailableNavigationApps() async {
+    final apps = await getAvailableNavigations();
+    setState(() {
+      _availableNavigationApps = apps;
+      _isLoading = false;
+      // Set default to first available app if not already set
+      if (selectedNavigationApp == null && apps.isNotEmpty) {
+        selectedNavigationApp = apps.first;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MainAppScaffold(
       title: 'Einstellungen',
       showBackButton: true,
-      body: Text(
-        'Keine Informationen verfügbar',
-        style: TextStyles.genericNoData,
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _buildSettingsList(),
       isSettings: true,
     );
+  }
+
+  Widget _buildSettingsList() {
+    if (_availableNavigationApps.isEmpty) {
+      return const Center(child: Text('Keine Navigations-Apps gefunden'));
+    }
+
+    return ListView(
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text(
+            'Navigation',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        ListTile(
+          title: const Text('Navigations-App'),
+          subtitle: selectedNavigationApp != null
+              ? Text(_getSelectedAppName())
+              : const Text('Keine App ausgewählt'),
+          leading: (selectedNavigationApp == null)
+              ? null
+              : SvgPicture.asset(
+                  selectedNavigationApp!.icon,
+                  width: 32,
+                  height: 32,
+                ),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: () {
+            showNavigationAppPicker(
+              context,
+              selectedNavigationApp,
+              _availableNavigationApps,
+            ).then(
+              (app) => setState(() {
+                selectedNavigationApp = app;
+              }),
+            );
+          },
+        ),
+        const Divider(height: 1),
+      ],
+    );
+  }
+
+  String _getSelectedAppName() {
+    final selectedApp = _availableNavigationApps.firstWhere(
+      (app) => app.mapType == selectedNavigationApp?.mapType,
+      orElse: () => _availableNavigationApps.first,
+    );
+    return selectedApp.mapName;
   }
 }

@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+Future<List<AvailableMap>> getAvailableNavigations() async =>
+    MapLauncher.installedMaps;
+
 /// Opens navigation to the given address in a map application.
 ///
 /// On mobile platforms (Android/iOS), this will show available map apps
