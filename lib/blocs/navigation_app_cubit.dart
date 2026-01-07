@@ -1,4 +1,4 @@
-import 'package:floorball/api/navigation_repository.dart';
+import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NavigationAppState {

@@ -1,4 +1,4 @@
-import 'package:floorball/api/api_repository.dart';
+import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/league.dart';
 
 class TeamInfo {

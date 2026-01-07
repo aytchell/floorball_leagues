@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:floorball/api/api_repository.dart';
+import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/game.dart';
 
 class GameDaysState {

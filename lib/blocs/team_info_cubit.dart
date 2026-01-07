@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/api/team_repository.dart';
+import 'package:floorball/repositories/team_repository.dart';
 
 class TeamInfoState {
   TeamInfoState() : _state = {};

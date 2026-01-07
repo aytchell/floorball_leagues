@@ -11,9 +11,9 @@ import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
 
-import 'impls/league_parser.dart';
-import 'impls/league_table_fetcher.dart';
-import 'models/league.dart';
+import '../api/impls/league_parser.dart';
+import '../api/impls/league_table_fetcher.dart';
+import '../api/models/league.dart';
 
 class ApiRepository {
   Future<Stream<EntryInfo>> getStart() {

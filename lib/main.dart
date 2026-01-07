@@ -1,8 +1,8 @@
-import 'package:floorball/api/api_repository.dart';
+import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/api/navigation_repository.dart';
-import 'package:floorball/api/persistence_repository.dart';
-import 'package:floorball/api/team_repository.dart';
+import 'package:floorball/repositories/navigation_repository.dart';
+import 'package:floorball/repositories/persistence_repository.dart';
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';

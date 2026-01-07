@@ -1,4 +1,4 @@
-import 'package:floorball/api/navigation_repository.dart';
+import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/blocs/navigation_app_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/views/settings/navigation_app_picker.dart';

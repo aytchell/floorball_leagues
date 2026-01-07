@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:floorball/api/persistence_repository.dart';
+import 'package:floorball/repositories/persistence_repository.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
