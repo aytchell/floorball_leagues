@@ -1,4 +1,4 @@
-import 'package:floorball/repositories/navigation_repository.dart';
+import 'package:floorball/repositories/navigation_app.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,4 @@
+import 'package:floorball/repositories/navigation_app.dart';
 import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
