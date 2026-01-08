@@ -5,6 +5,7 @@ final log = Logger('PersistenceRepository');
 
 class PersistenceRepository {
   static const pinnedFederationsKey = 'pinnedFederations';
+  static const pinnedLeaguesKey = 'pinnedLeagues';
   static const selectedNavAppKey = 'selectedNavApp';
 
   SharedPreferencesWithCache? _prefsWithCache;
@@ -16,7 +17,11 @@ class PersistenceRepository {
 
     _prefsWithCache = await SharedPreferencesWithCache.create(
       cacheOptions: const SharedPreferencesWithCacheOptions(
-        allowList: <String>{pinnedFederationsKey, selectedNavAppKey},
+        allowList: <String>{
+          pinnedFederationsKey,
+          pinnedLeaguesKey,
+          selectedNavAppKey,
+        },
       ),
     );
     return _prefsWithCache!;
