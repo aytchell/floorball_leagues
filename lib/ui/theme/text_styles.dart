@@ -208,6 +208,7 @@ class TextStyles {
 
   // settings
   static const navBottomSheetTitle = _normal1;
+  static const settingsSection = _bold1;
 
   // generic styles
   static const genericLoadingData = _bold1125gray153;
