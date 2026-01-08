@@ -42,19 +42,21 @@ class LandingPage extends StatelessWidget {
   }
 
   Widget _buildBody(List<Federation> federations, SeasonInfo? selectedSeason) {
+    if (selectedSeason == null) {
+      return Text(
+        'Lade Liste der Spielbetriebe',
+        style: TextStyles.genericLoadingData,
+      );
+    }
+
     return BlocBuilder<PinnedFederationsCubit, PinnedFederations>(
-      builder: (_, state) => (selectedSeason == null)
-          ? Text(
-              'Lade Liste der Spielbetriebe',
-              style: TextStyles.genericLoadingData,
-            )
-          : _buildSortedBody(
-              _tagAndReorder(
-                federations,
-                state.getPinnedFederations(selectedSeason.id),
-              ),
-              selectedSeason,
-            ),
+      builder: (_, state) => _buildSortedBody(
+        _tagAndReorder(
+          federations,
+          state.getPinnedFederations(selectedSeason.id),
+        ),
+        selectedSeason,
+      ),
     );
   }
 
