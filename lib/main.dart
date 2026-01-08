@@ -1,3 +1,4 @@
+import 'package:floorball/blocs/pin_variant_cubit.dart';
 import 'package:floorball/blocs/pinned_leagues_cubit.dart';
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
     persistenceRepository,
   );
   late final pinnedLeaguesCubit = PinnedLeaguesCubit(persistenceRepository);
+  late final pinVariantCubit = PinVariantCubit(persistenceRepository);
   late final navigationAppCubit = NavigationAppCubit(navigationRepository);
 
   @override
@@ -87,6 +89,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: tickCubit),
           BlocProvider.value(value: pinnedFederationsCubit),
           BlocProvider.value(value: pinnedLeaguesCubit),
+          BlocProvider.value(value: pinVariantCubit),
           BlocProvider.value(value: navigationAppCubit),
         ],
         child: MaterialApp.router(
@@ -105,6 +108,7 @@ class MyApp extends StatelessWidget {
   void _fetchInitialData() {
     pinnedFederationsCubit.init();
     pinnedLeaguesCubit.init();
+    pinVariantCubit.init();
     navigationAppCubit.init();
     log.info("Triggering download of initial data");
     apiRepository.getStart().then(

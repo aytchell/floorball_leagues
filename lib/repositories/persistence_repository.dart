@@ -6,6 +6,7 @@ final log = Logger('PersistenceRepository');
 class PersistenceRepository {
   static const pinnedFederationsKey = 'pinnedFederations';
   static const pinnedLeaguesKey = 'pinnedLeagues';
+  static const pinVariantKey = 'pinVariant';
   static const selectedNavAppKey = 'selectedNavApp';
 
   SharedPreferencesWithCache? _prefsWithCache;
@@ -20,12 +21,16 @@ class PersistenceRepository {
         allowList: <String>{
           pinnedFederationsKey,
           pinnedLeaguesKey,
+          pinVariantKey,
           selectedNavAppKey,
         },
       ),
     );
     return _prefsWithCache!;
   }
+
+  void removeEntry(String key) async =>
+      _instance.then((prefs) => prefs.remove(key)).ignore();
 
   void persistString(String key, String value) async =>
       _instance.then((prefs) => prefs.setString(key, value)).ignore();
