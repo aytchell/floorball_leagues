@@ -17,6 +17,7 @@ Future<NavigationApp?> showNavigationAppPicker(
 ) {
   return showModalBottomSheet<NavigationApp>(
     context: context,
+    backgroundColor: Colors.white,
     builder: (BuildContext context) {
       return Column(
         mainAxisSize: MainAxisSize.min,

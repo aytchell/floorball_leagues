@@ -17,6 +17,6 @@ class FloorballColors {
   static const mainScaffoldPastSeason = Colors.red;
   static const mainScaffoldDisabledSeason = gray153;
 
-  static const mainNavIconEnabled = Colors.black;
-  static const mainNavIconDisabled = gray153;
+  static const mainNavIconEnabled = gray97;
+  static const mainNavIconDisabled = gray231;
 }
