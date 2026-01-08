@@ -6,11 +6,10 @@ import 'package:floorball/blocs/federations_cubit.dart';
 import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/blocs/pinned_leagues_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
-import 'package:floorball/routes.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:floorball/ui/widgets/pin_indicator.dart';
+import 'package:floorball/ui/views/leagues_list/league_entry.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -123,25 +122,11 @@ class LeaguesListPage extends StatelessWidget {
             child: ListView.builder(
               itemCount: leagues.length,
               itemBuilder: (context, index) {
-                final league = leagues[index].league;
-                return ListTile(
-                  leading: _LeaguePinIndicator(
-                    seasonId: seasonId,
-                    federationId: federationId,
-                    leagueId: league.id,
-                    isPinned: leagues[index].isPinned,
-                  ),
-                  title: TextButton(
-                    onPressed: () => LeagueDetailsPageRoute(
-                      leagueId: league.id,
-                      leagueName: league.name,
-                    ).push(context),
-                    style: TextButton.styleFrom(
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.zero,
-                    ),
-                    child: _highlightYouthSelector(league.name),
-                  ),
+                return LeagueEntry(
+                  seasonId: seasonId,
+                  federationId: federationId,
+                  league: leagues[index].league,
+                  isPinned: leagues[index].isPinned,
                 );
               },
             ),
@@ -149,26 +134,6 @@ class LeaguesListPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  static final regEx = RegExp(r'^(.*)(U\d{1,2}|Herren|Damen)(.*)$');
-
-  Widget _highlightYouthSelector(String text) {
-    final match = regEx.firstMatch(text);
-
-    if (match == null) {
-      return Text(text, style: TextStyles.leaguesListLight);
-    } else {
-      return Text.rich(
-        TextSpan(
-          children: [
-            TextSpan(text: match.group(1), style: TextStyles.leaguesListLight),
-            TextSpan(text: match.group(2), style: TextStyles.leaguesListDark),
-            TextSpan(text: match.group(3), style: TextStyles.leaguesListLight),
-          ],
-        ),
-      );
-    }
   }
 
   Widget _buildNothingFoundInfo(BuildContext context) {
@@ -193,23 +158,4 @@ class LeagueWithPin {
   final bool isPinned;
 
   LeagueWithPin(this.league, this.isPinned);
-}
-
-class _LeaguePinIndicator extends PinIndicator {
-  final int seasonId;
-  final int federationId;
-  final int leagueId;
-
-  _LeaguePinIndicator({
-    required this.seasonId,
-    required this.federationId,
-    required this.leagueId,
-    required super.isPinned,
-  }) : super(
-         onPressedFactory: (context) {
-           return () => BlocProvider.of<PinnedLeaguesCubit>(
-             context,
-           ).toggle(seasonId, federationId, leagueId);
-         },
-       );
 }
