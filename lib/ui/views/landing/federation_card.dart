@@ -2,6 +2,7 @@ import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/blocs/pinned_federations_cubit.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/cached_network_image.dart';
+import 'package:floorball/ui/widgets/pin_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,9 +79,11 @@ class FederationCard extends StatelessWidget {
             Positioned(
               top: 6,
               right: 6,
-              child: isPinned
-                  ? _StarFilled(seasonId, federation.id)
-                  : _StarEmpty(seasonId, federation.id),
+              child: _FederationPinIndicator(
+                seasonId: seasonId,
+                federationId: federation.id,
+                isPinned: isPinned,
+              ),
             ),
           ],
         ),
@@ -89,37 +92,19 @@ class FederationCard extends StatelessWidget {
   }
 }
 
-class _StarEmpty extends StatelessWidget {
+class _FederationPinIndicator extends PinIndicator {
   final int seasonId;
   final int federationId;
 
-  const _StarEmpty(this.seasonId, this.federationId);
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: () => BlocProvider.of<PinnedFederationsCubit>(
-      context,
-    ).toggle(seasonId, federationId),
-    child: const Icon(Icons.star_border, size: 16, color: Colors.black),
-  );
-}
-
-class _StarFilled extends StatelessWidget {
-  final int seasonId;
-  final int federationId;
-
-  const _StarFilled(this.seasonId, this.federationId);
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: () => BlocProvider.of<PinnedFederationsCubit>(
-      context,
-    ).toggle(seasonId, federationId),
-    child: const Stack(
-      children: [
-        Icon(Icons.star, size: 20, color: Colors.amberAccent),
-        Icon(Icons.star_border, size: 20, color: Colors.black),
-      ],
-    ),
-  );
+  _FederationPinIndicator({
+    required this.seasonId,
+    required this.federationId,
+    required super.isPinned,
+  }) : super(
+         onPressedFactory: (context) {
+           return () => BlocProvider.of<PinnedFederationsCubit>(
+             context,
+           ).toggle(seasonId, federationId);
+         },
+       );
 }

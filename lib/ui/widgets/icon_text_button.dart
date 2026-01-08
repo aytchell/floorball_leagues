@@ -2,14 +2,9 @@ import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/blocs/navigation_app_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/views/settings/navigation_app_picker.dart';
+import 'package:floorball/utils/on_pressed_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// Sometimes we need the BuildContext inside the onPressed callback but
-// TextButton doesn't provide it. By using this higher level function
-// one can use the BuildContext of the IconTextButton inside the onPressed
-// callback.
-typedef OnPressedFactory = void Function() Function(BuildContext);
 
 class IconTextButton extends StatelessWidget {
   final IconData icon;
