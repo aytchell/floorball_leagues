@@ -199,6 +199,9 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: FloorballColors.gray45,
   );
+  static const teamDetailsPastGames = _normal1gray153;
+  static const teamDetailsPastGamesBold = _bold1gray153;
+  static const teamDetailsPastOpponent = _bold1;
   static const teamDetailsFutureGames = _normal1;
   static const teamDetailsFutureGamesBold = _bold1;
   static const teamDetailsFutureGamesGray = _normal0875gray153;
