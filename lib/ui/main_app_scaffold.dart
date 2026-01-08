@@ -71,7 +71,7 @@ class MainAppScaffold extends StatelessWidget {
               isEnabled: !isSettings,
               onTap: isSettings
                   ? null
-                  : () => context.go(SettingsPage.routePath),
+                  : () => context.push(SettingsPage.routePath),
             ),
             SizedBox(width: 12),
             BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
