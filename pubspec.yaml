@@ -64,6 +64,7 @@ dev_dependencies:
   go_router_builder: any
   build_runner: any
   build_verify: any
+  flutter_launcher_icons: ^0.13.1
 
 
 # For information on the generic Dart part of this file, see the
@@ -100,3 +101,11 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  macos:
+    generate: true
+  image_path: "assets/app_icons/ball_white.png"
