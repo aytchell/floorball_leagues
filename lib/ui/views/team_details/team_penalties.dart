@@ -37,7 +37,6 @@ class TeamPenalties {
     penalty2and2 = penalty2and2 + scorer.penalty2and2;
     penalty5 = penalty5 + scorer.penalty5;
     penalty10 = penalty10 + scorer.penalty10;
-    penalty10 = penalty10 + scorer.penalty10;
     penaltyMsTech = penaltyMsTech + scorer.penaltyMsTech;
     penaltyMsFull = penaltyMsFull + scorer.penaltyMsFull;
     penaltyMs1 = penaltyMs1 + scorer.penaltyMs1;
