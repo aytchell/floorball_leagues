@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/game_date_time.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
+import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
@@ -84,11 +86,7 @@ class _GameDayHeader extends StatelessWidget {
               snd: datesAndClubs[1],
             );
           default:
-            return _MultiDateTile(
-              title: gdt.title,
-              fst: datesAndClubs.first,
-              lst: datesAndClubs.last,
-            );
+            return _MultiDateTile(title: gdt.title, dacs: datesAndClubs);
         }
       },
     );
@@ -123,7 +121,7 @@ class _SingleDateTile extends StatelessWidget {
     final styles = _TextStyles.from(dac);
 
     return ListTile(
-      title: Text(title, style: styles.bold),
+      title: _addTodayMarker(Text(title, style: styles.bold), [dac]),
       subtitle: _locationSubtitle(styles, dac),
     );
   }
@@ -144,7 +142,7 @@ class _DoubleDateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleStyle = (fst.isBygone && snd.isBygone) ? _pastBold : _futureBold;
     return ListTile(
-      title: Text(title, style: titleStyle),
+      title: _addTodayMarker(Text(title, style: titleStyle), [fst, snd]),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -162,14 +160,13 @@ class _DoubleDateTile extends StatelessWidget {
 
 class _MultiDateTile extends StatelessWidget {
   final String title;
+  final List<DateAndClub> dacs;
   final DateAndClub fst;
   final DateAndClub lst;
 
-  const _MultiDateTile({
-    required this.title,
-    required this.fst,
-    required this.lst,
-  });
+  _MultiDateTile({required this.title, required this.dacs})
+    : fst = dacs.first,
+      lst = dacs.last;
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +177,7 @@ class _MultiDateTile extends StatelessWidget {
     final fstStyles = _TextStyles.from(fst);
     final lstStyles = _TextStyles.from(lst);
     return ListTile(
-      title: Text(title, style: titleStyle),
+      title: _addTodayMarker(Text(title, style: titleStyle), dacs),
       subtitle: RichText(
         text: TextSpan(
           children: [
@@ -211,6 +208,34 @@ class _MultiDateTile extends StatelessWidget {
     );
   }
 }
+
+Widget _addTodayMarker(Text text, List<DateAndClub> dacs) {
+  final today = todaysDay();
+  final nearEvents = dacs
+      .map((dac) => dac.dateTime.isCloseToToday(today))
+      .reduce(AroundToday.or);
+  if (nearEvents.today || nearEvents.tomorrow) {
+    return Row(
+      children: [
+        Expanded(child: text),
+        Text(
+          _printTodayLabel(nearEvents),
+          style: TextStyles.gameDayHeaderFutureBold.copyWith(
+            color: FloorballColors.resultRunningColor,
+          ),
+        ),
+      ],
+    );
+  } else {
+    return text;
+  }
+}
+
+String _printTodayLabel(AroundToday nearEvents) => [
+  nearEvents.today ? 'heute' : null,
+  nearEvents.tomorrow ? 'morgen' : null,
+  nearEvents.beyond ? '...' : null,
+].where((entry) => entry != null).join('/');
 
 Widget _locationSubtitle(_TextStyles styles, DateAndClub dac) => RichText(
   text: TextSpan(
