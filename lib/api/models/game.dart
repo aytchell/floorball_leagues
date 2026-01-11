@@ -1,4 +1,3 @@
-import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/utils/date_time_utils.dart';
 
 import 'date_formatter.dart';
@@ -6,6 +5,8 @@ import 'game_result.dart';
 import 'logo_host.dart';
 import 'period_title.dart';
 import 'referee.dart';
+
+enum GameState { noRecord, recordCreated, running, ended, matchRecordClosed }
 
 class Game {
   int gameId;
@@ -31,7 +32,7 @@ class Game {
   List<Referee> referees;
   String? noticeType;
   String? noticeString;
-  GameStatus state;
+  GameState state;
   PeriodTitle? currentPeriodTitle;
   String? groupIdentifier;
   String? seriesTitle;
@@ -98,18 +99,13 @@ class Game {
       return false;
     }
     switch (state) {
-      case GameStatus.running:
-      case GameStatus.ingame:
-      case GameStatus.aftergame:
+      case GameState.running:
         return true;
-      case GameStatus.ended:
+      case GameState.noRecord:
+      case GameState.ended:
+      case GameState.matchRecordClosed:
         return false;
-      case GameStatus.matchRecordClosed:
-        return false;
-      case GameStatus.noRecord:
-        return false;
-      case GameStatus.recordCreated:
-      case GameStatus.pregame:
+      case GameState.recordCreated:
         return (dateTime?.isBefore(timestamp) ?? false);
     }
   }

@@ -1,4 +1,3 @@
-import 'package:floorball/api/impls/game_status_parser.dart';
 import 'package:floorball/api/impls/string_parser.dart';
 import 'package:floorball/api/models/game.dart';
 
@@ -6,6 +5,9 @@ import 'package:floorball/api/impls/game_result_parser.dart';
 import 'package:floorball/api/impls/referee_parser.dart';
 import 'package:floorball/api/impls/period_title_parser.dart';
 import 'package:floorball/api/impls/int_parser.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('GameParser');
 
 Game parseGame(Map<String, dynamic> json) {
   var refereesJson = json['referees'] as List;
@@ -39,7 +41,7 @@ Game parseGame(Map<String, dynamic> json) {
     referees: refereesJson.map((referee) => parseReferee(referee)).toList(),
     noticeType: parseNullableString(json, 'notice_type'),
     noticeString: parseNullableString(json, 'notice_string'),
-    state: parseGameStatus(json, 'state'),
+    state: _parseGameState(json, 'state'),
     currentPeriodTitle: rawTitle != null ? parsePeriodTitle(rawTitle) : null,
     groupIdentifier: parseNullableString(json, 'group_identifier'),
     seriesTitle: parseNullableString(json, 'series_title'),
@@ -62,4 +64,28 @@ Game parseGame(Map<String, dynamic> json) {
     resultString: parseNullableString(json, 'result_string'),
     result: rawResult != null ? parseGameResult(rawResult) : null,
   );
+}
+
+GameState _parseGameState(Map<String, dynamic> json, String key) {
+  final state = parseString(json, key);
+
+  // this method might grow in the future as I don't have a spec on
+  // how to interpret the various result types
+  switch (state) {
+    case 'no_record':
+      return GameState.noRecord;
+    case 'record_created':
+      return GameState.recordCreated;
+    case 'running':
+      return GameState.running;
+    case 'ended':
+      return GameState.ended;
+    case 'match_record_closed':
+      return GameState.matchRecordClosed;
+    default:
+      {
+        log.warning('Unknown game state: "$state"');
+        return GameState.recordCreated;
+      }
+  }
 }

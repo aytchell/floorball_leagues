@@ -1,7 +1,6 @@
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_result.dart';
-import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
@@ -21,7 +20,7 @@ List<Widget> buildDetailedResultTexts(DetailedGame game) {
 abstract class _Adapter {
   int get gameId;
   bool get ended;
-  GameStatus get state;
+  GameState get state;
   GameResult? get result;
   String? get noticeType;
   String? get time;
@@ -36,17 +35,14 @@ List<Widget> _buildResultTexts(_Adapter game) {
     return _buildEndResultTexts(game);
   }
   switch (game.state) {
-    case GameStatus.ended:
-    case GameStatus.aftergame:
-    case GameStatus.matchRecordClosed:
+    case GameState.ended:
+    case GameState.matchRecordClosed:
       return _buildEndResultTexts(game);
-    case GameStatus.noRecord:
+    case GameState.noRecord:
       return _buildNoRecordTexts(game);
-    case GameStatus.recordCreated:
-    case GameStatus.pregame:
+    case GameState.recordCreated:
       return _buildRecordCreatedTexts(game);
-    case GameStatus.ingame:
-    case GameStatus.running:
+    case GameState.running:
       return _buildRunningTexts(game);
   }
 }
@@ -151,7 +147,7 @@ class GameAdapter extends _Adapter {
   @override
   GameResult? get result => game.result;
   @override
-  GameStatus get state => game.state;
+  GameState get state => game.state;
   @override
   String? get time => game.time;
   @override
@@ -177,7 +173,7 @@ class DetailedGameAdapter extends _Adapter {
   @override
   GameResult? get result => game.result;
   @override
-  GameStatus get state => game.gameStatus ?? GameStatus.noRecord;
+  GameState get state => _convertState(game.gameStatus);
   @override
   String? get time => game.startTime;
   @override
@@ -187,4 +183,21 @@ class DetailedGameAdapter extends _Adapter {
   TextStyle get resultStyle => TextStyles.gameDetailHeaderScore;
   @override
   TextStyle get postfixStyle => TextStyles.gameDetailHeaderResultPostfix;
+
+  GameState _convertState(DetailedGameStatus? gameStatus) {
+    // this mapping is just for the purpose of printing the
+    // game results (or 'not yet' results)
+    switch (gameStatus) {
+      case null:
+        return GameState.recordCreated;
+      case DetailedGameStatus.pregame:
+        return GameState.recordCreated;
+      case DetailedGameStatus.ingame:
+        return GameState.running;
+      case DetailedGameStatus.aftergame:
+        return GameState.ended;
+      case DetailedGameStatus.matchRecordClosed:
+        return GameState.matchRecordClosed;
+    }
+  }
 }

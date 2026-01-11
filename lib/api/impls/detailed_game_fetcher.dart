@@ -1,4 +1,3 @@
-import 'package:floorball/api/impls/game_status_parser.dart';
 import 'package:floorball/net/rest_client.dart';
 
 import 'package:floorball/api/models/detailed_game.dart';
@@ -14,6 +13,9 @@ import 'package:floorball/api/impls/game_event_parser.dart';
 import 'package:floorball/api/impls/player_parser.dart';
 import 'package:floorball/api/impls/starting_player_parser.dart';
 import 'package:floorball/api/impls/award_parser.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('DetailedGameParser');
 
 DetailedGame parseDetailedGame(Map<String, dynamic> json) {
   var eventsJson = json['events'] as List;
@@ -31,7 +33,7 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
     actualStartTime: parseNullableString(json, 'actual_start_time'),
     date: parseString(json, 'date'),
     gameDay: parseGameDay(json['game_day']),
-    gameStatus: parseNullableGameStatus(json, 'game_status'),
+    gameStatus: parseNullableDetailedGameStatus(json, 'game_status'),
     ingameStatus: parseNullableString(json, 'ingame_status'),
     audience: parseNullableInt(json, 'audience'),
     homeTeamName: parseString(json, 'home_team_name'),
@@ -83,4 +85,36 @@ Stream<Future<DetailedGame>> fetchDetailedGame(RestClient client, int gameId) {
     '/api/v2/games/$gameId.json',
     (data) => parseDetailedGame(data as Map<String, dynamic>),
   );
+}
+
+DetailedGameStatus _parseDetailedGameStatus(String state) {
+  // this method might grow in the future as I don't have a spec on
+  // how to interpret the various result types
+  switch (state) {
+    case 'pregame':
+      return DetailedGameStatus.pregame;
+    case 'ingame':
+      return DetailedGameStatus.ingame;
+    case 'aftergame':
+      return DetailedGameStatus.aftergame;
+    case 'match_record_closed':
+      return DetailedGameStatus.matchRecordClosed;
+    default:
+      {
+        log.warning('Unknown detailed game status: "$state"');
+        return DetailedGameStatus.aftergame;
+      }
+  }
+}
+
+DetailedGameStatus? parseNullableDetailedGameStatus(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final state = parseNullableString(json, key);
+
+  if (state == null) {
+    return null;
+  }
+  return _parseDetailedGameStatus(state);
 }

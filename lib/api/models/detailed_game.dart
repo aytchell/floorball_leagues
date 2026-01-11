@@ -1,16 +1,27 @@
 import 'package:floorball/api/models/date_formatter.dart';
-import 'package:floorball/api/models/game_status.dart';
 import 'package:floorball/utils/date_time_utils.dart';
 
-import 'logo_host.dart';
-import 'game_result.dart';
-import 'period_title.dart';
-import 'referee.dart';
+import 'award.dart';
 import 'game_day.dart';
 import 'game_event.dart';
+import 'game_result.dart';
+import 'logo_host.dart';
+import 'period_title.dart';
 import 'player.dart';
+import 'referee.dart';
 import 'starting_player.dart';
-import 'award.dart';
+
+enum DetailedGameStatus { pregame, ingame, aftergame, matchRecordClosed }
+
+// to be used someday ...
+enum DetailedIngameStatus {
+  period1,
+  pause1,
+  period2,
+  pause2,
+  period3,
+  // .. overtime, penalty shooting, more pauses?
+}
 
 class DetailedGame {
   int id;
@@ -19,7 +30,7 @@ class DetailedGame {
   String? actualStartTime;
   String date;
   GameDay gameDay;
-  GameStatus? gameStatus;
+  DetailedGameStatus? gameStatus;
   String? ingameStatus;
   int? audience;
   String homeTeamName;
@@ -121,18 +132,12 @@ class DetailedGame {
       return false;
     }
     switch (gameStatus) {
-      case GameStatus.running:
-      case GameStatus.ingame:
-      case GameStatus.aftergame:
+      case DetailedGameStatus.ingame:
         return true;
-      case GameStatus.ended:
+      case DetailedGameStatus.aftergame:
+      case DetailedGameStatus.matchRecordClosed:
         return false;
-      case GameStatus.matchRecordClosed:
-        return false;
-      case GameStatus.noRecord:
-        return false;
-      case GameStatus.recordCreated:
-      case GameStatus.pregame:
+      case DetailedGameStatus.pregame:
       case null:
         return (startDateTime?.isBefore(timestamp) ?? false);
     }
