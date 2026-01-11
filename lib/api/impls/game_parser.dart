@@ -24,7 +24,7 @@ Game parseGame(Map<String, dynamic> json) {
     arenaShort: parseNullableString(json, 'arena_short'),
     hostingClub: parseNullableString(json, 'hosting_club'),
     gameDayId: parseInt(json, 'game_day_id'),
-    date: parseNullableString(json, 'date'),
+    date: parseString(json, 'date'),
     time: parseNullableString(json, 'time'),
     started: json['started'] as bool,
     ended: json['ended'] as bool,

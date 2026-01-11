@@ -18,7 +18,7 @@ class Game {
   String? arenaShort;
   String? hostingClub;
   int gameDayId;
-  String? date;
+  String date;
   String? time;
   bool started;
   bool ended;
@@ -58,7 +58,7 @@ class Game {
     this.arenaShort,
     this.hostingClub,
     required this.gameDayId,
-    this.date,
+    required this.date,
     this.time,
     required this.started,
     required this.ended,
@@ -92,7 +92,7 @@ class Game {
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
-  String? get beautifiedDate => beautifyNullableDate(date!);
+  String? get beautifiedDate => beautifyNullableDate(date);
 
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {

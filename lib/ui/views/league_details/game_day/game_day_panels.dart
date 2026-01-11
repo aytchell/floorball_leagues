@@ -102,7 +102,7 @@ class _GameDayHeader extends StatelessWidget {
     final today = DateTime.now().subtract(Duration(hours: 23, minutes: 59));
 
     var eventList = games
-        .map((game) => DateAndClub.create(game.date!, game.hostingClub!, today))
+        .map((game) => DateAndClub.create(game.date, game.hostingClub!, today))
         .toSet()
         .toList();
     eventList.sort();
