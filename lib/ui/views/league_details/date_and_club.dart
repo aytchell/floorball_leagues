@@ -1,13 +1,13 @@
 import 'package:floorball/api/models/game_date_time.dart';
 
 class DateAndClub implements Comparable<DateAndClub> {
-  final String beautifiedDate;
+  final GameDateTime dateTime;
   final bool isBygone;
   final String hostingClub;
   final String _comparisonKey;
 
   DateAndClub._(
-    this.beautifiedDate,
+    this.dateTime,
     this.isBygone,
     this.hostingClub,
     this._comparisonKey,
@@ -18,11 +18,13 @@ class DateAndClub implements Comparable<DateAndClub> {
     String hostingClub,
     DateTime today,
   ) => DateAndClub._(
-    dateTime.beautifiedDate,
+    dateTime,
     dateTime.isBefore(today),
     hostingClub,
     '${dateTime.date} @ $hostingClub',
   );
+
+  String get beautifiedDate => dateTime.beautifiedDate;
 
   @override
   int compareTo(DateAndClub other) {
@@ -37,5 +39,5 @@ class DateAndClub implements Comparable<DateAndClub> {
   }
 
   @override
-  int get hashCode => Object.hash(beautifiedDate, hostingClub);
+  int get hashCode => Object.hash(dateTime.beautifiedDate, hostingClub);
 }

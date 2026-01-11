@@ -173,7 +173,7 @@ class _MultiDateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (fst.beautifiedDate == lst.beautifiedDate) {
+    if (fst.dateTime == lst.dateTime) {
       return _multiIsSingleDateTile(title, fst);
     }
     final titleStyle = lst.isBygone ? _pastBold : _futureBold;

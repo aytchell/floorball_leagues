@@ -17,4 +17,11 @@ class GameDateTime {
   }
 
   bool isBefore(DateTime timestamp) => dateTime.isBefore(timestamp);
+
+  @override
+  bool operator ==(Object other) =>
+      (other is GameDateTime) && (dateTime == other.dateTime);
+
+  @override
+  int get hashCode => dateTime.hashCode;
 }
