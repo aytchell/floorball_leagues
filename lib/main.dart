@@ -4,6 +4,7 @@ import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/repositories/persistence_repository.dart';
+import 'package:floorball/repositories/ref_license_repository.dart';
 import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
   late final teamRepository = TeamRepository(apiRepository);
   final persistenceRepository = PersistenceRepository();
   late final navigationRepository = NavigationRepository(persistenceRepository);
+  late final refLicenseRepository = RefLicenseRepository();
 
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
@@ -72,6 +74,7 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: apiRepository),
         RepositoryProvider.value(value: navigationRepository),
+        RepositoryProvider.value(value: refLicenseRepository),
       ],
       child: MultiBlocProvider(
         providers: [

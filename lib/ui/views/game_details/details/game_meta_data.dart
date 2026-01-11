@@ -1,8 +1,12 @@
 import 'package:floorball/api/models/date_formatter.dart';
+import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/details/ref_details_snackbar.dart';
 import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
-import 'package:floorball/api/models/detailed_game.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('GameMetaData');
 
 class GameMetaData extends StatelessWidget {
   final DetailedGame game;
@@ -19,7 +23,13 @@ class GameMetaData extends StatelessWidget {
       LabeledValue('Austragungshalle', game.arenaName),
       LabeledValue('Austragungsort', game.arenaAddress),
       LabeledValue('Zuschauerzahl', game.audience?.toString() ?? '-'),
-      LabeledValue('Schiedsrichter', _printReferees(game)),
+      LabeledValue(
+        'Schiedsrichter',
+        _printReferees(game),
+        onTap: (game.referees.isEmpty)
+            ? null
+            : showRefereeLicenseDetails(context, game),
+      ),
     ];
 
     return Column(
@@ -41,7 +51,7 @@ class GameMetaData extends StatelessWidget {
     if (game.referees.isNotEmpty) {
       return game.referees
           .map((ref) => '${ref.firstName} ${ref.lastName}')
-          .reduce((acc, element) => '$acc / $element');
+          .join('\n');
     } else {
       return game.nominatedReferees ?? '-';
     }

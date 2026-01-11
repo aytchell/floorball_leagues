@@ -194,6 +194,9 @@ class TextStyles {
 
   static const gameMetadataKey = _normal0875;
   static const gameMetadataValue = _bold0875;
+  static const gameMetadataRefDetails = _normal1;
+  static const gameMetadataRefDetailsBold = _bold1;
+  static const gameMetadataRefDetailsMessage = _normal075;
 
   // team details view
   static const teamDetailsTeamName = TextStyle(

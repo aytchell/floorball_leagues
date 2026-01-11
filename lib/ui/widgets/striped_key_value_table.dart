@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class LabeledValue {
   final String label;
   final String value;
+  final void Function()? onTap;
 
-  const LabeledValue(this.label, this.value);
+  const LabeledValue(this.label, this.value, {this.onTap});
 }
 
 class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {
@@ -15,33 +16,47 @@ class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {
 
   @override
   Widget buildRow(BuildContext context, LabeledValue entry) =>
-      _LabeledValueRow(label: entry.label, value: entry.value);
+      _LabeledValueRow(entry);
 }
 
 class _LabeledValueRow extends StatelessWidget {
-  final String label;
-  final String value;
+  final LabeledValue entry;
 
-  const _LabeledValueRow({required this.label, required this.value});
+  const _LabeledValueRow(this.entry);
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Text(
-        label,
-        style: TextStyles.genericLabeledValueLabel,
-        textAlign: TextAlign.left,
-      ),
-      SizedBox(width: 16),
-      Expanded(
-        child: Text(
-          value,
-          style: TextStyles.genericLabeledValueValue,
-          textAlign: TextAlign.right,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+  Widget build(BuildContext context) {
+    if (entry.onTap == null) {
+      return Row(children: _keyValueEntries());
+    } else {
+      return InkWell(
+        onTap: entry.onTap,
+        child: Row(
+          children: [
+            ..._keyValueEntries(),
+            SizedBox(width: 8),
+            Icon(Icons.info_outline, size: 20),
+          ],
         ),
+      );
+    }
+  }
+
+  List<Widget> _keyValueEntries() => [
+    Text(
+      entry.label,
+      style: TextStyles.genericLabeledValueLabel,
+      textAlign: TextAlign.left,
+    ),
+    const SizedBox(width: 16),
+    Expanded(
+      child: Text(
+        entry.value,
+        style: TextStyles.genericLabeledValueValue,
+        textAlign: TextAlign.right,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
-    ],
-  );
+    ),
+  ];
 }

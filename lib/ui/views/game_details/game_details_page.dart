@@ -33,11 +33,13 @@ class GameDetailsPage extends StatelessWidget {
         : _buildBodyWithoutName();
   }
 
-  Widget _buildBodyWithLeagueName(String leagueName) => MainAppScaffold(
-    title: leagueName,
-    showBackButton: true,
-    body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
-      builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
+  Widget _buildBodyWithLeagueName(String leagueName) => _PopScopeWrapper(
+    child: MainAppScaffold(
+      title: leagueName,
+      showBackButton: true,
+      body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
+        builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
+      ),
     ),
   );
 
@@ -151,6 +153,35 @@ class GameDetailsPage extends StatelessWidget {
             })
             .expand((i) => i),
       ],
+    );
+  }
+}
+
+// this wrapper takes care, that a possibly opened snackbar (used to
+// display referee details) is automatically closed before navigating back
+class _PopScopeWrapper extends StatelessWidget {
+  final Widget child;
+
+  const _PopScopeWrapper({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        // Always try to hide the current snackbar
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        // Wait a tiny bit to let the snackbar dismiss animation complete
+        await Future.delayed(const Duration(milliseconds: 50));
+
+        // Then navigate back
+        navigator.pop();
+      },
+      child: child,
     );
   }
 }

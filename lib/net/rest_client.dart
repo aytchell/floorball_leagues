@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:floorball/net/cache_manager.dart';
@@ -82,7 +83,11 @@ class RestClient {
     return getJsonStreamSync(Uri(scheme: scheme, host: host, path: path));
   }
 
-  Stream<dynamic> getJsonStreamSync(Uri uri) {
+  Stream<dynamic> getJsonStreamSync(Uri uri) => getFileStreamSync(uri)
+      .map((file) => file.readAsStringSync())
+      .map((content) => json.decode(content));
+
+  Stream<File> getFileStreamSync(Uri uri) {
     log.info('Fetching "$uri" as sync stream');
 
     Map<String, String> headers = {'Accept': 'application/json'};
@@ -93,7 +98,7 @@ class RestClient {
         .map((data) {
           final info = data as FileInfo;
           log.info('Received data: ${info.file.path}');
-          return json.decode(info.file.readAsStringSync());
+          return info.file;
         });
 
     return stream;
