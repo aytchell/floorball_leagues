@@ -69,7 +69,7 @@ class _PastGame extends StatelessWidget {
     TextSpan(
       children: [
         TextSpan(text: 'Am ', style: _normal),
-        TextSpan(text: game.beautifiedDate, style: _bold),
+        TextSpan(text: game.dateTime.beautifiedDate, style: _bold),
         TextSpan(text: ' um ', style: _normal),
         TextSpan(text: '${game.time}', style: _bold),
         TextSpan(text: ' Uhr', style: _normal),
@@ -148,10 +148,6 @@ class _FutureGame extends StatelessWidget {
   );
 
   Widget _printDateTime() {
-    if (game.beautifiedDate == null) {
-      return Text('Datum noch unbekannt', style: _normal);
-    }
-
     final time = (game.time == null)
         ? [TextSpan(text: ' (Zeit noch unbekannt)', style: _normal)]
         : [
@@ -163,7 +159,7 @@ class _FutureGame extends StatelessWidget {
       TextSpan(
         children: [
           TextSpan(text: 'Am ', style: _normal),
-          TextSpan(text: game.beautifiedDate, style: _bold),
+          TextSpan(text: game.dateTime.beautifiedDate, style: _bold),
           ...time,
         ],
       ),

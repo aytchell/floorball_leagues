@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
-import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
@@ -102,7 +102,9 @@ class _GameDayHeader extends StatelessWidget {
     final today = DateTime.now().subtract(Duration(hours: 23, minutes: 59));
 
     var eventList = games
-        .map((game) => DateAndClub.create(game.date, game.hostingClub!, today))
+        .map(
+          (game) => DateAndClub.create(game.dateTime, game.hostingClub!, today),
+        )
         .toSet()
         .toList();
     eventList.sort();
@@ -171,7 +173,7 @@ class _MultiDateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (fst.date == lst.date) {
+    if (fst.beautifiedDate == lst.beautifiedDate) {
       return _multiIsSingleDateTile(title, fst);
     }
     final titleStyle = lst.isBygone ? _pastBold : _futureBold;
@@ -183,9 +185,9 @@ class _MultiDateTile extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(text: 'von', style: lstStyles.normal),
-            TextSpan(text: ' ${fst.date} ', style: fstStyles.bold),
+            TextSpan(text: ' ${fst.beautifiedDate} ', style: fstStyles.bold),
             TextSpan(text: 'bis', style: lstStyles.normal),
-            TextSpan(text: ' ${lst.date}', style: lstStyles.bold),
+            TextSpan(text: ' ${lst.beautifiedDate}', style: lstStyles.bold),
           ],
         ),
         overflow: TextOverflow.ellipsis,
@@ -201,7 +203,7 @@ class _MultiDateTile extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(text: 'am', style: styles.normal),
-            TextSpan(text: ' ${dac.date} ', style: styles.bold),
+            TextSpan(text: ' ${dac.beautifiedDate} ', style: styles.bold),
           ],
         ),
         overflow: TextOverflow.ellipsis,
@@ -213,7 +215,7 @@ class _MultiDateTile extends StatelessWidget {
 Widget _locationSubtitle(_TextStyles styles, DateAndClub dac) => RichText(
   text: TextSpan(
     children: [
-      TextSpan(text: '${dac.date} ', style: styles.bold),
+      TextSpan(text: '${dac.beautifiedDate} ', style: styles.bold),
       TextSpan(text: 'bei ${dac.hostingClub}', style: styles.normal),
     ],
   ),

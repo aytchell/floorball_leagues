@@ -112,10 +112,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // Date
-        Text(
-          game.beautifiedDate ?? 'Datum unbekannt',
-          style: TextStyles.gameDayDate,
-        ),
+        Text(game.dateTime.beautifiedDate, style: TextStyles.gameDayDate),
         const SizedBox(height: 2),
         // Score
         ...buildResultTexts(game),

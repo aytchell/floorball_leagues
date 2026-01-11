@@ -1,47 +1,28 @@
-import 'package:logging/logging.dart';
-import 'package:intl/intl.dart';
-
-final log = Logger('DateAndClub');
+import 'package:floorball/api/models/game_date_time.dart';
 
 class DateAndClub implements Comparable<DateAndClub> {
-  final String date;
+  final String beautifiedDate;
   final bool isBygone;
   final String hostingClub;
   final String _comparisonKey;
 
   DateAndClub._(
-    this.date,
+    this.beautifiedDate,
     this.isBygone,
     this.hostingClub,
     this._comparisonKey,
   );
 
   factory DateAndClub.create(
-    String yyyyMmDd,
+    GameDateTime dateTime,
     String hostingClub,
     DateTime today,
-  ) {
-    try {
-      final DateTime parsedDate = DateTime.parse(yyyyMmDd);
-      final DateFormat formatter = DateFormat('dd.MM.yyyy');
-      final beautifiedDate = formatter.format(parsedDate);
-
-      return DateAndClub._(
-        beautifiedDate,
-        parsedDate.isBefore(today),
-        hostingClub,
-        '$yyyyMmDd @ $hostingClub',
-      );
-    } catch (e) {
-      log.severe('Error parsing date string "$yyyyMmDd": $e');
-      return DateAndClub._(
-        yyyyMmDd,
-        false,
-        hostingClub,
-        '$yyyyMmDd @ $hostingClub',
-      );
-    }
-  }
+  ) => DateAndClub._(
+    dateTime.beautifiedDate,
+    dateTime.isBefore(today),
+    hostingClub,
+    '${dateTime.date} @ $hostingClub',
+  );
 
   @override
   int compareTo(DateAndClub other) {
@@ -56,5 +37,5 @@ class DateAndClub implements Comparable<DateAndClub> {
   }
 
   @override
-  int get hashCode => Object.hash(date, hostingClub);
+  int get hashCode => Object.hash(beautifiedDate, hostingClub);
 }

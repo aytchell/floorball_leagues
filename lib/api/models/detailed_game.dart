@@ -1,5 +1,4 @@
-import 'package:floorball/api/models/date_formatter.dart';
-import 'package:floorball/utils/date_time_utils.dart';
+import 'package:floorball/api/models/game_date_time.dart';
 
 import 'award.dart';
 import 'game_day.dart';
@@ -70,7 +69,7 @@ class DetailedGame {
   String? noticeString;
   List<Referee> referees;
 
-  DateTime? startDateTime;
+  late final dateTime = GameDateTime(date, startTime);
 
   DetailedGame({
     required this.id,
@@ -118,14 +117,12 @@ class DetailedGame {
     this.noticeType,
     this.noticeString,
     required this.referees,
-  }) : startDateTime = parseDateTimeFromStrings(date, startTime);
+  });
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
-
-  String get beautifiedDate => beautifyDate(date);
 
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {
@@ -139,7 +136,7 @@ class DetailedGame {
         return false;
       case DetailedGameStatus.pregame:
       case null:
-        return (startDateTime?.isBefore(timestamp) ?? false);
+        return dateTime.isBefore(timestamp);
     }
   }
 }

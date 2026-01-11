@@ -1,6 +1,5 @@
-import 'package:floorball/utils/date_time_utils.dart';
+import 'package:floorball/api/models/game_date_time.dart';
 
-import 'date_formatter.dart';
 import 'game_result.dart';
 import 'logo_host.dart';
 import 'period_title.dart';
@@ -46,7 +45,7 @@ class Game {
   String? resultString;
   GameResult? result;
 
-  DateTime? dateTime;
+  late final dateTime = GameDateTime(date, time);
 
   Game({
     required this.gameId,
@@ -85,14 +84,12 @@ class Game {
     this.guestTeamFillingParameter,
     this.resultString,
     this.result,
-  }) : dateTime = parseDateTimeFromStrings(date, time);
+  });
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
-
-  String? get beautifiedDate => beautifyNullableDate(date);
 
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {
@@ -106,7 +103,7 @@ class Game {
       case GameState.matchRecordClosed:
         return false;
       case GameState.recordCreated:
-        return (dateTime?.isBefore(timestamp) ?? false);
+        return dateTime.isBefore(timestamp);
     }
   }
 }
