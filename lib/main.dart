@@ -67,7 +67,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _fetchInitialData();
-    tickCubit.startTicking();
 
     return MultiRepositoryProvider(
       providers: [

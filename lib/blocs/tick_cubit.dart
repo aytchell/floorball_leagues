@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
@@ -18,9 +19,27 @@ class TickState {
 class TickCubit extends Cubit<TickState> {
   Timer? _timer;
   final Duration tickInterval;
+  late final AppLifecycleListener _lifecycleListener;
 
   TickCubit({this.tickInterval = const Duration(seconds: 30)})
-    : super(TickState(tickCount: 0, timestamp: DateTime.now()));
+    : super(TickState(tickCount: 0, timestamp: DateTime.now())) {
+    _lifecycleListener = AppLifecycleListener(
+      onShow: _onAppShow,
+      onHide: _onAppHide,
+    );
+    // Start ticking on initialization
+    startTicking();
+  }
+
+  void _onAppShow() {
+    log.info("App shown, starting ticker");
+    startTicking();
+  }
+
+  void _onAppHide() {
+    log.info("App hidden, stopping ticker");
+    stopTicking();
+  }
 
   void startTicking() {
     // Cancel existing timer if any
@@ -50,6 +69,7 @@ class TickCubit extends Cubit<TickState> {
   @override
   Future<void> close() {
     _timer?.cancel();
+    _lifecycleListener.dispose();
     return super.close();
   }
 }
