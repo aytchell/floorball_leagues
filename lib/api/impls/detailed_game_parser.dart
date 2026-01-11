@@ -1,18 +1,14 @@
-import 'package:floorball/net/rest_client.dart';
-
-import 'package:floorball/api/models/detailed_game.dart';
-
-import 'package:floorball/api/impls/int_parser.dart';
-import 'package:floorball/api/impls/string_parser.dart';
-
-import 'package:floorball/api/impls/game_result_parser.dart';
-import 'package:floorball/api/impls/period_title_parser.dart';
-import 'package:floorball/api/impls/referee_parser.dart';
+import 'package:floorball/api/impls/award_parser.dart';
 import 'package:floorball/api/impls/game_day_parser.dart';
 import 'package:floorball/api/impls/game_event_parser.dart';
+import 'package:floorball/api/impls/game_result_parser.dart';
+import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/period_title_parser.dart';
 import 'package:floorball/api/impls/player_parser.dart';
+import 'package:floorball/api/impls/referee_parser.dart';
 import 'package:floorball/api/impls/starting_player_parser.dart';
-import 'package:floorball/api/impls/award_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
+import 'package:floorball/api/models/detailed_game.dart';
 import 'package:logging/logging.dart';
 
 final log = Logger('DetailedGameParser');
@@ -76,14 +72,6 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
     noticeType: parseNullableString(json, 'notice_type'),
     noticeString: parseNullableString(json, 'notice_string'),
     referees: refereesJson.map((referee) => parseReferee(referee)).toList(),
-  );
-}
-
-// Static method to fetch game data from server
-Stream<Future<DetailedGame>> fetchDetailedGame(RestClient client, int gameId) {
-  return client.streamApiData(
-    '/api/v2/games/$gameId.json',
-    (data) => parseDetailedGame(data as Map<String, dynamic>),
   );
 }
 

@@ -1,6 +1,5 @@
-import 'package:floorball/api/impls/string_parser.dart';
-import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
 import 'package:floorball/api/models/scorer.dart';
 
 Scorer parseScorer(Map<String, dynamic> json) => Scorer(
@@ -26,10 +25,3 @@ Scorer parseScorer(Map<String, dynamic> json) => Scorer(
   sort: parseInt(json, 'sort'),
   position: parseInt(json, 'position'),
 );
-
-Stream<Future<List<Scorer>>> fetchScorers(RestClient client, int leagueId) {
-  return client.streamApiData('/api/v2/leagues/$leagueId/scorer.json', (data) {
-    final json = data as List<dynamic>;
-    return json.map((entry) => parseScorer(entry)).toList();
-  });
-}

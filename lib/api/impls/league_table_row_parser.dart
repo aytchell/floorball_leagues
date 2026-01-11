@@ -1,7 +1,6 @@
-import 'package:floorball/api/impls/string_parser.dart';
-import 'package:floorball/net/rest_client.dart';
-import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/string_parser.dart';
+import 'package:floorball/api/models/league_table_row.dart';
 
 LeagueTableRow parseLeagueTableRow(Map<String, dynamic> json) {
   return LeagueTableRow(
@@ -23,14 +22,4 @@ LeagueTableRow parseLeagueTableRow(Map<String, dynamic> json) {
     sort: parseInt(json, 'sort'),
     position: parseInt(json, 'position'),
   );
-}
-
-Stream<Future<List<LeagueTableRow>>> fetchLeagueTableFromServer(
-  RestClient client,
-  int leagueId,
-) {
-  return client.streamApiData('/api/v2/leagues/$leagueId/table.json', (data) {
-    final json = data as List<dynamic>;
-    return json.map((row) => parseLeagueTableRow(row)).toList();
-  });
 }

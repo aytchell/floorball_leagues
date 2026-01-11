@@ -1,7 +1,7 @@
-import 'package:floorball/api/impls/champ_table_fetcher.dart';
-import 'package:floorball/api/impls/detailed_game_fetcher.dart';
+import 'package:floorball/api/impls/champ_group_table_parser.dart';
+import 'package:floorball/api/impls/detailed_game_parser.dart';
 import 'package:floorball/api/impls/game_parser.dart';
-import 'package:floorball/api/impls/scorer_fetcher.dart';
+import 'package:floorball/api/impls/scorer_parser.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
@@ -12,7 +12,7 @@ import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/impls/entry_info_parser.dart';
 
 import '../api/impls/league_parser.dart';
-import '../api/impls/league_table_fetcher.dart';
+import '../api/impls/league_table_row_parser.dart';
 import '../api/models/league.dart';
 
 class ApiRepository {
