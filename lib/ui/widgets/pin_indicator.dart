@@ -101,6 +101,12 @@ const _heartPinned = Stack(
 final variants = Map.fromEntries(
   [
     PinVariant(
+      ident: 'heart',
+      name: 'Herz',
+      pinned: _heartPinned,
+      unpinned: _heartUnpinned,
+    ),
+    PinVariant(
       ident: 'star',
       name: 'Stern',
       pinned: _starPinned,
@@ -111,12 +117,6 @@ final variants = Map.fromEntries(
       name: 'Pinnadel',
       pinned: _pushPinPinned,
       unpinned: _pushPinUnpinned,
-    ),
-    PinVariant(
-      ident: 'heart',
-      name: 'Herz',
-      pinned: _heartPinned,
-      unpinned: _heartUnpinned,
     ),
   ].map((entry) => MapEntry(entry.ident, entry)),
 );
