@@ -152,7 +152,8 @@ class TextStyles {
   static const gameDayResult = _bold15;
   static const gameDayResultCurrentPeriod = _bold0625running;
   static const gameDayResultPostfix = _bold075;
-  static const gameDayResultNotice = _bold1notice;
+  static const gameDayResultNoticeType = _bold1notice;
+  static const gameDayResultNoticeString = _normal075;
 
   static const gameDayHeaderFuture = _normal0875;
   static const gameDayHeaderFutureBold = _bold0875;
@@ -171,6 +172,7 @@ class TextStyles {
   static const gameDetailHeaderDateFuture = _bold1;
   static const gameDetailHeaderArenaInfo = _normal1gray153;
   static const gameDetailHeaderPeriods = _bold1;
+  static const gameDetailHeaderNoticeString = _normal1;
 
   static const gameDetailNoDetails = _normal1gray153;
 

@@ -37,15 +37,29 @@ class _NoticeGameHeader extends _GameHeaderScaffold {
   List<Widget> _buildHeaderEntries() => [
     _buildTeamRow(),
     const SizedBox(height: 16),
-    _printNotice(),
+    _printNoticeType(),
+    _printNoticeString(),
   ];
 
-  Widget _printNotice() => Text(
+  Widget _printNoticeType() => Text(
     translateNoticeType(game.noticeType!),
     style: TextStyles.gameDetailHeaderScore.copyWith(
       color: FloorballColors.resultNoticeColor,
     ),
   );
+
+  Widget _printNoticeString() {
+    if (game.noticeString == null) {
+      return SizedBox();
+    }
+
+    return Text(
+      game.noticeString!,
+      maxLines: 3,
+      textAlign: TextAlign.center,
+      style: TextStyles.gameDetailHeaderNoticeString,
+    );
+  }
 }
 
 class _FutureGameHeader extends _GameHeaderScaffold {

@@ -23,6 +23,7 @@ abstract class _Adapter {
   GameState get state;
   GameResult? get result;
   String? get noticeType;
+  String? get noticeString;
   String? get time;
   PeriodTitle? get currentPeriodTitle;
 
@@ -75,7 +76,7 @@ List<Widget> _buildResultText(String text, {required TextStyle style}) {
 
 List<Widget> _buildNoRecordTexts(_Adapter game) {
   if (game.noticeType != null && game.noticeType!.isNotEmpty) {
-    return _buildNoticeTypeResult(game.noticeType!);
+    return _buildNoticeTypeResult(game.noticeType!, game.noticeString);
   }
 
   if (game.time != null) {
@@ -124,13 +125,27 @@ String translateNoticeType(String noticeType) {
   }
 }
 
-List<Widget> _buildNoticeTypeResult(String noticeType) {
-  return [
+List<Widget> _buildNoticeTypeResult(String noticeType, String? noticeString) {
+  final List<Widget> texts = [
     Text(
       translateNoticeType(noticeType),
-      style: TextStyles.gameDayResultNotice,
+      style: TextStyles.gameDayResultNoticeType,
     ),
   ];
+  if (noticeString != null) {
+    texts.add(
+      SizedBox(
+        width: 120,
+        child: Text(
+          noticeString,
+          textAlign: TextAlign.center,
+          style: TextStyles.gameDayResultNoticeString,
+          maxLines: 4,
+        ),
+      ),
+    );
+  }
+  return texts;
 }
 
 class GameAdapter extends _Adapter {
@@ -144,6 +159,8 @@ class GameAdapter extends _Adapter {
   bool get ended => game.ended;
   @override
   String? get noticeType => game.noticeType;
+  @override
+  String? get noticeString => game.noticeString;
   @override
   GameResult? get result => game.result;
   @override
@@ -170,6 +187,8 @@ class DetailedGameAdapter extends _Adapter {
   bool get ended => game.ended;
   @override
   String? get noticeType => game.noticeType;
+  @override
+  String? get noticeString => game.noticeString;
   @override
   GameResult? get result => game.result;
   @override
