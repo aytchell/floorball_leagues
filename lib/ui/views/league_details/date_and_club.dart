@@ -13,13 +13,13 @@ class DateAndClub implements Comparable<DateAndClub> {
     this._comparisonKey,
   );
 
-  factory DateAndClub.create(
-    GameDateTime dateTime,
-    String hostingClub,
-    DateTime today,
-  ) => DateAndClub._(
+  factory DateAndClub.create({
+    required GameDateTime dateTime,
+    required String hostingClub,
+    required bool isBygone,
+  }) => DateAndClub._(
     dateTime,
-    dateTime.isBefore(today),
+    isBygone,
     hostingClub,
     '${dateTime.date} @ $hostingClub',
   );

@@ -93,15 +93,15 @@ class _GameDayHeader extends StatelessWidget {
   }
 
   List<DateAndClub> _extractDateAndClubs(final List<Game> games) {
-    // This is a little hack: the date of a game day has a time of 00:00:00
-    // whereas 'now' has a valid time. We want a game day to "not be bygone"
-    // for the whole day. So instead of adding 23h to each game day time
-    // we simply subtract 23h from "today".
-    final today = DateTime.now().subtract(Duration(hours: 23, minutes: 59));
+    final todayAtMidnight = todaysDay();
 
     var eventList = games
         .map(
-          (game) => DateAndClub.create(game.dateTime, game.hostingClub!, today),
+          (game) => DateAndClub.create(
+            dateTime: game.dateTime,
+            hostingClub: game.hostingClub!,
+            isBygone: game.dateTime.isBefore(todayAtMidnight),
+          ),
         )
         .toSet()
         .toList();
