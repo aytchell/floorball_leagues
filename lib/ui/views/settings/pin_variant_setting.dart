@@ -31,11 +31,9 @@ class PinVariantSetting extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
         final cubit = BlocProvider.of<PinVariantCubit>(context);
-        showPinVariantPicker(
-          context,
-          selected,
-          available,
-        ).then((variant) => cubit.changePinVariant(variant?.ident));
+        showPinVariantPicker(context, selected, available).then((variant) {
+          if (variant != null) cubit.changePinVariant(variant.ident);
+        });
       },
     );
   }

@@ -29,11 +29,9 @@ class NavAppSetting extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
         final cubit = BlocProvider.of<NavigationAppCubit>(context);
-        showNavigationAppPicker(
-          context,
-          selected,
-          available,
-        ).then((app) => cubit.changeSelectedApp(app));
+        showNavigationAppPicker(context, selected, available).then((app) {
+          if (app != null) cubit.changeSelectedApp(app);
+        });
       },
     );
   }
