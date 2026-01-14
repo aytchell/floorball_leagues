@@ -200,7 +200,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
       return SizedBox(height: 0);
     }
     final double? currentPeriod = game.currentPeriodTitle?.period;
-    final periods = [1, 2, 3, 4].take(_findNumberOfPeriods(game));
+    final periods = [1, 2, 3, 4, 5].take(_findNumberOfPeriods(game));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -244,12 +244,22 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
 
   int _findNumberOfPeriods(DetailedGame game) =>
       _hasOvertime(game) +
+      _hasPenaltyShots(game) +
       game.periodTitles
           .where((title) => (!title.optional))
           .where((title) => title.period.floor() == title.period)
           .length;
 
+  int _hasPenaltyShots(DetailedGame game) {
+    // If a game has ended it's ingame status will stay at the last "period"
+    // So this check will work for running and ended games
+    if (game.ingameStatus == DetailedIngameStatus.penaltyShots) return 1;
+    return 0;
+  }
+
   int _hasOvertime(DetailedGame game) {
+    // For overtime we can't consult the ingameStatus as it might
+    // also be "penaltyShots"
     if (game.result?.overtime ?? false) return 1;
     if (game.currentPeriodTitle?.optional ?? false) return 1;
     return 0;

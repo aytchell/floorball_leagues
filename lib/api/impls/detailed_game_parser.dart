@@ -29,8 +29,8 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
     actualStartTime: parseNullableString(json, 'actual_start_time'),
     date: parseString(json, 'date'),
     gameDay: parseGameDay(json['game_day']),
-    gameStatus: parseNullableDetailedGameStatus(json, 'game_status'),
-    ingameStatus: parseNullableString(json, 'ingame_status'),
+    gameStatus: _parseNullableDetailedGameStatus(json, 'game_status'),
+    ingameStatus: _parseNullableDetailedIngameStatus(json, 'ingame_status'),
     audience: parseNullableInt(json, 'audience'),
     homeTeamName: parseString(json, 'home_team_name'),
     guestTeamName: parseString(json, 'guest_team_name'),
@@ -75,7 +75,7 @@ DetailedGame parseDetailedGame(Map<String, dynamic> json) {
   );
 }
 
-DetailedGameStatus _parseDetailedGameStatus(String state) {
+DetailedGameStatus? _parseDetailedGameStatus(String state) {
   // this method might grow in the future as I don't have a spec on
   // how to interpret the various result types
   switch (state) {
@@ -90,12 +90,12 @@ DetailedGameStatus _parseDetailedGameStatus(String state) {
     default:
       {
         log.warning('Unknown detailed game status: "$state"');
-        return DetailedGameStatus.aftergame;
+        return null;
       }
   }
 }
 
-DetailedGameStatus? parseNullableDetailedGameStatus(
+DetailedGameStatus? _parseNullableDetailedGameStatus(
   Map<String, dynamic> json,
   String key,
 ) {
@@ -105,4 +105,44 @@ DetailedGameStatus? parseNullableDetailedGameStatus(
     return null;
   }
   return _parseDetailedGameStatus(state);
+}
+
+DetailedIngameStatus? _parseDetailedIngameStatus(String state) {
+  switch (state) {
+    case 'period1':
+      return DetailedIngameStatus.periodOne;
+    case 'pause1':
+      return DetailedIngameStatus.pauseOne;
+    case 'period2':
+      return DetailedIngameStatus.periodTwo;
+    case 'pause2':
+      return DetailedIngameStatus.pauseTwo;
+    case 'period3':
+      return DetailedIngameStatus.periodThree;
+    case 'pause_et':
+      return DetailedIngameStatus.pauseBeforeOvertime;
+    case 'extratime':
+      return DetailedIngameStatus.overtime;
+    case 'pause_ps':
+      return DetailedIngameStatus.pauseBeforePenaltyShots;
+    case 'penalty_shots':
+      return DetailedIngameStatus.penaltyShots;
+    default:
+      {
+        log.warning('Unknown detailed ingame status: "$state"');
+        return null;
+      }
+  }
+}
+
+DetailedIngameStatus? _parseNullableDetailedIngameStatus(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final state = parseNullableString(json, key);
+
+  if (state == null) {
+    return null;
+  }
+  return _parseDetailedIngameStatus(state);
 }

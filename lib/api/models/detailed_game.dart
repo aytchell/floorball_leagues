@@ -14,12 +14,15 @@ enum DetailedGameStatus { pregame, ingame, aftergame, matchRecordClosed }
 
 // to be used someday ...
 enum DetailedIngameStatus {
-  period1,
-  pause1,
-  period2,
-  pause2,
-  period3,
-  // .. overtime, penalty shooting, more pauses?
+  periodOne,
+  pauseOne,
+  periodTwo,
+  pauseTwo,
+  periodThree,
+  pauseBeforeOvertime,
+  overtime,
+  pauseBeforePenaltyShots,
+  penaltyShots,
 }
 
 class DetailedGame {
@@ -30,7 +33,7 @@ class DetailedGame {
   String date;
   GameDay gameDay;
   DetailedGameStatus? gameStatus;
-  String? ingameStatus;
+  DetailedIngameStatus? ingameStatus;
   int? audience;
   String homeTeamName;
   String guestTeamName;
