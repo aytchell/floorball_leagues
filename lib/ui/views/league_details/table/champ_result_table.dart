@@ -1,4 +1,6 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/league.dart';
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
@@ -98,11 +100,13 @@ class ChampResultTable extends AllLeagueGamesProvider {
     return [
       SeriesTableRow(
         position: homeWin ? place : (place + 1),
+        teamLogoUri: game.homeLogoUri,
         teamLogoSmallUri: game.homeLogoSmallUri,
         teamName: game.homeTeamName,
       ),
       SeriesTableRow(
         position: homeWin ? (place + 1) : place,
+        teamLogoUri: game.guestLogoUri,
         teamLogoSmallUri: game.guestLogoSmallUri,
         teamName: game.guestTeamName,
       ),
@@ -127,6 +131,7 @@ class ChampResultTable extends AllLeagueGamesProvider {
 
   SeriesTableRow _createDummyTableEntry(int position) => SeriesTableRow(
     position: position,
+    teamLogoUri: null,
     teamLogoSmallUri: null,
     teamName: null,
   );
@@ -146,11 +151,13 @@ class SeriesGames {
 
 class SeriesTableRow implements Comparable<SeriesTableRow> {
   final int position;
+  final Uri? teamLogoUri;
   final Uri? teamLogoSmallUri;
   final String? teamName;
 
   SeriesTableRow({
     required this.position,
+    required this.teamLogoUri,
     required this.teamLogoSmallUri,
     required this.teamName,
   });
@@ -226,12 +233,18 @@ class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
       headerHeight: headerHeight,
       rowHeight: rowHeight,
       onTapBuilder: (ctxt, rowId) {
-        final teamId = teamNameToId[rows[rowId].teamName];
+        final teamName = rows[rowId].teamName;
+        final teamId = teamNameToId[teamName];
         return (teamId == null)
             ? null
-            : () => TeamDetailsPageRoute(
-                leagueId: leagueId,
-                teamId: teamId,
+            : () => TeamDetailsFullPageRoute(
+                $extra: TeamInfo(
+                  leagueId: leagueId,
+                  leagueType: LeagueType.champ,
+                  teamId: teamId,
+                  teamName: teamName!,
+                  teamLogoUri: rows[rowId].teamLogoUri,
+                ),
               ).push(context);
       },
     );

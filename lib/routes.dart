@@ -1,7 +1,10 @@
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/ui/views/settings/settings_page.dart';
+import 'package:floorball/ui/views/team_details/team_details_full_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'api/models/league.dart';
 import 'ui/views/game_details/game_details_page.dart';
 import 'ui/views/landing/landing_page.dart';
 import 'ui/views/league_details/league_details_page.dart';
@@ -51,32 +54,41 @@ class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
 @immutable
 class GameDetailsPageRoute extends GoRouteData with $GameDetailsPageRoute {
   final int gameId;
+  final LeagueType leagueType;
   final String? leagueName;
 
-  const GameDetailsPageRoute({required this.gameId, this.leagueName});
+  const GameDetailsPageRoute({
+    required this.gameId,
+    required this.leagueType,
+    this.leagueName,
+  });
 
   @override
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: GameDetailsPage(gameId: gameId, leagueName: leagueName),
+      child: GameDetailsPage(
+        gameId: gameId,
+        leagueType: leagueType,
+        leagueName: leagueName,
+      ),
     );
   }
 }
 
-@TypedGoRoute<TeamDetailsPageRoute>(path: TeamDetailsPage.routePath)
+@TypedGoRoute<TeamDetailsFullPageRoute>(path: TeamDetailsFullPage.routePath)
 @immutable
-class TeamDetailsPageRoute extends GoRouteData with $TeamDetailsPageRoute {
-  final int leagueId;
-  final int teamId;
+class TeamDetailsFullPageRoute extends GoRouteData
+    with $TeamDetailsFullPageRoute {
+  final TeamInfo $extra;
 
-  const TeamDetailsPageRoute({required this.leagueId, required this.teamId});
+  const TeamDetailsFullPageRoute({required this.$extra});
 
   @override
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: TeamDetailsPage(leagueId: leagueId, teamId: teamId),
+      child: TeamDetailsFullPage(data: $extra),
     );
   }
 }

@@ -10,7 +10,6 @@ class TeamInfo {
   final int teamId;
   final String teamName;
   final Uri? teamLogoUri;
-  final Uri? teamLogoSmallUri;
 
   const TeamInfo({
     required this.leagueId,
@@ -18,7 +17,6 @@ class TeamInfo {
     required this.teamId,
     required this.teamName,
     this.teamLogoUri,
-    this.teamLogoSmallUri,
   });
 }
 
@@ -62,7 +60,6 @@ class TeamRepository {
             teamId: teamId,
             teamName: teamRow.teamName,
             teamLogoUri: teamRow.teamLogoUri,
-            teamLogoSmallUri: teamRow.teamLogoSmallUri,
           );
         }),
       );
@@ -100,7 +97,6 @@ class TeamRepository {
             teamId: teamId,
             teamName: teamName,
             teamLogoUri: pair.$1,
-            teamLogoSmallUri: pair.$2,
           ),
         );
   }
@@ -125,7 +121,6 @@ class TeamRepository {
             teamId: teamId,
             teamName: teamRow.teamName,
             teamLogoUri: teamRow.teamLogoUri,
-            teamLogoSmallUri: teamRow.teamLogoSmallUri,
           );
         }),
       );

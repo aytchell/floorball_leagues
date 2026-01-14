@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
@@ -8,29 +9,40 @@ import 'package:flutter/material.dart';
 
 class GamesOverviewItem extends StatelessWidget {
   final String teamName;
+  final LeagueType leagueType;
   final Game game;
 
   const GamesOverviewItem({
     super.key,
     required this.teamName,
+    required this.leagueType,
     required this.game,
   });
 
   @override
   Widget build(BuildContext context) {
     if (game.ended) {
-      return _PastGame(teamName: teamName, game: game);
+      return _PastGame(teamName: teamName, leagueType: leagueType, game: game);
     } else {
-      return _FutureGame(teamName: teamName, game: game);
+      return _FutureGame(
+        teamName: teamName,
+        leagueType: leagueType,
+        game: game,
+      );
     }
   }
 }
 
 class _PastGame extends StatelessWidget {
   final String teamName;
+  final LeagueType leagueType;
   final Game game;
 
-  const _PastGame({required this.teamName, required this.game});
+  const _PastGame({
+    required this.teamName,
+    required this.leagueType,
+    required this.game,
+  });
 
   static const _iconSpacer = SizedBox(width: 8);
   static const _normal = TextStyles.teamDetailsPastGames;
@@ -59,7 +71,10 @@ class _PastGame extends StatelessWidget {
       IconTextButton(
         icon: Icons.read_more,
         onContextPressed: (BuildContext ctxt) {
-          return () => GameDetailsPageRoute(gameId: game.gameId).push(ctxt);
+          return () => GameDetailsPageRoute(
+            gameId: game.gameId,
+            leagueType: leagueType,
+          ).push(ctxt);
         },
       ),
     ],
@@ -107,6 +122,7 @@ class _PastGame extends StatelessWidget {
 
 class _FutureGame extends StatelessWidget {
   final String teamName;
+  final LeagueType leagueType;
   final Game game;
 
   static const _iconSpacer = SizedBox(width: 8);
@@ -114,7 +130,11 @@ class _FutureGame extends StatelessWidget {
   static const _bold = TextStyles.teamDetailsFutureGamesBold;
   static const _gray = TextStyles.teamDetailsFutureGamesGray;
 
-  const _FutureGame({required this.teamName, required this.game});
+  const _FutureGame({
+    required this.teamName,
+    required this.leagueType,
+    required this.game,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +161,10 @@ class _FutureGame extends StatelessWidget {
       IconTextButton(
         icon: Icons.read_more,
         onContextPressed: (BuildContext ctxt) {
-          return () => GameDetailsPageRoute(gameId: game.gameId).push(ctxt);
+          return () => GameDetailsPageRoute(
+            gameId: game.gameId,
+            leagueType: leagueType,
+          ).push(ctxt);
         },
       ),
     ],

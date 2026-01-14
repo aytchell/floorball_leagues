@@ -52,6 +52,7 @@ ExpansionPanelRadio _buildSingleGameDayPanel(
           )
         : SingleDefaultGameDayContent(
             leagueId: leagueId,
+            leagueType: leagueType,
             gameDayNumber: gdt.gameDayNumber,
           ),
   );

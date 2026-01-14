@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/detailed_game.dart';
@@ -18,11 +19,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameDetailsPage extends StatelessWidget {
   final int gameId;
+  final LeagueType leagueType;
   final String? leagueName;
 
   static const String routePath = '/game_details';
 
-  const GameDetailsPage({super.key, required this.gameId, this.leagueName});
+  const GameDetailsPage({
+    super.key,
+    required this.gameId,
+    required this.leagueType,
+    this.leagueName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +85,7 @@ class GameDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DetailedGameHeader(game: detailedGame),
+          DetailedGameHeader(game: detailedGame, leagueType: leagueType),
           const SizedBox(height: 12),
           Separator(height: 8),
           const SizedBox(height: 12),

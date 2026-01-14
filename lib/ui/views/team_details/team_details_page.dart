@@ -95,7 +95,7 @@ class TeamDetailsPage extends StatelessWidget {
     String teamName,
     LeagueType leagueType,
   ) {
-    final gamesPanel = buildTeamGamesPanel(1, leagueId, teamName);
+    final gamesPanel = buildTeamGamesPanel(1, leagueId, leagueType, teamName);
     final scorerPanel = buildScorerPanel(
       2,
       leagueId,

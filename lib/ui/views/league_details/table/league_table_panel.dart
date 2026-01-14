@@ -1,5 +1,7 @@
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
@@ -33,9 +35,14 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
           _tableDefinition,
           table,
           onTapBuilder: (ctxt, rowId) {
-            return () => TeamDetailsPageRoute(
-              leagueId: leagueId,
-              teamId: table[rowId].teamId,
+            return () => TeamDetailsFullPageRoute(
+              $extra: TeamInfo(
+                leagueId: leagueId,
+                leagueType: LeagueType.league,
+                teamId: table[rowId].teamId,
+                teamName: table[rowId].teamName,
+                teamLogoUri: table[rowId].teamLogoUri,
+              ),
             ).push(context);
           },
         );

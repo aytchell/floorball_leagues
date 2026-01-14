@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_game_day_content.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _LabeledStripedGamesRowsList extends LeftLabeledContent {
 
   @override
   Widget buildContent() {
-    return StripedGamesRowsList(games);
+    return StripedGamesRowsList(games, LeagueType.champ);
   }
 }
 
@@ -108,6 +109,6 @@ class _LabeledSeriesGameRow extends LeftLabeledContent {
 
   @override
   Widget buildContent() {
-    return StripedGamesRowsList([game]);
+    return StripedGamesRowsList([game], LeagueType.champ);
   }
 }

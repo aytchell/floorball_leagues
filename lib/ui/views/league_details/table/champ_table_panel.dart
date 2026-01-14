@@ -1,6 +1,8 @@
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
@@ -103,9 +105,14 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
       headerHeight: headerHeight,
       rowHeight: rowHeight,
       onTapBuilder: (ctxt, rowId) {
-        return () => TeamDetailsPageRoute(
-          leagueId: leagueId,
-          teamId: rows[rowId].teamId,
+        return () => TeamDetailsFullPageRoute(
+          $extra: TeamInfo(
+            leagueId: leagueId,
+            leagueType: LeagueType.champ,
+            teamId: rows[rowId].teamId,
+            teamName: rows[rowId].teamName,
+            teamLogoUri: rows[rowId].teamLogoUri,
+          ),
         ).push(context);
       },
     );

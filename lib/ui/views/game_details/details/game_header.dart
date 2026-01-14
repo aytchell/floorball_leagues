@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/api/models/league.dart';
+import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
@@ -12,18 +14,23 @@ import 'package:flutter/material.dart';
 
 class DetailedGameHeader extends StatelessWidget {
   final DetailedGame game;
+  final LeagueType leagueType;
 
-  const DetailedGameHeader({super.key, required this.game});
+  const DetailedGameHeader({
+    super.key,
+    required this.game,
+    required this.leagueType,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (game.started) {
-      return _PastGameHeader(game: game);
+      return _PastGameHeader(game: game, leagueType: leagueType);
     } else {
       if (game.noticeType != null) {
-        return _NoticeGameHeader(game: game);
+        return _NoticeGameHeader(game: game, leagueType: leagueType);
       } else {
-        return _FutureGameHeader(game: game);
+        return _FutureGameHeader(game: game, leagueType: leagueType);
       }
     }
   }
@@ -32,7 +39,7 @@ class DetailedGameHeader extends StatelessWidget {
 const dash = '–';
 
 class _NoticeGameHeader extends _GameHeaderScaffold {
-  const _NoticeGameHeader({required super.game});
+  const _NoticeGameHeader({required super.game, required super.leagueType});
 
   @override
   List<Widget> _buildHeaderEntries() => [
@@ -64,7 +71,7 @@ class _NoticeGameHeader extends _GameHeaderScaffold {
 }
 
 class _FutureGameHeader extends _GameHeaderScaffold {
-  const _FutureGameHeader({required super.game});
+  const _FutureGameHeader({required super.game, required super.leagueType});
 
   @override
   List<Widget> _buildHeaderEntries() => [
@@ -77,7 +84,7 @@ class _FutureGameHeader extends _GameHeaderScaffold {
 }
 
 class _PastGameHeader extends _GameHeaderScaffold {
-  const _PastGameHeader({required super.game});
+  const _PastGameHeader({required super.game, required super.leagueType});
 
   @override
   List<Widget> _buildHeaderEntries() => [
@@ -93,8 +100,9 @@ class _PastGameHeader extends _GameHeaderScaffold {
 
 abstract class _GameHeaderScaffold extends StatelessWidget {
   final DetailedGame game;
+  final LeagueType leagueType;
 
-  const _GameHeaderScaffold({required this.game});
+  const _GameHeaderScaffold({required this.game, required this.leagueType});
 
   List<Widget> _buildHeaderEntries();
 
@@ -183,7 +191,15 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
     required Uri? logoUri,
   }) => Column(
     children: [
-      _ClickableTeamLogo(logoUri, game.leagueId, teamId),
+      _ClickableTeamLogo(
+        TeamInfo(
+          leagueId: game.leagueId,
+          leagueType: leagueType,
+          teamId: teamId,
+          teamName: teamName,
+          teamLogoUri: logoUri,
+        ),
+      ),
       const SizedBox(height: 8),
       // Team name
       Text(
@@ -273,16 +289,13 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
 }
 
 class _ClickableTeamLogo extends StatelessWidget {
-  final Uri? teamLogo;
-  final int leagueId;
-  final int teamId;
+  final TeamInfo info;
 
-  const _ClickableTeamLogo(this.teamLogo, this.leagueId, this.teamId);
+  const _ClickableTeamLogo(this.info);
 
   @override
   Widget build(BuildContext context) => InkWell(
-    child: TeamLogo(uri: teamLogo, width: 90, height: 90),
-    onTap: () =>
-        TeamDetailsPageRoute(leagueId: leagueId, teamId: teamId).push(context),
+    child: TeamLogo(uri: info.teamLogoUri, width: 90, height: 90),
+    onTap: () => TeamDetailsFullPageRoute($extra: info).push(context),
   );
 }

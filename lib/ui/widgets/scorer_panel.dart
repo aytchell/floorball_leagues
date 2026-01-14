@@ -63,7 +63,7 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
   }
 
   static final _position = TableColumnDefinition<Scorer>(
-    column: const TableColumn(width: 25),
+    column: const TableColumn(width: 30),
     headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
     contentBuilder: (row) => buildTextCell('${row.position}'),
   );

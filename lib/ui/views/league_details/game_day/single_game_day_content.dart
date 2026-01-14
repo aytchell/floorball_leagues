@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/game.dart';
@@ -57,12 +58,17 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
       _interTeamSpacing +
       StripedRowsList.defaultPaddingPerRow;
 
-  const StripedGamesRowsList(super.entries, {super.key})
-    : super(onTap: _goToGame);
+  StripedGamesRowsList(super.entries, leagueType, {super.key})
+    : super(onTap: _createOnTap(leagueType));
 
-  static void _goToGame(BuildContext context, Game game) {
-    GameDetailsPageRoute(gameId: game.gameId).push(context);
-  }
+  static void Function(BuildContext context, Game game) _createOnTap(
+    LeagueType leagueType,
+  ) => (BuildContext context, Game game) {
+    GameDetailsPageRoute(
+      gameId: game.gameId,
+      leagueType: leagueType,
+    ).push(context);
+  };
 
   @override
   Widget buildRow(BuildContext context, Game game) {
