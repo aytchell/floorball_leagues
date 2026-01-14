@@ -76,7 +76,10 @@ class _GameDayHeader extends StatelessWidget {
         );
         switch (datesAndClubs.length) {
           case 0:
-            return ListTile(title: Text(gdt.title, style: _futureBold));
+            return ListTile(
+              title: Text(gdt.title, style: _futureBold),
+              subtitle: _SkeletonText(),
+            );
           case 1:
             return _SingleDateTile(title: gdt.title, dac: datesAndClubs.first);
           case 2:
@@ -256,4 +259,16 @@ class _TextStyles {
   factory _TextStyles.from(DateAndClub dac) => (dac.isBygone)
       ? _TextStyles(_past, _pastBold)
       : _TextStyles(_future, _futureBold);
+}
+
+class _SkeletonText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+    width: 40,
+    height: 16,
+    decoration: BoxDecoration(
+      color: FloorballColors.gray231,
+      borderRadius: BorderRadius.circular(8),
+    ),
+  );
 }
