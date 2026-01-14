@@ -71,9 +71,38 @@ class TeamRepository {
     int leagueId,
     LeagueType leagueType,
     int teamId,
-  ) {
-    // TODO
-    throw Exception("Not yet implemented");
+  ) async {
+    final teamName = await _teamNameFromTeamId(leagueId, teamId);
+    final gameStream = await apiRepository
+        .getGamesOfGameDay(leagueId, 1)
+        .then(
+          (gameStream) => gameStream.map(
+            (games) => games.firstWhere(
+              (game) =>
+                  (game.homeTeamName == teamName ||
+                  game.guestTeamName == teamName),
+            ),
+          ),
+        );
+
+    return gameStream
+        .map((game) {
+          if (game.homeTeamName == teamName) {
+            return (game.homeLogoUri, game.homeLogoSmallUri);
+          } else {
+            return (game.guestLogoUri, game.guestLogoSmallUri);
+          }
+        })
+        .map(
+          (pair) => TeamInfo(
+            leagueId: leagueId,
+            leagueType: leagueType,
+            teamId: teamId,
+            teamName: teamName,
+            teamLogoUri: pair.$1,
+            teamLogoSmallUri: pair.$2,
+          ),
+        );
   }
 
   Future<Stream<TeamInfo>> _teamInfoForChamp(
@@ -100,4 +129,17 @@ class TeamRepository {
           );
         }),
       );
+
+  Future<String> _teamNameFromTeamId(int leagueId, int teamId) async =>
+      apiRepository
+          .getLeagueScorers(leagueId)
+          .then(
+            (stream) => stream.first
+                .then(
+                  (scorerList) => scorerList.firstWhere(
+                    (scorer) => scorer.teamId == teamId,
+                  ),
+                )
+                .then((scorer) => scorer.teamName),
+          );
 }

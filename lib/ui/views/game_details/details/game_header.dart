@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
@@ -159,6 +160,7 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
       Expanded(
         child: _buildTeamSection(
           teamName: game.homeTeamName,
+          teamId: game.homeTeamId,
           logoUri: game.homeLogoUri,
         ),
       ),
@@ -168,27 +170,31 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
       Expanded(
         child: _buildTeamSection(
           teamName: game.guestTeamName,
+          teamId: game.guestTeamId,
           logoUri: game.guestLogoUri,
         ),
       ),
     ],
   );
 
-  Widget _buildTeamSection({required String teamName, required Uri? logoUri}) =>
-      Column(
-        children: [
-          TeamLogo(uri: logoUri, width: 90, height: 90),
-          const SizedBox(height: 8),
-          // Team name
-          Text(
-            teamName,
-            textAlign: TextAlign.center,
-            style: TextStyles.gameDetailHeaderTeamName,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      );
+  Widget _buildTeamSection({
+    required String teamName,
+    required int teamId,
+    required Uri? logoUri,
+  }) => Column(
+    children: [
+      _ClickableTeamLogo(logoUri, game.leagueId, teamId),
+      const SizedBox(height: 8),
+      // Team name
+      Text(
+        teamName,
+        textAlign: TextAlign.center,
+        style: TextStyles.gameDetailHeaderTeamName,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+    ],
+  );
 
   Widget _buildScore() {
     return Column(children: buildDetailedResultTexts(game));
@@ -264,4 +270,19 @@ abstract class _GameHeaderScaffold extends StatelessWidget {
     if (game.currentPeriodTitle?.optional ?? false) return 1;
     return 0;
   }
+}
+
+class _ClickableTeamLogo extends StatelessWidget {
+  final Uri? teamLogo;
+  final int leagueId;
+  final int teamId;
+
+  const _ClickableTeamLogo(this.teamLogo, this.leagueId, this.teamId);
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+    child: TeamLogo(uri: teamLogo, width: 90, height: 90),
+    onTap: () =>
+        TeamDetailsPageRoute(leagueId: leagueId, teamId: teamId).push(context),
+  );
 }
