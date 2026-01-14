@@ -1,12 +1,14 @@
 import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -44,11 +46,12 @@ class _ChampTableContent extends StatelessWidget {
     if (champTables.isEmpty) {
       return _emptyPlaceholder();
     }
+    final teamMapping = _mapTeamNameToTeamId(champTables);
 
     return Column(
       children: [
         ..._buildGroupTables(champTables),
-        ChampResultTable(leagueId: leagueId),
+        ChampResultTable(leagueId: leagueId, teamNameToId: teamMapping),
       ],
     );
   }
@@ -60,24 +63,33 @@ class _ChampTableContent extends StatelessWidget {
     ),
   );
 
+  Map<String, int> _mapTeamNameToTeamId(List<ChampGroupTable> champTables) =>
+      champTables
+          .expand((cgt) => cgt.table)
+          .map((row) => MapEntry(row.teamName, row.teamId))
+          .toMap();
+
   List<Widget> _buildGroupTables(List<ChampGroupTable> champTables) =>
       champTables.map((table) => _buildNamedChampGroupTable(table)).toList();
 
   Widget _buildNamedChampGroupTable(ChampGroupTable group) =>
       NamedChampGroupTable(
         labelText: group.name,
+        leagueId: leagueId,
+        tableRows: group.table,
         headerHeight: 60.0,
         rowHeight: 50.0,
-        tableRows: group.table,
       );
 }
 
 class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
+  final int leagueId;
   final List<LeagueTableRow> rows;
   final double headerHeight;
   final double rowHeight;
 
   const _ChampGroupTable({
+    required this.leagueId,
     required this.rows,
     required this.headerHeight,
     required this.rowHeight,
@@ -90,6 +102,12 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
       rows,
       headerHeight: headerHeight,
       rowHeight: rowHeight,
+      onTapBuilder: (ctxt, rowId) {
+        return () => TeamDetailsPageRoute(
+          leagueId: leagueId,
+          teamId: rows[rowId].teamId,
+        ).push(context);
+      },
     );
   }
 
@@ -140,16 +158,18 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
 }
 
 class NamedChampGroupTable extends LeftLabeledContent {
+  final int leagueId;
+  final List<LeagueTableRow> tableRows;
   final double headerHeight;
   final double rowHeight;
-  final List<LeagueTableRow> tableRows;
 
   NamedChampGroupTable({
     super.key,
     required super.labelText,
+    required this.leagueId,
+    required this.tableRows,
     required this.headerHeight,
     required this.rowHeight,
-    required this.tableRows,
   }) : super(
          labelHeight: _computeLabelHeight(
            headerHeight,
@@ -169,6 +189,7 @@ class NamedChampGroupTable extends LeftLabeledContent {
   @override
   Widget buildContent() {
     return _ChampGroupTable(
+      leagueId: leagueId,
       rows: tableRows,
       headerHeight: headerHeight,
       rowHeight: rowHeight,

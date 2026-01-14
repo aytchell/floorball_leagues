@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/routes.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
@@ -12,7 +13,13 @@ import 'package:material_table_view/material_table_view.dart';
 final log = Logger('ChampResultTable');
 
 class ChampResultTable extends AllLeagueGamesProvider {
-  const ChampResultTable({super.key, required super.leagueId});
+  final Map<String, int> teamNameToId;
+
+  const ChampResultTable({
+    super.key,
+    required super.leagueId,
+    required this.teamNameToId,
+  });
 
   @override
   Widget buildWithLeagueGames(List<Game> games) {
@@ -22,9 +29,11 @@ class ChampResultTable extends AllLeagueGamesProvider {
     }
 
     return _NamedChampSeriesTable(
+      leagueId: leagueId,
       labelText: 'Endstand',
       headerHeight: 60.0,
       rowHeight: 50.0,
+      teamNameToId: teamNameToId,
       tableRows: _sortSeriesTeams(seriesGames),
     );
   }
@@ -153,14 +162,18 @@ class SeriesTableRow implements Comparable<SeriesTableRow> {
 }
 
 class _NamedChampSeriesTable extends LeftLabeledContent {
+  final int leagueId;
   final double headerHeight;
   final double rowHeight;
+  final Map<String, int> teamNameToId;
   final List<SeriesTableRow> tableRows;
 
   _NamedChampSeriesTable({
     required super.labelText,
+    required this.leagueId,
     required this.headerHeight,
     required this.rowHeight,
+    required this.teamNameToId,
     required this.tableRows,
   }) : super(
          labelHeight: _computeLabelHeight(
@@ -181,19 +194,25 @@ class _NamedChampSeriesTable extends LeftLabeledContent {
   @override
   Widget buildContent() {
     return _ChampSeriesTable(
+      leagueId: leagueId,
       rows: tableRows,
       headerHeight: headerHeight,
+      teamNameToId: teamNameToId,
       rowHeight: rowHeight,
     );
   }
 }
 
 class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
+  final int leagueId;
+  final Map<String, int> teamNameToId;
   final List<SeriesTableRow> rows;
   final double headerHeight;
   final double rowHeight;
 
   const _ChampSeriesTable({
+    required this.leagueId,
+    required this.teamNameToId,
     required this.rows,
     required this.headerHeight,
     required this.rowHeight,
@@ -206,6 +225,15 @@ class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
       rows,
       headerHeight: headerHeight,
       rowHeight: rowHeight,
+      onTapBuilder: (ctxt, rowId) {
+        final teamId = teamNameToId[rows[rowId].teamName];
+        return (teamId == null)
+            ? null
+            : () => TeamDetailsPageRoute(
+                leagueId: leagueId,
+                teamId: teamId,
+              ).push(context);
+      },
     );
   }
 

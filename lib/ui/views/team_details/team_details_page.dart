@@ -79,7 +79,11 @@ class TeamDetailsPage extends StatelessWidget {
 
           ExpansionPanelList.radio(
             initialOpenPanelValue: null,
-            children: _buildPanelItems(context, teamInfo.teamName),
+            children: _buildPanelItems(
+              context,
+              teamInfo.teamName,
+              teamInfo.leagueType,
+            ),
           ),
         ],
       ),
@@ -89,16 +93,24 @@ class TeamDetailsPage extends StatelessWidget {
   List<ExpansionPanelRadio> _buildPanelItems(
     BuildContext context,
     String teamName,
+    LeagueType leagueType,
   ) {
-    return [
-      buildTeamStatisticsPanel(0, leagueId, teamId),
-      buildTeamGamesPanel(1, leagueId, teamName),
-      buildScorerPanel(
-        2,
-        leagueId,
-        filter: (scorer) => scorer.teamId == teamId,
-      ),
-    ];
+    final gamesPanel = buildTeamGamesPanel(1, leagueId, teamName);
+    final scorerPanel = buildScorerPanel(
+      2,
+      leagueId,
+      filter: (scorer) => scorer.teamId == teamId,
+    );
+
+    if (leagueType == LeagueType.league) {
+      return [
+        buildTeamStatisticsPanel(0, leagueId, teamId),
+        gamesPanel,
+        scorerPanel,
+      ];
+    } else {
+      return [gamesPanel, scorerPanel];
+    }
   }
 }
 

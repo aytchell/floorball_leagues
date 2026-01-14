@@ -1,7 +1,5 @@
 import 'package:floorball/blocs/league_table_cubit.dart';
-import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
-import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/league_table_row.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
@@ -32,29 +30,6 @@ class _TeamStatisticsContent extends StatelessWidget {
   final int teamId;
 
   const _TeamStatisticsContent({required this.leagueId, required this.teamId});
-
-  @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<LeaguesCubit>(context).ensureLeague(leagueId);
-    return BlocBuilder<LeaguesCubit, LeaguesState>(
-      builder: (_, leagueState) {
-        final league = leagueState.byId(leagueId);
-        switch (league?.leagueType) {
-          case LeagueType.league:
-            return _LeagueTeamDetails(leagueId: leagueId, teamId: teamId);
-          default:
-            return _fallbackText;
-        }
-      },
-    );
-  }
-}
-
-class _LeagueTeamDetails extends StatelessWidget {
-  final int leagueId;
-  final int teamId;
-
-  const _LeagueTeamDetails({required this.leagueId, required this.teamId});
 
   @override
   Widget build(BuildContext context) {

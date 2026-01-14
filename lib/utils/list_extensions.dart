@@ -25,6 +25,10 @@ extension JoinWidgetsExtension on Iterable<Widget> {
   }
 }
 
+extension ToMapExtension<K, V> on Iterable<MapEntry<K, V>> {
+  Map<K, V> toMap() => Map.fromEntries(this);
+}
+
 extension ToggleExtension on List<int> {
   List<int> toggle(int element) {
     final List<int> result = where((elem) => elem != element).toList();

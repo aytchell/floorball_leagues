@@ -1,5 +1,8 @@
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('TeamRepository');
 
 class TeamInfo {
   final int leagueId;
@@ -31,10 +34,13 @@ class TeamRepository {
   ) {
     switch (leagueType) {
       case LeagueType.league:
+        log.info('Loading team info for league team $teamId');
         return _teamInfoForLeague(leagueId, leagueType, teamId);
       case LeagueType.cup:
+        log.info('Loading team info for cup team $teamId');
         return _teamInfoForCup(leagueId, leagueType, teamId);
       case LeagueType.champ:
+        log.info('Loading team info for championship team $teamId');
         return _teamInfoForChamp(leagueId, leagueType, teamId);
     }
   }
