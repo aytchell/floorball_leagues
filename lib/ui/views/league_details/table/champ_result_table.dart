@@ -1,6 +1,6 @@
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/repositories/team_repository.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';

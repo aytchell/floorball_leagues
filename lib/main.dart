@@ -1,11 +1,4 @@
-import 'package:floorball/blocs/pin_variant_cubit.dart';
-import 'package:floorball/blocs/pinned_leagues_cubit.dart';
-import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/repositories/navigation_repository.dart';
-import 'package:floorball/repositories/persistence_repository.dart';
-import 'package:floorball/repositories/ref_license_repository.dart';
-import 'package:floorball/repositories/team_repository.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';
@@ -14,11 +7,16 @@ import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/blocs/navigation_app_cubit.dart';
+import 'package:floorball/blocs/pin_variant_cubit.dart';
 import 'package:floorball/blocs/pinned_federations_cubit.dart';
+import 'package:floorball/blocs/pinned_leagues_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
-import 'package:floorball/blocs/team_info_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
+import 'package:floorball/repositories/api_repository.dart';
+import 'package:floorball/repositories/navigation_repository.dart';
+import 'package:floorball/repositories/persistence_repository.dart';
+import 'package:floorball/repositories/ref_license_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +41,6 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   final apiRepository = ApiRepository();
-  late final teamRepository = TeamRepository(apiRepository);
   final persistenceRepository = PersistenceRepository();
   late final navigationRepository = NavigationRepository(persistenceRepository);
   late final refLicenseRepository = RefLicenseRepository();
@@ -57,7 +54,6 @@ class MyApp extends StatelessWidget {
   late final leagueTableCubit = LeagueTableCubit(apiRepository);
   late final champTableCubit = ChampTableCubit(apiRepository);
   late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
-  late final teamInfoCubit = TeamInfoCubit(teamRepository);
   late final tickCubit = TickCubit();
   late final pinnedFederationsCubit = PinnedFederationsCubit(
     persistenceRepository,
@@ -87,7 +83,6 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: leagueTableCubit),
           BlocProvider.value(value: champTableCubit),
           BlocProvider.value(value: detailedGamesCubit),
-          BlocProvider.value(value: teamInfoCubit),
           BlocProvider.value(value: tickCubit),
           BlocProvider.value(value: pinnedFederationsCubit),
           BlocProvider.value(value: pinnedLeaguesCubit),

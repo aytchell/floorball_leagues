@@ -1,7 +1,7 @@
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
-import 'package:floorball/repositories/team_repository.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';

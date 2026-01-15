@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/league.dart';
-import 'package:floorball/repositories/team_repository.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';

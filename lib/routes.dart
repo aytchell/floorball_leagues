@@ -1,4 +1,4 @@
-import 'package:floorball/repositories/team_repository.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/ui/views/settings/settings_page.dart';
 import 'package:floorball/ui/views/team_details/team_details_full_page.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'ui/views/landing/landing_page.dart';
 import 'ui/views/league_details/league_details_page.dart';
 import 'ui/views/leagues_list/leagues_list_page.dart';
 import 'ui/views/season_selector/season_selector_page.dart';
-import 'ui/views/team_details/team_details_page.dart';
 
 part 'routes.g.dart';
 
