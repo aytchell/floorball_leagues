@@ -1,6 +1,7 @@
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/icons.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
@@ -59,7 +60,7 @@ class MainAppScaffold extends StatelessWidget {
         child: Row(
           children: [
             _buildBottomNavItem(
-              icon: Icons.home,
+              icon: FloorballIcons.home,
               isEnabled: !isHomePage,
               onTap: isHomePage
                   ? null
@@ -67,7 +68,7 @@ class MainAppScaffold extends StatelessWidget {
             ),
             const Spacer(),
             _buildBottomNavItem(
-              icon: Icons.settings,
+              icon: FloorballIcons.settings,
               isEnabled: !isSettings,
               onTap: isSettings
                   ? null

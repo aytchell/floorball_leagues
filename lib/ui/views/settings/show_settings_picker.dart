@@ -1,3 +1,4 @@
+import 'package:floorball/ui/theme/icons.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -53,9 +54,9 @@ Widget _bottomSheetSelector<V extends Object>(
         leading: trailingBuilder?.call(item),
         title: titleBuilder(item),
         trailing: isSelected
-            ? const Icon(Icons.check, color: Colors.blue)
+            ? Icon(FloorballIcons.check, color: Colors.blue)
             // align the 'title' of each row by adding an invisible checkmark
-            : const Icon(Icons.check, color: Colors.white),
+            : Icon(FloorballIcons.check, color: Colors.white),
         selected: isSelected,
         onTap: () => Navigator.of(context).pop(item),
       );

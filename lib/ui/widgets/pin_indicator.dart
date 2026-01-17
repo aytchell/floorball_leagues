@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:floorball/blocs/pin_variant_cubit.dart';
+import 'package:floorball/ui/theme/icons.dart';
 import 'package:floorball/utils/on_pressed_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,38 +64,42 @@ class PinVariant {
   int get hashCode => ident.hashCode;
 }
 
-const _starUnpinned = Icon(Icons.star_border, size: 16, color: Colors.black);
-const _starPinned = Stack(
+final _starUnpinned = Icon(
+  FloorballIcons.starBorder,
+  size: 16,
+  color: Colors.black,
+);
+final _starPinned = Stack(
   children: [
-    Icon(Icons.star, size: 20, color: Colors.amberAccent),
-    Icon(Icons.star_border, size: 20, color: Colors.black),
+    Icon(FloorballIcons.star, size: 20, color: Colors.amberAccent),
+    Icon(FloorballIcons.starBorder, size: 20, color: Colors.black),
   ],
 );
 
 final _pushPinUnpinned = Transform.rotate(
   angle: -pi / 2,
-  child: const Icon(Icons.push_pin_outlined, size: 16, color: Colors.black),
+  child: Icon(FloorballIcons.pinBorder, size: 16, color: Colors.black),
 );
 
 final _pushPinPinned = Transform.rotate(
   angle: pi / 4,
-  child: const Stack(
+  child: Stack(
     children: [
-      Icon(Icons.push_pin, size: 20, color: Colors.green),
-      Icon(Icons.push_pin_outlined, size: 20, color: Colors.black),
+      Icon(FloorballIcons.pin, size: 20, color: Colors.green),
+      Icon(FloorballIcons.pinBorder, size: 20, color: Colors.black),
     ],
   ),
 );
 
-const _heartUnpinned = Icon(
-  Icons.favorite_border,
+final _heartUnpinned = Icon(
+  FloorballIcons.heartBorder,
   size: 16,
   color: Colors.black,
 );
-const _heartPinned = Stack(
+final _heartPinned = Stack(
   children: [
-    Icon(Icons.favorite, size: 20, color: Colors.red),
-    Icon(Icons.favorite_border, size: 20, color: Colors.black),
+    Icon(FloorballIcons.heart, size: 20, color: Colors.red),
+    Icon(FloorballIcons.heartBorder, size: 20, color: Colors.black),
   ],
 );
 
