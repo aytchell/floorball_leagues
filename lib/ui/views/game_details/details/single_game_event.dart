@@ -100,7 +100,7 @@ class _GoalEvent extends StatelessWidget {
 
   Widget _buildScorerAndAssist() {
     if (event.goalTypeString == 'Eigentor') {
-      return const Text('Eigentor', style: TextStyles.gameEventType);
+      return const Text('Eigentor', style: TextStyles.gameEventScorer);
     }
 
     final scorerName = playerNames[event.number] ?? '${event.number}';
