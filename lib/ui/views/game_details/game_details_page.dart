@@ -11,7 +11,7 @@ import 'package:floorball/ui/views/game_details/details/events_of_period.dart';
 import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
 import 'package:floorball/ui/views/game_details/details/starting_six.dart';
 import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
-import 'package:floorball/ui/views/game_details/details/game_header.dart';
+import 'package:floorball/ui/views/game_details/details/header/game_header.dart';
 import 'package:floorball/ui/widgets/separator.dart';
 import 'package:floorball/utils/map_extensions.dart';
 import 'package:flutter/material.dart';
