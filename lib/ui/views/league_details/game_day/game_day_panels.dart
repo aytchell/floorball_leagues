@@ -199,7 +199,7 @@ class _MultiDateTile extends StatelessWidget {
   Widget _multiIsSingleDateTile(String title, DateAndClub dac) {
     final styles = _TextStyles.from(dac);
     return ListTile(
-      title: Text(title, style: styles.bold),
+      title: _addTodayMarker(Text(title, style: styles.bold), [dac]),
       subtitle: RichText(
         text: TextSpan(
           children: [
@@ -214,10 +214,7 @@ class _MultiDateTile extends StatelessWidget {
 }
 
 Widget _addTodayMarker(Text text, List<DateAndClub> dacs) {
-  final today = todaysDay();
-  final nearEvents = dacs
-      .map((dac) => dac.dateTime.isCloseToToday(today))
-      .reduce(AroundToday.or);
+  final nearEvents = dacs.map((dac) => dac.dateTime).isCloseToToday();
   if (nearEvents.today || nearEvents.tomorrow) {
     return Row(
       children: [
