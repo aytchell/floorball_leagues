@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:floorball/blocs/pinned_leagues_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
+import 'package:floorball/entry_info_processor.dart';
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/repositories/persistence_repository.dart';
@@ -42,34 +44,21 @@ class MyApp extends StatelessWidget {
 
   final apiRepository = ApiRepository();
   final persistenceRepository = PersistenceRepository();
-  late final navigationRepository = NavigationRepository(persistenceRepository);
   late final refLicenseRepository = RefLicenseRepository();
 
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
-  late final leaguesCubit = LeaguesCubit(apiRepository);
-  late final leagueGameDayCubit = LeagueGameDayCubit(apiRepository);
-  late final scorerCubit = ScorerCubit(apiRepository);
-  late final leagueTableCubit = LeagueTableCubit(apiRepository);
-  late final champTableCubit = ChampTableCubit(apiRepository);
-  late final detailedGamesCubit = DetailedGamesCubit(apiRepository);
   late final tickCubit = TickCubit();
-  late final pinnedFederationsCubit = PinnedFederationsCubit(
-    persistenceRepository,
-  );
-  late final pinnedLeaguesCubit = PinnedLeaguesCubit(persistenceRepository);
-  late final pinVariantCubit = PinVariantCubit(persistenceRepository);
-  late final navigationAppCubit = NavigationAppCubit(navigationRepository);
 
   @override
   Widget build(BuildContext context) {
-    _fetchInitialData();
-
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: apiRepository),
-        RepositoryProvider.value(value: navigationRepository),
+        RepositoryProvider(
+          create: (_) => NavigationRepository(persistenceRepository),
+        ),
         RepositoryProvider.value(value: refLicenseRepository),
       ],
       child: MultiBlocProvider(
@@ -77,81 +66,64 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableSeasonsCubit),
           BlocProvider.value(value: availableFederationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
-          BlocProvider.value(value: leaguesCubit),
-          BlocProvider.value(value: leagueGameDayCubit),
-          BlocProvider.value(value: scorerCubit),
-          BlocProvider.value(value: leagueTableCubit),
-          BlocProvider.value(value: champTableCubit),
-          BlocProvider.value(value: detailedGamesCubit),
           BlocProvider.value(value: tickCubit),
-          BlocProvider.value(value: pinnedFederationsCubit),
-          BlocProvider.value(value: pinnedLeaguesCubit),
-          BlocProvider.value(value: pinVariantCubit),
-          BlocProvider.value(value: navigationAppCubit),
-        ],
-        child: MaterialApp.router(
-          title: 'Federations Grid',
-          theme: ThemeData(
-            fontFamily: 'NimbusSans',
-            primarySwatch: Colors.blue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
+          BlocProvider(create: (_) => LeaguesCubit(apiRepository)),
+          BlocProvider(create: (_) => LeagueGameDayCubit(apiRepository)),
+          BlocProvider(create: (_) => ScorerCubit(apiRepository)),
+          BlocProvider(create: (_) => LeagueTableCubit(apiRepository)),
+          BlocProvider(create: (_) => ChampTableCubit(apiRepository)),
+          BlocProvider(create: (_) => DetailedGamesCubit(apiRepository)),
+          BlocProvider(
+            create: (_) => PinnedFederationsCubit(persistenceRepository),
           ),
-          routerConfig: buildRouter(),
-        ),
+          BlocProvider(
+            create: (_) => PinnedLeaguesCubit(persistenceRepository),
+          ),
+          BlocProvider(create: (_) => PinVariantCubit(persistenceRepository)),
+          BlocProvider(
+            create: (context) => NavigationAppCubit(
+              RepositoryProvider.of<NavigationRepository>(context),
+            ),
+          ),
+        ],
+        child: InnerApp(),
       ),
     );
   }
+}
 
-  void _fetchInitialData() {
-    pinnedFederationsCubit.init();
-    pinnedLeaguesCubit.init();
-    pinVariantCubit.init();
-    navigationAppCubit.init();
-    log.info("Triggering download of initial data");
-    apiRepository.getStart().then(
-      (stream) => stream.listen((entry) {
-        log.info("Received initial data");
-        log.info("Storing ${entry.frederations.length} federations");
-        availableFederationsCubit.setFederations(entry.frederations);
-        log.info("Storing ${entry.seasons.length} available seasons");
-        availableSeasonsCubit.setSeasons(entry.seasons);
-        final selectedSeason = _findCurrentSeason(
-          entry.seasons,
-          entry.currentSeasonId,
-        );
-        if (selectedSeason != null) {
-          selectedSeasonCubit.seasonSelected(selectedSeason);
-        }
-      }),
+class InnerApp extends StatelessWidget {
+  const InnerApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    _fetchInitialData(context);
+    return MaterialApp.router(
+      title: 'Federations Grid',
+      theme: ThemeData(
+        fontFamily: 'NimbusSans',
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      routerConfig: buildRouter(),
     );
   }
 
-  SeasonInfo? _findCurrentSeason(
-    List<SeasonInfo> seasons,
-    int? currentSeasonId,
-  ) {
-    if (seasons.isEmpty) {
-      return null;
-    }
+  void _fetchInitialData(BuildContext context) {
+    log.info("Load settings from persistence");
+    BlocProvider.of<PinnedFederationsCubit>(context).init();
+    BlocProvider.of<PinnedLeaguesCubit>(context).init();
+    BlocProvider.of<PinVariantCubit>(context).init();
+    BlocProvider.of<NavigationAppCubit>(context).init();
 
-    final found = seasons.where((s) => s.id == currentSeasonId);
-    if (found.isNotEmpty) {
-      // This should normally yield the current season
-      return found.first;
-    }
-
-    // fallback if 'currentSeasonId' wasn't found
-    return _latestSeason(seasons);
-  }
-
-  SeasonInfo _latestSeason(List<SeasonInfo> seasons) {
-    SeasonInfo latest = seasons.first;
-    for (var season in seasons) {
-      if (season.id > latest.id) {
-        latest = season;
-      }
-    }
-
-    return latest;
+    log.info("Triggering download of initial data");
+    final processor = EntryInfoProcessor(
+      BlocProvider.of<AvailableFederationsCubit>(context),
+      BlocProvider.of<AvailableSeasonsCubit>(context),
+      BlocProvider.of<SelectedSeasonCubit>(context),
+    );
+    RepositoryProvider.of<ApiRepository>(context).getStart().then(
+      (stream) => stream.listen((entryInfo) => processor.process(entryInfo)),
+    );
   }
 }

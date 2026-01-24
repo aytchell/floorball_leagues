@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class FloorballIcons {
   static final _ios = Platform.isIOS;

@@ -68,7 +68,7 @@ class TickCubit extends Cubit<TickState> {
 
   @override
   Future<void> close() {
-    _timer?.cancel();
+    stopTicking();
     _lifecycleListener.dispose();
     return super.close();
   }
