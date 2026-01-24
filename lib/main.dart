@@ -1,5 +1,3 @@
-import 'package:floorball/api/models/entry_info.dart';
-import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/available_seasons_cubit.dart';
 import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';

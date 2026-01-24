@@ -36,11 +36,11 @@ class PeriodResults extends StatelessWidget {
   }
 
   Widget _computePeriodScore(List<int> triple, double? currentPeriod) {
-    if (game.ended) {
+    if (game.ended || game.gameStatus == DetailedGameStatus.matchRecordClosed) {
       // the easy case - just draw the complete result
       return _periodScore(triple);
     }
-    if ((currentPeriod ?? 5.0) > triple[2]) {
+    if ((currentPeriod ?? 6.0) > triple[2]) {
       // if this is a past period or we're not sure - print the result
       return _periodScore(triple);
     }
@@ -77,7 +77,7 @@ class PeriodResults extends StatelessWidget {
   }
 
   int _hasOvertime(DetailedGame game) {
-    // For overtime we can't consult the ingameStatus as it might
+    // For overtime we can't consult the ingame status as it might
     // also be "penaltyShots"
     if (game.result?.overtime ?? false) return 1;
     if (game.currentPeriodTitle?.optional ?? false) return 1;
