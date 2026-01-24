@@ -33,7 +33,7 @@ class GameDateTime {
   bool isBefore(DateTime timestamp) => dateTime.isBefore(timestamp);
 
   AroundToday isCloseToToday(DateTime? today) {
-    final dayToday = today ?? todaysDay();
+    final dayToday = _onlyDate(today) ?? todaysDay();
     final dayTomorrow = dayToday.add(Duration(days: 1));
     final dayPostTomorrow = dayToday.add(Duration(days: 2));
 
@@ -52,7 +52,19 @@ class GameDateTime {
   int get hashCode => dateTime.hashCode;
 }
 
-DateTime todaysDay() {
-  final now = DateTime.now();
-  return DateTime(now.year, now.month, now.day);
+extension IsCloseToTodayExtension on Iterable<GameDateTime> {
+  AroundToday isCloseToToday({DateTime? date}) {
+    final today = _onlyDate(date) ?? todaysDay();
+    return map((date) => date.isCloseToToday(today)).reduce(AroundToday.or);
+  }
+}
+
+DateTime todaysDay() => _onlyDate(DateTime.now())!;
+
+DateTime? _onlyDate(DateTime? timestamp) {
+  if (timestamp == null) {
+    return null;
+  } else {
+    return DateTime(timestamp.year, timestamp.month, timestamp.day);
+  }
 }
