@@ -112,7 +112,7 @@ class LeaguesListPage extends StatelessWidget {
   ) {
     return Container(
       color: FloorballColors.gray231,
-      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 16.0),
+      padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

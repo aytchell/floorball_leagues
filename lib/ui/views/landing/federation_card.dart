@@ -77,8 +77,8 @@ class FederationCard extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 6,
-              right: 6,
+              top: 0,
+              right: 0,
               child: _FederationPinIndicator(
                 seasonId: seasonId,
                 federationId: federation.id,

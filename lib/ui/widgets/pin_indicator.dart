@@ -37,8 +37,15 @@ class _PinTemplate extends StatelessWidget {
   const _PinTemplate(this.onPressedFactory, this.icon);
 
   @override
-  Widget build(BuildContext context) =>
-      InkWell(onTap: onPressedFactory(context), child: icon);
+  Widget build(BuildContext context) => InkWell(
+    onTap: onPressedFactory(context),
+    child: Container(
+      // bigger hitbox for fat fingers ;-)
+      height: 40,
+      width: 40,
+      child: Center(child: icon),
+    ),
+  );
 }
 
 class PinVariant {
