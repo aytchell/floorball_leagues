@@ -30,8 +30,9 @@ class StartingPlayerAdapter implements TableContentProvider {
 
 class StartingSix extends StatelessWidget {
   final DetailedGame game;
+  final String fieldSize;
 
-  const StartingSix({super.key, required this.game});
+  const StartingSix({super.key, required this.game, required this.fieldSize});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,12 @@ class StartingSix extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final text = (fieldSize == 'KF') ? 'Starting four' : 'Starting six';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Starting six', style: TextStyles.gameDetailsSection),
+        Text(text, style: TextStyles.gameDetailsSection),
         const SizedBox(height: 16),
 
         // Home team table

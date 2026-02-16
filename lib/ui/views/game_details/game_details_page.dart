@@ -119,7 +119,7 @@ class GameDetailsPage extends StatelessWidget {
       const SizedBox(height: 24),
       TeamLineup(game: detailedGame),
       const SizedBox(height: 24),
-      StartingSix(game: detailedGame),
+      StartingSix(game: detailedGame, fieldSize: gameLeagueInfo.fieldSize),
       const SizedBox(height: 24),
       AwardedPlayers(game: detailedGame),
     ];
