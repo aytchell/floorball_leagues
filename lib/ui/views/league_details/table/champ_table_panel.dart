@@ -1,16 +1,16 @@
-import 'package:floorball/api/models/league.dart';
-import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/league_table_row.dart';
-import 'package:floorball/utils/team_repository.dart';
+import 'package:floorball/blocs/champ_table_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/table/champ_result_table.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/list_extensions.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -18,19 +18,32 @@ import 'package:material_table_view/material_table_view.dart';
 
 final log = Logger('ChampTableCard');
 
-ExpansionPanelRadio buildChampTablePanel(int identifier, int leagueId) {
+ExpansionPanelRadio buildChampTablePanel(
+  int identifier,
+  int leagueId,
+  GameLeagueInfo gameLeagueInfo,
+) {
   return buildExpansionPanelRadio(
     value: identifier,
     panelText: 'Tabelle',
-    body: _ChampTableContent(leagueId: leagueId, onTap: () {}),
+    body: _ChampTableContent(
+      leagueId: leagueId,
+      gameLeagueInfo: gameLeagueInfo,
+      onTap: () {},
+    ),
   );
 }
 
 class _ChampTableContent extends StatelessWidget {
   final int leagueId;
+  final GameLeagueInfo gameLeagueInfo;
   final VoidCallback onTap;
 
-  const _ChampTableContent({required this.leagueId, required this.onTap});
+  const _ChampTableContent({
+    required this.leagueId,
+    required this.gameLeagueInfo,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +66,11 @@ class _ChampTableContent extends StatelessWidget {
     return Column(
       children: [
         ..._buildGroupTables(champTables),
-        ChampResultTable(leagueId: leagueId, teamNameToId: teamMapping),
+        ChampResultTable(
+          leagueId: leagueId,
+          teamNameToId: teamMapping,
+          gameLeagueInfo: gameLeagueInfo,
+        ),
       ],
     );
   }
@@ -79,6 +96,7 @@ class _ChampTableContent extends StatelessWidget {
         labelText: group.name,
         leagueId: leagueId,
         tableRows: group.table,
+        gameLeagueInfo: gameLeagueInfo,
         headerHeight: 60.0,
         rowHeight: 50.0,
       );
@@ -89,12 +107,14 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
   final List<LeagueTableRow> rows;
   final double headerHeight;
   final double rowHeight;
+  final GameLeagueInfo gameLeagueInfo;
 
   const _ChampGroupTable({
     required this.leagueId,
     required this.rows,
     required this.headerHeight,
     required this.rowHeight,
+    required this.gameLeagueInfo,
   });
 
   @override
@@ -108,10 +128,10 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
         return () => TeamDetailsFullPageRoute(
           $extra: TeamInfo(
             leagueId: leagueId,
-            leagueType: LeagueType.champ,
             teamId: rows[rowId].teamId,
             teamName: rows[rowId].teamName,
             teamLogoUri: rows[rowId].teamLogoUri,
+            gameLeagueInfo: gameLeagueInfo,
           ),
         ).push(context);
       },
@@ -167,6 +187,7 @@ class _ChampGroupTable extends GenericStripedTable<LeagueTableRow> {
 class NamedChampGroupTable extends LeftLabeledContent {
   final int leagueId;
   final List<LeagueTableRow> tableRows;
+  final GameLeagueInfo gameLeagueInfo;
   final double headerHeight;
   final double rowHeight;
 
@@ -175,6 +196,7 @@ class NamedChampGroupTable extends LeftLabeledContent {
     required super.labelText,
     required this.leagueId,
     required this.tableRows,
+    required this.gameLeagueInfo,
     required this.headerHeight,
     required this.rowHeight,
   }) : super(
@@ -200,6 +222,7 @@ class NamedChampGroupTable extends LeftLabeledContent {
       rows: tableRows,
       headerHeight: headerHeight,
       rowHeight: rowHeight,
+      gameLeagueInfo: gameLeagueInfo,
     );
   }
 }

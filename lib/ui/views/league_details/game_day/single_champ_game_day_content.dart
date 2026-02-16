@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/league.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_game_day_content.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +8,13 @@ import 'package:flutter/material.dart';
 const String seriesIdentifier = 'series';
 
 class SingleChampGameDayContent extends SingleGameDayContent {
+  final GameLeagueInfo gameLeagueInfo;
+
   const SingleChampGameDayContent({
     super.key,
     required super.leagueId,
     required super.gameDayNumber,
+    required this.gameLeagueInfo,
   });
 
   @override
@@ -35,12 +38,15 @@ class SingleChampGameDayContent extends SingleGameDayContent {
 
   List<Widget> _buildGameGroup(GameGroup group) {
     if (group.groupIdentifier == seriesIdentifier) {
-      return group.games.map((game) => _LabeledSeriesGameRow(game)).toList();
+      return group.games
+          .map((game) => _LabeledSeriesGameRow(game, gameLeagueInfo))
+          .toList();
     }
     return [
       _LabeledStripedGamesRowsList(
         labelText: _translateGroupIdentifier(group.groupIdentifier),
         games: group.games,
+        gameLeagueInfo: gameLeagueInfo,
       ),
     ];
   }
@@ -70,22 +76,25 @@ class GameGroup implements Comparable<GameGroup> {
 
 class _LabeledStripedGamesRowsList extends LeftLabeledContent {
   final List<Game> games;
+  final GameLeagueInfo gameLeagueInfo;
 
   const _LabeledStripedGamesRowsList({
     required super.labelText,
     required this.games,
+    required this.gameLeagueInfo,
   }) : super(labelHeight: games.length * StripedGamesRowsList.heightPerRow);
 
   @override
   Widget buildContent() {
-    return StripedGamesRowsList(games, LeagueType.champ);
+    return StripedGamesRowsList(games, gameLeagueInfo);
   }
 }
 
 class _LabeledSeriesGameRow extends LeftLabeledContent {
   final Game game;
+  final GameLeagueInfo gameLeagueInfo;
 
-  _LabeledSeriesGameRow(this.game)
+  _LabeledSeriesGameRow(this.game, this.gameLeagueInfo)
     : super(
         labelText: _findSeriesName(game),
         labelHeight: StripedGamesRowsList.heightPerRow,
@@ -109,6 +118,6 @@ class _LabeledSeriesGameRow extends LeftLabeledContent {
 
   @override
   Widget buildContent() {
-    return StripedGamesRowsList([game], LeagueType.champ);
+    return StripedGamesRowsList([game], gameLeagueInfo);
   }
 }

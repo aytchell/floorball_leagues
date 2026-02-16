@@ -6,6 +6,7 @@ import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_default_game_day_content.dart';
@@ -21,7 +22,7 @@ const _past = TextStyles.gameDayHeaderPast;
 List<ExpansionPanelRadio> buildGameDayPanels(
   int firstIdentifier,
   int leagueId,
-  LeagueType leagueType,
+  GameLeagueInfo gameLeagueInfo,
   List<GameDayTitle> gameDayTitles,
 ) {
   return gameDayTitles
@@ -29,7 +30,7 @@ List<ExpansionPanelRadio> buildGameDayPanels(
         (index, gdt) => _buildSingleGameDayPanel(
           firstIdentifier + index,
           leagueId,
-          leagueType,
+          gameLeagueInfo,
           gdt,
         ),
       )
@@ -39,20 +40,21 @@ List<ExpansionPanelRadio> buildGameDayPanels(
 ExpansionPanelRadio _buildSingleGameDayPanel(
   int identifier,
   int leagueId,
-  LeagueType leagueType,
+  GameLeagueInfo gameLeagueInfo,
   GameDayTitle gdt,
 ) {
   return buildExpansionHeaderPanelRadio(
     value: identifier,
     header: _GameDayHeader(leagueId: leagueId, gdt: gdt),
-    body: (leagueType == LeagueType.champ)
+    body: (gameLeagueInfo.leagueType == LeagueType.champ)
         ? SingleChampGameDayContent(
             leagueId: leagueId,
             gameDayNumber: gdt.gameDayNumber,
+            gameLeagueInfo: gameLeagueInfo,
           )
         : SingleDefaultGameDayContent(
+            gameLeagueInfo: gameLeagueInfo,
             leagueId: leagueId,
-            leagueType: leagueType,
             gameDayNumber: gdt.gameDayNumber,
           ),
   );

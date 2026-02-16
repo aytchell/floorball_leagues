@@ -1,9 +1,9 @@
-import 'package:floorball/api/models/league.dart';
+import 'package:floorball/api/models/game.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
-import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -58,15 +58,18 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
       _interTeamSpacing +
       StripedRowsList.defaultPaddingPerRow;
 
-  StripedGamesRowsList(super.entries, leagueType, {super.key})
-    : super(onTap: _createOnTap(leagueType));
+  StripedGamesRowsList(
+    super.entries,
+    GameLeagueInfo gameLeagueInfo, {
+    super.key,
+  }) : super(onTap: _createOnTap(gameLeagueInfo));
 
   static void Function(BuildContext context, Game game) _createOnTap(
-    LeagueType leagueType,
+    GameLeagueInfo gameLeagueInfo,
   ) => (BuildContext context, Game game) {
     GameDetailsPageRoute(
       gameId: game.gameId,
-      leagueType: leagueType,
+      $extra: gameLeagueInfo,
     ).push(context);
   };
 

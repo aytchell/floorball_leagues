@@ -1,19 +1,19 @@
 import 'package:floorball/api/models/detailed_game.dart';
-import 'package:floorball/api/models/league.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 
 class TeamVsTeamRow extends StatelessWidget {
   final DetailedGame game;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
 
   const TeamVsTeamRow({
     super.key,
     required this.game,
-    required this.leagueType,
+    required this.gameLeagueInfo,
   });
 
   @override
@@ -51,10 +51,10 @@ class TeamVsTeamRow extends StatelessWidget {
       _ClickableTeamLogo(
         TeamInfo(
           leagueId: game.leagueId,
-          leagueType: leagueType,
           teamId: teamId,
           teamName: teamName,
           teamLogoUri: logoUri,
+          gameLeagueInfo: gameLeagueInfo,
         ),
       ),
       const SizedBox(height: 8),

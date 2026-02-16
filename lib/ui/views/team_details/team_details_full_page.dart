@@ -1,12 +1,12 @@
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/blocs/leagues_cubit.dart';
-import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/team_details/team_games_panel.dart';
 import 'package:floorball/ui/views/team_details/team_statistics_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,7 +53,7 @@ class TeamDetailsFullPage extends StatelessWidget {
     final gamesPanel = buildTeamGamesPanel(
       1,
       data.leagueId,
-      data.leagueType,
+      data.gameLeagueInfo,
       data.teamName,
     );
     final scorerPanel = buildScorerPanel(
@@ -62,7 +62,7 @@ class TeamDetailsFullPage extends StatelessWidget {
       filter: (scorer) => scorer.teamId == data.teamId,
     );
 
-    if (data.leagueType == LeagueType.league) {
+    if (data.gameLeagueInfo.leagueType == LeagueType.league) {
       return [
         buildTeamStatisticsPanel(0, data.leagueId, data.teamId),
         gamesPanel,

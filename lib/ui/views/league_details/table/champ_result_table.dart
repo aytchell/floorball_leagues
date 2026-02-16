@@ -1,13 +1,13 @@
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/league.dart';
-import 'package:floorball/utils/team_repository.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:floorball/utils/map_extensions.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:material_table_view/material_table_view.dart';
@@ -16,11 +16,13 @@ final log = Logger('ChampResultTable');
 
 class ChampResultTable extends AllLeagueGamesProvider {
   final Map<String, int> teamNameToId;
+  final GameLeagueInfo gameLeagueInfo;
 
   const ChampResultTable({
     super.key,
     required super.leagueId,
     required this.teamNameToId,
+    required this.gameLeagueInfo,
   });
 
   @override
@@ -36,6 +38,7 @@ class ChampResultTable extends AllLeagueGamesProvider {
       headerHeight: 60.0,
       rowHeight: 50.0,
       teamNameToId: teamNameToId,
+      gameLeagueInfo: gameLeagueInfo,
       tableRows: _sortSeriesTeams(seriesGames),
     );
   }
@@ -173,6 +176,7 @@ class _NamedChampSeriesTable extends LeftLabeledContent {
   final double headerHeight;
   final double rowHeight;
   final Map<String, int> teamNameToId;
+  final GameLeagueInfo gameLeagueInfo;
   final List<SeriesTableRow> tableRows;
 
   _NamedChampSeriesTable({
@@ -181,6 +185,7 @@ class _NamedChampSeriesTable extends LeftLabeledContent {
     required this.headerHeight,
     required this.rowHeight,
     required this.teamNameToId,
+    required this.gameLeagueInfo,
     required this.tableRows,
   }) : super(
          labelHeight: _computeLabelHeight(
@@ -202,9 +207,10 @@ class _NamedChampSeriesTable extends LeftLabeledContent {
   Widget buildContent() {
     return _ChampSeriesTable(
       leagueId: leagueId,
+      teamNameToId: teamNameToId,
+      gameLeagueInfo: gameLeagueInfo,
       rows: tableRows,
       headerHeight: headerHeight,
-      teamNameToId: teamNameToId,
       rowHeight: rowHeight,
     );
   }
@@ -213,6 +219,7 @@ class _NamedChampSeriesTable extends LeftLabeledContent {
 class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
   final int leagueId;
   final Map<String, int> teamNameToId;
+  final GameLeagueInfo gameLeagueInfo;
   final List<SeriesTableRow> rows;
   final double headerHeight;
   final double rowHeight;
@@ -220,6 +227,7 @@ class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
   const _ChampSeriesTable({
     required this.leagueId,
     required this.teamNameToId,
+    required this.gameLeagueInfo,
     required this.rows,
     required this.headerHeight,
     required this.rowHeight,
@@ -240,10 +248,10 @@ class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
             : () => TeamDetailsFullPageRoute(
                 $extra: TeamInfo(
                   leagueId: leagueId,
-                  leagueType: LeagueType.champ,
                   teamId: teamId,
                   teamName: teamName!,
                   teamLogoUri: rows[rowId].teamLogoUri,
+                  gameLeagueInfo: gameLeagueInfo,
                 ),
               ).push(context);
       },

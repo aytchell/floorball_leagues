@@ -1,10 +1,11 @@
-import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/api/models/league.dart';
+import 'package:floorball/blocs/leagues_cubit.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:floorball/ui/views/league_details/table/champ_table_panel.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/game_day/game_day_panels.dart';
 import 'package:floorball/ui/views/league_details/league_info_panel.dart';
+import 'package:floorball/ui/views/league_details/table/champ_table_panel.dart';
 import 'package:floorball/ui/views/league_details/table/league_table_panel.dart';
 import 'package:floorball/ui/views/league_details/table/void_table_panel.dart';
 import 'package:floorball/ui/widgets/scorer_panel.dart';
@@ -69,7 +70,7 @@ class _LeagueDetailsBody extends StatelessWidget {
       ...buildGameDayPanels(
         3,
         league.id,
-        league.leagueType,
+        GameLeagueInfo.from(league),
         league.gameDayTitles,
       ),
     ];
@@ -82,9 +83,17 @@ class _LeagueDetailsBody extends StatelessWidget {
   ) {
     switch (leagueType) {
       case LeagueType.league:
-        return buildLeagueTablePanel(identifier, leagueID);
+        return buildLeagueTablePanel(
+          identifier,
+          leagueID,
+          GameLeagueInfo.from(league),
+        );
       case LeagueType.champ:
-        return buildChampTablePanel(identifier, leagueID);
+        return buildChampTablePanel(
+          identifier,
+          leagueID,
+          GameLeagueInfo.from(league),
+        );
       case LeagueType.cup:
         return buildVoidTablePanel(
           identifier,

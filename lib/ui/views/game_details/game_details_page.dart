@@ -1,17 +1,17 @@
 import 'package:collection/collection.dart';
-import 'package:floorball/api/models/league.dart';
-import 'package:floorball/blocs/detailed_games_cubit.dart';
-import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/player.dart';
+import 'package:floorball/blocs/detailed_games_cubit.dart';
+import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/details/awarded_players.dart';
 import 'package:floorball/ui/views/game_details/details/events_of_period.dart';
 import 'package:floorball/ui/views/game_details/details/game_meta_data.dart';
+import 'package:floorball/ui/views/game_details/details/header/game_header.dart';
 import 'package:floorball/ui/views/game_details/details/starting_six.dart';
 import 'package:floorball/ui/views/game_details/details/team_lineup.dart';
-import 'package:floorball/ui/views/game_details/details/header/game_header.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/separator.dart';
 import 'package:floorball/utils/map_extensions.dart';
 import 'package:flutter/material.dart';
@@ -19,24 +19,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GameDetailsPage extends StatelessWidget {
   final int gameId;
-  final LeagueType leagueType;
-  final String? leagueName;
+  final GameLeagueInfo gameLeagueInfo;
 
   static const String routePath = '/game_details';
 
   const GameDetailsPage({
     super.key,
     required this.gameId,
-    required this.leagueType,
-    this.leagueName,
+    required this.gameLeagueInfo,
   });
 
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<DetailedGamesCubit>(context).updateGame(gameId);
 
-    return (leagueName != null)
-        ? _buildBodyWithLeagueName(leagueName!)
+    return (gameLeagueInfo.leagueName != null)
+        ? _buildBodyWithLeagueName(gameLeagueInfo.leagueName!)
         : _buildBodyWithoutName();
   }
 
@@ -85,7 +83,10 @@ class GameDetailsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DetailedGameHeader(game: detailedGame, leagueType: leagueType),
+          DetailedGameHeader(
+            game: detailedGame,
+            gameLeagueInfo: gameLeagueInfo,
+          ),
           const SizedBox(height: 12),
           Separator(height: 8),
           const SizedBox(height: 12),

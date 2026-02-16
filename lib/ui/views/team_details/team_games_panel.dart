@@ -1,6 +1,6 @@
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 ExpansionPanelRadio buildTeamGamesPanel(
   int identifier,
   int leagueId,
-  LeagueType leagueType,
+  GameLeagueInfo gameLeagueInfo,
   String teamName,
 ) {
   return buildExpansionPanelRadio(
@@ -19,19 +19,19 @@ ExpansionPanelRadio buildTeamGamesPanel(
     body: _TeamGamesListing(
       leagueId: leagueId,
       teamName: teamName,
-      leagueType: leagueType,
+      gameLeagueInfo: gameLeagueInfo,
     ),
   );
 }
 
 class _TeamGamesListing extends AllLeagueGamesProvider {
   final String teamName;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
 
   const _TeamGamesListing({
     required super.leagueId,
     required this.teamName,
-    required this.leagueType,
+    required this.gameLeagueInfo,
   });
 
   @override
@@ -39,7 +39,7 @@ class _TeamGamesListing extends AllLeagueGamesProvider {
     return StripedTeamGamesRowsList(
       teamName,
       games.where((game) => _isTeamInvolved(game, teamName)).toList(),
-      leagueType,
+      gameLeagueInfo,
     );
   }
 
@@ -50,12 +50,12 @@ class _TeamGamesListing extends AllLeagueGamesProvider {
 
 class StripedTeamGamesRowsList extends StripedRowsList<Game> {
   final String teamName;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
 
   const StripedTeamGamesRowsList(
     this.teamName,
     super.entries,
-    this.leagueType, {
+    this.gameLeagueInfo, {
     super.key,
   }) : super(
          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20.0),
@@ -66,7 +66,7 @@ class StripedTeamGamesRowsList extends StripedRowsList<Game> {
   Widget buildRow(BuildContext context, Game entry) {
     return GamesOverviewItem(
       teamName: teamName,
-      leagueType: leagueType,
+      gameLeagueInfo: gameLeagueInfo,
       game: entry,
     );
   }

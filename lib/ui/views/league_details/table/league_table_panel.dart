@@ -1,28 +1,39 @@
-import 'package:floorball/api/models/league.dart';
-import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
-import 'package:floorball/utils/team_repository.dart';
+import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
+import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_table_view/material_table_view.dart';
 
-ExpansionPanelRadio buildLeagueTablePanel(int identifier, int leagueId) {
+ExpansionPanelRadio buildLeagueTablePanel(
+  int identifier,
+  int leagueId,
+  GameLeagueInfo gameLeagueInfo,
+) {
   return buildExpansionPanelRadio(
     value: identifier,
     panelText: 'Tabelle',
-    body: _LeagueTableContent(leagueId: leagueId),
+    body: _LeagueTableContent(
+      leagueId: leagueId,
+      gameLeagueInfo: gameLeagueInfo,
+    ),
   );
 }
 
 class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
   final int leagueId;
+  final GameLeagueInfo gameLeagueInfo;
 
-  const _LeagueTableContent({required this.leagueId});
+  const _LeagueTableContent({
+    required this.leagueId,
+    required this.gameLeagueInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +49,10 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
             return () => TeamDetailsFullPageRoute(
               $extra: TeamInfo(
                 leagueId: leagueId,
-                leagueType: LeagueType.league,
                 teamId: table[rowId].teamId,
                 teamName: table[rowId].teamName,
                 teamLogoUri: table[rowId].teamLogoUri,
+                gameLeagueInfo: gameLeagueInfo,
               ),
             ).push(context);
           },

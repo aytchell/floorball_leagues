@@ -1,7 +1,7 @@
 import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/league.dart';
 import 'package:floorball/routes.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
 import 'package:floorball/ui/widgets/icon_text_button.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
@@ -9,24 +9,28 @@ import 'package:flutter/material.dart';
 
 class GamesOverviewItem extends StatelessWidget {
   final String teamName;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
   final Game game;
 
   const GamesOverviewItem({
     super.key,
     required this.teamName,
-    required this.leagueType,
+    required this.gameLeagueInfo,
     required this.game,
   });
 
   @override
   Widget build(BuildContext context) {
     if (game.ended) {
-      return _PastGame(teamName: teamName, leagueType: leagueType, game: game);
+      return _PastGame(
+        teamName: teamName,
+        gameLeagueInfo: gameLeagueInfo,
+        game: game,
+      );
     } else {
       return _FutureGame(
         teamName: teamName,
-        leagueType: leagueType,
+        gameLeagueInfo: gameLeagueInfo,
         game: game,
       );
     }
@@ -35,12 +39,12 @@ class GamesOverviewItem extends StatelessWidget {
 
 class _PastGame extends StatelessWidget {
   final String teamName;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
   final Game game;
 
   const _PastGame({
     required this.teamName,
-    required this.leagueType,
+    required this.gameLeagueInfo,
     required this.game,
   });
 
@@ -73,7 +77,7 @@ class _PastGame extends StatelessWidget {
         onContextPressed: (BuildContext ctxt) {
           return () => GameDetailsPageRoute(
             gameId: game.gameId,
-            leagueType: leagueType,
+            $extra: gameLeagueInfo,
           ).push(ctxt);
         },
       ),
@@ -122,7 +126,7 @@ class _PastGame extends StatelessWidget {
 
 class _FutureGame extends StatelessWidget {
   final String teamName;
-  final LeagueType leagueType;
+  final GameLeagueInfo gameLeagueInfo;
   final Game game;
 
   static const _iconSpacer = SizedBox(width: 8);
@@ -132,7 +136,7 @@ class _FutureGame extends StatelessWidget {
 
   const _FutureGame({
     required this.teamName,
-    required this.leagueType,
+    required this.gameLeagueInfo,
     required this.game,
   });
 
@@ -163,7 +167,7 @@ class _FutureGame extends StatelessWidget {
         onContextPressed: (BuildContext ctxt) {
           return () => GameDetailsPageRoute(
             gameId: game.gameId,
-            leagueType: leagueType,
+            $extra: gameLeagueInfo,
           ).push(ctxt);
         },
       ),
