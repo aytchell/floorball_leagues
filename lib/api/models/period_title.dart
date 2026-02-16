@@ -27,4 +27,7 @@ class PeriodTitle {
     required this.optional,
     required this.running,
   });
+
+  // 'pause periods' are doubles ending in .5
+  bool get isPause => period.round().toDouble() != period;
 }

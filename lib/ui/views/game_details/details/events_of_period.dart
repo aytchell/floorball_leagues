@@ -28,11 +28,6 @@ class EventsOfPeriod extends StatelessWidget {
     required this.events,
   });
 
-  bool _isPause() {
-    // 'pause periods' are doubles ending in .5
-    return period.period.round().toDouble() != period.period;
-  }
-
   bool _isCurrentPeriod() => period.period == currentPeriodId;
 
   @override
@@ -41,7 +36,7 @@ class EventsOfPeriod extends StatelessWidget {
       return const SizedBox.shrink(); // Renders nothing
     }
 
-    if (_isPause()) {
+    if (period.isPause) {
       if (_isCurrentPeriod()) {
         // if the game is currently in this pause then render
         // just the title
