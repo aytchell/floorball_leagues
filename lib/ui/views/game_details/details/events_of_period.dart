@@ -32,7 +32,8 @@ class EventsOfPeriod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (currentPeriodId == null || period.period > currentPeriodId!) {
+    if (currentPeriodId == null ||
+        (isRunning && period.period > currentPeriodId!)) {
       return const SizedBox.shrink(); // Renders nothing
     }
 

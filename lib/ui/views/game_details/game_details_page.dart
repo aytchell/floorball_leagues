@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/api/models/game_event.dart';
+import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
@@ -131,12 +133,17 @@ class GameDetailsPage extends StatelessWidget {
   }
 
   Widget _buildGameEvents(DetailedGame game) {
-    final sortedPeriods = game.periodTitles;
+    List<PeriodTitle> sortedPeriods = game.periodTitles;
     sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
     final groupedEvents = groupBy(game.events, (event) => event.period);
     final currentPeriodId = game.currentPeriodTitle?.period;
     final homePlayerNames = _buildPlayerNamesMap(game.players.home);
     final guestPlayerNames = _buildPlayerNamesMap(game.players.guest);
+    final bool isRunning = game.isGameRunning(DateTime(2000));
+
+    if (!isRunning) {
+      sortedPeriods = _stripUnusedPeriods(sortedPeriods, groupedEvents);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +155,7 @@ class GameDetailsPage extends StatelessWidget {
               return [
                 const SizedBox(height: 16),
                 EventsOfPeriod(
-                  isRunning: game.isGameRunning(DateTime(2000)),
+                  isRunning: isRunning,
                   period: period,
                   currentPeriodId: currentPeriodId,
                   homePlayerNames: homePlayerNames,
@@ -162,6 +169,21 @@ class GameDetailsPage extends StatelessWidget {
             .expand((i) => i),
       ],
     );
+  }
+
+  List<PeriodTitle> _stripUnusedPeriods(
+    List<PeriodTitle> sortedPeriods,
+    Map<double, List<GameEvent>> groupedEvents,
+  ) {
+    final periods = sortedPeriods.where((p) => !p.isPause).toList();
+    while (periods.length > gameLeagueInfo.numPeriods) {
+      if (groupedEvents.containsKey(periods.last.period)) {
+        return periods;
+      } else {
+        periods.removeLast();
+      }
+    }
+    return periods;
   }
 }
 
