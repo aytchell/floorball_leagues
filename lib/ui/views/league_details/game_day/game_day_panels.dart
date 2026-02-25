@@ -187,10 +187,10 @@ class _MultiDateTile extends StatelessWidget {
       subtitle: RichText(
         text: TextSpan(
           children: [
-            TextSpan(text: 'von', style: lstStyles.normal),
-            TextSpan(text: ' ${fst.beautifiedDate} ', style: fstStyles.bold),
-            TextSpan(text: 'bis', style: lstStyles.normal),
-            TextSpan(text: ' ${lst.beautifiedDate}', style: lstStyles.bold),
+            TextSpan(text: 'von ${_weekday(fst)} ', style: lstStyles.normal),
+            TextSpan(text: '${fst.beautifiedDate} ', style: fstStyles.bold),
+            TextSpan(text: 'bis ${_weekday(lst)} ', style: lstStyles.normal),
+            TextSpan(text: lst.beautifiedDate, style: lstStyles.bold),
           ],
         ),
         overflow: TextOverflow.ellipsis,
@@ -205,8 +205,8 @@ class _MultiDateTile extends StatelessWidget {
       subtitle: RichText(
         text: TextSpan(
           children: [
-            TextSpan(text: 'am', style: styles.normal),
-            TextSpan(text: ' ${dac.beautifiedDate} ', style: styles.bold),
+            TextSpan(text: 'am ${_weekday(dac)} ', style: styles.normal),
+            TextSpan(text: dac.beautifiedDate, style: styles.bold),
           ],
         ),
         overflow: TextOverflow.ellipsis,
@@ -243,12 +243,34 @@ String _printTodayLabel(AroundToday nearEvents) => [
 Widget _locationSubtitle(_TextStyles styles, DateAndClub dac) => RichText(
   text: TextSpan(
     children: [
+      TextSpan(text: '${_weekday(dac)} ', style: styles.normal),
       TextSpan(text: '${dac.beautifiedDate} ', style: styles.bold),
       TextSpan(text: 'bei ${dac.hostingClub}', style: styles.normal),
     ],
   ),
   overflow: TextOverflow.ellipsis,
 );
+
+String _weekday(DateAndClub dac) {
+  switch (dac.dateTime.dateTime.weekday) {
+    case DateTime.monday:
+      return 'Mo';
+    case DateTime.tuesday:
+      return 'Di';
+    case DateTime.wednesday:
+      return 'Mi';
+    case DateTime.thursday:
+      return 'Do';
+    case DateTime.friday:
+      return 'Fr';
+    case DateTime.saturday:
+      return 'Sa';
+    case DateTime.sunday:
+      return 'So';
+    default:
+      return '';
+  }
+}
 
 class _TextStyles {
   final TextStyle normal;
