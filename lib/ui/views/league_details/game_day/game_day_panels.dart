@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/game_date_time.dart';
 import 'package:floorball/api/models/game_day_title.dart';
 import 'package:floorball/api/models/league.dart';
@@ -8,6 +7,7 @@ import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/date_and_club.dart';
+import 'package:floorball/ui/views/league_details/game_day/extract_dates_and_clubs.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_default_game_day_content.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
@@ -74,7 +74,7 @@ class _GameDayHeader extends StatelessWidget {
 
     return BlocBuilder<LeagueGameDayCubit, GameDaysState>(
       builder: (_, gameDaysState) {
-        final datesAndClubs = _extractDateAndClubs(
+        final datesAndClubs = extractDatesAndClubs(
           gameDaysState.gamesOf(leagueId, gdt.gameDayNumber),
         );
         switch (datesAndClubs.length) {
@@ -96,23 +96,6 @@ class _GameDayHeader extends StatelessWidget {
         }
       },
     );
-  }
-
-  List<DateAndClub> _extractDateAndClubs(final List<Game> games) {
-    final todayAtMidnight = todaysDay();
-
-    var eventList = games
-        .map(
-          (game) => DateAndClub.create(
-            dateTime: game.dateTime,
-            hostingClub: game.hostingClub!,
-            isBygone: game.dateTime.isBefore(todayAtMidnight),
-          ),
-        )
-        .toSet()
-        .toList();
-    eventList.sort();
-    return eventList;
   }
 }
 
