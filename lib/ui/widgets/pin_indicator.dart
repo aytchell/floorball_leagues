@@ -39,7 +39,7 @@ class _PinTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
     onTap: onPressedFactory(context),
-    child: Container(
+    child: SizedBox(
       // bigger hitbox for fat fingers ;-)
       height: 40,
       width: 40,
