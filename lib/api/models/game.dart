@@ -98,10 +98,10 @@ class Game {
     switch (state) {
       case GameState.running:
         return true;
-      case GameState.noRecord:
       case GameState.ended:
       case GameState.matchRecordClosed:
         return false;
+      case GameState.noRecord:
       case GameState.recordCreated:
         return dateTime.isBefore(timestamp);
     }
