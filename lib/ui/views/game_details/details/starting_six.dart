@@ -69,6 +69,7 @@ class StartingSix extends StatelessWidget {
 
         PlayerTable(
           providers: players
+              .where((p) => p.jerseyNumber != null)
               .map((p) => StartingPlayerAdapter(player: p))
               .toList(),
         ),
