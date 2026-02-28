@@ -84,22 +84,42 @@ class _GoalEvent extends StatelessWidget {
       children: [
         Expanded(child: _buildScorerAndAssist()),
         const SizedBox(width: 12),
-        // New game score
-        Text(
-          '${event.homeGoals}:${event.guestGoals}',
-          style: TextStyles.gameEventNewScore,
-          textAlign: TextAlign.right,
-        ),
-        const SizedBox(width: 8),
-        // event type - 'Tor'
-        // (in case of an 'Eigentor' this is written to the player's column)
-        Text('Tor', style: TextStyles.gameEventType),
+        ..._scoreAndGoalText(),
       ],
     );
   }
 
+  List<Widget> _scoreAndGoalText() {
+    final scoreAndGoal = [
+      // New game score
+      Text(
+        '${event.homeGoals}:${event.guestGoals}',
+        style: TextStyles.gameEventNewScore,
+        textAlign: TextAlign.right,
+      ),
+      const SizedBox(width: 8),
+      // event type - 'Tor'
+      // (in case of an 'Eigentor' this is written to the player's column)
+      Text('Tor', style: TextStyles.gameEventType),
+    ];
+
+    if (event.goalType == 'penalty_shot') {
+      return [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(children: scoreAndGoal),
+            Text('Strafschuss', style: TextStyles.gameEventAssist),
+          ],
+        ),
+      ];
+    } else {
+      return scoreAndGoal;
+    }
+  }
+
   Widget _buildScorerAndAssist() {
-    if (event.goalTypeString == 'Eigentor') {
+    if (event.goalType == 'owngoal') {
       return const Text('Eigentor', style: TextStyles.gameEventScorer);
     }
 
