@@ -181,11 +181,10 @@ class TextStyles {
 
   static const gameEventNoEvents = _normal1gray153;
   static const gameEventType = _bold0875;
-  static const gameEventScorer = _normal0875;
-  static const gameEventAssist = _normal0875gray153;
+  static const gameEventSubType = _normal0875gray153;
+  static const gameEventPrimaryPlayer = _normal0875;
+  static const gameEventSecondaryPlayer = _normal0875gray153;
   static const gameEventNewScore = _normal0875;
-  static const gameEventPenalizedPlayer = _normal0875;
-  static const gameEventPenaltyReason = _normal0875gray153;
   static const gameEventTime = _normal0875;
 
   static const teamLineupJersey = _bold0875;

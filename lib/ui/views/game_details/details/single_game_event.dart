@@ -13,22 +13,41 @@ Widget buildSingleGameEvent({
   return SingleGameEvent(
     event: event,
     logoUri: (event.eventTeam == 'home') ? homeLogo : guestLogo,
-    playerNames: (event.eventTeam == 'home')
-        ? homePlayerNames
-        : guestPlayerNames,
+    body: _buildEventBody(
+      event: event,
+      playerNames: (event.eventTeam == 'home')
+          ? homePlayerNames
+          : guestPlayerNames,
+    ),
   );
+}
+
+Widget _buildEventBody({
+  required GameEvent event,
+  required Map<int, String> playerNames,
+}) {
+  switch (event.eventType) {
+    case 'goal':
+      return _GoalEvent(event: event, playerNames: playerNames);
+    case 'timeout':
+      return _TimeoutEvent();
+    case 'penalty':
+      return _PenaltyEvent(event: event, playerNames: playerNames);
+    default:
+      return _Fallback(event: event);
+  }
 }
 
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
-  final Map<int, String> playerNames;
   final Uri? logoUri;
+  final Widget body;
 
   const SingleGameEvent({
     super.key,
     required this.event,
-    required this.playerNames,
     required this.logoUri,
+    required this.body,
   });
 
   @override
@@ -44,113 +63,118 @@ class SingleGameEvent extends StatelessWidget {
       children: [
         _TeamLogoForEvent(logoUri: logoUri),
         const SizedBox(width: 24),
-        Expanded(child: _buildEventBody()),
+        Expanded(child: body),
         const SizedBox(width: 8),
         _TimeOfEvent(event: event),
       ],
     );
-  }
-
-  Widget _buildEventBody() {
-    switch (event.eventType) {
-      case 'goal':
-        return _GoalEvent(
-          event: event,
-          playerNames: playerNames,
-          logoUri: logoUri,
-        );
-      case 'timeout':
-        return _TimeoutEvent(event: event, logoUri: logoUri);
-      case 'penalty':
-        return _PenaltyEvent(
-          event: event,
-          playerNames: playerNames,
-          logoUri: logoUri,
-        );
-      default:
-        return _Fallback(event: event);
-    }
   }
 }
 
 class _GoalEvent extends StatelessWidget {
   final GameEvent event;
   final Map<int, String> playerNames;
-  final Uri? logoUri;
 
-  const _GoalEvent({
+  const _GoalEvent({required this.event, required this.playerNames});
+
+  @override
+  Widget build(BuildContext context) {
+    if (event.goalType == 'owngoal') {
+      return _SoleGoalLayout(event: event, scorerName: 'Eigentor');
+    }
+
+    final scorerName = playerNames[event.number] ?? '${event.number}';
+    if (event.goalType == 'penalty_shot') {
+      return _penaltyShotGoal(scorerName);
+    }
+
+    if (event.assist == null || event.assist == 0) {
+      return _SoleGoalLayout(event: event, scorerName: scorerName);
+    } else {
+      return _assistedGoal(scorerName);
+    }
+  }
+
+  Widget _penaltyShotGoal(String scorerName) => _PenaltyEventLayout(
+    playerName: scorerName,
+    eventTitleWidget: Row(children: _scoreAndGoalText(event)),
+    eventSubtitle: 'Strafschuss',
+  );
+
+  Widget _assistedGoal(String scorerName) {
+    final assistName = playerNames[event.assist] ?? '${event.assist}';
+    return _AssistedGoalLayout(
+      event: event,
+      scorerName: scorerName,
+      assistName: assistName,
+    );
+  }
+}
+
+class _SoleGoalLayout extends StatelessWidget {
+  final GameEvent event;
+  final String scorerName;
+
+  const _SoleGoalLayout({required this.event, required this.scorerName});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(scorerName, style: TextStyles.gameEventPrimaryPlayer),
+        ),
+        const SizedBox(width: 12),
+        ..._scoreAndGoalText(event),
+      ],
+    );
+  }
+}
+
+class _AssistedGoalLayout extends StatelessWidget {
+  final GameEvent event;
+  final String scorerName;
+  final String assistName;
+
+  const _AssistedGoalLayout({
     required this.event,
-    required this.playerNames,
-    this.logoUri,
+    required this.scorerName,
+    required this.assistName,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: _buildScorerAndAssist()),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(scorerName, style: TextStyles.gameEventPrimaryPlayer),
+              Text(assistName, style: TextStyles.gameEventSecondaryPlayer),
+            ],
+          ),
+        ),
         const SizedBox(width: 12),
-        ..._scoreAndGoalText(),
+        ..._scoreAndGoalText(event),
       ],
     );
   }
-
-  List<Widget> _scoreAndGoalText() {
-    final scoreAndGoal = [
-      // New game score
-      Text(
-        '${event.homeGoals}:${event.guestGoals}',
-        style: TextStyles.gameEventNewScore,
-        textAlign: TextAlign.right,
-      ),
-      const SizedBox(width: 8),
-      // event type - 'Tor'
-      // (in case of an 'Eigentor' this is written to the player's column)
-      Text('Tor', style: TextStyles.gameEventType),
-    ];
-
-    if (event.goalType == 'penalty_shot') {
-      return [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(children: scoreAndGoal),
-            Text('Strafschuss', style: TextStyles.gameEventAssist),
-          ],
-        ),
-      ];
-    } else {
-      return scoreAndGoal;
-    }
-  }
-
-  Widget _buildScorerAndAssist() {
-    if (event.goalType == 'owngoal') {
-      return const Text('Eigentor', style: TextStyles.gameEventScorer);
-    }
-
-    final scorerName = playerNames[event.number] ?? '${event.number}';
-
-    if (event.assist == 0) {
-      return Text(scorerName, style: TextStyles.gameEventScorer);
-    } else {
-      final assistName = playerNames[event.assist] ?? '${event.number}';
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(scorerName, style: TextStyles.gameEventScorer),
-          Text(assistName, style: TextStyles.gameEventAssist),
-        ],
-      );
-    }
-  }
 }
 
-class _TimeoutEvent extends StatelessWidget {
-  final GameEvent event;
-  final Uri? logoUri;
+List<Widget> _scoreAndGoalText(GameEvent event) => [
+  // New game score
+  Text(
+    '${event.homeGoals}:${event.guestGoals}',
+    style: TextStyles.gameEventNewScore,
+    textAlign: TextAlign.right,
+  ),
+  const SizedBox(width: 8),
+  Text('Tor', style: TextStyles.gameEventType),
+];
 
-  const _TimeoutEvent({required this.event, this.logoUri});
+class _TimeoutEvent extends StatelessWidget {
+  const _TimeoutEvent();
 
   @override
   Widget build(BuildContext context) => Row(
@@ -162,61 +186,62 @@ class _TimeoutEvent extends StatelessWidget {
   );
 }
 
-class _PenaltyEvent extends StatelessWidget {
-  final GameEvent event;
-  final Map<int, String> playerNames;
-  final Uri? logoUri;
+class _PenaltyEventLayout extends StatelessWidget {
+  final String playerName;
+  final Widget eventTitleWidget;
+  final String eventSubtitle;
 
-  const _PenaltyEvent({
-    required this.event,
-    required this.playerNames,
-    this.logoUri,
+  const _PenaltyEventLayout({
+    required this.playerName,
+    required this.eventTitleWidget,
+    required this.eventSubtitle,
   });
 
   @override
   Widget build(BuildContext context) {
-    final penalizedPlayer = playerNames[event.number] ?? '${event.number}';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        _playerNameAndPenaltyType(penalizedPlayer),
-        _buildPenaltyReason(),
-      ],
+      children: [_playerNameAndEventTitle(), _buildEventSubtitle()],
     );
   }
 
-  Widget _playerNameAndPenaltyType(String penalizedPlayer) => Row(
+  Widget _playerNameAndEventTitle() => Row(
     children: [
       Expanded(
         child: Text(
-          penalizedPlayer,
+          playerName,
           textAlign: TextAlign.left,
-          style: TextStyles.gameEventPenalizedPlayer,
+          style: TextStyles.gameEventPrimaryPlayer,
         ),
       ),
-      _buildPenaltyType(),
+      eventTitleWidget,
     ],
   );
 
-  Widget _buildPenaltyType() => Text(
-    'Strafe ${event.penaltyTypeString}',
-    style: TextStyles.gameEventType,
+  Widget _buildEventSubtitle() => Text(
+    eventSubtitle,
+    style: TextStyles.gameEventSubType,
+    overflow: TextOverflow.ellipsis,
     textAlign: TextAlign.right,
   );
+}
 
-  Widget _buildPenaltyReason() {
-    if (event.penaltyReasonString != null &&
-        event.penaltyReasonString!.isNotEmpty) {
-      return Text(
-        '${event.penaltyReasonString}',
-        style: TextStyles.gameEventPenaltyReason,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.right,
-      );
-    } else {
-      return SizedBox(width: 0);
-    }
-  }
+class _PenaltyEvent extends StatelessWidget {
+  final GameEvent event;
+  final Map<int, String> playerNames;
+
+  const _PenaltyEvent({required this.event, required this.playerNames});
+
+  @override
+  Widget build(BuildContext context) => _PenaltyEventLayout(
+    playerName: playerNames[event.number] ?? '${event.number}',
+    eventTitleWidget: Text(
+      'Strafe ${event.penaltyTypeString}',
+      style: TextStyles.gameEventType,
+      textAlign: TextAlign.right,
+    ),
+    eventSubtitle: event.penaltyReasonString ?? '???',
+  );
 }
 
 class _Fallback extends StatelessWidget {
