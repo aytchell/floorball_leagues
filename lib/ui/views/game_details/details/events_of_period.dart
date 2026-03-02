@@ -79,7 +79,7 @@ class EventsOfPeriod extends StatelessWidget {
                   index: index,
                   padding: null,
                   blink: isRunning && isLastEvent && _isCurrentPeriod(),
-                  child: SingleGameEvent(
+                  child: buildSingleGameEvent(
                     event: event,
                     homePlayerNames: homePlayerNames,
                     guestPlayerNames: guestPlayerNames,

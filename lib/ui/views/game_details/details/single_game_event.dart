@@ -3,27 +3,33 @@ import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:flutter/material.dart';
 
+Widget buildSingleGameEvent({
+  required GameEvent event,
+  required Map<int, String> homePlayerNames,
+  required Map<int, String> guestPlayerNames,
+  Uri? homeLogo,
+  Uri? guestLogo,
+}) {
+  return SingleGameEvent(
+    event: event,
+    logoUri: (event.eventTeam == 'home') ? homeLogo : guestLogo,
+    playerNames: (event.eventTeam == 'home')
+        ? homePlayerNames
+        : guestPlayerNames,
+  );
+}
+
 class SingleGameEvent extends StatelessWidget {
   final GameEvent event;
-  final Map<int, String> homePlayerNames;
-  final Map<int, String> guestPlayerNames;
-  final Uri? homeLogo;
-  final Uri? guestLogo;
+  final Map<int, String> playerNames;
+  final Uri? logoUri;
 
-  final Uri? _logoUri;
-  final Map<int, String> _playerNames;
-
-  SingleGameEvent({
+  const SingleGameEvent({
     super.key,
     required this.event,
-    required this.homePlayerNames,
-    required this.guestPlayerNames,
-    required this.homeLogo,
-    required this.guestLogo,
-  }) : _logoUri = (event.eventTeam == 'home') ? homeLogo : guestLogo,
-       _playerNames = (event.eventTeam == 'home')
-           ? homePlayerNames
-           : guestPlayerNames;
+    required this.playerNames,
+    required this.logoUri,
+  });
 
   @override
   Widget build(BuildContext context) => Container(
@@ -36,7 +42,7 @@ class SingleGameEvent extends StatelessWidget {
   Widget _buildEvent() {
     return Row(
       children: [
-        _TeamLogoForEvent(logoUri: _logoUri),
+        _TeamLogoForEvent(logoUri: logoUri),
         const SizedBox(width: 24),
         Expanded(child: _buildEventBody()),
         const SizedBox(width: 8),
@@ -50,16 +56,16 @@ class SingleGameEvent extends StatelessWidget {
       case 'goal':
         return _GoalEvent(
           event: event,
-          playerNames: _playerNames,
-          logoUri: _logoUri,
+          playerNames: playerNames,
+          logoUri: logoUri,
         );
       case 'timeout':
-        return _TimeoutEvent(event: event, logoUri: _logoUri);
+        return _TimeoutEvent(event: event, logoUri: logoUri);
       case 'penalty':
         return _PenaltyEvent(
           event: event,
-          playerNames: _playerNames,
-          logoUri: _logoUri,
+          playerNames: playerNames,
+          logoUri: logoUri,
         );
       default:
         return _Fallback(event: event);
