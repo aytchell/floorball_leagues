@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'ui/views/game_details/game_details_page.dart';
+import 'ui/views/history/history_page.dart';
 import 'ui/views/landing/landing_page.dart';
 import 'ui/views/league_details/league_details_page.dart';
 import 'ui/views/leagues_list/leagues_list_page.dart';
@@ -90,6 +91,11 @@ GoRouter buildRouter() => GoRouter(
       path: LandingPage.routePath,
       pageBuilder: (context, state) =>
           NoTransitionPage(key: state.pageKey, child: LandingPage()),
+    ),
+    GoRoute(
+      path: HistoryPage.routePath,
+      pageBuilder: (context, state) =>
+          NoTransitionPage(key: state.pageKey, child: HistoryPage()),
     ),
     GoRoute(
       path: SettingsPage.routePath,

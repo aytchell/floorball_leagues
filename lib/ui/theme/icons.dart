@@ -6,6 +6,7 @@ class FloorballIcons {
   static final _ios = Platform.isIOS;
   static final settings = _ios ? CupertinoIcons.settings : Icons.settings;
   static final home = _ios ? CupertinoIcons.home : Icons.home;
+  static final history = _ios ? CupertinoIcons.clock : Icons.history;
 
   static final pin = _ios ? CupertinoIcons.pin_fill : Icons.push_pin;
   static final pinBorder = _ios ? CupertinoIcons.pin : Icons.push_pin_outlined;

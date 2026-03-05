@@ -4,6 +4,7 @@ import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/icons.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/landing/landing_page.dart';
+import 'package:floorball/ui/views/history/history_page.dart';
 import 'package:floorball/ui/views/season_selector/season_selector_page.dart';
 import 'package:floorball/ui/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class MainAppScaffold extends StatelessWidget {
   final bool showBackButton;
   final bool showBottomNavigation;
   final bool isHomePage;
+  final bool isHistoryPage;
   final bool isSeasonPicker;
   final bool isSettings;
 
@@ -30,6 +32,7 @@ class MainAppScaffold extends StatelessWidget {
     this.showBackButton = false,
     this.showBottomNavigation = true,
     this.isHomePage = false,
+    this.isHistoryPage = false,
     this.isSeasonPicker = false,
     this.isSettings = false,
   });
@@ -65,6 +68,13 @@ class MainAppScaffold extends StatelessWidget {
               onTap: isHomePage
                   ? null
                   : () => context.go(LandingPage.routePath),
+            ),
+            _buildBottomNavItem(
+              icon: FloorballIcons.history,
+              isEnabled: !isHistoryPage,
+              onTap: isHistoryPage
+                  ? null
+                  : () => context.push(HistoryPage.routePath),
             ),
             const Spacer(),
             _buildBottomNavItem(
