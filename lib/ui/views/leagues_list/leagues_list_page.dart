@@ -122,7 +122,7 @@ class LeaguesListPage extends StatelessWidget {
             child: ListView.builder(
               itemCount: leagues.length,
               itemBuilder: (context, index) {
-                return LeagueEntry(
+                return PinnableLeagueEntry(
                   seasonId: seasonId,
                   federationId: federationId,
                   league: leagues[index].league,
