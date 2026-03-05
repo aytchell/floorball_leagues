@@ -1,14 +1,12 @@
+import 'package:floorball/api/models/game_base.dart';
 import 'package:floorball/api/models/game_date_time.dart';
 
-import 'game_result.dart';
 import 'logo_host.dart';
-import 'period_title.dart';
 import 'referee.dart';
 
 enum GameState { noRecord, recordCreated, running, ended, matchRecordClosed }
 
-class Game {
-  int gameId;
+class Game extends GameBase {
   int gameNumber;
   int gameDay;
   int? arenaId;
@@ -18,9 +16,7 @@ class Game {
   String? hostingClub;
   int gameDayId;
   String date;
-  String? time;
   bool started;
-  bool ended;
   String? homeTeamName;
   String? homeTeamLogo;
   String? homeTeamSmallLogo;
@@ -29,10 +25,7 @@ class Game {
   String? guestTeamSmallLogo;
   String? nominatedRefereeString;
   List<Referee> referees;
-  String? noticeType;
-  String? noticeString;
   GameState state;
-  PeriodTitle? currentPeriodTitle;
   String? groupIdentifier;
   String? seriesTitle;
   String? seriesNumber;
@@ -43,12 +36,11 @@ class Game {
   String? guestTeamFillingTitle;
   int? guestTeamFillingParameter;
   String? resultString;
-  GameResult? result;
 
   late final dateTime = GameDateTime(date, time);
 
   Game({
-    required this.gameId,
+    required super.gameId,
     required this.gameNumber,
     required this.gameDay,
     this.arenaId,
@@ -58,9 +50,9 @@ class Game {
     this.hostingClub,
     required this.gameDayId,
     required this.date,
-    this.time,
+    super.time,
     required this.started,
-    required this.ended,
+    required super.ended,
     this.homeTeamName,
     this.homeTeamLogo,
     this.homeTeamSmallLogo,
@@ -69,10 +61,10 @@ class Game {
     this.guestTeamSmallLogo,
     this.nominatedRefereeString,
     required this.referees,
-    this.noticeType,
-    this.noticeString,
+    super.noticeType,
+    super.noticeString,
     required this.state,
-    this.currentPeriodTitle,
+    super.currentPeriodTitle,
     this.groupIdentifier,
     this.seriesTitle,
     this.seriesNumber,
@@ -83,13 +75,29 @@ class Game {
     this.guestTeamFillingTitle,
     this.guestTeamFillingParameter,
     this.resultString,
-    this.result,
+    super.result,
   });
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  @override
+  ResultState get resultState {
+    switch (state) {
+      case GameState.noRecord:
+        return ResultState.noRecord;
+      case GameState.recordCreated:
+        return ResultState.recordCreated;
+      case GameState.running:
+        return ResultState.running;
+      case GameState.matchRecordClosed:
+        return ResultState.ended;
+      case GameState.ended:
+        return ResultState.ended;
+    }
+  }
 
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {

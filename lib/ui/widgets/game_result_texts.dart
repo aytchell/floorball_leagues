@@ -1,7 +1,4 @@
-import 'package:floorball/api/models/detailed_game.dart';
-import 'package:floorball/api/models/game.dart';
-import 'package:floorball/api/models/game_result.dart';
-import 'package:floorball/api/models/period_title.dart';
+import 'package:floorball/api/models/game_base.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -9,35 +6,24 @@ import 'package:logging/logging.dart';
 
 final log = Logger('GameResultTexts');
 
-List<Widget> buildResultTexts(Game game) {
+List<Widget> buildOverviewResultTexts(GameBase game) {
   return _buildResultTexts(
-    GameAdapter(game),
+    game,
     resultStyle: TextStyles.gameDayResult,
     postfixStyle: TextStyles.gameDayResultPostfix,
   );
 }
 
-List<Widget> buildDetailedResultTexts(DetailedGame game) {
+List<Widget> buildDetailedResultTexts(GameBase game) {
   return _buildResultTexts(
-    DetailedGameAdapter(game),
+    game,
     resultStyle: TextStyles.gameDetailHeaderScore,
     postfixStyle: TextStyles.gameDetailHeaderResultPostfix,
   );
 }
 
-abstract class _Adapter {
-  int get gameId;
-  bool get ended;
-  GameState get state;
-  GameResult? get result;
-  String? get noticeType;
-  String? get noticeString;
-  String? get time;
-  PeriodTitle? get currentPeriodTitle;
-}
-
 List<Widget> _buildResultTexts(
-  _Adapter game, {
+  GameBase game, {
   required TextStyle resultStyle,
   required TextStyle postfixStyle,
 }) {
@@ -48,25 +34,24 @@ List<Widget> _buildResultTexts(
       postfixStyle: postfixStyle,
     );
   }
-  switch (game.state) {
-    case GameState.ended:
-    case GameState.matchRecordClosed:
+  switch (game.resultState) {
+    case ResultState.ended:
       return _buildEndResultTexts(
         game,
         resultStyle: resultStyle,
         postfixStyle: postfixStyle,
       );
-    case GameState.noRecord:
+    case ResultState.noRecord:
       return _buildNoRecordTexts(game);
-    case GameState.recordCreated:
+    case ResultState.recordCreated:
       return _buildRecordCreatedTexts(game);
-    case GameState.running:
+    case ResultState.running:
       return _buildRunningTexts(game, resultStyle: resultStyle);
   }
 }
 
 List<Widget> _buildEndResultTexts(
-  _Adapter game, {
+  GameBase game, {
   required TextStyle resultStyle,
   required TextStyle postfixStyle,
 }) {
@@ -87,7 +72,7 @@ List<Widget> _buildEndResultTexts(
 }
 
 List<Widget> _buildUnknownResultText(
-  _Adapter game, {
+  GameBase game, {
   required TextStyle resultStyle,
 }) {
   log.severe('Unknown result for game ${game.gameId}');
@@ -98,7 +83,7 @@ List<Widget> _buildResultText(String text, {required TextStyle style}) {
   return [Text(text, style: style)];
 }
 
-List<Widget> _buildNoRecordTexts(_Adapter game) {
+List<Widget> _buildNoRecordTexts(GameBase game) {
   if (game.noticeType != null && game.noticeType!.isNotEmpty) {
     return _buildNoticeTypeResult(game.noticeType!, game.noticeString);
   }
@@ -110,7 +95,7 @@ List<Widget> _buildNoRecordTexts(_Adapter game) {
   }
 }
 
-List<Widget> _buildRecordCreatedTexts(_Adapter game) {
+List<Widget> _buildRecordCreatedTexts(GameBase game) {
   if (game.time != null) {
     return [Text('${game.time!} Uhr', style: TextStyles.gameDayTime)];
   } else {
@@ -119,7 +104,7 @@ List<Widget> _buildRecordCreatedTexts(_Adapter game) {
 }
 
 List<Widget> _buildRunningTexts(
-  _Adapter game, {
+  GameBase game, {
   required TextStyle resultStyle,
 }) {
   final list = _buildResultText(
@@ -173,67 +158,4 @@ List<Widget> _buildNoticeTypeResult(String noticeType, String? noticeString) {
     );
   }
   return texts;
-}
-
-class GameAdapter extends _Adapter {
-  final Game game;
-
-  GameAdapter(this.game);
-
-  @override
-  int get gameId => game.gameId;
-  @override
-  bool get ended => game.ended;
-  @override
-  String? get noticeType => game.noticeType;
-  @override
-  String? get noticeString => game.noticeString;
-  @override
-  GameResult? get result => game.result;
-  @override
-  GameState get state => game.state;
-  @override
-  String? get time => game.time;
-  @override
-  PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
-}
-
-class DetailedGameAdapter extends _Adapter {
-  final DetailedGame game;
-
-  DetailedGameAdapter(this.game);
-
-  @override
-  int get gameId => game.id;
-  @override
-  bool get ended => game.ended;
-  @override
-  String? get noticeType => game.noticeType;
-  @override
-  String? get noticeString => game.noticeString;
-  @override
-  GameResult? get result => game.result;
-  @override
-  GameState get state => _convertState(game.gameStatus);
-  @override
-  String? get time => game.startTime;
-  @override
-  PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
-
-  GameState _convertState(DetailedGameStatus? gameStatus) {
-    // this mapping is just for the purpose of printing the
-    // game results (or 'not yet' results)
-    switch (gameStatus) {
-      case null:
-        return GameState.recordCreated;
-      case DetailedGameStatus.pregame:
-        return GameState.recordCreated;
-      case DetailedGameStatus.ingame:
-        return GameState.running;
-      case DetailedGameStatus.aftergame:
-        return GameState.ended;
-      case DetailedGameStatus.matchRecordClosed:
-        return GameState.matchRecordClosed;
-    }
-  }
 }

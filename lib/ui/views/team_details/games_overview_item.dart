@@ -117,7 +117,7 @@ class _PastGame extends StatelessWidget {
     children: [
       TeamLogo(uri: game.homeLogoUri, height: 50, width: 50),
       SizedBox(width: 20),
-      Column(children: buildResultTexts(game)),
+      Column(children: buildOverviewResultTexts(game)),
       SizedBox(width: 20),
       TeamLogo(uri: game.guestLogoUri, height: 50, width: 50),
     ],

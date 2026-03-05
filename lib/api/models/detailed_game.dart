@@ -1,9 +1,9 @@
+import 'package:floorball/api/models/game_base.dart';
 import 'package:floorball/api/models/game_date_time.dart';
 
 import 'award.dart';
 import 'game_day.dart';
 import 'game_event.dart';
-import 'game_result.dart';
 import 'logo_host.dart';
 import 'period_title.dart';
 import 'player.dart';
@@ -25,7 +25,7 @@ enum DetailedIngameStatus {
   penaltyShots,
 }
 
-class DetailedGame {
+class DetailedGame extends GameBase {
   int id;
   String gameNumber;
   String? startTime;
@@ -50,9 +50,7 @@ class DetailedGame {
   StartingPlayers? startingPlayers;
   Awards? awards;
   bool started;
-  bool ended;
   String? resultString;
-  GameResult? result;
   int leagueId;
   String leagueName;
   String leagueShortName;
@@ -61,15 +59,12 @@ class DetailedGame {
   String federationShortName;
   String federationSlug;
   List<PeriodTitle> periodTitles;
-  PeriodTitle? currentPeriodTitle;
   int arena;
   String arenaName;
   String arenaAddress;
   String arenaShort;
   String? nominatedReferees;
   bool deletable;
-  String? noticeType;
-  String? noticeString;
   List<Referee> referees;
 
   late final dateTime = GameDateTime(date, startTime);
@@ -99,9 +94,9 @@ class DetailedGame {
     this.startingPlayers,
     this.awards,
     required this.started,
-    required this.ended,
+    required super.ended,
     this.resultString,
-    this.result,
+    super.result,
     required this.leagueId,
     required this.leagueName,
     required this.leagueShortName,
@@ -110,22 +105,38 @@ class DetailedGame {
     required this.federationShortName,
     required this.federationSlug,
     required this.periodTitles,
-    this.currentPeriodTitle,
+    super.currentPeriodTitle,
     required this.arena,
     required this.arenaName,
     required this.arenaAddress,
     required this.arenaShort,
     this.nominatedReferees,
     required this.deletable,
-    this.noticeType,
-    this.noticeString,
+    super.noticeType,
+    super.noticeString,
     required this.referees,
-  });
+  }) : super(gameId: id, time: startTime);
 
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
+
+  @override
+  ResultState get resultState {
+    switch (gameStatus) {
+      case null:
+        return ResultState.recordCreated;
+      case DetailedGameStatus.pregame:
+        return ResultState.recordCreated;
+      case DetailedGameStatus.ingame:
+        return ResultState.running;
+      case DetailedGameStatus.aftergame:
+        return ResultState.ended;
+      case DetailedGameStatus.matchRecordClosed:
+        return ResultState.ended;
+    }
+  }
 
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {

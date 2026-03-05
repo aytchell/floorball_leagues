@@ -124,7 +124,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
         Text(game.dateTime.beautifiedDate, style: TextStyles.gameDayDate),
         const SizedBox(height: 2),
         // Score
-        ...buildResultTexts(game),
+        ...buildOverviewResultTexts(game),
       ],
     );
   }
