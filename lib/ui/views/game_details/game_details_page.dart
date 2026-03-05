@@ -4,6 +4,7 @@ import 'package:floorball/api/models/game_event.dart';
 import 'package:floorball/api/models/period_title.dart';
 import 'package:floorball/api/models/player.dart';
 import 'package:floorball/blocs/detailed_games_cubit.dart';
+import 'package:floorball/blocs/games_visit_history_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
@@ -45,7 +46,13 @@ class GameDetailsPage extends StatelessWidget {
       title: leagueName,
       showBackButton: true,
       body: BlocBuilder<DetailedGamesCubit, DetailedGamesState>(
-        builder: (_, state) => _buildBody(state.detailedVersionOf(gameId)),
+        builder: (context, state) {
+          final detailedGame = state.detailedVersionOf(gameId);
+          if (detailedGame != null) {
+            _addToHistory(context, leagueName, detailedGame);
+          }
+          return _buildBody(detailedGame);
+        },
       ),
     ),
   );
@@ -185,6 +192,19 @@ class GameDetailsPage extends StatelessWidget {
     }
     return periods;
   }
+
+  void _addToHistory(
+    BuildContext context,
+    String leagueName,
+    DetailedGame detailedGame,
+  ) => BlocProvider.of<GamesVisitHistoryCubit>(context).addVisitedGame(
+    VisitedGame(
+      gameId: gameId,
+      gameLeagueInfo: gameLeagueInfo,
+      leagueName: leagueName,
+      detailedGame: detailedGame,
+    ),
+  );
 }
 
 // this wrapper takes care, that a possibly opened snackbar (used to
