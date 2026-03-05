@@ -10,11 +10,19 @@ import 'package:logging/logging.dart';
 final log = Logger('GameResultTexts');
 
 List<Widget> buildResultTexts(Game game) {
-  return _buildResultTexts(GameAdapter(game));
+  return _buildResultTexts(
+    GameAdapter(game),
+    resultStyle: TextStyles.gameDayResult,
+    postfixStyle: TextStyles.gameDayResultPostfix,
+  );
 }
 
 List<Widget> buildDetailedResultTexts(DetailedGame game) {
-  return _buildResultTexts(DetailedGameAdapter(game));
+  return _buildResultTexts(
+    DetailedGameAdapter(game),
+    resultStyle: TextStyles.gameDetailHeaderScore,
+    postfixStyle: TextStyles.gameDetailHeaderResultPostfix,
+  );
 }
 
 abstract class _Adapter {
@@ -26,48 +34,64 @@ abstract class _Adapter {
   String? get noticeString;
   String? get time;
   PeriodTitle? get currentPeriodTitle;
-
-  TextStyle get resultStyle;
-  TextStyle get postfixStyle;
 }
 
-List<Widget> _buildResultTexts(_Adapter game) {
+List<Widget> _buildResultTexts(
+  _Adapter game, {
+  required TextStyle resultStyle,
+  required TextStyle postfixStyle,
+}) {
   if (game.ended) {
-    return _buildEndResultTexts(game);
+    return _buildEndResultTexts(
+      game,
+      resultStyle: resultStyle,
+      postfixStyle: postfixStyle,
+    );
   }
   switch (game.state) {
     case GameState.ended:
     case GameState.matchRecordClosed:
-      return _buildEndResultTexts(game);
+      return _buildEndResultTexts(
+        game,
+        resultStyle: resultStyle,
+        postfixStyle: postfixStyle,
+      );
     case GameState.noRecord:
       return _buildNoRecordTexts(game);
     case GameState.recordCreated:
       return _buildRecordCreatedTexts(game);
     case GameState.running:
-      return _buildRunningTexts(game);
+      return _buildRunningTexts(game, resultStyle: resultStyle);
   }
 }
 
-List<Widget> _buildEndResultTexts(_Adapter game) {
+List<Widget> _buildEndResultTexts(
+  _Adapter game, {
+  required TextStyle resultStyle,
+  required TextStyle postfixStyle,
+}) {
   final result = game.result;
   if (result == null) {
-    return _buildUnknownResultText(game);
+    return _buildUnknownResultText(game, resultStyle: resultStyle);
   }
   final list = _buildResultText(
     '${result.homeGoals}:${result.guestGoals}',
-    style: game.resultStyle,
+    style: resultStyle,
   );
   final postfix = game.result?.postfix?.short;
   if (postfix != null) {
-    list.add(Text(postfix, style: game.postfixStyle));
+    list.add(Text(postfix, style: postfixStyle));
   }
 
   return list;
 }
 
-List<Widget> _buildUnknownResultText(_Adapter game) {
+List<Widget> _buildUnknownResultText(
+  _Adapter game, {
+  required TextStyle resultStyle,
+}) {
   log.severe('Unknown result for game ${game.gameId}');
-  return _buildResultText('-:-', style: game.resultStyle);
+  return _buildResultText('-:-', style: resultStyle);
 }
 
 List<Widget> _buildResultText(String text, {required TextStyle style}) {
@@ -94,10 +118,13 @@ List<Widget> _buildRecordCreatedTexts(_Adapter game) {
   }
 }
 
-List<Widget> _buildRunningTexts(_Adapter game) {
+List<Widget> _buildRunningTexts(
+  _Adapter game, {
+  required TextStyle resultStyle,
+}) {
   final list = _buildResultText(
     '${game.result!.homeGoals}:${game.result!.guestGoals}',
-    style: game.resultStyle.copyWith(color: FloorballColors.resultRunningColor),
+    style: resultStyle.copyWith(color: FloorballColors.resultRunningColor),
   );
   list.add(
     Text(
@@ -169,11 +196,6 @@ class GameAdapter extends _Adapter {
   String? get time => game.time;
   @override
   PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
-
-  @override
-  TextStyle get resultStyle => TextStyles.gameDayResult;
-  @override
-  TextStyle get postfixStyle => TextStyles.gameDayResultPostfix;
 }
 
 class DetailedGameAdapter extends _Adapter {
@@ -197,11 +219,6 @@ class DetailedGameAdapter extends _Adapter {
   String? get time => game.startTime;
   @override
   PeriodTitle? get currentPeriodTitle => game.currentPeriodTitle;
-
-  @override
-  TextStyle get resultStyle => TextStyles.gameDetailHeaderScore;
-  @override
-  TextStyle get postfixStyle => TextStyles.gameDetailHeaderResultPostfix;
 
   GameState _convertState(DetailedGameStatus? gameStatus) {
     // this mapping is just for the purpose of printing the
