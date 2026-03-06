@@ -4,6 +4,7 @@ import 'package:floorball/ui/views/league_details/date_and_club.dart';
 import 'package:floorball/ui/views/league_details/game_day/extract_dates_and_clubs.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_game_day_content.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
+import 'package:floorball/ui/widgets/striped_games_row_list.dart';
 import 'package:flutter/material.dart';
 
 class SingleDefaultGameDayContent extends SingleGameDayContent {

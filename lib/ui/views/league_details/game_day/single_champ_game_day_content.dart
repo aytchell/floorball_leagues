@@ -3,6 +3,7 @@ import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_game_day_content.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
+import 'package:floorball/ui/widgets/striped_games_row_list.dart';
 import 'package:flutter/material.dart';
 
 const String seriesIdentifier = 'series';
