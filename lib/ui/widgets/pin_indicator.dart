@@ -137,6 +137,18 @@ final _heartPinned = Stack(
   ],
 );
 
+final _bookmarkUnpinned = Icon(
+  FloorballIcons.bookmarkBorder,
+  size: 16,
+  color: Colors.black,
+);
+final _bookmarkPinned = Stack(
+  children: [
+    Icon(FloorballIcons.bookmark, size: 20, color: Colors.blue),
+    Icon(FloorballIcons.bookmarkBorder, size: 20, color: Colors.black),
+  ],
+);
+
 final _trashCan = Icon(FloorballIcons.trashCan, size: 16, color: Colors.red);
 
 final _historyPin = PinVariant(
@@ -159,6 +171,12 @@ final _variants = Map.fromEntries(
       name: 'Stern',
       pinned: _starPinned,
       unpinned: _starUnpinned,
+    ),
+    PinVariant(
+      ident: 'bookmark',
+      name: 'Bookmark',
+      pinned: _bookmarkPinned,
+      unpinned: _bookmarkUnpinned,
     ),
   ].map((entry) => MapEntry(entry.ident, entry)),
 );
