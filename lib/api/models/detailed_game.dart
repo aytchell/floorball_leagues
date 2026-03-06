@@ -35,8 +35,6 @@ class DetailedGame extends GameBase {
   DetailedGameStatus? gameStatus;
   DetailedIngameStatus? ingameStatus;
   int? audience;
-  String homeTeamName;
-  String guestTeamName;
   int homeTeamId;
   int guestTeamId;
   String homeTeamLogo;
@@ -67,7 +65,7 @@ class DetailedGame extends GameBase {
   bool deletable;
   List<Referee> referees;
 
-  late final dateTime = GameDateTime(date, startTime);
+  late final _dateTime = GameDateTime(date, startTime);
 
   DetailedGame({
     required this.id,
@@ -79,8 +77,8 @@ class DetailedGame extends GameBase {
     this.gameStatus,
     this.ingameStatus,
     this.audience,
-    required this.homeTeamName,
-    required this.guestTeamName,
+    required super.homeTeamName,
+    required super.guestTeamName,
     required this.homeTeamId,
     required this.guestTeamId,
     required this.homeTeamLogo,
@@ -117,9 +115,13 @@ class DetailedGame extends GameBase {
     required this.referees,
   }) : super(gameId: id, time: startTime);
 
+  @override
+  GameDateTime get dateTime => _dateTime;
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
+  @override
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
+  @override
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
   @override
@@ -150,7 +152,7 @@ class DetailedGame extends GameBase {
         return false;
       case DetailedGameStatus.pregame:
       case null:
-        return dateTime.isBefore(timestamp);
+        return _dateTime.isBefore(timestamp);
     }
   }
 }

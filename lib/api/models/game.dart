@@ -17,10 +17,8 @@ class Game extends GameBase {
   int gameDayId;
   String date;
   bool started;
-  String? homeTeamName;
   String? homeTeamLogo;
   String? homeTeamSmallLogo;
-  String? guestTeamName;
   String? guestTeamLogo;
   String? guestTeamSmallLogo;
   String? nominatedRefereeString;
@@ -37,7 +35,7 @@ class Game extends GameBase {
   int? guestTeamFillingParameter;
   String? resultString;
 
-  late final dateTime = GameDateTime(date, time);
+  late final _dateTime = GameDateTime(date, time);
 
   Game({
     required super.gameId,
@@ -53,10 +51,10 @@ class Game extends GameBase {
     super.time,
     required this.started,
     required super.ended,
-    this.homeTeamName,
+    required super.homeTeamName,
     this.homeTeamLogo,
     this.homeTeamSmallLogo,
-    this.guestTeamName,
+    required super.guestTeamName,
     this.guestTeamLogo,
     this.guestTeamSmallLogo,
     this.nominatedRefereeString,
@@ -78,9 +76,13 @@ class Game extends GameBase {
     super.result,
   });
 
+  @override
+  GameDateTime get dateTime => _dateTime;
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
+  @override
   Uri? get homeLogoSmallUri => buildLogoUri(homeTeamSmallLogo);
   Uri? get guestLogoUri => buildLogoUri(guestTeamLogo);
+  @override
   Uri? get guestLogoSmallUri => buildLogoUri(guestTeamSmallLogo);
 
   @override
@@ -111,7 +113,7 @@ class Game extends GameBase {
         return false;
       case GameState.noRecord:
       case GameState.recordCreated:
-        return dateTime.isBefore(timestamp);
+        return _dateTime.isBefore(timestamp);
     }
   }
 }

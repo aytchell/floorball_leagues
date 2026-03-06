@@ -28,10 +28,10 @@ Game parseGame(Map<String, dynamic> json) {
     time: parseNullableString(json, 'time'),
     started: json['started'] as bool,
     ended: json['ended'] as bool,
-    homeTeamName: parseNullableString(json, 'home_team_name'),
+    homeTeamName: parseString(json, 'home_team_name'),
     homeTeamLogo: parseNullableString(json, 'home_team_logo'),
     homeTeamSmallLogo: parseNullableString(json, 'home_team_small_logo'),
-    guestTeamName: parseNullableString(json, 'guest_team_name'),
+    guestTeamName: parseString(json, 'guest_team_name'),
     guestTeamLogo: parseNullableString(json, 'guest_team_logo'),
     guestTeamSmallLogo: parseNullableString(json, 'guest_team_small_logo'),
     nominatedRefereeString: parseNullableString(

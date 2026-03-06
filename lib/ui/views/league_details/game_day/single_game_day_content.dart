@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/game.dart';
+import 'package:floorball/api/models/game_base.dart';
 import 'package:floorball/blocs/league_game_day_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/routes.dart';
@@ -49,7 +50,7 @@ abstract class SingleGameDayContent extends StatelessWidget {
       games.any((game) => game.isGameRunning(timestamp));
 }
 
-class StripedGamesRowsList extends StripedRowsList<Game> {
+class StripedGamesRowsList extends StripedRowsList<GameBase> {
   static const double _teamLogoSize = 30.0;
   static const double _interTeamSpacing = 8.0;
 
@@ -64,9 +65,9 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
     super.key,
   }) : super(onTap: _createOnTap(gameLeagueInfo));
 
-  static void Function(BuildContext context, Game game) _createOnTap(
+  static void Function(BuildContext context, GameBase game) _createOnTap(
     GameLeagueInfo gameLeagueInfo,
-  ) => (BuildContext context, Game game) {
+  ) => (BuildContext context, GameBase game) {
     GameDetailsPageRoute(
       gameId: game.gameId,
       $extra: gameLeagueInfo,
@@ -74,7 +75,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
   };
 
   @override
-  Widget buildRow(BuildContext context, Game game) {
+  Widget buildRow(BuildContext context, GameBase game) {
     return Row(
       children: [
         // Left side: Both teams stacked vertically
@@ -85,7 +86,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
     );
   }
 
-  Widget _buildBothTeams(Game game) {
+  Widget _buildBothTeams(GameBase game) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +117,7 @@ class StripedGamesRowsList extends StripedRowsList<Game> {
     );
   }
 
-  Widget _buildDateAndResultOrTime(Game game) {
+  Widget _buildDateAndResultOrTime(GameBase game) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
