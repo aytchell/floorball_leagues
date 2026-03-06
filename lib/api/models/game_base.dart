@@ -31,4 +31,6 @@ abstract class GameBase {
   ResultState get resultState;
   Uri? get homeLogoSmallUri;
   Uri? get guestLogoSmallUri;
+
+  bool isGameRunning(DateTime timestamp);
 }

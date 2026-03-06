@@ -95,20 +95,20 @@ class _GamesVisitHistoryList extends StatelessWidget {
   List<Widget> _buildGameEntry(VisitedGame game) {
     return [
       GenericLeagueNameEntry(
-        leagueId: game.detailedGame.leagueId,
+        leagueId: game.leagueId,
         leagueName: game.leagueName,
         leadingChild: _HistoryPinIndicator(game: game, isPinned: game.isPinned),
         trailingChild: game.isPinned
             ? null
             : HistoryTrashBin(
-          onPressedFactory: (context) {
-            return () => BlocProvider.of<GamesVisitHistoryCubit>(
-              context,
-            ).remove(game.gameId);
-          },
-        ),
+                onPressedFactory: (context) {
+                  return () => BlocProvider.of<GamesVisitHistoryCubit>(
+                    context,
+                  ).remove(game.gameId);
+                },
+              ),
       ),
-      StripedGamesRowsList([game.detailedGame], game.gameLeagueInfo),
+      StripedGamesRowsList([game.gameData], game.gameLeagueInfo),
     ];
   }
 }

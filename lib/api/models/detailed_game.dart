@@ -140,6 +140,7 @@ class DetailedGame extends GameBase {
     }
   }
 
+  @override
   bool isGameRunning(DateTime timestamp) {
     if (ended == true) {
       return false;
