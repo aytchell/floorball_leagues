@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
-  final gamesVisitHistoryCubit = GamesVisitHistoryCubit();
   late final tickCubit = TickCubit();
 
   @override
@@ -67,13 +66,13 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableFederationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: tickCubit),
-          BlocProvider.value(value: gamesVisitHistoryCubit),
           BlocProvider(create: (_) => LeaguesCubit(apiRepository)),
           BlocProvider(create: (_) => LeagueGameDayCubit(apiRepository)),
           BlocProvider(create: (_) => ScorerCubit(apiRepository)),
           BlocProvider(create: (_) => LeagueTableCubit(apiRepository)),
           BlocProvider(create: (_) => ChampTableCubit(apiRepository)),
           BlocProvider(create: (_) => DetailedGamesCubit(apiRepository)),
+          BlocProvider(create: (_) => GamesVisitHistoryCubit(apiRepository)),
           BlocProvider(
             create: (_) => PinnedFederationsCubit(persistenceRepository),
           ),

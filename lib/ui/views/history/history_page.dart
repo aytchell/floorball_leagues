@@ -1,4 +1,5 @@
 import 'package:floorball/blocs/games_visit_history_cubit.dart';
+import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/widgets/generic_league_name_entry.dart';
 import 'package:floorball/ui/widgets/striped_games_row_list.dart';
@@ -39,11 +40,16 @@ class _GamesVisitHistoryList extends StatelessWidget {
       child: Container(
         color: FloorballColors.gray231,
         padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 8.0),
-        child: Column(
-          children: visitedGames
-              .map((game) => _buildGameEntry(game))
-              .expand((i) => i)
-              .toList(),
+        child: BlocListener<TickCubit, TickState>(
+          listener: (_, state) => BlocProvider.of<GamesVisitHistoryCubit>(
+            context,
+          ).checkForUpdates(),
+          child: Column(
+            children: visitedGames
+                .map((game) => _buildGameEntry(game))
+                .expand((i) => i)
+                .toList(),
+          ),
         ),
       ),
     );
