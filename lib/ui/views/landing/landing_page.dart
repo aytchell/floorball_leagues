@@ -30,7 +30,7 @@ class LandingPage extends StatelessWidget {
               return MainAppScaffold(
                 title: 'Floorball Spielbetriebe',
                 subtitle: _createSeasonSubtitle(selectedSeason),
-                isHomePage: true,
+                page: MenuPage.home,
                 body: _buildBody(
                   availableFederations.federations,
                   selectedSeason,

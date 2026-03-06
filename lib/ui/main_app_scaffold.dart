@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+enum MenuPage { home, history, settings, season, none }
+
 class MainAppScaffold extends StatelessWidget {
   final String title;
   final String? subtitle;
@@ -18,10 +20,7 @@ class MainAppScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final bool showBackButton;
   final bool showBottomNavigation;
-  final bool isHomePage;
-  final bool isHistoryPage;
-  final bool isSeasonPicker;
-  final bool isSettings;
+  final MenuPage page;
 
   const MainAppScaffold({
     super.key,
@@ -31,10 +30,7 @@ class MainAppScaffold extends StatelessWidget {
     this.actions,
     this.showBackButton = false,
     this.showBottomNavigation = true,
-    this.isHomePage = false,
-    this.isHistoryPage = false,
-    this.isSeasonPicker = false,
-    this.isSettings = false,
+    this.page = MenuPage.none,
   });
 
   @override
@@ -64,23 +60,23 @@ class MainAppScaffold extends StatelessWidget {
           children: [
             _buildBottomNavItem(
               icon: FloorballIcons.home,
-              isEnabled: !isHomePage,
-              onTap: isHomePage
+              isEnabled: (page != MenuPage.home),
+              onTap: (page == MenuPage.home)
                   ? null
                   : () => context.go(LandingPage.routePath),
             ),
             _buildBottomNavItem(
               icon: FloorballIcons.history,
-              isEnabled: !isHistoryPage,
-              onTap: isHistoryPage
+              isEnabled: (page != MenuPage.history),
+              onTap: (page == MenuPage.history)
                   ? null
                   : () => context.push(HistoryPage.routePath),
             ),
             const Spacer(),
             _buildBottomNavItem(
               icon: FloorballIcons.settings,
-              isEnabled: !isSettings,
-              onTap: isSettings
+              isEnabled: (page != MenuPage.settings),
+              onTap: (page == MenuPage.settings)
                   ? null
                   : () => context.push(SettingsPage.routePath),
             ),
@@ -88,7 +84,7 @@ class MainAppScaffold extends StatelessWidget {
             BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
               builder: (_, state) => _SeasonIndicator(
                 selectedSeason: state,
-                isEnabled: !isSeasonPicker,
+                isEnabled: (page != MenuPage.season),
               ),
             ),
           ],

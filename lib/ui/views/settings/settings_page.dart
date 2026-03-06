@@ -15,7 +15,7 @@ class SettingsPage extends StatelessWidget {
       title: 'Einstellungen',
       showBackButton: true,
       body: _buildSettingsList(),
-      isSettings: true,
+      page: MenuPage.settings,
     );
   }
 

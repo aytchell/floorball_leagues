@@ -19,7 +19,7 @@ class SeasonSelectorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainAppScaffold(
       title: 'Saison auswählen',
-      isSeasonPicker: true,
+      page: MenuPage.season,
       showBackButton: true,
       body: _buildBody(context),
     );
