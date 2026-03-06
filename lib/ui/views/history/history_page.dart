@@ -19,6 +19,7 @@ class HistoryPage extends StatelessWidget {
     return MainAppScaffold(
       title: 'Zuletzt angesehen',
       page: MenuPage.history,
+      showBackButton: true,
       body: BlocBuilder<GamesVisitHistoryCubit, GamesVisitHistory>(
         builder: (_, state) =>
             _GamesVisitHistoryList(visitedGames: state.visitedGames),
