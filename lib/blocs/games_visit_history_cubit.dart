@@ -44,7 +44,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
         .toList();
     newList.insert(0, visitedGame);
 
-    if (state.visitedGames.length > maxGames) {
+    if (newList.length > maxGames) {
       newList.removeLast();
     }
     return GamesVisitHistory(newList);
