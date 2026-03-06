@@ -1,6 +1,7 @@
 import 'package:floorball/blocs/games_visit_history_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/generic_league_name_entry.dart';
 import 'package:floorball/ui/widgets/striped_games_row_list.dart';
 import 'package:flutter/material.dart';
@@ -32,23 +33,22 @@ class _GamesVisitHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (visitedGames.isEmpty) {
-      return Center(child: Text('History Page - Coming Soon'));
-    }
-
-    return SingleChildScrollView(
-      child: Container(
-        color: FloorballColors.gray231,
-        padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 8.0),
-        child: BlocListener<TickCubit, TickState>(
-          listener: (_, state) => BlocProvider.of<GamesVisitHistoryCubit>(
-            context,
-          ).checkForUpdates(),
-          child: Column(
-            children: visitedGames
-                .map((game) => _buildGameEntry(game))
-                .expand((i) => i)
-                .toList(),
+    return Container(
+      color: FloorballColors.gray231,
+      child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: constraints.maxWidth,
+              minHeight: constraints.maxHeight,
+            ),
+            child: Container(
+              padding: EdgeInsetsGeometry.symmetric(
+                vertical: 32.0,
+                horizontal: 8.0,
+              ),
+              child: _buildBody(context),
+            ),
           ),
         ),
       ),
@@ -60,9 +60,45 @@ class _GamesVisitHistoryList extends StatelessWidget {
       GenericLeagueNameEntry(
         leagueId: game.detailedGame.leagueId,
         leagueName: game.leagueName,
-        leadingChild: SizedBox(width: 40, height: 40),
+        leadingChild: SizedBox(width: 20, height: 30),
       ),
       StripedGamesRowsList([game.detailedGame], game.gameLeagueInfo),
     ];
   }
+
+  Widget _buildBody(BuildContext context) {
+    if (visitedGames.isEmpty) {
+      return _buildEmptyPage();
+    }
+
+    return BlocListener<TickCubit, TickState>(
+      listener: (_, state) =>
+          BlocProvider.of<GamesVisitHistoryCubit>(context).checkForUpdates(),
+      child: Column(
+        children: visitedGames
+            .map((game) => _buildGameEntry(game))
+            .expand((i) => i)
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildEmptyPage() => Container(
+    padding: EdgeInsetsGeometry.symmetric(vertical: 32.0, horizontal: 40.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        Text(
+          'Hier erscheinen die zuletzt angeschauten Spiele.',
+          style: TextStyles.leaguesListLight,
+        ),
+        SizedBox(height: 12),
+        Text(
+          '(Rufe die Detailseite eines Spieles auf.)',
+          style: TextStyles.leaguesListLight,
+        ),
+      ],
+    ),
+  );
 }
