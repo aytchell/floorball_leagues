@@ -76,18 +76,18 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     _emitUpdatedHistory(visitedGame);
   }
 
-  void pin(VisitedGame visitedGame) {
-    if (visitedGame.isPinned) {
-      return;
-    }
-    emit(_pinVisitedGame(visitedGame));
+  void remove(int gameId) {
+    final newList = List<VisitedGame>.from(state.visitedGames);
+    newList.removeWhere((game) => game.gameId == gameId);
+    emit(GamesVisitHistory(newList));
   }
 
-  void unpin(VisitedGame visitedGame) {
-    if (!visitedGame.isPinned) {
-      return;
+  void toggle(VisitedGame visitedGame) {
+    if (visitedGame.isPinned) {
+      emit(_unpinVisitedGame(visitedGame));
+    } else {
+      emit(_pinVisitedGame(visitedGame));
     }
-    emit(_unpinVisitedGame(visitedGame));
   }
 
   Future<void> checkForUpdates() async {
@@ -118,7 +118,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     final newList = List<VisitedGame>.from(state.visitedGames);
     newList.removeWhere((game) => game.gameId == visitedGame.gameId);
 
-    final idx = _indexOfFirstUnpinned(state.visitedGames);
+    final idx = _indexOfFirstUnpinned(newList);
     if (idx == maxGames) {
       // seems like this list is already filled with pinned games
       return;
@@ -136,7 +136,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     final newList = List<VisitedGame>.from(state.visitedGames);
     newList.removeWhere((game) => game.gameId == visitedGame.gameId);
 
-    final idx = _indexOfFirstUnpinned(state.visitedGames);
+    final idx = _indexOfFirstUnpinned(newList);
     newList.insert(idx, _pin(visitedGame));
 
     // the concept says, that a visitedGame can only get pinned
@@ -150,7 +150,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     final newList = List<VisitedGame>.from(state.visitedGames);
     newList.removeWhere((game) => game.gameId == visitedGame.gameId);
 
-    final idx = _indexOfFirstUnpinned(state.visitedGames);
+    final idx = _indexOfFirstUnpinned(newList);
     newList.insert(idx, _unpin(visitedGame));
 
     // the concept says, that a visitedGame can only get pinned

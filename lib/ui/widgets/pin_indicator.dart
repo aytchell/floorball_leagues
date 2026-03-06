@@ -47,6 +47,16 @@ class HistoryPinIndicator extends StatelessWidget {
       : _PinTemplate(onPressedFactory, _historyPin.unpinned);
 }
 
+class HistoryTrashBin extends StatelessWidget {
+  final OnPressedFactory onPressedFactory;
+
+  const HistoryTrashBin({super.key, required this.onPressedFactory});
+
+  @override
+  Widget build(BuildContext context) =>
+      _PinTemplate(onPressedFactory, _trashCan);
+}
+
 class _PinTemplate extends StatelessWidget {
   final OnPressedFactory onPressedFactory;
   final Widget icon;
@@ -126,6 +136,8 @@ final _heartPinned = Stack(
     Icon(FloorballIcons.heartBorder, size: 20, color: Colors.black),
   ],
 );
+
+final _trashCan = Icon(FloorballIcons.trashCan, size: 16, color: Colors.red);
 
 final _historyPin = PinVariant(
   ident: 'pin',

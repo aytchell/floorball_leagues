@@ -6,17 +6,20 @@ class GenericLeagueNameEntry extends StatelessWidget {
   final int leagueId;
   final String leagueName;
   final Widget leadingChild;
+  final Widget? trailingChild;
 
   const GenericLeagueNameEntry({
     super.key,
     required this.leagueId,
     required this.leagueName,
     required this.leadingChild,
+    this.trailingChild,
   });
 
   @override
   Widget build(BuildContext context) => ListTile(
     leading: leadingChild,
+    trailing: trailingChild,
     title: TextButton(
       onPressed: () => LeagueDetailsPageRoute(
         leagueId: leagueId,

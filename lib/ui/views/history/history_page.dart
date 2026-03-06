@@ -62,6 +62,15 @@ class _GamesVisitHistoryList extends StatelessWidget {
         leagueId: game.detailedGame.leagueId,
         leagueName: game.leagueName,
         leadingChild: _HistoryPinIndicator(game: game, isPinned: game.isPinned),
+        trailingChild: game.isPinned
+            ? null
+            : HistoryTrashBin(
+                onPressedFactory: (context) {
+                  return () => BlocProvider.of<GamesVisitHistoryCubit>(
+                    context,
+                  ).remove(game.gameId);
+                },
+              ),
       ),
       StripedGamesRowsList([game.detailedGame], game.gameLeagueInfo),
     ];

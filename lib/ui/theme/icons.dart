@@ -18,4 +18,5 @@ class FloorballIcons {
   static final starBorder = _ios ? CupertinoIcons.star : Icons.star_outline;
 
   static final check = _ios ? CupertinoIcons.check_mark : Icons.check;
+  static final trashCan = _ios ? CupertinoIcons.trash : Icons.delete_outlined;
 }
