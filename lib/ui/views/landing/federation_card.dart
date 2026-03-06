@@ -92,7 +92,7 @@ class FederationCard extends StatelessWidget {
   }
 }
 
-class _FederationPinIndicator extends PinIndicator {
+class _FederationPinIndicator extends FavoritesIndicator {
   final int seasonId;
   final int federationId;
 

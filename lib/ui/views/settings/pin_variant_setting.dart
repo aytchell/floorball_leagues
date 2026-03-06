@@ -11,7 +11,7 @@ class PinVariantSetting extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<PinVariantCubit, PinVariantState>(
         builder: (_, state) {
-          final available = PinIndicator.availableVariants();
+          final available = FavoritesIndicator.availableVariants();
           final selected = available[state.variantIdent];
           return _buildTile(context, selected, available.values.toList());
         },

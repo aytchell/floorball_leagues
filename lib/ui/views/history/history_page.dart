@@ -3,6 +3,7 @@ import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/generic_league_name_entry.dart';
+import 'package:floorball/ui/widgets/pin_indicator.dart';
 import 'package:floorball/ui/widgets/striped_games_row_list.dart';
 import 'package:flutter/material.dart';
 import 'package:floorball/ui/main_app_scaffold.dart';
@@ -60,7 +61,7 @@ class _GamesVisitHistoryList extends StatelessWidget {
       GenericLeagueNameEntry(
         leagueId: game.detailedGame.leagueId,
         leagueName: game.leagueName,
-        leadingChild: SizedBox(width: 20, height: 30),
+        leadingChild: _HistoryPinIndicator(game: game, isPinned: game.isPinned),
       ),
       StripedGamesRowsList([game.detailedGame], game.gameLeagueInfo),
     ];
@@ -101,4 +102,16 @@ class _GamesVisitHistoryList extends StatelessWidget {
       ],
     ),
   );
+}
+
+class _HistoryPinIndicator extends HistoryPinIndicator {
+  final VisitedGame game;
+
+  _HistoryPinIndicator({required this.game, required super.isPinned})
+    : super(
+        onPressedFactory: (context) {
+          return () =>
+              BlocProvider.of<GamesVisitHistoryCubit>(context).toggle(game);
+        },
+      );
 }

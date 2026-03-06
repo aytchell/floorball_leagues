@@ -6,28 +6,45 @@ import 'package:floorball/utils/on_pressed_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PinIndicator extends StatelessWidget {
+class FavoritesIndicator extends StatelessWidget {
   final bool isPinned;
   final OnPressedFactory onPressedFactory;
 
-  const PinIndicator({
+  const FavoritesIndicator({
     super.key,
     required this.isPinned,
     required this.onPressedFactory,
   });
 
-  static Map<String, PinVariant> availableVariants() => variants;
+  static Map<String, PinVariant> availableVariants() => _variants;
 
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<PinVariantCubit, PinVariantState>(
         builder: (_, state) {
-          final variant = variants[state.variantIdent] ?? variants.values.first;
+          final variant =
+              _variants[state.variantIdent] ?? _variants.values.first;
           return isPinned
               ? _PinTemplate(onPressedFactory, variant.pinned)
               : _PinTemplate(onPressedFactory, variant.unpinned);
         },
       );
+}
+
+class HistoryPinIndicator extends StatelessWidget {
+  final bool isPinned;
+  final OnPressedFactory onPressedFactory;
+
+  const HistoryPinIndicator({
+    super.key,
+    required this.isPinned,
+    required this.onPressedFactory,
+  });
+
+  @override
+  Widget build(BuildContext context) => isPinned
+      ? _PinTemplate(onPressedFactory, _historyPin.pinned)
+      : _PinTemplate(onPressedFactory, _historyPin.unpinned);
 }
 
 class _PinTemplate extends StatelessWidget {
@@ -110,7 +127,14 @@ final _heartPinned = Stack(
   ],
 );
 
-final variants = Map.fromEntries(
+final _historyPin = PinVariant(
+  ident: 'pin',
+  name: 'Pinnadel',
+  pinned: _pushPinPinned,
+  unpinned: _pushPinUnpinned,
+);
+
+final _variants = Map.fromEntries(
   [
     PinVariant(
       ident: 'heart',
@@ -123,12 +147,6 @@ final variants = Map.fromEntries(
       name: 'Stern',
       pinned: _starPinned,
       unpinned: _starUnpinned,
-    ),
-    PinVariant(
-      ident: 'pin',
-      name: 'Pinnadel',
-      pinned: _pushPinPinned,
-      unpinned: _pushPinUnpinned,
     ),
   ].map((entry) => MapEntry(entry.ident, entry)),
 );

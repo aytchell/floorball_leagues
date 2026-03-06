@@ -32,7 +32,7 @@ class PinnableLeagueEntry extends StatelessWidget {
   );
 }
 
-class _LeaguePinIndicator extends PinIndicator {
+class _LeaguePinIndicator extends FavoritesIndicator {
   final int seasonId;
   final int federationId;
   final int leagueId;
