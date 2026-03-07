@@ -1,12 +1,12 @@
 import 'package:floorball/blocs/games_visit_history_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
+import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/generic_league_name_entry.dart';
 import 'package:floorball/ui/widgets/pin_indicator.dart';
 import 'package:floorball/ui/widgets/striped_games_row_list.dart';
 import 'package:flutter/material.dart';
-import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -98,7 +98,10 @@ class _GamesVisitHistoryList extends StatelessWidget {
       GenericLeagueNameEntry(
         leagueId: game.leagueId,
         leagueName: game.leagueName,
-        leadingChild: _HistoryPinIndicator(game: game, isPinned: game.isPinned),
+        leadingChild: _HistoryPinIndicator(
+          gameId: game.gameId,
+          isPinned: game.isPinned,
+        ),
         trailingChild: game.isPinned
             ? null
             : HistoryTrashBin(
@@ -115,13 +118,13 @@ class _GamesVisitHistoryList extends StatelessWidget {
 }
 
 class _HistoryPinIndicator extends HistoryPinIndicator {
-  final VisitedGame game;
+  final int gameId;
 
-  _HistoryPinIndicator({required this.game, required super.isPinned})
+  _HistoryPinIndicator({required this.gameId, required super.isPinned})
     : super(
         onPressedFactory: (context) {
           return () =>
-              BlocProvider.of<GamesVisitHistoryCubit>(context).toggle(game);
+              BlocProvider.of<GamesVisitHistoryCubit>(context).toggle(gameId);
         },
       );
 }

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:floorball/api/models/game_base.dart';
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
@@ -18,33 +17,30 @@ class VisitedGame {
   VisitedGame({
     required this.gameId,
     required this.leagueId,
-    this.isPinned = false,
+    required this.isPinned,
     required this.gameLeagueInfo,
     required this.leagueName,
     required this.gameData,
   });
 }
 
-VisitedGame _update(VisitedGame game, GameBase update) => VisitedGame(
+VisitedGame _update(VisitedGame game, GameBase updatedGame) => VisitedGame(
   gameId: game.gameId,
   leagueId: game.leagueId,
   isPinned: game.isPinned,
   gameLeagueInfo: game.gameLeagueInfo,
   leagueName: game.leagueName,
-  gameData: update,
+  gameData: updatedGame,
 );
 
-VisitedGame _changePin(VisitedGame game, bool isPinned) => VisitedGame(
+VisitedGame _togglePin(VisitedGame game) => VisitedGame(
   gameId: game.gameId,
   leagueId: game.leagueId,
-  isPinned: isPinned,
+  isPinned: !game.isPinned,
   gameLeagueInfo: game.gameLeagueInfo,
   leagueName: game.leagueName,
   gameData: game.gameData,
 );
-
-VisitedGame _pin(VisitedGame game) => _changePin(game, true);
-VisitedGame _unpin(VisitedGame game) => _changePin(game, false);
 
 class GamesVisitHistory {
   GamesVisitHistory(this.visitedGames);
@@ -58,40 +54,106 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
       super(GamesVisitHistory([]));
 
   final ApiRepository _repository;
+  final _idToGame = <int, VisitedGame>{};
 
   static final maxGames = 5;
 
-  void addVisitedGame(VisitedGame visitedGame) {
-    if (visitedGame.isPinned) {
+  void addVisitedGame(
+    int leagueId,
+    String leagueName,
+    GameLeagueInfo gameLeagueInfo,
+    GameBase gameData,
+  ) {
+    if (state.visitedGames.isEmpty) {
+      emit(
+        GamesVisitHistory([
+          _getOrCreate(leagueId, leagueName, gameLeagueInfo, gameData),
+        ]),
+      );
+      return;
+    }
+
+    if (_isPinned(gameData.gameId)) {
       // by convention pinned history entries don't change their place
-      // (in theory a caller could add a new visited game which is
-      // already 'pinned' by the caller ... we don't do this)
       return;
     }
 
-    final firstUnpinnedEntry = state.visitedGames.firstWhereOrNull(
-      (game) => !game.isPinned,
+    final idx = _indexOfFirstUnpinned(state.visitedGames);
+    if (idx == maxGames ||
+        (idx < state.visitedGames.length &&
+            state.visitedGames[idx].gameId == gameData.gameId)) {
+      // seems like this list is already filled with pinned games
+      // -or- the game to be 'added' is already the first unpinned entry
+      return;
+    }
+
+    final visitedGame = _getOrCreate(
+      leagueId,
+      leagueName,
+      gameLeagueInfo,
+      gameData,
     );
-    if (visitedGame.gameId == firstUnpinnedEntry?.gameId) {
-      // the first (unpinned) game in the list should be 'added' -> noop
-      return;
+    final newList = List<VisitedGame>.from(state.visitedGames);
+    newList.removeWhere((game) => game.gameId == visitedGame.gameId);
+    newList.insert(idx, visitedGame);
+
+    if (newList.length > maxGames) {
+      _idToGame.remove(newList.last.gameId);
+      newList.removeLast();
+    }
+    emit(GamesVisitHistory(newList));
+  }
+
+  VisitedGame _getOrCreate(
+    int leagueId,
+    String leagueName,
+    GameLeagueInfo gameLeagueInfo,
+    GameBase gameData,
+  ) {
+    final storedGame = _idToGame[gameData.gameId];
+    if (storedGame != null) {
+      return storedGame;
     }
 
-    _emitUpdatedHistory(visitedGame);
+    final createGame = VisitedGame(
+      gameId: gameData.gameId,
+      leagueId: leagueId,
+      isPinned: false,
+      gameLeagueInfo: gameLeagueInfo,
+      leagueName: leagueName,
+      gameData: gameData,
+    );
+    _idToGame[gameData.gameId] = createGame;
+    return createGame;
   }
 
   void remove(int gameId) {
     final newList = List<VisitedGame>.from(state.visitedGames);
     newList.removeWhere((game) => game.gameId == gameId);
+    _idToGame.remove(gameId);
     emit(GamesVisitHistory(newList));
   }
 
-  void toggle(VisitedGame visitedGame) {
-    if (visitedGame.isPinned) {
-      emit(_unpinVisitedGame(visitedGame));
+  void toggle(int gameId) {
+    final visitedGame = _idToGame[gameId];
+    if (visitedGame != null) {
+      log.info('Toggling game $gameId (from ${visitedGame.isPinned})');
+      final toggledGame = _togglePin(visitedGame);
+      _idToGame[gameId] = toggledGame;
+      _reinsertToggledGame(toggledGame);
     } else {
-      emit(_pinVisitedGame(visitedGame));
+      log.info('Game $gameId not found for toggling');
     }
+  }
+
+  void _reinsertToggledGame(VisitedGame visitedGame) {
+    final newList = List<VisitedGame>.from(state.visitedGames);
+    newList.removeWhere((game) => game.gameId == visitedGame.gameId);
+
+    final idx = _indexOfFirstUnpinned(newList);
+    newList.insert(idx, visitedGame);
+
+    emit(GamesVisitHistory(newList));
   }
 
   Future<void> checkForUpdates() async {
@@ -118,52 +180,6 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     }
   }
 
-  void _emitUpdatedHistory(VisitedGame visitedGame) {
-    final newList = List<VisitedGame>.from(state.visitedGames);
-    newList.removeWhere((game) => game.gameId == visitedGame.gameId);
-
-    final idx = _indexOfFirstUnpinned(newList);
-    if (idx == maxGames) {
-      // seems like this list is already filled with pinned games
-      return;
-    }
-
-    newList.insert(idx, visitedGame);
-
-    if (newList.length > maxGames) {
-      newList.removeLast();
-    }
-    emit(GamesVisitHistory(newList));
-  }
-
-  GamesVisitHistory _pinVisitedGame(VisitedGame visitedGame) {
-    final newList = List<VisitedGame>.from(state.visitedGames);
-    newList.removeWhere((game) => game.gameId == visitedGame.gameId);
-
-    final idx = _indexOfFirstUnpinned(newList);
-    newList.insert(idx, _pin(visitedGame));
-
-    // the concept says, that a visitedGame can only get pinned
-    // if it's only contained in the history. So we deleted one and added one
-    // => no need to check length
-
-    return GamesVisitHistory(newList);
-  }
-
-  GamesVisitHistory _unpinVisitedGame(VisitedGame visitedGame) {
-    final newList = List<VisitedGame>.from(state.visitedGames);
-    newList.removeWhere((game) => game.gameId == visitedGame.gameId);
-
-    final idx = _indexOfFirstUnpinned(newList);
-    newList.insert(idx, _unpin(visitedGame));
-
-    // the concept says, that a visitedGame can only get pinned
-    // if it's only contained in the history. So we deleted one and added one
-    // => no need to check length
-
-    return GamesVisitHistory(newList);
-  }
-
   int _indexOfFirstUnpinned(List<VisitedGame> visitedGames) {
     for (int i = 0; i < visitedGames.length; ++i) {
       if (!visitedGames[i].isPinned) {
@@ -172,4 +188,8 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     }
     return visitedGames.length;
   }
+
+  bool _isPinned(int gameId) =>
+      // this also handles 'null', when 'gameId' is not contained in the Map
+      true == _idToGame[gameId]?.isPinned;
 }

@@ -198,13 +198,10 @@ class GameDetailsPage extends StatelessWidget {
     String leagueName,
     DetailedGame detailedGame,
   ) => BlocProvider.of<GamesVisitHistoryCubit>(context).addVisitedGame(
-    VisitedGame(
-      gameId: gameId,
-      leagueId: detailedGame.leagueId,
-      gameLeagueInfo: gameLeagueInfo,
-      leagueName: leagueName,
-      gameData: detailedGame,
-    ),
+    detailedGame.leagueId,
+    leagueName,
+    gameLeagueInfo,
+    detailedGame,
   );
 }
 
