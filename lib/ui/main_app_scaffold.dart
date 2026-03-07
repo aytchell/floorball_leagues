@@ -1,4 +1,5 @@
 import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/blocs/games_visit_history_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/icons.dart';
@@ -70,7 +71,12 @@ class MainAppScaffold extends StatelessWidget {
               isEnabled: (page != MenuPage.history),
               onTap: (page == MenuPage.history)
                   ? null
-                  : () => context.push(HistoryPage.routePath),
+                  : () {
+                      BlocProvider.of<GamesVisitHistoryCubit>(
+                        context,
+                      ).checkForUpdates();
+                      context.push(HistoryPage.routePath);
+                    },
             ),
             const Spacer(),
             _buildBottomNavItem(
