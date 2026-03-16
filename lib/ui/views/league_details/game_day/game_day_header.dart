@@ -17,7 +17,7 @@ class GameDayHeader extends StatelessWidget {
   final int leagueId;
   final GameDayTitle gdt;
 
-  const GameDayHeader({required this.leagueId, required this.gdt});
+  const GameDayHeader({super.key, required this.leagueId, required this.gdt});
 
   @override
   Widget build(BuildContext context) {
@@ -115,23 +115,11 @@ class _MultiDateTile extends StatelessWidget {
     if (fst.dateTime.date == lst.dateTime.date) {
       return _multiIsSingleDateTile(title, fst);
     }
-    final titleStyle = lst.isBygone ? _pastBold : _futureBold;
-    final fstStyles = _TextStyles.from(fst);
-    final lstStyles = _TextStyles.from(lst);
-    return ListTile(
-      title: _addTodayMarker(Text(title, style: titleStyle), dacs),
-      subtitle: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(text: 'von ${_weekday(fst)} ', style: lstStyles.normal),
-            TextSpan(text: '${fst.beautifiedDate} ', style: fstStyles.bold),
-            TextSpan(text: 'bis ${_weekday(lst)} ', style: lstStyles.normal),
-            TextSpan(text: lst.beautifiedDate, style: lstStyles.bold),
-          ],
-        ),
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
+    if (_consecutiveDays(fst, lst)) {
+      return _multiAreConsecutiveDaysTile(title, fst, lst);
+    }
+
+    return _multiAreDateRange(title, fst, lst);
   }
 
   Widget _multiIsSingleDateTile(String title, DateAndClub dac) {
@@ -143,6 +131,61 @@ class _MultiDateTile extends StatelessWidget {
           children: [
             TextSpan(text: 'am ${_weekday(dac)} ', style: styles.normal),
             TextSpan(text: dac.beautifiedDate, style: styles.bold),
+          ],
+        ),
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  bool _consecutiveDays(DateAndClub fst, DateAndClub lst) =>
+      _onlyDate(fst).add(Duration(days: 1)).compareTo(_onlyDate(lst)) == 0;
+
+  DateTime _onlyDate(DateAndClub dac) {
+    final dt = dac.dateTime.dateTime;
+    return DateTime(dt.year, dt.month, dt.day);
+  }
+
+  Widget _multiAreConsecutiveDaysTile(
+    String tile,
+    DateAndClub fst,
+    DateAndClub lst,
+  ) {
+    final titleStyle = lst.isBygone ? _pastBold : _futureBold;
+    final fstStyles = _TextStyles.from(fst);
+    final lstStyles = _TextStyles.from(lst);
+
+    return ListTile(
+      title: _addTodayMarker(Text(title, style: titleStyle), dacs),
+      subtitle: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: '${_weekday(fst)} ', style: fstStyles.normal),
+            TextSpan(text: '${fst.beautifiedDate} ', style: fstStyles.bold),
+            TextSpan(text: 'und ', style: fstStyles.normal),
+            TextSpan(text: '${_weekday(lst)} ', style: lstStyles.normal),
+            TextSpan(text: lst.beautifiedDate, style: lstStyles.bold),
+          ],
+        ),
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+
+  Widget _multiAreDateRange(String title, DateAndClub fst, DateAndClub lst) {
+    final titleStyle = lst.isBygone ? _pastBold : _futureBold;
+    final fstStyles = _TextStyles.from(fst);
+    final lstStyles = _TextStyles.from(lst);
+
+    return ListTile(
+      title: _addTodayMarker(Text(title, style: titleStyle), dacs),
+      subtitle: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: 'von ${_weekday(fst)} ', style: fstStyles.normal),
+            TextSpan(text: '${fst.beautifiedDate} ', style: fstStyles.bold),
+            TextSpan(text: 'bis ${_weekday(lst)} ', style: lstStyles.normal),
+            TextSpan(text: lst.beautifiedDate, style: lstStyles.bold),
           ],
         ),
         overflow: TextOverflow.ellipsis,
