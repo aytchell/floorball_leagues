@@ -73,7 +73,7 @@ List<Widget> _buildRefDetailLines(RefLicenseState state, Referee ref) {
   if (license == null) {
     return _buildRefDetailErrorMessage(
       ref,
-      'Keine Lizenz-Information verfügbar',
+      'Keine Lizenz-Information für (${ref.licenseId}) verfügbar',
     );
   }
 
