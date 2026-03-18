@@ -10,8 +10,6 @@ class LeagueTableState {
 
   final Map<int, List<LeagueTableRow>> _byLeagueId;
 
-  bool hasLeagueTableOf(int leagueId) => _byLeagueId[leagueId] != null;
-
   List<LeagueTableRow> leagueTableOf(int leagueId) {
     final data = _byLeagueId[leagueId];
     return data ?? [];
@@ -32,14 +30,6 @@ class LeagueTableCubit extends Cubit<LeagueTableState> {
       super(LeagueTableState());
 
   final ApiRepository _repository;
-
-  void ensureLeagueTableFor(int leagueId) {
-    if (state.hasLeagueTableOf(leagueId)) {
-      // league table for a league is only refreshed on user request
-      return;
-    }
-    refreshLeagueTableFor(leagueId);
-  }
 
   void refreshLeagueTableFor(int leagueId) => _repository
       .getLeagueTable(leagueId)

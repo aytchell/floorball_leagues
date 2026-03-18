@@ -5,20 +5,33 @@ import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/team_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_table_view/material_table_view.dart';
 
+const _headerWidget = PanelTitle(
+  text: 'Tabelle',
+  style: TextStyles.genericPanelTitle,
+);
+
 ExpansionPanelRadio buildLeagueTablePanel(
   int identifier,
   int leagueId,
   GameLeagueInfo gameLeagueInfo,
 ) {
-  return buildExpansionPanelRadio(
+  return buildExpansionHeaderBuilderPanelRadio(
     value: identifier,
-    panelText: 'Tabelle',
+    headerBuilder: (BuildContext context, bool isExpanded) {
+      if (isExpanded) {
+        BlocProvider.of<LeagueTableCubit>(
+          context,
+        ).refreshLeagueTableFor(leagueId);
+      }
+      return _headerWidget;
+    },
     body: _LeagueTableContent(
       leagueId: leagueId,
       gameLeagueInfo: gameLeagueInfo,
@@ -36,30 +49,27 @@ class _LeagueTableContent extends GenericStripedTable<LeagueTableRow> {
   });
 
   @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<LeagueTableCubit>(context).ensureLeagueTableFor(leagueId);
-
-    return BlocBuilder<LeagueTableCubit, LeagueTableState>(
-      builder: (_, tableState) {
-        final table = tableState.leagueTableOf(leagueId);
-        return buildTable(
-          _tableDefinition,
-          table,
-          onTapBuilder: (ctxt, rowId) {
-            return () => TeamDetailsFullPageRoute(
-              $extra: TeamInfo(
-                leagueId: leagueId,
-                teamId: table[rowId].teamId,
-                teamName: table[rowId].teamName,
-                teamLogoUri: table[rowId].teamLogoUri,
-                gameLeagueInfo: gameLeagueInfo,
-              ),
-            ).push(context);
-          },
-        );
-      },
-    );
-  }
+  Widget build(BuildContext context) =>
+      BlocBuilder<LeagueTableCubit, LeagueTableState>(
+        builder: (_, tableState) {
+          final table = tableState.leagueTableOf(leagueId);
+          return buildTable(
+            _tableDefinition,
+            table,
+            onTapBuilder: (ctxt, rowId) {
+              return () => TeamDetailsFullPageRoute(
+                $extra: TeamInfo(
+                  leagueId: leagueId,
+                  teamId: table[rowId].teamId,
+                  teamName: table[rowId].teamName,
+                  teamLogoUri: table[rowId].teamLogoUri,
+                  gameLeagueInfo: gameLeagueInfo,
+                ),
+              ).push(context);
+            },
+          );
+        },
+      );
 
   static final List<TableColumnDefinition<LeagueTableRow>> _tableDefinition = [
     TableColumnDefinition(

@@ -10,8 +10,6 @@ class ChampTableState {
 
   final Map<int, List<ChampGroupTable>> _byLeagueId;
 
-  bool hasChampTableOf(int leagueId) => _byLeagueId[leagueId] != null;
-
   List<ChampGroupTable> champTableOf(int leagueId) {
     final data = _byLeagueId[leagueId];
     return data ?? [];
@@ -32,14 +30,6 @@ class ChampTableCubit extends Cubit<ChampTableState> {
       super(ChampTableState());
 
   final ApiRepository _repository;
-
-  void ensureChampTableFor(int leagueId) {
-    if (state.hasChampTableOf(leagueId)) {
-      // champ table for a league is only refreshed on user request
-      return;
-    }
-    refreshChampTableFor(leagueId);
-  }
 
   void refreshChampTableFor(int leagueId) => _repository
       .getChampTable(leagueId)

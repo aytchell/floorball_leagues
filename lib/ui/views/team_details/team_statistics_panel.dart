@@ -34,7 +34,7 @@ class _TeamStatisticsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ScorerCubit>(context).updateScorersFor(leagueId);
-    BlocProvider.of<LeagueTableCubit>(context).ensureLeagueTableFor(leagueId);
+    BlocProvider.of<LeagueTableCubit>(context).refreshLeagueTableFor(leagueId);
 
     return BlocBuilder<ScorerCubit, ScorerState>(
       builder: (_, scorerState) {

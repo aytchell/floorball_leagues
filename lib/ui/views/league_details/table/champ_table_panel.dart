@@ -8,6 +8,7 @@ import 'package:floorball/ui/views/league_details/table/champ_result_table.dart'
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
 import 'package:floorball/ui/widgets/left_labeled_content.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:floorball/ui/widgets/team_logo.dart';
 import 'package:floorball/utils/list_extensions.dart';
 import 'package:floorball/utils/team_repository.dart';
@@ -18,14 +19,26 @@ import 'package:material_table_view/material_table_view.dart';
 
 final log = Logger('ChampTableCard');
 
+const _headerWidget = PanelTitle(
+  text: 'Tabelle',
+  style: TextStyles.genericPanelTitle,
+);
+
 ExpansionPanelRadio buildChampTablePanel(
   int identifier,
   int leagueId,
   GameLeagueInfo gameLeagueInfo,
 ) {
-  return buildExpansionPanelRadio(
+  return buildExpansionHeaderBuilderPanelRadio(
     value: identifier,
-    panelText: 'Tabelle',
+    headerBuilder: (BuildContext context, bool isExpanded) {
+      if (isExpanded) {
+        BlocProvider.of<ChampTableCubit>(
+          context,
+        ).refreshChampTableFor(leagueId);
+      }
+      return _headerWidget;
+    },
     body: _ChampTableContent(
       leagueId: leagueId,
       gameLeagueInfo: gameLeagueInfo,
@@ -46,16 +59,13 @@ class _ChampTableContent extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<ChampTableCubit>(context).ensureChampTableFor(leagueId);
-
-    return BlocBuilder<ChampTableCubit, ChampTableState>(
-      builder: (_, tableState) {
-        final table = tableState.champTableOf(leagueId);
-        return _buildTablesContent(table);
-      },
-    );
-  }
+  Widget build(BuildContext context) =>
+      BlocBuilder<ChampTableCubit, ChampTableState>(
+        builder: (_, tableState) {
+          final table = tableState.champTableOf(leagueId);
+          return _buildTablesContent(table);
+        },
+      );
 
   Widget _buildTablesContent(List<ChampGroupTable> champTables) {
     if (champTables.isEmpty) {
