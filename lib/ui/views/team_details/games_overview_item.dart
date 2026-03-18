@@ -217,12 +217,12 @@ class _FutureGame extends StatelessWidget {
     if (teamName == game.homeTeamName) {
       return _fillOpponentTemplate(Icons.home, [
         const TextSpan(text: 'Heim gegen\n', style: _normal),
-        TextSpan(text: '${game.guestTeamName}', style: _bold),
+        TextSpan(text: game.guestTeamName, style: _bold),
       ]);
     } else {
       return _fillOpponentTemplate(Icons.train, [
         const TextSpan(text: 'Gast gegen\n', style: _normal),
-        TextSpan(text: '${game.homeTeamName}', style: _bold),
+        TextSpan(text: game.homeTeamName, style: _bold),
       ]);
     }
   }
