@@ -4,6 +4,8 @@ import 'package:floorball/ui/views/settings/nav_app_setting.dart';
 import 'package:floorball/ui/views/settings/pin_variant_setting.dart';
 import 'package:flutter/material.dart';
 
+import 'about_information.dart';
+
 class SettingsPage extends StatelessWidget {
   static const String routePath = '/settings';
 
@@ -34,6 +36,11 @@ class SettingsPage extends StatelessWidget {
         ),
         PinVariantSetting(),
         const Divider(height: 1),
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text('About', style: TextStyles.settingsSection),
+        ),
+        AboutInformation(),
       ],
     );
   }
