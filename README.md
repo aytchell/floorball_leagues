@@ -7,7 +7,11 @@ leagues. This app makes use of the APIs of https://saisonmanager.de/
 
 Fetch a Flutter SDK (view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development), and run `flutter run`.
+samples, guidance on mobile development). If you have `make` installed, then you can run
+`make generate`: this will generate classes for navigation and some app icons. Without `make`
+you have to manually run the commands contained in the `Makefile`.
+
+Then run `flutter run`.
 
 ## Contributing
 
@@ -18,7 +22,7 @@ Cleanups and refactorings are welcome, too.
 
 ## License
 
-Copyright 2025
+Copyright 2026
 Hannes Lerchl
 
 This code is licensed under the GPL General Public License 3 or higher.
