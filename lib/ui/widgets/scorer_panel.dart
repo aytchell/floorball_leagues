@@ -1,14 +1,19 @@
+import 'package:floorball/api/models/scorer.dart';
+import 'package:floorball/api/models/season_info.dart';
+import 'package:floorball/blocs/scorer_cubit.dart';
+import 'package:floorball/blocs/selected_season_cubit.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
+import 'package:floorball/ui/widgets/generic_striped_table.dart';
+import 'package:floorball/ui/widgets/panel_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_table_view/material_table_view.dart';
 
-import 'package:floorball/blocs/scorer_cubit.dart';
-import 'package:floorball/blocs/selected_season_cubit.dart';
-import 'package:floorball/api/models/scorer.dart';
-import 'package:floorball/api/models/season_info.dart';
-import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
-import 'package:floorball/ui/widgets/generic_striped_table.dart';
+const _headerWidget = PanelTitle(
+  text: 'Scorer',
+  style: TextStyles.genericPanelTitle,
+);
 
 ExpansionPanelRadio buildScorerPanel(
   int identifier,
@@ -17,9 +22,14 @@ ExpansionPanelRadio buildScorerPanel(
   double? rowHeight,
   bool Function(Scorer)? filter,
 }) {
-  return buildExpansionPanelRadio(
+  return buildExpansionHeaderBuilderPanelRadio(
     value: identifier,
-    panelText: 'Scorer',
+    headerBuilder: (BuildContext context, bool isExpanded) {
+      if (isExpanded) {
+        BlocProvider.of<ScorerCubit>(context).updateScorersFor(leagueId);
+      }
+      return _headerWidget;
+    },
     body: _ScorerTableContent(
       leagueId: leagueId,
       headerHeight: headerHeight,
@@ -43,27 +53,24 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
   });
 
   @override
-  Widget build(BuildContext context) {
-    BlocProvider.of<ScorerCubit>(context).updateScorersFor(leagueId);
-
-    return BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
-      builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
-        builder: (_, scorerState) => buildTable(
-          (season != null && season.id >= firstSeasonIdWithNewPenalties)
-              ? _tableDefinitionPenalty2and2
-              : _tableDefinitionPenalty5,
-          (filter == null)
-              ? scorerState.scorersOf(leagueId)
-              : scorerState.scorersOf(leagueId).where(filter!).toList(),
-          headerHeight: headerHeight,
-          rowHeight: rowHeight,
+  Widget build(BuildContext context) =>
+      BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
+        builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
+          builder: (_, scorerState) => buildTable(
+            (season != null && season.id >= firstSeasonIdWithNewPenalties)
+                ? _tableDefinitionPenalty2and2
+                : _tableDefinitionPenalty5,
+            (filter == null)
+                ? scorerState.scorersOf(leagueId)
+                : scorerState.scorersOf(leagueId).where(filter!).toList(),
+            headerHeight: headerHeight,
+            rowHeight: rowHeight,
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   static final _position = TableColumnDefinition<Scorer>(
-    column: const TableColumn(width: 30),
+    column: const TableColumn(width: 35),
     headerBuilder: () => buildHeaderCell('#', align: Alignment.bottomRight),
     contentBuilder: (row) => buildTextCell('${row.position}'),
   );
