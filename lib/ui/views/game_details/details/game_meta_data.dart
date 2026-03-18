@@ -2,9 +2,11 @@ import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/details/ref_details_snackbar.dart';
+import 'package:floorball/ui/widgets/icon_text_button.dart';
 import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final log = Logger('GameMetaData');
 
@@ -16,20 +18,21 @@ class GameMetaData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final entries = [
-      LabeledValue('Liga', game.leagueName),
-      LabeledValue('Spielnummer', game.gameNumber),
-      LabeledValue('Datum', beautifyNullableDate(game.date) ?? game.date),
-      LabeledValue('Spielbeginn', _printStartTime(game)),
-      LabeledValue('Austragungshalle', game.arenaName),
-      LabeledValue('Austragungsort', game.arenaAddress),
-      LabeledValue('Zuschauerzahl', game.audience?.toString() ?? '-'),
-      LabeledValue(
+      LabeledString('Liga', game.leagueName),
+      LabeledString('Spielnummer', game.gameNumber),
+      LabeledString('Datum', beautifyNullableDate(game.date) ?? game.date),
+      LabeledString('Spielbeginn', _printStartTime(game)),
+      LabeledString('Austragungshalle', game.arenaName),
+      LabeledString('Austragungsort', game.arenaAddress),
+      LabeledString('Zuschauerzahl', game.audience?.toString() ?? '-'),
+      LabeledString(
         'Schiedsrichter',
         _printReferees(game),
         onTap: (game.referees.isEmpty)
             ? null
             : showRefereeLicenseDetails(context, game),
       ),
+      _LabeledSaisonmanagerButton('Saisonmanager', game),
     ];
 
     return Column(
@@ -56,4 +59,48 @@ class GameMetaData extends StatelessWidget {
       return game.nominatedReferees ?? '-';
     }
   }
+}
+
+class _LabeledSaisonmanagerButton extends LabeledValue {
+  final DetailedGame game;
+  final Widget _button;
+
+  _LabeledSaisonmanagerButton(super.label, this.game)
+    : _button = _buildButton(game);
+
+  @override
+  Widget getValue() => _button;
+
+  static Widget _buildButton(DetailedGame game) => IconTextButton(
+    icon: Icons.exit_to_app,
+    onPressed: () async {
+      final uri = _buildSaisonmanagerLink(game);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    },
+  );
+
+  static Uri _buildSaisonmanagerLink(DetailedGame game) {
+    final fed = game.federationShortName.toLowerCase();
+    final nameComponent = _pathComponentFromLeagueName(game.leagueName);
+
+    // this is very awful. The path to the game is not delivered via the API;
+    // instead we have to compute it ourselves from several identifiers
+    final path = '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
+
+    return Uri.https('saisonmanager.de', path);
+  }
+
+  static final _regExSlashDot = RegExp('[/.]');
+  static final _regExMultiDash = RegExp('--*');
+  static String _pathComponentFromLeagueName(String leagueName) => leagueName
+      .toLowerCase()
+      .replaceAll(' ', '-')
+      .replaceAll(_regExSlashDot, '')
+      .replaceAll('ä', 'ae')
+      .replaceAll('ö', 'oe')
+      .replaceAll('ü', 'ue')
+      .replaceAll('ß', 'ss')
+      .replaceAll(_regExMultiDash, '-');
 }

@@ -2,12 +2,28 @@ import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/widgets/striped_rows_list.dart';
 import 'package:flutter/material.dart';
 
-class LabeledValue {
+abstract class LabeledValue {
   final String label;
-  final String value;
   final void Function()? onTap;
 
-  const LabeledValue(this.label, this.value, {this.onTap});
+  const LabeledValue(this.label, {this.onTap});
+
+  Widget getValue();
+}
+
+class LabeledString extends LabeledValue {
+  final String value;
+
+  const LabeledString(super.label, this.value, {super.onTap});
+
+  @override
+  Widget getValue() => Text(
+    value,
+    style: TextStyles.genericLabeledValueValue,
+    textAlign: TextAlign.right,
+    maxLines: 2,
+    overflow: TextOverflow.ellipsis,
+  );
 }
 
 class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {
@@ -49,14 +65,6 @@ class _LabeledValueRow extends StatelessWidget {
       textAlign: TextAlign.left,
     ),
     const SizedBox(width: 16),
-    Expanded(
-      child: Text(
-        entry.value,
-        style: TextStyles.genericLabeledValueValue,
-        textAlign: TextAlign.right,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-    ),
+    Expanded(child: entry.getValue()),
   ];
 }
