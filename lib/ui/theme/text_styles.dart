@@ -214,6 +214,12 @@ class TextStyles {
   static const navBottomSheetTitle = _normal1;
   static const settingsSection = _bold1;
 
+  static const aboutSectionHeading = _bold1125;
+  static const aboutText = _normal1;
+  static final aboutTextHref = _normal1.copyWith(color: Colors.blue);
+  static const aboutBoldText = _bold1;
+  static const aboutOkButton = _normal1;
+
   // generic styles
   static const genericLoadingData = _bold1125gray153;
   static const genericNoData = _bold1125gray153;
