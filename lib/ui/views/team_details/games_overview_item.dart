@@ -1,5 +1,6 @@
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/theme/icons.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/game_result_texts.dart';
@@ -98,7 +99,7 @@ class _PastGame extends StatelessWidget {
 
   Widget _renderOpponent() => Row(
     children: [
-      const Icon(Icons.compare_arrows, size: 22, color: Colors.grey),
+      const Icon(Icons.groups, size: 22, color: Colors.grey),
       _iconSpacer,
       Text(_opponentName() ?? '???', style: TextStyles.teamDetailsPastOpponent),
     ],
@@ -195,7 +196,7 @@ class _FutureGame extends StatelessWidget {
 
   Widget _renderHostingTeam() => Row(
     children: [
-      const Icon(Icons.location_on, size: 22, color: Colors.grey),
+      Icon(FloorballIcons.matchLocation, size: 22, color: Colors.grey),
       _iconSpacer,
       Text(_printHostingClub(), style: _gray),
       ...maybeRenderNavigationArrow(
@@ -214,17 +215,14 @@ class _FutureGame extends StatelessWidget {
   }
 
   Widget _renderOpponent() {
-    if (teamName == game.homeTeamName) {
-      return _fillOpponentTemplate(Icons.home, [
-        const TextSpan(text: 'Heim gegen\n', style: _normal),
-        TextSpan(text: game.guestTeamName, style: _bold),
-      ]);
-    } else {
-      return _fillOpponentTemplate(Icons.train, [
-        const TextSpan(text: 'Gast gegen\n', style: _normal),
-        TextSpan(text: game.homeTeamName, style: _bold),
-      ]);
-    }
+    final homeOrGuest = (teamName == game.homeTeamName) ? "Heim" : "Gast";
+    final opponent = (teamName == game.homeTeamName)
+        ? game.guestTeamName
+        : game.homeTeamName;
+    return _fillOpponentTemplate(FloorballIcons.opponent, [
+      TextSpan(text: '$homeOrGuest gegen\n', style: _normal),
+      TextSpan(text: opponent, style: _bold),
+    ]);
   }
 
   Widget _fillOpponentTemplate(IconData icon, List<TextSpan> texts) => Row(

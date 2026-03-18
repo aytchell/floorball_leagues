@@ -26,4 +26,7 @@ class FloorballIcons {
 
   static final vibrate = Icons.vibration;
   static final noNavigationApp = Icons.gps_off;
+
+  static final opponent = _ios ? CupertinoIcons.group_solid : Icons.groups;
+  static final matchLocation = Icons.gps_fixed;
 }
