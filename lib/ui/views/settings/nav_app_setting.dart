@@ -1,5 +1,6 @@
 import 'package:floorball/blocs/navigation_app_cubit.dart';
 import 'package:floorball/repositories/navigation_app.dart';
+import 'package:floorball/ui/theme/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +26,9 @@ class NavAppSetting extends StatelessWidget {
       subtitle: selected != null
           ? Text(selected.name)
           : const Text('Keine App ausgewählt'),
-      leading: (selected == null) ? null : selected.svg(32),
+      leading: (selected == null)
+          ? Icon(FloorballIcons.noNavigationApp, size: 32)
+          : selected.svg(32),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
         final cubit = BlocProvider.of<NavigationAppCubit>(context);

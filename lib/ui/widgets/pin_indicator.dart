@@ -18,12 +18,13 @@ class FavoritesIndicator extends StatelessWidget {
 
   static Map<String, PinVariant> availableVariants() => _variants;
 
+  static get defaultVariant => _variants.values.first;
+
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<PinVariantCubit, PinVariantState>(
         builder: (_, state) {
-          final variant =
-              _variants[state.variantIdent] ?? _variants.values.first;
+          final variant = _variants[state.variantIdent] ?? defaultVariant;
           return isPinned
               ? _PinTemplate(onPressedFactory, variant.pinned)
               : _PinTemplate(onPressedFactory, variant.unpinned);

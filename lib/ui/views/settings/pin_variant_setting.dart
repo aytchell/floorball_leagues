@@ -12,22 +12,22 @@ class PinVariantSetting extends StatelessWidget {
       BlocBuilder<PinVariantCubit, PinVariantState>(
         builder: (_, state) {
           final available = FavoritesIndicator.availableVariants();
-          final selected = available[state.variantIdent];
+          final selected =
+              available[state.variantIdent] ??
+              FavoritesIndicator.defaultVariant;
           return _buildTile(context, selected, available.values.toList());
         },
       );
 
   Widget _buildTile(
     BuildContext context,
-    PinVariant? selected,
+    PinVariant selected,
     List<PinVariant> available,
   ) {
     return ListTile(
       title: const Text('Favoriten-Icon'),
-      subtitle: selected != null
-          ? Text(selected.name)
-          : const Text('Keine Variante präferriert'),
-      leading: (selected == null) ? null : selected.pinned,
+      subtitle: Text(selected.name),
+      leading: selected.pinned,
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
         final cubit = BlocProvider.of<PinVariantCubit>(context);
