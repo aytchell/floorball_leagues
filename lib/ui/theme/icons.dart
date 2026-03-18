@@ -23,4 +23,6 @@ class FloorballIcons {
 
   static final check = _ios ? CupertinoIcons.check_mark : Icons.check;
   static final trashCan = _ios ? CupertinoIcons.trash : Icons.delete_outlined;
+
+  static final vibrate = Icons.vibration;
 }

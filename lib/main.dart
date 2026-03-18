@@ -13,6 +13,7 @@ import 'package:floorball/blocs/pinned_leagues_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
+import 'package:floorball/blocs/vibrate_on_fav_cubit.dart';
 import 'package:floorball/entry_info_processor.dart';
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/repositories/navigation_repository.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
   final availableFederationsCubit = AvailableFederationsCubit();
   final selectedSeasonCubit = SelectedSeasonCubit();
   late final tickCubit = TickCubit();
+  late final vibrateOnFavCubit = VibrateOnFavCubit(persistenceRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: availableFederationsCubit),
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: tickCubit),
+          BlocProvider.value(value: vibrateOnFavCubit),
           BlocProvider(create: (_) => LeaguesCubit(apiRepository)),
           BlocProvider(create: (_) => LeagueGameDayCubit(apiRepository)),
           BlocProvider(create: (_) => ScorerCubit(apiRepository)),
@@ -74,10 +77,14 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => DetailedGamesCubit(apiRepository)),
           BlocProvider(create: (_) => GamesVisitHistoryCubit(apiRepository)),
           BlocProvider(
-            create: (_) => PinnedFederationsCubit(persistenceRepository),
+            create: (_) => PinnedFederationsCubit(
+              persistenceRepository,
+              vibrateOnFavCubit,
+            ),
           ),
           BlocProvider(
-            create: (_) => PinnedLeaguesCubit(persistenceRepository),
+            create: (_) =>
+                PinnedLeaguesCubit(persistenceRepository, vibrateOnFavCubit),
           ),
           BlocProvider(create: (_) => PinVariantCubit(persistenceRepository)),
           BlocProvider(
@@ -114,6 +121,7 @@ class InnerApp extends StatelessWidget {
     BlocProvider.of<PinnedFederationsCubit>(context).init();
     BlocProvider.of<PinnedLeaguesCubit>(context).init();
     BlocProvider.of<PinVariantCubit>(context).init();
+    BlocProvider.of<VibrateOnFavCubit>(context).init();
     BlocProvider.of<NavigationAppCubit>(context).init();
 
     log.info("Triggering download of initial data");

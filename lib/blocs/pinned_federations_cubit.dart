@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:floorball/blocs/vibrate_on_fav_cubit.dart';
 import 'package:floorball/repositories/persistence_repository.dart';
 import 'package:floorball/utils/list_extensions.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
@@ -44,14 +46,18 @@ class PinnedFederations {
 
 class PinnedFederationsCubit extends Cubit<PinnedFederations> {
   final PersistenceRepository persistenceRepository;
+  final VibrateOnFavCubit vibrateOnFavCubit;
   static const _persistenceKey = PersistenceRepository.pinnedFederationsKey;
 
-  PinnedFederationsCubit(this.persistenceRepository)
+  PinnedFederationsCubit(this.persistenceRepository, this.vibrateOnFavCubit)
     : super(PinnedFederations());
 
   void toggle(int seasonId, int federationId) {
     final newState = state.toggle(seasonId, federationId);
     persistenceRepository.persistString(_persistenceKey, newState.asJson());
+    if (vibrateOnFavCubit.vibrateOnToggle) {
+      HapticFeedback.lightImpact();
+    }
     emit(newState);
   }
 

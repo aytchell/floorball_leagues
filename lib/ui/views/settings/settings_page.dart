@@ -2,6 +2,7 @@ import 'package:floorball/ui/main_app_scaffold.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/settings/nav_app_setting.dart';
 import 'package:floorball/ui/views/settings/pin_variant_setting.dart';
+import 'package:floorball/ui/views/settings/vibrate_on_fav_setting.dart';
 import 'package:flutter/material.dart';
 
 import 'about_information.dart';
@@ -35,6 +36,7 @@ class SettingsPage extends StatelessWidget {
           child: Text('Favoriten', style: TextStyles.settingsSection),
         ),
         PinVariantSetting(),
+        VibrateOnFavSetting(),
         const Divider(height: 1),
         const Padding(
           padding: EdgeInsets.all(16.0),
