@@ -219,6 +219,7 @@ class TextStyles {
   static final aboutTextHref = _normal1.copyWith(color: Colors.blue);
   static const aboutBoldText = _bold1;
   static const aboutOkButton = _normal1;
+  static const aboutVersionText = _normal0875gray153;
 
   // generic styles
   static const genericLoadingData = _bold1125gray153;

@@ -57,6 +57,7 @@ dependencies:
       url: https://github.com/aytchell/map_launcher.git
       ref: feature/by_address
   url_launcher: ^6.3.1
+  package_info_plus: ^9.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

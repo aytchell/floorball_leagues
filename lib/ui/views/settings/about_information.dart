@@ -1,4 +1,5 @@
 import 'package:floorball/ui/theme/text_styles.dart';
+import 'package:floorball/ui/views/settings/version_info.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -89,6 +90,8 @@ class AboutInformation extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               _aboutText,
+              const SizedBox(height: 24),
+              VersionInfo(),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
