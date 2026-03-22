@@ -20,6 +20,8 @@ import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/repositories/persistence_repository.dart';
 import 'package:floorball/repositories/ref_license_repository.dart';
 import 'package:floorball/routes.dart';
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -30,7 +32,12 @@ void setupLogging() {
   // Configure logging level and output
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
+    developer.log(
+      record.message,
+      name: record.loggerName,
+      level: record.level.value,
+      time: record.time,
+    );
   });
 }
 
