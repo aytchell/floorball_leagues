@@ -29,4 +29,8 @@ class FloorballIcons {
 
   static final opponent = _ios ? CupertinoIcons.group_solid : Icons.groups;
   static final matchLocation = Icons.gps_fixed;
+
+  static final aboutDocumentation = _ios
+      ? CupertinoIcons.book
+      : Icons.menu_book;
 }

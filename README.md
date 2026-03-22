@@ -1,24 +1,26 @@
 # Floorball Manager
 
-An app for browsing all games, results, players, ... of all German floorball
-leagues. This app makes use of the APIs of https://saisonmanager.de/
+An app for browsing all games, results, players, ... of all German
+floorball leagues. This app makes use of the APIs of
+https://saisonmanager.de/
 
 ## Getting Started
 
 Fetch a Flutter SDK (view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development). If you have `make` installed, then you can run
-`make generate`: this will generate classes for navigation and some app icons. Without `make`
-you have to manually run the commands contained in the `Makefile`.
+samples, guidance on mobile development). If you have `make` installed,
+then you can run `make generate`: this will generate classes for navigation
+and some app icons. Without `make` you have to manually run the commands
+contained in the `Makefile`.
 
 Then run `flutter run`.
 
 ## Contributing
 
 Feel free to report issues or add improvements (via PR).
-While I do know enough about programming to get payed for it, this is my first
-flutter (and mobile) project. So please have mercy when looking at the code.
-Cleanups and refactorings are welcome, too.
+While I do know enough about programming to get paid for it, this is my
+first flutter (and mobile) project. So please have mercy when looking at
+the code. Cleanups and refactorings are welcome, too.
 
 ## License
 
