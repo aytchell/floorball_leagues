@@ -1,4 +1,4 @@
-# Floorball Manager
+# Floorball Leagues
 
 An app for browsing all games, results, players, ... of all German
 floorball leagues. This app makes use of the APIs of

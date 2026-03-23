@@ -14,7 +14,7 @@ wissenswerte "Interna" hinzuweisen.
     [Saisonmanager](http://saisonmanager.de); sie sind also so aktuell,
     korrekt und vollständig, wie sie dort eingetragen wurden.
   * Falls jemand Bugs findet oder Ideen hat oder selbst Verbesserungen
-    einbringen will, so sei auf https://github.com/aytchell/floorball_manager
+    einbringen will, so sei auf https://github.com/aytchell/floorball_leagues
     verwiesen -- aber wie gesagt ... das hier ist Freizeit
 
 ## Startseite

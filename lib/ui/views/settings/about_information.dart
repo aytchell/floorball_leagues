@@ -44,8 +44,8 @@ final Widget _aboutText = RichText(
       const TextSpan(text: 'oder selbst Verbesserungen einbringen will, so '),
       const TextSpan(text: 'sei auf\n\n'),
       _href(
-        'github.com/aytchell/floorball_manager',
-        'https://github.com/aytchell/floorball_manager',
+        'github.com/aytchell/floorball_leagues',
+        'https://github.com/aytchell/floorball_leagues',
       ),
       const TextSpan(text: '\n\nverwiesen. Bitte behaltet aber im Hinterkopf,'),
       const TextSpan(text: ' dass das alles Freizeit ist.'),

@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HelpLink extends StatelessWidget {
   static const _linkToDocuemntation =
-      'https://github.com/aytchell/floorball_manager/doc/help.md';
+      'https://github.com/aytchell/floorball_leagues/doc/help.md';
 
   const HelpLink({super.key});
 
