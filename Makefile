@@ -1,4 +1,4 @@
-.PHONY: generate watch clean build run
+.PHONY: generate watch clean build build-release run
 
 # Generate code once
 generate:
@@ -16,6 +16,10 @@ clean:
 # Build the app (with code generation first)
 build: generate
 	flutter build apk
+
+# Build signed release AAB for Play Store upload
+build-release: generate
+	./build-release.sh
 
 # Run the app (with code generation first)
 run: generate
