@@ -65,8 +65,10 @@ class StripedGamesRowsList extends StripedRowsList<GameBase> {
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            teamName ?? 'N.N.',
-            style: TextStyles.gameDayTeamName,
+            teamName ?? 'Team noch unbekannt',
+            style: (teamName != null)
+                ? TextStyles.gameDayTeamName
+                : TextStyles.gameDayUnknownTeamName,
             overflow: TextOverflow.ellipsis,
           ),
         ),

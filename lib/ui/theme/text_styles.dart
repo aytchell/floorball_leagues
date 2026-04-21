@@ -145,6 +145,7 @@ class TextStyles {
   static const leagueTablePointsCell = _bold0875;
 
   static const gameDayTeamName = _bold0875;
+  static const gameDayUnknownTeamName = _bold0875gray153;
   static const gameDayDate = _normal075gray153;
   static const gameDayTime = _bold1;
   static const gameDayTimeUnknown = _normal075;

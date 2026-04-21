@@ -49,12 +49,18 @@ class StartingSix extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Home team table
-        _buildListForTeam(game.homeTeamName, game.startingPlayers!.home),
+        _buildListForTeam(
+          game.homeTeamName ?? 'Teamname unbekannt',
+          game.startingPlayers!.home,
+        ),
 
         const SizedBox(height: 24),
 
         // Guest team table
-        _buildListForTeam(game.guestTeamName, game.startingPlayers!.guest),
+        _buildListForTeam(
+          game.guestTeamName ?? 'Teamname unbekannt',
+          game.startingPlayers!.guest,
+        ),
       ],
     );
   }

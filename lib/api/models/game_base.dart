@@ -6,8 +6,8 @@ enum ResultState { noRecord, recordCreated, running, ended }
 
 abstract class GameBase {
   final int gameId;
-  final String homeTeamName;
-  final String guestTeamName;
+  final String? homeTeamName;
+  final String? guestTeamName;
   final String? time;
   final bool ended;
   final GameResult? result;

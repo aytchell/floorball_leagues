@@ -46,12 +46,18 @@ class TeamLineup extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Home team table
-        _buildListForTeam(game.homeTeamName, game.players.home),
+        _buildListForTeam(
+          game.homeTeamName ?? 'Teamname unbekannt',
+          game.players.home,
+        ),
 
         const SizedBox(height: 24),
 
         // Guest team table
-        _buildListForTeam(game.guestTeamName, game.players.guest),
+        _buildListForTeam(
+          game.guestTeamName ?? 'Teamname unbekannt',
+          game.players.guest,
+        ),
       ],
     );
   }

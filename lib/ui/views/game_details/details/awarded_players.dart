@@ -43,12 +43,18 @@ class AwardedPlayers extends StatelessWidget {
         const SizedBox(height: 16),
 
         // Home team table
-        _buildListForTeam(game.homeTeamName, game.awards!.home),
+        _buildListForTeam(
+          game.homeTeamName ?? 'Teamname unbekannt',
+          game.awards!.home,
+        ),
 
         const SizedBox(height: 24),
 
         // Guest team table
-        _buildListForTeam(game.guestTeamName, game.awards!.guest),
+        _buildListForTeam(
+          game.guestTeamName ?? 'Teamname unbekannt',
+          game.awards!.guest,
+        ),
       ],
     );
   }

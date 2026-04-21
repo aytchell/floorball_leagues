@@ -43,7 +43,7 @@ class TeamVsTeamRow extends StatelessWidget {
   );
 
   Widget _buildTeamSection({
-    required String teamName,
+    required String? teamName,
     required int teamId,
     required Uri? logoUri,
   }) => Column(
@@ -52,7 +52,7 @@ class TeamVsTeamRow extends StatelessWidget {
         TeamInfo(
           leagueId: game.leagueId,
           teamId: teamId,
-          teamName: teamName,
+          teamName: teamName ?? 'Team noch unbekannt',
           teamLogoUri: logoUri,
           gameLeagueInfo: gameLeagueInfo,
         ),
@@ -60,7 +60,7 @@ class TeamVsTeamRow extends StatelessWidget {
       const SizedBox(height: 8),
       // Team name
       Text(
-        teamName,
+        teamName ?? 'Team noch unbekannt',
         textAlign: TextAlign.center,
         style: TextStyles.gameDetailHeaderTeamName,
         maxLines: 2,
