@@ -4,6 +4,7 @@ import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/league_details/game_day/game_day_header.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_champ_game_day_content.dart';
+import 'package:floorball/ui/views/league_details/game_day/single_cup_game_day_content.dart';
 import 'package:floorball/ui/views/league_details/game_day/single_default_game_day_content.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
 import 'package:flutter/material.dart';
@@ -32,19 +33,27 @@ ExpansionPanelRadio _buildSingleGameDayPanel(
   GameLeagueInfo gameLeagueInfo,
   GameDayTitle gdt,
 ) {
+  final body = (gameLeagueInfo.leagueType == LeagueType.champ)
+      ? SingleChampGameDayContent(
+          leagueId: leagueId,
+          gameDayNumber: gdt.gameDayNumber,
+          gameLeagueInfo: gameLeagueInfo,
+        )
+      : (gameLeagueInfo.leagueType == LeagueType.cup)
+      ? SingleCupGameDayContent(
+          leagueId: leagueId,
+          gameDayNumber: gdt.gameDayNumber,
+          gameLeagueInfo: gameLeagueInfo,
+        )
+      : SingleDefaultGameDayContent(
+          gameLeagueInfo: gameLeagueInfo,
+          leagueId: leagueId,
+          gameDayNumber: gdt.gameDayNumber,
+        );
+
   return buildExpansionHeaderPanelRadio(
     value: identifier,
     header: GameDayHeader(leagueId: leagueId, gdt: gdt),
-    body: (gameLeagueInfo.leagueType == LeagueType.champ)
-        ? SingleChampGameDayContent(
-            leagueId: leagueId,
-            gameDayNumber: gdt.gameDayNumber,
-            gameLeagueInfo: gameLeagueInfo,
-          )
-        : SingleDefaultGameDayContent(
-            gameLeagueInfo: gameLeagueInfo,
-            leagueId: leagueId,
-            gameDayNumber: gdt.gameDayNumber,
-          ),
+    body: body,
   );
 }
