@@ -27,6 +27,8 @@ abstract class GameBase {
     required this.currentPeriodTitle,
   });
 
+  String? get homeTeamPlaceholder;
+  String? get guestTeamPlaceholder;
   GameDateTime get dateTime;
   ResultState get resultState;
   Uri? get homeLogoSmallUri;

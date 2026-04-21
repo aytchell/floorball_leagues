@@ -49,23 +49,31 @@ class StripedGamesRowsList extends StripedRowsList<GameBase> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Home Team
-          _buildTeamRow(game.homeLogoSmallUri, game.homeTeamName),
+          _buildTeamRow(
+            game.homeLogoSmallUri,
+            game.homeTeamName,
+            game.homeTeamPlaceholder,
+          ),
           const SizedBox(height: _interTeamSpacing),
           // Guest Team
-          _buildTeamRow(game.guestLogoSmallUri, game.guestTeamName),
+          _buildTeamRow(
+            game.guestLogoSmallUri,
+            game.guestTeamName,
+            game.guestTeamPlaceholder,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildTeamRow(Uri? teamLogo, String? teamName) {
+  Widget _buildTeamRow(Uri? teamLogo, String? teamName, String? placeholder) {
     return Row(
       children: [
         TeamLogo(uri: teamLogo, height: _teamLogoSize, width: _teamLogoSize),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            teamName ?? 'Team noch unbekannt',
+            teamName ?? placeholder ?? 'Team noch unbekannt',
             style: (teamName != null)
                 ? TextStyles.gameDayTeamName
                 : TextStyles.gameDayUnknownTeamName,

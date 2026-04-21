@@ -116,6 +116,10 @@ class DetailedGame extends GameBase {
   }) : super(gameId: id, time: startTime);
 
   @override
+  String? get homeTeamPlaceholder => null;
+  @override
+  String? get guestTeamPlaceholder => null;
+  @override
   GameDateTime get dateTime => _dateTime;
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   @override

@@ -77,6 +77,10 @@ class Game extends GameBase {
   });
 
   @override
+  String? get homeTeamPlaceholder => homeTeamFillingTitle;
+  @override
+  String? get guestTeamPlaceholder => guestTeamFillingTitle;
+  @override
   GameDateTime get dateTime => _dateTime;
   Uri? get homeLogoUri => buildLogoUri(homeTeamLogo);
   @override
