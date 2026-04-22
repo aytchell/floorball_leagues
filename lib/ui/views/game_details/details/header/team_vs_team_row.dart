@@ -44,25 +44,29 @@ class TeamVsTeamRow extends StatelessWidget {
 
   Widget _buildTeamSection({
     required String? teamName,
-    required int teamId,
+    required int? teamId,
     required Uri? logoUri,
   }) => Column(
     children: [
-      _ClickableTeamLogo(
-        TeamInfo(
-          leagueId: game.leagueId,
-          teamId: teamId,
-          teamName: teamName ?? 'Team noch unbekannt',
-          teamLogoUri: logoUri,
-          gameLeagueInfo: gameLeagueInfo,
-        ),
-      ),
+      (teamId == null)
+          ? const TeamLogo(uri: null, width: 90, height: 90)
+          : _ClickableTeamLogo(
+              TeamInfo(
+                leagueId: game.leagueId,
+                teamId: teamId,
+                teamName: teamName ?? 'Team noch unbekannt',
+                teamLogoUri: logoUri,
+                gameLeagueInfo: gameLeagueInfo,
+              ),
+            ),
       const SizedBox(height: 8),
       // Team name
       Text(
         teamName ?? 'Team noch unbekannt',
         textAlign: TextAlign.center,
-        style: TextStyles.gameDetailHeaderTeamName,
+        style: (teamName != null)
+            ? TextStyles.gameDetailHeaderTeamName
+            : TextStyles.gameDetailHeaderUnknownTeamName,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),

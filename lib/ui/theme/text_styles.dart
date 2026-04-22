@@ -163,6 +163,7 @@ class TextStyles {
 
   // game detail page
   static const gameDetailHeaderTeamName = _bold1;
+  static const gameDetailHeaderUnknownTeamName = _bold1gray153;
   static const gameDetailHeaderVersus = _bold1125gray153;
   static const gameDetailHeaderScore = TextStyle(
     fontSize: rem_2_625,

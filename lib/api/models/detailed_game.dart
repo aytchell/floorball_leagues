@@ -35,12 +35,12 @@ class DetailedGame extends GameBase {
   DetailedGameStatus? gameStatus;
   DetailedIngameStatus? ingameStatus;
   int? audience;
-  int homeTeamId;
-  int guestTeamId;
-  String homeTeamLogo;
-  String homeTeamSmallLogo;
-  String guestTeamLogo;
-  String guestTeamSmallLogo;
+  int? homeTeamId;
+  int? guestTeamId;
+  String? homeTeamLogo;
+  String? homeTeamSmallLogo;
+  String? guestTeamLogo;
+  String? guestTeamSmallLogo;
   String? liveStreamLink;
   String? vodLink;
   List<GameEvent> events;
