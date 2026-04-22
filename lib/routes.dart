@@ -33,10 +33,12 @@ class LeaguesListPageRoute extends GoRouteData with $LeaguesListPageRoute {
 @TypedGoRoute<LeagueDetailsPageRoute>(path: LeagueDetailsPage.routePath)
 @immutable
 class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
+  final String federationPath;
   final int leagueId;
   final String leagueName;
 
   const LeagueDetailsPageRoute({
+    required this.federationPath,
     required this.leagueId,
     required this.leagueName,
   });
@@ -45,7 +47,11 @@ class LeagueDetailsPageRoute extends GoRouteData with $LeagueDetailsPageRoute {
   NoTransitionPage buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       key: state.pageKey,
-      child: LeagueDetailsPage(leagueId: leagueId, leagueName: leagueName),
+      child: LeagueDetailsPage(
+        federationPath: federationPath,
+        leagueId: leagueId,
+        leagueName: leagueName,
+      ),
     );
   }
 }

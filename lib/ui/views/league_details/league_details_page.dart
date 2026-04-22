@@ -15,10 +15,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LeagueDetailsPage extends StatelessWidget {
   const LeagueDetailsPage({
     super.key,
+    required this.federationPath,
     required this.leagueId,
     required this.leagueName,
   });
 
+  final String federationPath;
   final int leagueId;
   final String leagueName;
 
@@ -33,7 +35,10 @@ class LeagueDetailsPage extends StatelessWidget {
         builder: (_, leagues) {
           final league = leagues.byId(leagueId);
           if (league != null) {
-            return _LeagueDetailsBody(league: league);
+            return _LeagueDetailsBody(
+              federationPath: federationPath,
+              league: league,
+            );
           } else {
             return Center(
               child: Text(
@@ -49,7 +54,11 @@ class LeagueDetailsPage extends StatelessWidget {
 }
 
 class _LeagueDetailsBody extends StatelessWidget {
-  const _LeagueDetailsBody({required this.league});
+  const _LeagueDetailsBody({
+    required this.federationPath,
+    required this.league,
+  });
+  final String federationPath;
   final League league;
 
   @override
@@ -70,7 +79,7 @@ class _LeagueDetailsBody extends StatelessWidget {
       ...buildGameDayPanels(
         3,
         league.id,
-        GameLeagueInfo.from(league),
+        GameLeagueInfo.from(league, federationPath),
         league.gameDayTitles,
       ),
     ];
@@ -86,13 +95,13 @@ class _LeagueDetailsBody extends StatelessWidget {
         return buildLeagueTablePanel(
           identifier,
           leagueID,
-          GameLeagueInfo.from(league),
+          GameLeagueInfo.from(league, federationPath),
         );
       case LeagueType.champ:
         return buildChampTablePanel(
           identifier,
           leagueID,
-          GameLeagueInfo.from(league),
+          GameLeagueInfo.from(league, federationPath),
         );
       case LeagueType.cup:
         return buildVoidTablePanel(

@@ -12,8 +12,13 @@ final log = Logger('GameMetaData');
 
 class GameMetaData extends StatelessWidget {
   final DetailedGame game;
+  final String federationPath;
 
-  const GameMetaData({super.key, required this.game});
+  const GameMetaData({
+    super.key,
+    required this.game,
+    required this.federationPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class GameMetaData extends StatelessWidget {
             ? null
             : showRefereeLicenseDetails(context, game),
       ),
-      _LabeledSaisonmanagerButton('Saisonmanager', game),
+      _LabeledSaisonmanagerButton('Saisonmanager', game, federationPath),
     ];
 
     return Column(
@@ -62,42 +67,44 @@ class GameMetaData extends StatelessWidget {
 }
 
 class _LabeledSaisonmanagerButton extends LabeledValue {
-  final DetailedGame game;
   final Widget _button;
 
-  _LabeledSaisonmanagerButton(super.label, this.game)
-    : _button = _buildButton(game);
+  _LabeledSaisonmanagerButton(super.label, game, federationPath)
+    : _button = _buildButton(game, federationPath);
 
   @override
   Widget getValue() => _button;
 
-  static Widget _buildButton(DetailedGame game) => IconTextButton(
-    icon: Icons.exit_to_app,
-    onPressed: () async {
-      final uri = _buildSaisonmanagerLink(game);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-    },
-  );
+  static Widget _buildButton(DetailedGame game, String federationPath) =>
+      IconTextButton(
+        icon: Icons.exit_to_app,
+        onPressed: () async {
+          final uri = _buildSaisonmanagerLink(game, federationPath);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        },
+      );
 
-  static Uri _buildSaisonmanagerLink(DetailedGame game) {
-    final fed = game.federationShortName.toLowerCase();
+  static Uri _buildSaisonmanagerLink(DetailedGame game, String federationPath) {
+    final fed = federationPath;
+    game.federationShortName.toLowerCase();
     final nameComponent = _pathComponentFromLeagueName(game.leagueName);
 
     // this is very awful. The path to the game is not delivered via the API;
     // instead we have to compute it ourselves from several identifiers
     final path = '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
+    log.info("Opening $path");
 
     return Uri.https('saisonmanager.de', path);
   }
 
-  static final _regExSlashDot = RegExp('[/.]');
+  static final _regExRemoveStuff = RegExp('[/.()]');
   static final _regExMultiDash = RegExp('--*');
   static String _pathComponentFromLeagueName(String leagueName) => leagueName
       .toLowerCase()
       .replaceAll(' ', '-')
-      .replaceAll(_regExSlashDot, '')
+      .replaceAll(_regExRemoveStuff, '')
       .replaceAll('ä', 'ae')
       .replaceAll('ö', 'oe')
       .replaceAll('ü', 'ue')

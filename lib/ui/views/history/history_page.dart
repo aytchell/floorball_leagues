@@ -96,6 +96,7 @@ class _GamesVisitHistoryList extends StatelessWidget {
   List<Widget> _buildGameEntry(VisitedGame game) {
     return [
       GenericLeagueNameEntry(
+        federationPath: game.federationPath,
         leagueId: game.leagueId,
         leagueName: game.leagueName,
         leadingChild: _HistoryPinIndicator(

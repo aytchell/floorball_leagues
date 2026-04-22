@@ -49,7 +49,12 @@ class GameDetailsPage extends StatelessWidget {
         builder: (context, state) {
           final detailedGame = state.detailedVersionOf(gameId);
           if (detailedGame != null) {
-            _addToHistory(context, leagueName, detailedGame);
+            _addToHistory(
+              context,
+              leagueName,
+              gameLeagueInfo.federationPath,
+              detailedGame,
+            );
           }
           return _buildBody(detailedGame);
         },
@@ -101,7 +106,10 @@ class GameDetailsPage extends StatelessWidget {
           const SizedBox(height: 12),
           ..._buildGameDetails(detailedGame),
           const SizedBox(height: 24),
-          GameMetaData(game: detailedGame),
+          GameMetaData(
+            game: detailedGame,
+            federationPath: gameLeagueInfo.federationPath,
+          ),
         ],
       ),
     );
@@ -196,8 +204,10 @@ class GameDetailsPage extends StatelessWidget {
   void _addToHistory(
     BuildContext context,
     String leagueName,
+    String federationPath,
     DetailedGame detailedGame,
   ) => BlocProvider.of<GamesVisitHistoryCubit>(context).addVisitedGame(
+    federationPath,
     detailedGame.leagueId,
     leagueName,
     gameLeagueInfo,

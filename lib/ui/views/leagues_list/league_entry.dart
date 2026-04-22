@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PinnableLeagueEntry extends StatelessWidget {
   final int seasonId;
   final int federationId;
+  final String federationPath;
   final League league;
   final bool isPinned;
 
@@ -15,12 +16,14 @@ class PinnableLeagueEntry extends StatelessWidget {
     super.key,
     required this.seasonId,
     required this.federationId,
+    required this.federationPath,
     required this.league,
     required this.isPinned,
   });
 
   @override
   Widget build(BuildContext context) => GenericLeagueNameEntry(
+    federationPath: federationPath,
     leagueId: league.id,
     leagueName: league.name,
     leadingChild: _LeaguePinIndicator(

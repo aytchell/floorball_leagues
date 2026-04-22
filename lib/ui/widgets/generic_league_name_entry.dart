@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 
 class GenericLeagueNameEntry extends StatelessWidget {
   final int leagueId;
+  final String federationPath;
   final String leagueName;
   final Widget leadingChild;
   final Widget? trailingChild;
 
   const GenericLeagueNameEntry({
     super.key,
+    required this.federationPath,
     required this.leagueId,
     required this.leagueName,
     required this.leadingChild,
@@ -22,6 +24,7 @@ class GenericLeagueNameEntry extends StatelessWidget {
     trailing: trailingChild,
     title: TextButton(
       onPressed: () => LeagueDetailsPageRoute(
+        federationPath: federationPath,
         leagueId: leagueId,
         leagueName: leagueName,
       ).push(context),

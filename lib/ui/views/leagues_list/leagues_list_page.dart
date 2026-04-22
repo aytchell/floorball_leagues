@@ -58,7 +58,13 @@ class LeaguesListPage extends StatelessWidget {
     return MainAppScaffold(
       title: federation?.name ?? 'Ligen',
       showBackButton: true,
-      body: _buildBody(context, seasonId, federation?.id, leagues),
+      body: _buildBody(
+        context,
+        seasonId,
+        federation?.id,
+        federation?.path,
+        leagues,
+      ),
     );
   }
 
@@ -66,9 +72,13 @@ class LeaguesListPage extends StatelessWidget {
     BuildContext context,
     int? seasonId,
     int? federationId,
+    String? federationPath,
     List<League> leagues,
   ) {
-    if (seasonId == null || federationId == null || leagues.isEmpty) {
+    if (seasonId == null ||
+        federationId == null ||
+        federationPath == null ||
+        leagues.isEmpty) {
       return _buildNothingFoundInfo(context);
     } else {
       //return _buildLeaguesList(context, leagues);
@@ -77,6 +87,7 @@ class LeaguesListPage extends StatelessWidget {
           context,
           seasonId,
           federationId,
+          federationPath,
           _tagAndReorder(
             leagues,
             state.getPinnedLeagues(seasonId, federationId),
@@ -108,6 +119,7 @@ class LeaguesListPage extends StatelessWidget {
     BuildContext context,
     int seasonId,
     int federationId,
+    String federationPath,
     List<LeagueWithPin> leagues,
   ) {
     return Container(
@@ -125,6 +137,7 @@ class LeaguesListPage extends StatelessWidget {
                 return PinnableLeagueEntry(
                   seasonId: seasonId,
                   federationId: federationId,
+                  federationPath: federationPath,
                   league: leagues[index].league,
                   isPinned: leagues[index].isPinned,
                 );

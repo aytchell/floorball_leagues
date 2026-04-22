@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 final log = Logger('VisitHistory');
 
 class VisitedGame {
+  final String federationPath;
   final int gameId;
   final int leagueId;
   final bool isPinned;
@@ -15,6 +16,7 @@ class VisitedGame {
   final GameBase gameData;
 
   VisitedGame({
+    required this.federationPath,
     required this.gameId,
     required this.leagueId,
     required this.isPinned,
@@ -25,6 +27,7 @@ class VisitedGame {
 }
 
 VisitedGame _update(VisitedGame game, GameBase updatedGame) => VisitedGame(
+  federationPath: game.federationPath,
   gameId: game.gameId,
   leagueId: game.leagueId,
   isPinned: game.isPinned,
@@ -34,6 +37,7 @@ VisitedGame _update(VisitedGame game, GameBase updatedGame) => VisitedGame(
 );
 
 VisitedGame _togglePin(VisitedGame game) => VisitedGame(
+  federationPath: game.federationPath,
   gameId: game.gameId,
   leagueId: game.leagueId,
   isPinned: !game.isPinned,
@@ -59,6 +63,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
   static final maxGames = 5;
 
   void addVisitedGame(
+    String federationPath,
     int leagueId,
     String leagueName,
     GameLeagueInfo gameLeagueInfo,
@@ -67,7 +72,13 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     if (state.visitedGames.isEmpty) {
       emit(
         GamesVisitHistory([
-          _getOrCreate(leagueId, leagueName, gameLeagueInfo, gameData),
+          _getOrCreate(
+            federationPath,
+            leagueId,
+            leagueName,
+            gameLeagueInfo,
+            gameData,
+          ),
         ]),
       );
       return;
@@ -88,6 +99,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     }
 
     final visitedGame = _getOrCreate(
+      federationPath,
       leagueId,
       leagueName,
       gameLeagueInfo,
@@ -105,6 +117,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
   }
 
   VisitedGame _getOrCreate(
+    String federationPath,
     int leagueId,
     String leagueName,
     GameLeagueInfo gameLeagueInfo,
@@ -116,6 +129,7 @@ class GamesVisitHistoryCubit extends Cubit<GamesVisitHistory> {
     }
 
     final createGame = VisitedGame(
+      federationPath: federationPath,
       gameId: gameData.gameId,
       leagueId: leagueId,
       isPinned: false,
