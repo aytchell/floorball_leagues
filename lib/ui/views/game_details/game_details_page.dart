@@ -142,8 +142,8 @@ class GameDetailsPage extends StatelessWidget {
 
   Map<int, String> _buildPlayerNamesMap(List<Player> players) {
     return groupBy(
-      players,
-      (player) => player.jerseyNumber,
+      players.where((p) => p.jerseyNumber != null),
+      (player) => player.jerseyNumber!,
     ).mapValues((players) => players[0].name);
   }
 

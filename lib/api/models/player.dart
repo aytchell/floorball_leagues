@@ -1,7 +1,7 @@
 class Player {
   int playerId;
   String playerName;
-  int jerseyNumber;
+  int? jerseyNumber;
   String playerFirstname;
   String position;
   bool? goalkeeper;

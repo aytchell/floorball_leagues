@@ -12,7 +12,14 @@ class PlayerAdapter extends Equatable
   const PlayerAdapter({required this.player});
 
   @override
-  String get jerseyNumber => '${player.jerseyNumber}';
+  String get jerseyNumber {
+    if (player.jerseyNumber != null) {
+      return '${player.jerseyNumber}';
+    } else {
+      // in older seasons there are players without a jersey number
+      return '??';
+    }
+  }
 
   @override
   String get playerName => player.name;
@@ -25,7 +32,17 @@ class PlayerAdapter extends Equatable
 
   @override
   int compareTo(PlayerAdapter other) {
-    return player.jerseyNumber.compareTo(other.player.jerseyNumber);
+    if (player.jerseyNumber != null && other.player.jerseyNumber != null) {
+      return player.jerseyNumber!.compareTo(other.player.jerseyNumber!);
+    }
+    if (player.jerseyNumber != null && other.player.jerseyNumber == null) {
+      return 1;
+    }
+    if (player.jerseyNumber == null && other.player.jerseyNumber != null) {
+      return -1;
+    }
+    // both are null
+    return 0;
   }
 
   @override
