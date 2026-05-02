@@ -4,7 +4,7 @@ import 'package:floorball/api/impls/string_parser.dart';
 
 Player parsePlayer(Map<String, dynamic> json) {
   return Player(
-    playerId: parseInt(json, 'player_id'),
+    playerId: parseNullableInt(json, 'player_id'),
     playerName: _parsePlayerName(json),
     jerseyNumber: parseNullableInt(json, 'trikot_number'),
     playerFirstname: parseString(json, 'player_firstname'),

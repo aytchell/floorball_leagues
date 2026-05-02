@@ -1,5 +1,5 @@
 class Player {
-  int playerId;
+  int? playerId;
   String playerName;
   int? jerseyNumber;
   String playerFirstname;
