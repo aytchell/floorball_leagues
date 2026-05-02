@@ -36,7 +36,12 @@ class GameMetaData extends StatelessWidget {
             ? null
             : showRefereeLicenseDetails(context, game),
       ),
-      LabeledSaisonmanagerButton('Saisonmanager', game, federationPath),
+      LabeledSaisonmanagerButton(
+        'Saisonmanager',
+        context,
+        game,
+        federationPath,
+      ),
     ];
 
     return Column(
