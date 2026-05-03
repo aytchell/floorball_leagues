@@ -19,11 +19,20 @@ Player parsePlayer(Map<String, dynamic> json) {
   final playerName = _parsePlayerName(json);
   final playerFirstName = parseNullableString(json, 'player_firstname');
 
-  if (playerFirstName != null) {
+  if (playerName != null && playerFirstName != null) {
     return (playerFirstName, playerName);
   }
+  if (playerName != null && playerFirstName == null) {
+    return _extractCompleteFromLastName(playerName);
+  }
 
-  // In some very old games (2020 and before) we have players where the
+  // If we end up here, then playerName == null
+
+  return (playerFirstName != null) ? (playerFirstName, '') : ('??', '??');
+}
+
+(String, String) _extractCompleteFromLastName(String playerName) {
+  // In some very old games (21/22 and before) we have players where the
   // player_firstname is null and the player_name contains both parts, e.g
   //        "player_firstname": null,
   //        "player_name": "Mustermann, Max",
@@ -43,10 +52,9 @@ Player parsePlayer(Map<String, dynamic> json) {
 // https://2324.archiv.saisonmanager.de/ost/1475-u11-junioren-kleinfeld-platzierungsrunde-ost/spiel/35372
 // Where Floor Fighters player nr 80 doesn't have a "player_name" but instead
 // a "plaayer_name". I don't have any idea how this can happen ...
-String _parsePlayerName(Map<String, dynamic> json) =>
+String? _parsePlayerName(Map<String, dynamic> json) =>
     parseNullableString(json, 'player_name') ??
-    parseNullableString(json, 'plaayer_name') ??
-    "";
+    parseNullableString(json, 'plaayer_name');
 
 Players parsePlayers(Map<String, dynamic> json) {
   var homeJson = json['home'] as List? ?? [];
