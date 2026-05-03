@@ -10,6 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 final log = Logger('SaisonmanagerLink');
 
+const int _lastPhpSeasonId = 13;
+
 class LabeledSaisonmanagerButton extends LabeledValue {
   final Widget _button;
 
@@ -27,6 +29,7 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     icon: Icons.exit_to_app,
     onPressed: () async {
       final uri = _buildSaisonmanagerLink(season, game, federationPath);
+      log.info('Computed Saisonmanager URL is ${uri.toString()}');
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
@@ -41,14 +44,24 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     DetailedGame game,
     String federationPath,
   ) {
+    if (season.id > _lastPhpSeasonId) {
+      return _buildNewStyleLink(season, game, federationPath);
+    } else {
+      return _buildPhpStyleLink(season, game, federationPath);
+    }
+  }
+
+  static Uri _buildNewStyleLink(
+    SeasonInfo season,
+    DetailedGame game,
+    String federationPath,
+  ) {
     final fed = federationPath;
-    game.federationShortName.toLowerCase();
     final nameComponent = _pathComponentFromLeagueName(game.leagueName);
 
     // this is very awful. The path to the game is not delivered via the API;
     // instead we have to compute it ourselves from several identifiers
     final path = '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
-    log.info("Opening $path");
 
     if (season.current) {
       return Uri.https('saisonmanager.de', path);
@@ -57,7 +70,7 @@ class LabeledSaisonmanagerButton extends LabeledValue {
       // For past seasons we have to adapt the host part
       // so we can access the archive
       final seasonHost = _buildHostnameFromSeason(season);
-      return Uri.https('$seasonHost.saisonmanager.de', path);
+      return Uri.https(seasonHost, path);
     }
   }
 
@@ -73,14 +86,28 @@ class LabeledSaisonmanagerButton extends LabeledValue {
       .replaceAll('ß', 'ss')
       .replaceAll(_regExMultiDash, '-');
 
+  static Uri _buildPhpStyleLink(
+    SeasonInfo season,
+    DetailedGame game,
+    String federationPath,
+  ) {
+    final hostSuffix = _buildHostnameFromSeason(season);
+    final host = '$federationPath-$hostSuffix';
+
+    final path = 'index.php';
+    final parameters = {'seite': 'game', 'game': '${game.gameId}'};
+    return Uri.https(host, path, parameters);
+  }
+
   static final _regExSeasonName = RegExp(r'^20(\d{2})/20(\d{2})$');
   static String _buildHostnameFromSeason(SeasonInfo season) {
     final match = _regExSeasonName.firstMatch(season.name);
     if (match != null && match.groupCount == 2) {
       log.info('Group count is ${match.groupCount}');
-      return '${match.group(1)}${match.group(2)}.archiv';
+      return '${match.group(1)}${match.group(2)}.archiv.saisonmanager.de';
     } else {
-      return 'archiv';
+      // This shouldn't happen ... at least send the user to the archive
+      return 'archiv.saisonmanager.de';
     }
   }
 }
