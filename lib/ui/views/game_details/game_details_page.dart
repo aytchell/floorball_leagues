@@ -116,14 +116,7 @@ class GameDetailsPage extends StatelessWidget {
   }
 
   List<Widget> _buildGameDetails(DetailedGame detailedGame) {
-    // this is kind of a hack:
-    // With season 2020/2021 the Saisonmanager changed to what we know today.
-    // Before the returned data is similar but lot less detailed.
-    // The old Saisonmanager didn't set 'game_status' while the new does
-    // So this check is only relevant for the 'newer data' - games of the
-    // old Saisonmanager just skip this check.
-    if (detailedGame.gameStatus != null &&
-        detailedGame.currentPeriodTitle == null) {
+    if (detailedGame.currentPeriodTitle == null) {
       return [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -158,9 +151,7 @@ class GameDetailsPage extends StatelessWidget {
     List<PeriodTitle> sortedPeriods = game.periodTitles;
     sortedPeriods.sort((a, b) => a.period.compareTo(b.period));
     final groupedEvents = groupBy(game.events, (event) => event.period);
-    final currentPeriodId =
-        game.currentPeriodTitle?.period ??
-        _computeFallbackForReallyOldGames(groupedEvents);
+    final currentPeriodId = game.currentPeriodTitle?.period;
     final homePlayerNames = _buildPlayerNamesMap(game.players.home);
     final guestPlayerNames = _buildPlayerNamesMap(game.players.guest);
     final bool isRunning = game.isGameRunning(DateTime(2000));
@@ -222,10 +213,6 @@ class GameDetailsPage extends StatelessWidget {
     gameLeagueInfo,
     detailedGame,
   );
-
-  double _computeFallbackForReallyOldGames(
-    Map<double, List<GameEvent>> groupedEvents,
-  ) => groupedEvents.keys.max;
 }
 
 // this wrapper takes care, that a possibly opened snackbar (used to

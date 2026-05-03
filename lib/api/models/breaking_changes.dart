@@ -5,6 +5,11 @@ class BreakingChanges {
   // the app rely on this additional data
   static const int lastPhpSeasonId = 13;
 
+  // This is the last game_id which is served by the old php Saisonmanager.
+  // All games with a greater id are served by the new Saisonmanager (and thus
+  // contain the nice details)
+  static const int lastGameIdOfPhpManager = 27204;
+
   // Up to season 13 (2021/2022) we had penalties 2', 5', 10' as well as
   // match penalty 1, 2 and 3. This changed with season 14; now we have
   // 2', 2+2', 10' and technical and "full" match penalty

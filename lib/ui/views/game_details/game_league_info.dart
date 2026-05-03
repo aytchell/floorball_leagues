@@ -20,7 +20,15 @@ class GameLeagueInfo {
         federationPath: federationPath,
         leagueType: league.leagueType,
         leagueName: league.name,
-        fieldSize: league.fieldSize ?? 'GF',
-        numPeriods: league.periods ?? 3,
+        fieldSize: league.fieldSize ?? _guessFieldSize(league.name),
+        numPeriods: league.periods ?? _guessNumPeriods(league.name),
       );
+
+  static String _guessFieldSize(String leagueName) =>
+      (leagueName.contains('KF') || leagueName.contains('Kleinfeld'))
+      ? 'KF'
+      : 'GF';
+
+  static int _guessNumPeriods(String leagueName) =>
+      (leagueName.contains('KF') || leagueName.contains('Kleinfeld')) ? 2 : 3;
 }

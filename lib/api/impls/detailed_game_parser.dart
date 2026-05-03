@@ -3,17 +3,26 @@ import 'package:floorball/api/impls/game_day_parser.dart';
 import 'package:floorball/api/impls/game_event_parser.dart';
 import 'package:floorball/api/impls/game_result_parser.dart';
 import 'package:floorball/api/impls/int_parser.dart';
+import 'package:floorball/api/impls/old_style_games_augmenter.dart';
 import 'package:floorball/api/impls/period_title_parser.dart';
 import 'package:floorball/api/impls/player_parser.dart';
 import 'package:floorball/api/impls/referee_parser.dart';
 import 'package:floorball/api/impls/starting_player_parser.dart';
 import 'package:floorball/api/impls/string_parser.dart';
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:logging/logging.dart';
 
 final log = Logger('DetailedGameParser');
 
 DetailedGame parseDetailedGame(Map<String, dynamic> json) {
+  final game = _internalParseDetailedGame(json);
+  return (game.gameId > BreakingChanges.lastGameIdOfPhpManager)
+      ? game
+      : augmentVeryOldGame(game);
+}
+
+DetailedGame _internalParseDetailedGame(Map<String, dynamic> json) {
   var eventsJson = json['events'] as List;
   var periodTitlesJson = json['period_titles'] as List;
   var refereesJson = json['referees'] as List;

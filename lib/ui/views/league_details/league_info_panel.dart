@@ -49,17 +49,31 @@ class _LeagueInfoContent extends StatelessWidget {
   }
 
   String _fieldSize() {
-    if (league.fieldSize == null) return 'Nicht angegeben';
+    if (league.fieldSize == null) return _guessFieldSize();
     if (league.fieldSize! == 'KF') return 'Kleinfeld';
     if (league.fieldSize! == 'GF') return 'Großfeld';
     return league.fieldSize!;
   }
 
+  String _guessFieldSize() {
+    if (league.name.contains('KF') || league.name.contains('Kleinfeld')) {
+      return 'Kleinfeld';
+    }
+    return 'Nicht angegeben';
+  }
+
   String _periodNumber() {
-    if (league.periods == null) return 'Nicht angegeben';
+    if (league.periods == null) return _guessPeriodNumber();
     if (league.periods! == 2) return '2 Hälften';
     if (league.periods! == 3) return '3 Drittel';
     return league.periods!.toString();
+  }
+
+  String _guessPeriodNumber() {
+    if (league.name.contains('KF') || league.name.contains('Kleinfeld')) {
+      return '2 Hälften';
+    }
+    return 'Nicht angegeben';
   }
 
   String _periodDurationLabel() {
