@@ -80,7 +80,10 @@ class TextStyles {
     color: Colors.black,
   );
 
-  static const _normal1125 = TextStyle(fontSize: rem_1_125);
+  static const _normal1125 = TextStyle(
+    fontSize: rem_1_125,
+    color: Colors.black,
+  );
   static const _bold1125 = TextStyle(
     fontSize: rem_1_125,
     fontWeight: FontWeight.w700,
@@ -122,6 +125,7 @@ class TextStyles {
     fontSize: rem_1_125,
     fontWeight: FontWeight.w700,
   );
+  static const seasonWarningToast = _normal1125;
 
   // leagues list
   static const leaguesListHeader = _bold1gray169;

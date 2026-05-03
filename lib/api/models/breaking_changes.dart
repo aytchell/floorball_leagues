@@ -5,6 +5,11 @@ class BreakingChanges {
   // the app rely on this additional data
   static const int lastPhpSeasonId = 13;
 
+  // The years of the first season where the new backend was used.
+  // This string is used in a warning Toast that appears when the user enters
+  // one of the older seasons.
+  static const String yearsOfFirstNewSeasons = '2022/23';
+
   // This is the last game_id which is served by the old php Saisonmanager.
   // All games with a greater id are served by the new Saisonmanager (and thus
   // contain the nice details)

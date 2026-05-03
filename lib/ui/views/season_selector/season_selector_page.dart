@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -117,6 +118,9 @@ class _SeasonList extends StatelessWidget {
   Widget _printSeasonTextButton(BuildContext context, SeasonInfo season) =>
       TextButton(
         onPressed: () {
+          if (season.id <= BreakingChanges.lastPhpSeasonId) {
+            _showWarningToast(context);
+          }
           BlocProvider.of<SelectedSeasonCubit>(context).seasonSelected(season);
           context.push(LandingPage.routePath);
         },
@@ -144,5 +148,27 @@ class _SeasonList extends StatelessWidget {
         ),
       );
     }
+  }
+
+  void _showWarningToast(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          'Vor ${BreakingChanges.yearsOfFirstNewSeasons} wurde für den '
+          'Saisonmanager ein anderes System verwendet. Die Daten sind '
+          'sehr ähnlich aber nicht so detailliert.\n\n'
+          'Es könnte also zu "merkwürdigen Einträgen" kommen ...',
+          style: TextStyles.seasonWarningToast,
+        ),
+        backgroundColor: FloorballColors.gray250,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          side: const BorderSide(color: Colors.orange),
+        ),
+        duration: const Duration(seconds: 10),
+        showCloseIcon: true,
+        closeIconColor: Colors.black,
+      ),
+    );
   }
 }
