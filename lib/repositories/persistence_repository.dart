@@ -9,6 +9,7 @@ class PersistenceRepository {
   static const pinVariantKey = 'pinVariant';
   static const selectedNavAppKey = 'selectedNavApp';
   static const vibrateOnFavKey = 'vibrateOnFav';
+  static const warnOnOldSeasonKey = 'warnOnOldSeason';
 
   SharedPreferencesWithCache? _prefsWithCache;
 
@@ -25,6 +26,7 @@ class PersistenceRepository {
           pinVariantKey,
           selectedNavAppKey,
           vibrateOnFavKey,
+          warnOnOldSeasonKey,
         },
       ),
     );

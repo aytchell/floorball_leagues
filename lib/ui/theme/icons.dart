@@ -25,6 +25,7 @@ class FloorballIcons {
   static final trashCan = _ios ? CupertinoIcons.trash : Icons.delete_outlined;
 
   static final vibrate = Icons.vibration;
+  static final warn = Icons.warning_amber_outlined;
   static final noNavigationApp = Icons.gps_off;
 
   static final opponent = _ios ? CupertinoIcons.group_solid : Icons.groups;

@@ -4,6 +4,7 @@ import 'package:floorball/ui/views/settings/help_link.dart';
 import 'package:floorball/ui/views/settings/nav_app_setting.dart';
 import 'package:floorball/ui/views/settings/pin_variant_setting.dart';
 import 'package:floorball/ui/views/settings/vibrate_on_fav_setting.dart';
+import 'package:floorball/ui/views/settings/warn_on_old_season_setting.dart';
 import 'package:flutter/material.dart';
 
 import 'about_information.dart';
@@ -38,6 +39,12 @@ class SettingsPage extends StatelessWidget {
         ),
         PinVariantSetting(),
         VibrateOnFavSetting(),
+        const Divider(height: 1),
+        const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text('Archiv', style: TextStyles.settingsSection),
+        ),
+        WarnOnOldSeasonSetting(),
         const Divider(height: 1),
         const Padding(
           padding: EdgeInsets.all(16.0),

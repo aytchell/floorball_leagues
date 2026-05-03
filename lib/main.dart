@@ -14,6 +14,7 @@ import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
 import 'package:floorball/blocs/vibrate_on_fav_cubit.dart';
+import 'package:floorball/blocs/warn_on_old_season_cubit.dart';
 import 'package:floorball/entry_info_processor.dart';
 import 'package:floorball/logging.dart';
 import 'package:floorball/repositories/api_repository.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
   final selectedSeasonCubit = SelectedSeasonCubit();
   late final tickCubit = TickCubit();
   late final vibrateOnFavCubit = VibrateOnFavCubit(persistenceRepository);
+  late final warnOnOldSeasonCubit = WarnOnOldSeasonCubit(persistenceRepository);
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: selectedSeasonCubit),
           BlocProvider.value(value: tickCubit),
           BlocProvider.value(value: vibrateOnFavCubit),
+          BlocProvider.value(value: warnOnOldSeasonCubit),
           BlocProvider(create: (_) => LeaguesCubit(apiRepository)),
           BlocProvider(create: (_) => LeagueGameDayCubit(apiRepository)),
           BlocProvider(create: (_) => ScorerCubit(apiRepository)),
@@ -116,6 +119,7 @@ class InnerApp extends StatelessWidget {
     BlocProvider.of<PinnedLeaguesCubit>(context).init();
     BlocProvider.of<PinVariantCubit>(context).init();
     BlocProvider.of<VibrateOnFavCubit>(context).init();
+    BlocProvider.of<WarnOnOldSeasonCubit>(context).init();
     BlocProvider.of<NavigationAppCubit>(context).init();
 
     log.info("Triggering download of initial data");
