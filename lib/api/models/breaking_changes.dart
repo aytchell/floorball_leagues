@@ -14,4 +14,9 @@ class BreakingChanges {
   // match penalty 1, 2 and 3. This changed with season 14; now we have
   // 2', 2+2', 10' and technical and "full" match penalty
   static const int firstSeasonIdWithNewPenalties = 14;
+
+  // Although the initial json from Saisonmanager states there there are
+  // seasons with id 1 to 6 in reality they can't be found on the server.
+  // So we better filter these early seasons so the user isn't disappointed.
+  static const int earliestAvailableSeasonId = 7;
 }
