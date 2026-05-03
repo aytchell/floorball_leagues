@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/scorer.dart';
 
 class TeamPenalties {
@@ -46,7 +47,7 @@ class TeamPenalties {
   }
 
   String expiringTitle() {
-    if (seasonId >= firstSeasonIdWithNewPenalties) {
+    if (seasonId >= BreakingChanges.firstSeasonIdWithNewPenalties) {
       return 'Strafen (2, 2+2, 10)';
     } else {
       return 'Strafen (2, 5, 10)';
@@ -54,7 +55,7 @@ class TeamPenalties {
   }
 
   String expiringPenaltiesAsString() {
-    if (seasonId >= firstSeasonIdWithNewPenalties) {
+    if (seasonId >= BreakingChanges.firstSeasonIdWithNewPenalties) {
       return '$penalty2, $penalty2and2, $penalty10';
     } else {
       return '$penalty2, $penalty5, $penalty10';
@@ -62,7 +63,7 @@ class TeamPenalties {
   }
 
   String matchTitle() {
-    if (seasonId >= firstSeasonIdWithNewPenalties) {
+    if (seasonId >= BreakingChanges.firstSeasonIdWithNewPenalties) {
       return 'Matchstrafen (technisch, voll)';
     } else {
       return 'Matchstrafen (MS1, MS2, MS3)';
@@ -70,7 +71,7 @@ class TeamPenalties {
   }
 
   String matchPenaltiesAsString() {
-    if (seasonId >= firstSeasonIdWithNewPenalties) {
+    if (seasonId >= BreakingChanges.firstSeasonIdWithNewPenalties) {
       return '$penaltyMsTech, $penaltyMsFull';
     } else {
       return '$penaltyMs1, $penaltyMs2, $penaltyMs3';

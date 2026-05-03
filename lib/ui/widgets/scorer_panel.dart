@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/scorer.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
@@ -57,7 +58,8 @@ class _ScorerTableContent extends GenericStripedTable<Scorer> {
       BlocBuilder<SelectedSeasonCubit, SeasonInfo?>(
         builder: (_, season) => BlocBuilder<ScorerCubit, ScorerState>(
           builder: (_, scorerState) => buildTable(
-            (season != null && season.id >= firstSeasonIdWithNewPenalties)
+            (season != null &&
+                    season.id >= BreakingChanges.firstSeasonIdWithNewPenalties)
                 ? _tableDefinitionPenalty2and2
                 : _tableDefinitionPenalty5,
             (filter == null)

@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/blocs/league_table_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/api/models/league_table_row.dart';
@@ -57,7 +58,7 @@ class _TeamStatisticsContent extends StatelessWidget {
     return TeamStatisticsTable(
       team: teamRows.first,
       scorers: scorers.where((scorer) => scorer.teamId == teamId).toList(),
-      seasonId: firstSeasonIdWithNewPenalties,
+      seasonId: BreakingChanges.firstSeasonIdWithNewPenalties,
     );
   }
 }

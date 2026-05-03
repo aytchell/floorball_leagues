@@ -1,3 +1,4 @@
+import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
@@ -9,8 +10,6 @@ import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final log = Logger('SaisonmanagerLink');
-
-const int _lastPhpSeasonId = 13;
 
 class LabeledSaisonmanagerButton extends LabeledValue {
   final Widget _button;
@@ -44,7 +43,7 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     DetailedGame game,
     String federationPath,
   ) {
-    if (season.id > _lastPhpSeasonId) {
+    if (season.id > BreakingChanges.lastPhpSeasonId) {
       return _buildNewStyleLink(season, game, federationPath);
     } else {
       return _buildPhpStyleLink(season, game, federationPath);
