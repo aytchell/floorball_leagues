@@ -37,8 +37,8 @@ abstract class SingleGameDayContent extends StatelessWidget {
     );
   }
 
-  Widget buildGameDays(List<Game> games);
+  Widget buildGameDays(List<Game>? games);
 
-  bool _isAnyGameRunning(List<Game> games, DateTime timestamp) =>
-      games.any((game) => game.isGameRunning(timestamp));
+  bool _isAnyGameRunning(List<Game>? games, DateTime timestamp) =>
+      games?.any((game) => game.isGameRunning(timestamp)) ?? false;
 }

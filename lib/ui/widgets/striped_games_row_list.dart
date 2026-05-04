@@ -43,6 +43,10 @@ class StripedGamesRowsList extends StripedRowsList<GameBase> {
     );
   }
 
+  @override
+  Widget buildEmptyRow(BuildContext context) =>
+      Text("Keine Spiele angesetzt", style: TextStyles.gameDayNoGames);
+
   Widget _buildBothTeams(GameBase game) {
     return Expanded(
       child: Column(

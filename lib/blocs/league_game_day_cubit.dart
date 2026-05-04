@@ -9,13 +9,13 @@ class GameDaysState {
 
   final Map<int, List<Game>> _state;
 
-  List<Game> gamesOf(int leagueId, int gameDayId) =>
-      _state[_leagueAndGameDayKey(leagueId, gameDayId)] ?? [];
+  List<Game>? gamesOf(int leagueId, int gameDayId) =>
+      _state[_leagueAndGameDayKey(leagueId, gameDayId)];
 
   List<Game> gamesOfDays(int leagueId, List<int> gameDayIds) {
     final List<Game> result = [];
     for (var id in gameDayIds) {
-      result.addAll(gamesOf(leagueId, id));
+      result.addAll(gamesOf(leagueId, id) ?? []); // TODO
     }
     return result;
   }

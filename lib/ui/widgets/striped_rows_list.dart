@@ -1,9 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:floorball/ui/widgets/striped_table_row.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
+
+final log = Logger('Main');
 
 abstract class StripedRowsList<T> extends StatelessWidget {
-  final List<T> entries;
+  final List<T>? entries;
   final EdgeInsetsGeometry padding;
   final void Function(BuildContext context, T entry)? onTap;
   final Color? cellBorderColor;
@@ -24,10 +27,22 @@ abstract class StripedRowsList<T> extends StatelessWidget {
 
   Widget buildRow(BuildContext context, T entry);
 
+  Widget buildEmptyRow(BuildContext context);
+
   @override
   Widget build(BuildContext context) {
+    if (entries == null) {
+      log.info("No entries given");
+      return SizedBox();
+    }
+
+    if (entries!.isEmpty) {
+      log.info("Empty list of entries given");
+      return _buildEmptyList(context);
+    }
+
     return Column(
-      children: entries
+      children: entries!
           .mapIndexed(
             (index, value) => StripedTableRow(
               index: index,
@@ -39,6 +54,17 @@ abstract class StripedRowsList<T> extends StatelessWidget {
           .toList(),
     );
   }
+
+  Widget _buildEmptyList(BuildContext context) => Column(
+    children: [
+      StripedTableRow(
+        index: 0,
+        padding: padding,
+        borderColor: cellBorderColor,
+        child: buildEmptyRow(context),
+      ),
+    ],
+  );
 
   Widget _buildFramedRow(BuildContext context, T entry) {
     var response = buildRow(context, entry);

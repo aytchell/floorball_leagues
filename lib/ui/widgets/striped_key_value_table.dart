@@ -33,6 +33,12 @@ class StripedLabeledValueTable extends StripedRowsList<LabeledValue> {
   @override
   Widget buildRow(BuildContext context, LabeledValue entry) =>
       _LabeledValueRow(entry);
+
+  @override
+  Widget buildEmptyRow(BuildContext context) {
+    // not used anywhere in the app
+    return SizedBox();
+  }
 }
 
 class _LabeledValueRow extends StatelessWidget {

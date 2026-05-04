@@ -19,7 +19,11 @@ class SingleChampGameDayContent extends SingleGameDayContent {
   });
 
   @override
-  Widget buildGameDays(List<Game> games) {
+  Widget buildGameDays(List<Game>? games) {
+    if (games == null) {
+      return StripedGamesRowsList(games, gameLeagueInfo);
+    }
+
     final groups =
         groupBy(games, (game) => game.groupIdentifier ?? seriesIdentifier)
             .map(

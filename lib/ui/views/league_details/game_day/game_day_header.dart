@@ -27,15 +27,18 @@ class GameDayHeader extends StatelessWidget {
 
     return BlocBuilder<LeagueGameDayCubit, GameDaysState>(
       builder: (_, gameDaysState) {
-        final datesAndClubs = extractDatesAndClubs(
-          gameDaysState.gamesOf(leagueId, gdt.gameDayNumber),
-        );
+        final games = gameDaysState.gamesOf(leagueId, gdt.gameDayNumber);
+        if (games == null) {
+          return ListTile(
+            title: Text(gdt.title, style: _futureBold),
+            subtitle: _SkeletonText(),
+          );
+        }
+
+        final datesAndClubs = extractDatesAndClubs(games!);
         switch (datesAndClubs.length) {
           case 0:
-            return ListTile(
-              title: Text(gdt.title, style: _futureBold),
-              subtitle: _SkeletonText(),
-            );
+            return ListTile(title: Text(gdt.title, style: _futureBold));
           case 1:
             return _SingleDateTile(title: gdt.title, dac: datesAndClubs.first);
           case 2:

@@ -148,6 +148,8 @@ class TextStyles {
   static const leagueNoTableInCup = _normal1gray153;
   static const leagueTablePointsCell = _bold0875;
 
+  static const gameDayNoGames = _normal1gray153;
+
   static const gameDayTeamName = _bold0875;
   static const gameDayUnknownTeamName = _bold0875gray153;
   static const gameDayDate = _normal075gray153;
@@ -204,6 +206,7 @@ class TextStyles {
   static const gameMetadataRefDetailsMessage = _normal075;
 
   // team details view
+  static const teamDetailsNoGames = _normal1gray153;
   static const teamDetailsTeamName = TextStyle(
     fontSize: rem_1_75,
     fontWeight: FontWeight.bold,

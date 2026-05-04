@@ -1,5 +1,6 @@
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/views/team_details/games_overview_item.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
@@ -70,4 +71,12 @@ class StripedTeamGamesRowsList extends StripedRowsList<Game> {
       game: entry,
     );
   }
+
+  @override
+  Widget buildEmptyRow(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text("Keine Spiele angesetzt", style: TextStyles.teamDetailsNoGames),
+    ],
+  );
 }

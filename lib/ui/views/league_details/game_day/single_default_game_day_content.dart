@@ -18,18 +18,19 @@ class SingleDefaultGameDayContent extends SingleGameDayContent {
   });
 
   @override
-  Widget buildGameDays(List<Game> games) {
-    final dacs = extractDatesAndClubs(games);
-    if (dacs.length == 2) {
-      return Column(
-        children: [
-          _labeledGamesOf(dacs[0], games),
-          _labeledGamesOf(dacs[1], games),
-        ],
-      );
-    } else {
-      return StripedGamesRowsList(games, gameLeagueInfo);
+  Widget buildGameDays(List<Game>? games) {
+    if (games != null) {
+      final dacs = extractDatesAndClubs(games);
+      if (dacs.length == 2) {
+        return Column(
+          children: [
+            _labeledGamesOf(dacs[0], games),
+            _labeledGamesOf(dacs[1], games),
+          ],
+        );
+      }
     }
+    return StripedGamesRowsList(games, gameLeagueInfo);
   }
 
   Widget _labeledGamesOf(DateAndClub dac, List<Game> allGames) {
