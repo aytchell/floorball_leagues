@@ -2,7 +2,7 @@ import 'package:floorball/api/models/date_formatter.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/details/ref_details_snackbar.dart';
-import 'package:floorball/ui/views/game_details/details/saisonmanager_link.dart';
+import 'package:floorball/ui/widgets/saisonmanager_link.dart';
 import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -36,7 +36,7 @@ class GameMetaData extends StatelessWidget {
             ? null
             : showRefereeLicenseDetails(context, game),
       ),
-      LabeledSaisonmanagerButton(
+      LabeledSaisonmanagerGameButton(
         'Saisonmanager',
         context,
         game,

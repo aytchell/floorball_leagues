@@ -11,10 +11,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 final log = Logger('SaisonmanagerLink');
 
-class LabeledSaisonmanagerButton extends LabeledValue {
+class LabeledSaisonmanagerGameButton extends LabeledValue {
   final Widget _button;
 
-  LabeledSaisonmanagerButton(super.label, context, game, federationPath)
+  LabeledSaisonmanagerGameButton(super.label, context, game, federationPath)
     : _button = _buildButton(_getSeason(context), game, federationPath);
 
   @override
@@ -44,13 +44,13 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     String federationPath,
   ) {
     if (season.id > BreakingChanges.lastPhpSeasonId) {
-      return _buildNewStyleLink(season, game, federationPath);
+      return _buildNewStyleGameLink(season, game, federationPath);
     } else {
-      return _buildPhpStyleLink(season, game, federationPath);
+      return _buildPhpStyleGameLink(season, game, federationPath);
     }
   }
 
-  static Uri _buildNewStyleLink(
+  static Uri _buildNewStyleGameLink(
     SeasonInfo season,
     DetailedGame game,
     String federationPath,
@@ -73,19 +73,7 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     }
   }
 
-  static final _regExRemoveStuff = RegExp('[/.()]');
-  static final _regExMultiDash = RegExp('--*');
-  static String _pathComponentFromLeagueName(String leagueName) => leagueName
-      .toLowerCase()
-      .replaceAll(' ', '-')
-      .replaceAll(_regExRemoveStuff, '')
-      .replaceAll('ä', 'ae')
-      .replaceAll('ö', 'oe')
-      .replaceAll('ü', 'ue')
-      .replaceAll('ß', 'ss')
-      .replaceAll(_regExMultiDash, '-');
-
-  static Uri _buildPhpStyleLink(
+  static Uri _buildPhpStyleGameLink(
     SeasonInfo season,
     DetailedGame game,
     String federationPath,
@@ -97,16 +85,28 @@ class LabeledSaisonmanagerButton extends LabeledValue {
     final parameters = {'seite': 'game', 'game': '${game.gameId}'};
     return Uri.https(host, path, parameters);
   }
+}
 
-  static final _regExSeasonName = RegExp(r'^20(\d{2})/20(\d{2})$');
-  static String _buildHostnameFromSeason(SeasonInfo season) {
-    final match = _regExSeasonName.firstMatch(season.name);
-    if (match != null && match.groupCount == 2) {
-      log.info('Group count is ${match.groupCount}');
-      return '${match.group(1)}${match.group(2)}.archiv.saisonmanager.de';
-    } else {
-      // This shouldn't happen ... at least send the user to the archive
-      return 'archiv.saisonmanager.de';
-    }
+final _regExRemoveStuff = RegExp('[/.()]');
+final _regExMultiDash = RegExp('--*');
+String _pathComponentFromLeagueName(String leagueName) => leagueName
+    .toLowerCase()
+    .replaceAll(' ', '-')
+    .replaceAll(_regExRemoveStuff, '')
+    .replaceAll('ä', 'ae')
+    .replaceAll('ö', 'oe')
+    .replaceAll('ü', 'ue')
+    .replaceAll('ß', 'ss')
+    .replaceAll(_regExMultiDash, '-');
+
+final _regExSeasonName = RegExp(r'^20(\d{2})/20(\d{2})$');
+String _buildHostnameFromSeason(SeasonInfo season) {
+  final match = _regExSeasonName.firstMatch(season.name);
+  if (match != null && match.groupCount == 2) {
+    log.info('Group count is ${match.groupCount}');
+    return '${match.group(1)}${match.group(2)}.archiv.saisonmanager.de';
+  } else {
+    // This shouldn't happen ... at least send the user to the archive
+    return 'archiv.saisonmanager.de';
   }
 }
