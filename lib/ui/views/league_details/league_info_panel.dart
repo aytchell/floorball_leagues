@@ -1,20 +1,29 @@
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/ui/widgets/custom_expansion_panel_radio.dart';
+import 'package:floorball/ui/widgets/saisonmanager_link.dart';
 import 'package:floorball/ui/widgets/striped_key_value_table.dart';
 import 'package:flutter/material.dart';
 
-ExpansionPanelRadio buildLeagueInfoPanel(int identifier, League league) {
+ExpansionPanelRadio buildLeagueInfoPanel(
+  int identifier,
+  League league,
+  String federationPath,
+) {
   return buildExpansionPanelRadio(
     value: identifier,
     panelText: 'Liga-Infos',
-    body: _LeagueInfoContent(league: league),
+    body: _LeagueInfoContent(league: league, federationPath: federationPath),
   );
 }
 
 class _LeagueInfoContent extends StatelessWidget {
   final League league;
+  final String federationPath;
 
-  const _LeagueInfoContent({required this.league});
+  const _LeagueInfoContent({
+    required this.league,
+    required this.federationPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +35,12 @@ class _LeagueInfoContent extends StatelessWidget {
       LabeledString('Dauer der Verlängerung', _minutes(league.overtimeLength)),
       LabeledString('Damen / Mixed', _femaleOrMixed()),
       LabeledString('Jahrgänge', _playerAges()),
+      LabeledSaisonmanagerLeagueButton(
+        'Saisonmanager',
+        context,
+        league,
+        federationPath,
+      ),
     ];
 
     return Container(

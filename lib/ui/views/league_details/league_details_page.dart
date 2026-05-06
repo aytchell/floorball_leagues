@@ -73,7 +73,7 @@ class _LeagueDetailsBody extends StatelessWidget {
 
   List<ExpansionPanelRadio> _buildPanelItems(BuildContext context) {
     return [
-      buildLeagueInfoPanel(0, league),
+      buildLeagueInfoPanel(0, league, federationPath),
       _buildTablePanel(1, league.id, league.leagueType),
       buildScorerPanel(2, league.id),
       ...buildGameDayPanels(

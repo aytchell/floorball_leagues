@@ -1,5 +1,6 @@
 import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/detailed_game.dart';
+import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/season_info.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/ui/widgets/icon_text_button.dart';
@@ -15,19 +16,106 @@ class LabeledSaisonmanagerGameButton extends LabeledValue {
   final Widget _button;
 
   LabeledSaisonmanagerGameButton(super.label, context, game, federationPath)
-    : _button = _buildButton(_getSeason(context), game, federationPath);
+    : _button = _GameButton(
+        season: _getSeason(context),
+        game: game,
+        federationPath: federationPath,
+      );
 
   @override
   Widget getValue() => _button;
 
-  static Widget _buildButton(
-    SeasonInfo season,
-    DetailedGame game,
-    String federationPath,
-  ) => IconTextButton(
+  static SeasonInfo _getSeason(BuildContext context) =>
+      BlocProvider.of<SelectedSeasonCubit>(context).state!;
+}
+
+class LabeledSaisonmanagerLeagueButton extends LabeledValue {
+  final Widget _button;
+
+  LabeledSaisonmanagerLeagueButton(super.label, context, league, federationPath)
+    : _button = _LeagueButton(
+        season: _getSeason(context),
+        league: league,
+        federationPath: federationPath,
+      );
+
+  @override
+  Widget getValue() => _button;
+
+  static SeasonInfo _getSeason(BuildContext context) =>
+      BlocProvider.of<SelectedSeasonCubit>(context).state!;
+}
+
+class _GameButton extends _SaisonmanagerButton {
+  final DetailedGame game;
+
+  const _GameButton({
+    required super.season,
+    required this.game,
+    required super.federationPath,
+  });
+
+  @override
+  String buildNewStylePath() {
+    final fed = federationPath;
+    final nameComponent = _pathComponentFromLeagueName(game.leagueName);
+
+    // this is very awful. The path to the game is not delivered via the API;
+    // instead we have to compute it ourselves from several identifiers
+    return '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
+  }
+
+  @override
+  Map<String, String> buildPhpStyleParameters() => {
+    'seite': 'game',
+    'game': '${game.gameId}',
+  };
+}
+
+class _LeagueButton extends _SaisonmanagerButton {
+  final League league;
+
+  const _LeagueButton({
+    required super.season,
+    required this.league,
+    required super.federationPath,
+  });
+
+  @override
+  String buildNewStylePath() {
+    final fed = federationPath;
+    final nameComponent = _pathComponentFromLeagueName(league.name);
+
+    // this is very awful. The path to the game is not delivered via the API;
+    // instead we have to compute it ourselves from several identifiers
+    return '$fed/${league.id}-$nameComponent';
+  }
+
+  @override
+  Map<String, String> buildPhpStyleParameters() => {
+    'seite': 'spielplan',
+    'table': '${league.id}',
+  };
+}
+
+abstract class _SaisonmanagerButton extends StatelessWidget {
+  final SeasonInfo season;
+  final String federationPath;
+
+  const _SaisonmanagerButton({
+    required this.season,
+    required this.federationPath,
+  });
+
+  String buildNewStylePath();
+
+  Map<String, String> buildPhpStyleParameters();
+
+  @override
+  Widget build(BuildContext context) => IconTextButton(
     icon: Icons.exit_to_app,
     onPressed: () async {
-      final uri = _buildSaisonmanagerLink(season, game, federationPath);
+      final uri = _buildSaisonmanagerLink(season, federationPath);
       log.info('Computed Saisonmanager URL is ${uri.toString()}');
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -35,37 +123,20 @@ class LabeledSaisonmanagerGameButton extends LabeledValue {
     },
   );
 
-  static SeasonInfo _getSeason(BuildContext context) =>
-      BlocProvider.of<SelectedSeasonCubit>(context).state!;
-
-  static Uri _buildSaisonmanagerLink(
-    SeasonInfo season,
-    DetailedGame game,
-    String federationPath,
-  ) {
+  Uri _buildSaisonmanagerLink(SeasonInfo season, String federationPath) {
     if (season.id > BreakingChanges.lastPhpSeasonId) {
-      return _buildNewStyleGameLink(season, game, federationPath);
+      return _buildNewStyleGameLink(season, federationPath);
     } else {
-      return _buildPhpStyleGameLink(season, game, federationPath);
+      return _buildPhpStyleGameLink(season, federationPath);
     }
   }
 
-  static Uri _buildNewStyleGameLink(
-    SeasonInfo season,
-    DetailedGame game,
-    String federationPath,
-  ) {
-    final fed = federationPath;
-    final nameComponent = _pathComponentFromLeagueName(game.leagueName);
-
-    // this is very awful. The path to the game is not delivered via the API;
-    // instead we have to compute it ourselves from several identifiers
-    final path = '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
+  Uri _buildNewStyleGameLink(SeasonInfo season, String federationPath) {
+    final path = buildNewStylePath();
 
     if (season.current) {
       return Uri.https('saisonmanager.de', path);
     } else {
-      // this is even more awful :-D
       // For past seasons we have to adapt the host part
       // so we can access the archive
       final seasonHost = _buildHostnameFromSeason(season);
@@ -73,16 +144,12 @@ class LabeledSaisonmanagerGameButton extends LabeledValue {
     }
   }
 
-  static Uri _buildPhpStyleGameLink(
-    SeasonInfo season,
-    DetailedGame game,
-    String federationPath,
-  ) {
+  Uri _buildPhpStyleGameLink(SeasonInfo season, String federationPath) {
     final hostSuffix = _buildHostnameFromSeason(season);
     final host = '$federationPath-$hostSuffix';
 
     final path = 'index.php';
-    final parameters = {'seite': 'game', 'game': '${game.gameId}'};
+    final parameters = buildPhpStyleParameters();
     return Uri.https(host, path, parameters);
   }
 }

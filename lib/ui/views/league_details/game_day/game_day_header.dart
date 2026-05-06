@@ -35,7 +35,7 @@ class GameDayHeader extends StatelessWidget {
           );
         }
 
-        final datesAndClubs = extractDatesAndClubs(games!);
+        final datesAndClubs = extractDatesAndClubs(games);
         switch (datesAndClubs.length) {
           case 0:
             return ListTile(title: Text(gdt.title, style: _futureBold));
