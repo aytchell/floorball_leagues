@@ -112,15 +112,19 @@ abstract class _SaisonmanagerButton extends StatelessWidget {
   Map<String, String> buildPhpStyleParameters();
 
   @override
-  Widget build(BuildContext context) => IconTextButton(
-    icon: Icons.exit_to_app,
-    onPressed: () async {
-      final uri = _buildSaisonmanagerLink(season, federationPath);
-      log.info('Computed Saisonmanager URL is ${uri.toString()}');
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-    },
+  Widget build(BuildContext context) => Align(
+    alignment: Alignment.centerRight,
+    child: IconTextButton(
+      icon: Icons.exit_to_app,
+      minimumWidth: 80,
+      onPressed: () async {
+        final uri = _buildSaisonmanagerLink(season, federationPath);
+        log.info('Computed Saisonmanager URL is ${uri.toString()}');
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      },
+    ),
   );
 
   Uri _buildSaisonmanagerLink(SeasonInfo season, String federationPath) {

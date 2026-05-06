@@ -8,12 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class IconTextButton extends StatelessWidget {
   final IconData icon;
+  final double minimumWidth;
   final void Function()? onPressed;
   final OnPressedFactory? onContextPressed;
 
   const IconTextButton({
     super.key,
     required this.icon,
+    this.minimumWidth = 40,
     this.onPressed,
     this.onContextPressed,
   });
@@ -21,7 +23,7 @@ class IconTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextButton(
     style: TextButton.styleFrom(
-      minimumSize: const Size(8, 8),
+      minimumSize: Size(minimumWidth, 8),
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
