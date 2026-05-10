@@ -19,6 +19,9 @@ class AwardAdapter implements TableContentProvider {
   String? get position => null;
 
   @override
+  bool? get goaly => null;
+
+  @override
   bool? get captain => null;
 }
 

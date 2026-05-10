@@ -8,6 +8,7 @@ abstract interface class TableContentProvider {
   String get jerseyNumber;
   String get playerName;
   String? get position;
+  bool? get goaly;
   bool? get captain;
 }
 
@@ -33,18 +34,7 @@ class PlayerTable extends StatelessWidget {
                 child: Row(
                   children: [
                     // Jersey icon
-                    SizedBox(
-                      width: 22,
-                      child: SvgPicture.asset(
-                        'assets/images/jersey_small.svg',
-                        width: 18,
-                        height: 18,
-                        colorFilter: ColorFilter.mode(
-                          Colors.grey.shade600,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
+                    _playerIcon(player.goaly),
 
                     const SizedBox(width: 12),
 
@@ -92,5 +82,21 @@ class PlayerTable extends StatelessWidget {
         textAlign: TextAlign.right,
       ),
     ];
+  }
+
+  Widget _playerIcon(bool? goaly) {
+    final assetPath = (goaly != null && goaly)
+        ? 'assets/images/goaly_mask.svg'
+        : 'assets/images/jersey_small.svg';
+
+    return SizedBox(
+      width: 22,
+      child: SvgPicture.asset(
+        assetPath,
+        width: 18,
+        height: 18,
+        colorFilter: ColorFilter.mode(Colors.grey.shade600, BlendMode.srcIn),
+      ),
+    );
   }
 }

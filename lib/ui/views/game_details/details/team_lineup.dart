@@ -28,6 +28,12 @@ class PlayerAdapter extends Equatable
   String? get position => player.position;
 
   @override
+  bool? get goaly => player.position == 'Tor';
+
+  @override
+  bool? get captain => player.captain;
+
+  @override
   List<Object?> get props => [player.playerId];
 
   @override
@@ -44,9 +50,6 @@ class PlayerAdapter extends Equatable
     // both are null
     return 0;
   }
-
-  @override
-  bool? get captain => player.captain;
 }
 
 class TeamLineup extends StatelessWidget {

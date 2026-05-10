@@ -25,6 +25,9 @@ class StartingPlayerAdapter implements TableContentProvider {
   }
 
   @override
+  bool? get goaly => player.position == 'goal';
+
+  @override
   bool? get captain => null;
 }
 
