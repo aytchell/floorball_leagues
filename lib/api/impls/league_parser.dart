@@ -7,7 +7,7 @@ import 'package:logging/logging.dart';
 
 final log = Logger('LeagueParser');
 
-LeagueType _parseLeagueType(String leagueTypeString) {
+LeagueType _parseLeagueType(String? leagueTypeString) {
   switch (leagueTypeString) {
     case "league":
       return LeagueType.league;
@@ -18,7 +18,7 @@ LeagueType _parseLeagueType(String leagueTypeString) {
     default:
       {
         log.warning('Unknown league_type: "$leagueTypeString"');
-        return LeagueType.league;
+        return LeagueType.cup;
       }
   }
 }
@@ -35,7 +35,7 @@ League parseLeague(Map<String, dynamic> json) {
     leagueCategoryId: parseNullableString(json, 'league_category_id'),
     leagueClassId: parseNullableString(json, 'league_class_id'),
     leagueSystemId: parseNullableString(json, 'league_system_id'),
-    leagueType: _parseLeagueType(parseString(json, 'league_type')),
+    leagueType: _parseLeagueType(parseNullableString(json, 'league_type')),
     name: parseString(json, 'name'),
     female: json['female'] as bool?,
     enableScorer: json['enable_scorer'] as bool?,
