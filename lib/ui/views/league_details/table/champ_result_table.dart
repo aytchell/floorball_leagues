@@ -1,5 +1,6 @@
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/routes.dart';
+import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/ui/views/game_details/game_league_info.dart';
 import 'package:floorball/ui/widgets/all_game_days_provider.dart';
 import 'package:floorball/ui/widgets/generic_striped_table.dart';
@@ -99,6 +100,10 @@ class ChampResultTable extends AllLeagueGamesProvider {
   }
 
   Iterable<SeriesTableRow> _createTableEntries(Game game, int place) {
+    if (game.result == null) {
+      return [place, (place + 1)].map((pos) => _createDummyTableEntry(pos));
+    }
+
     bool homeWin = _homeWin(game);
     return [
       SeriesTableRow(
@@ -274,8 +279,17 @@ class _ChampSeriesTable extends GenericStripedTable<SeriesTableRow> {
       column: const TableColumn(width: 180), // team name
       headerBuilder: () =>
           buildHeaderCell('Mannschaft', align: Alignment.bottomLeft),
-      contentBuilder: (row) =>
-          buildTextCell(row.teamName ?? '', align: Alignment.centerLeft),
+      contentBuilder: (row) {
+        if (row.teamName != null) {
+          return buildTextCell(row.teamName!, align: Alignment.centerLeft);
+        } else {
+          return buildTextCell(
+            '(noch unbekannt)',
+            align: Alignment.centerLeft,
+            textStyle: TextStyles.genericStripedTableCellUnknown,
+          );
+        }
+      },
     ),
   ];
 }
