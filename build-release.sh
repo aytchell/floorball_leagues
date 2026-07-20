@@ -19,5 +19,6 @@ echo "  - build number id $build_number"
 
 flutter build appbundle                 \
     --dart-define git_hash=$git_hash    \
+    --dart-define api_key=$API_KEY      \
     --build-number $build_number        \
     --release

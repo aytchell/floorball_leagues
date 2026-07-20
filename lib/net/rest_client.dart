@@ -11,10 +11,13 @@ final String host = 'saisonmanager.de';
 
 class RestClient {
   static Future<RestClient>? _instanceFuture;
-  final FloorballCacheManager cacheManager;
+  final FloorballCacheManager _cacheManager;
+  final String _apiKey;
 
   // private constructor
-  RestClient._() : cacheManager = FloorballCacheManager();
+  RestClient._()
+    : _cacheManager = FloorballCacheManager(),
+      _apiKey = const String.fromEnvironment('api_key');
 
   static Future<RestClient> get instance {
     _instanceFuture ??= _create();
@@ -43,9 +46,12 @@ class RestClient {
   Stream<File> getFileStreamSync(Uri uri) {
     log.info('Fetching "$uri" as sync stream');
 
-    Map<String, String> headers = {'Accept': 'application/json'};
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      'X-Api-Key': _apiKey,
+    };
 
-    final stream = cacheManager
+    final stream = _cacheManager
         .getFileStream(uri.toString(), headers: headers, withProgress: false)
         .where((data) => data is FileInfo)
         .map((data) {
