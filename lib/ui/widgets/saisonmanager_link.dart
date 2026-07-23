@@ -1,4 +1,3 @@
-import 'package:floorball/api/models/breaking_changes.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/league.dart';
 import 'package:floorball/api/models/season_info.dart';
@@ -56,7 +55,7 @@ class _GameButton extends _SaisonmanagerButton {
   });
 
   @override
-  String buildNewStylePath() {
+  String buildSaisonmanagerPath() {
     final fed = federationPath;
     final nameComponent = _pathComponentFromLeagueName(game.leagueName);
 
@@ -64,12 +63,6 @@ class _GameButton extends _SaisonmanagerButton {
     // instead we have to compute it ourselves from several identifiers
     return '$fed/${game.leagueId}-$nameComponent/spiel/${game.gameId}';
   }
-
-  @override
-  Map<String, String> buildPhpStyleParameters() => {
-    'seite': 'game',
-    'game': '${game.gameId}',
-  };
 }
 
 class _LeagueButton extends _SaisonmanagerButton {
@@ -82,7 +75,7 @@ class _LeagueButton extends _SaisonmanagerButton {
   });
 
   @override
-  String buildNewStylePath() {
+  String buildSaisonmanagerPath() {
     final fed = federationPath;
     final nameComponent = _pathComponentFromLeagueName(league.name);
 
@@ -90,12 +83,6 @@ class _LeagueButton extends _SaisonmanagerButton {
     // instead we have to compute it ourselves from several identifiers
     return '$fed/${league.id}-$nameComponent';
   }
-
-  @override
-  Map<String, String> buildPhpStyleParameters() => {
-    'seite': 'spielplan',
-    'table': '${league.id}',
-  };
 }
 
 abstract class _SaisonmanagerButton extends StatelessWidget {
@@ -107,9 +94,7 @@ abstract class _SaisonmanagerButton extends StatelessWidget {
     required this.federationPath,
   });
 
-  String buildNewStylePath();
-
-  Map<String, String> buildPhpStyleParameters();
+  String buildSaisonmanagerPath();
 
   @override
   Widget build(BuildContext context) => Align(
@@ -128,33 +113,8 @@ abstract class _SaisonmanagerButton extends StatelessWidget {
   );
 
   Uri _buildSaisonmanagerLink(SeasonInfo season, String federationPath) {
-    if (season.id > BreakingChanges.lastPhpSeasonId) {
-      return _buildNewStyleGameLink(season, federationPath);
-    } else {
-      return _buildPhpStyleGameLink(season, federationPath);
-    }
-  }
-
-  Uri _buildNewStyleGameLink(SeasonInfo season, String federationPath) {
-    final path = buildNewStylePath();
-
-    if (season.current) {
-      return Uri.https('saisonmanager.de', path);
-    } else {
-      // For past seasons we have to adapt the host part
-      // so we can access the archive
-      final seasonHost = _buildHostnameFromSeason(season);
-      return Uri.https(seasonHost, path);
-    }
-  }
-
-  Uri _buildPhpStyleGameLink(SeasonInfo season, String federationPath) {
-    final hostSuffix = _buildHostnameFromSeason(season);
-    final host = '$federationPath-$hostSuffix';
-
-    final path = 'index.php';
-    final parameters = buildPhpStyleParameters();
-    return Uri.https(host, path, parameters);
+    final path = buildSaisonmanagerPath();
+    return Uri.https('saisonmanager.de', path);
   }
 }
 
@@ -169,15 +129,3 @@ String _pathComponentFromLeagueName(String leagueName) => leagueName
     .replaceAll('ü', 'ue')
     .replaceAll('ß', 'ss')
     .replaceAll(_regExMultiDash, '-');
-
-final _regExSeasonName = RegExp(r'^20(\d{2})/20(\d{2})$');
-String _buildHostnameFromSeason(SeasonInfo season) {
-  final match = _regExSeasonName.firstMatch(season.name);
-  if (match != null && match.groupCount == 2) {
-    log.info('Group count is ${match.groupCount}');
-    return '${match.group(1)}${match.group(2)}.archiv.saisonmanager.de';
-  } else {
-    // This shouldn't happen ... at least send the user to the archive
-    return 'archiv.saisonmanager.de';
-  }
-}

@@ -10,9 +10,13 @@ class BreakingChanges {
   // one of the older seasons.
   static const String yearsOfFirstNewSeasons = '2022/23';
 
-  // This is the last game_id which is served by the old php Saisonmanager.
-  // All games with a greater id are served by the new Saisonmanager (and thus
-  // contain the nice details)
+  // This is the last game_id which was entered by using the old php
+  // Saisonmanager. It had less features and less information about the game;
+  // so games before (and including) than game are missing some metadata or
+  // have their data 'screwed up' (e.g. have "name, first name" stored in
+  // a player's "name" while firstName is empty or null).
+  // All games with a greater id where entered by using the new Saisonmanager
+  // (and thus contain the nice details)
   static const int lastGameIdOfPhpManager = 27204;
 
   // Up to season 13 (2021/2022) we had penalties 2', 5', 10' as well as
@@ -20,7 +24,7 @@ class BreakingChanges {
   // 2', 2+2', 10' and technical and "full" match penalty
   static const int firstSeasonIdWithNewPenalties = 14;
 
-  // Although the initial json from Saisonmanager states there there are
+  // Although the initial json from Saisonmanager states that there are
   // seasons with id 1 to 6 in reality they can't be found on the server.
   // So we better filter these early seasons so the user isn't disappointed.
   static const int earliestAvailableSeasonId = 7;
