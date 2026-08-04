@@ -1,7 +1,7 @@
 import 'package:floorball/api/models/federation.dart';
 import 'package:floorball/blocs/pinned_federations_cubit.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
-import 'package:floorball/ui/widgets/cached_network_image.dart';
+import 'package:floorball/ui/views/landing/federation_logo.dart';
 import 'package:floorball/ui/widgets/pin_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,26 +38,7 @@ class FederationCard extends StatelessWidget {
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(8),
-                    child: federation.logoUrl != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: CachedNetworkImage(
-                              imageUrl: federation.logoUrl,
-                              fit: BoxFit.contain,
-                              showProgress: true,
-                            ),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Icon(
-                              Icons.image_not_supported,
-                              size: 50,
-                              color: Colors.grey[600],
-                            ),
-                          ),
+                    child: FederationLogo(federation: federation),
                   ),
                 ),
                 Padding(
