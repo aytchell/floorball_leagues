@@ -10,6 +10,7 @@ import 'package:floorball/blocs/navigation_app_cubit.dart';
 import 'package:floorball/blocs/pin_variant_cubit.dart';
 import 'package:floorball/blocs/pinned_federations_cubit.dart';
 import 'package:floorball/blocs/pinned_leagues_cubit.dart';
+import 'package:floorball/blocs/ref_license_cubit.dart';
 import 'package:floorball/blocs/scorer_cubit.dart';
 import 'package:floorball/blocs/selected_season_cubit.dart';
 import 'package:floorball/blocs/tick_cubit.dart';
@@ -20,7 +21,6 @@ import 'package:floorball/logging.dart';
 import 'package:floorball/repositories/api_repository.dart';
 import 'package:floorball/repositories/navigation_repository.dart';
 import 'package:floorball/repositories/persistence_repository.dart';
-import 'package:floorball/repositories/ref_license_repository.dart';
 import 'package:floorball/routes.dart';
 
 import 'package:flutter/material.dart';
@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
 
   final apiRepository = ApiRepository();
   final persistenceRepository = PersistenceRepository();
-  late final refLicenseRepository = RefLicenseRepository();
 
   final availableSeasonsCubit = AvailableSeasonsCubit();
   final availableFederationsCubit = AvailableFederationsCubit();
@@ -56,7 +55,6 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (_) => NavigationRepository(persistenceRepository),
         ),
-        RepositoryProvider.value(value: refLicenseRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -73,6 +71,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (_) => ChampTableCubit(apiRepository)),
           BlocProvider(create: (_) => DetailedGamesCubit(apiRepository)),
           BlocProvider(create: (_) => GamesVisitHistoryCubit(apiRepository)),
+          BlocProvider(create: (_) => RefLicenseCubit(apiRepository)),
           BlocProvider(
             create: (_) => PinnedFederationsCubit(
               persistenceRepository,

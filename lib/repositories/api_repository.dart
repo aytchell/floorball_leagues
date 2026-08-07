@@ -1,11 +1,13 @@
 import 'package:floorball/api/impls/champ_group_table_parser.dart';
 import 'package:floorball/api/impls/detailed_game_parser.dart';
 import 'package:floorball/api/impls/game_parser.dart';
+import 'package:floorball/api/impls/ref_license_parser.dart';
 import 'package:floorball/api/impls/scorer_parser.dart';
 import 'package:floorball/api/models/champ_group_table.dart';
 import 'package:floorball/api/models/detailed_game.dart';
 import 'package:floorball/api/models/game.dart';
 import 'package:floorball/api/models/league_table_row.dart';
+import 'package:floorball/api/models/ref_license.dart';
 import 'package:floorball/net/rest_client.dart';
 import 'package:floorball/api/models/entry_info.dart';
 import 'package:floorball/api/models/scorer.dart';
@@ -99,6 +101,14 @@ class ApiRepository {
         (client) => client.streamApiDataSync(
           '/api/v2/games/$gameId.json',
           (data) => parseDetailedGame(data as Map<String, dynamic>),
+        ),
+      );
+
+  Future<Stream<RefLicense>> getRefLicense(int licenseId) =>
+      RestClient.instance.then(
+        (client) => client.streamApiDataSync(
+          '/api/v2/user/referees/$licenseId',
+          (data) => parseRefLicense(data as Map<String, dynamic>),
         ),
       );
 }

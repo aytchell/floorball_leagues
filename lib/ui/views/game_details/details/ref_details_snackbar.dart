@@ -1,7 +1,6 @@
 import 'package:floorball/api/models/detailed_game.dart';
-import 'package:floorball/api/models/ref_license_bloc.dart';
+import 'package:floorball/blocs/ref_license_cubit.dart';
 import 'package:floorball/api/models/referee.dart';
-import 'package:floorball/repositories/ref_license_repository.dart';
 import 'package:floorball/ui/theme/global_colors.dart';
 import 'package:floorball/ui/theme/text_styles.dart';
 import 'package:floorball/utils/list_extensions.dart';
@@ -12,14 +11,11 @@ void Function()? showRefereeLicenseDetails(
   BuildContext context,
   DetailedGame game,
 ) {
+  _ensureLicenseIdsAvailable(context, game);
   return () {
-    final repo = RepositoryProvider.of<RefLicenseRepository>(context);
-    final bloc = RefLicenseBloc.create(repo);
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: BlocBuilder<RefLicenseBloc, RefLicenseState>(
-          bloc: bloc,
+        content: BlocBuilder<RefLicenseCubit, RefLicenseState>(
           builder: (context, state) => _buildRefInfo(state, game),
         ),
         shape: RoundedRectangleBorder(
@@ -38,6 +34,15 @@ void Function()? showRefereeLicenseDetails(
       ),
     );
   };
+}
+
+void _ensureLicenseIdsAvailable(BuildContext context, DetailedGame game) {
+  final refCubit = BlocProvider.of<RefLicenseCubit>(context);
+  for (final referee in game.referees) {
+    if (referee.licenseId != null) {
+      refCubit.ensureRefId(referee.licenseId!);
+    }
+  }
 }
 
 Widget _buildRefInfo(RefLicenseState state, DetailedGame game) => Column(
