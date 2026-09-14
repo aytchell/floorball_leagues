@@ -37,6 +37,7 @@ class FederationLogo extends StatelessWidget {
       case 'FVBW':
         return 'fvbw.png';
       case 'FVD':
+      case 'FD':
         return 'fvd.png';
       case 'FVH':
         return 'fvh.png';
@@ -47,6 +48,7 @@ class FederationLogo extends StatelessWidget {
       case 'SBK Ost':
         return 'ost.png';
       case 'rlpsaar':
+      case 'RLPSAAR':
         return 'rlpsaar.png';
     }
     return null;
